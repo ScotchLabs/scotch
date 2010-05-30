@@ -1,4 +1,30 @@
 Scotch::Application.routes.draw do |map|
+  resources :document_tags
+
+  resources :documents
+
+  resources :users
+
+  resources :role_permissions
+
+  resources :roles
+
+  resources :positions
+
+  resources :event_attendees
+
+  resources :events
+
+  resources :checkout_events
+
+  resources :item_categories
+
+  resources :items
+
+  resources :checkouts
+
+  resources :groups
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

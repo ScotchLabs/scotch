@@ -1,0 +1,27 @@
+<h1>Listing checkout_events</h1>
+
+<table>
+  <tr>
+    <th>Event</th>
+    <th>User</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @checkout_events.each do |checkout_event| %>
+  <tr>
+    <td><%= checkout_event.event %></td>
+    <td><%= checkout_event.user_id %></td>
+    <td><%= checkout_event.notes %></td>
+    <td><%= link_to 'Show', checkout_event %></td>
+    <td><%= link_to 'Edit', edit_checkout_event_path(checkout_event) %></td>
+    <td><%= link_to 'Destroy', checkout_event, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Checkout event', new_checkout_event_path %>

@@ -1,0 +1,23 @@
+<h1>Listing role_permissions</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @role_permissions.each do |role_permission| %>
+  <tr>
+    <td><%= role_permission.name %></td>
+    <td><%= link_to 'Show', role_permission %></td>
+    <td><%= link_to 'Edit', edit_role_permission_path(role_permission) %></td>
+    <td><%= link_to 'Destroy', role_permission, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Role permission', new_role_permission_path %>
