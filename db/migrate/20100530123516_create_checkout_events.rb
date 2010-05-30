@@ -3,6 +3,7 @@ class CreateCheckoutEvents < ActiveRecord::Migration
     create_table :checkout_events do |t|
       t.string :event
       t.integer :user_id
+      t.integer :checkout_id
       t.string :notes
 
       t.timestamps

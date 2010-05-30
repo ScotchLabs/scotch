@@ -2,6 +2,7 @@ class CreateRolePermissions < ActiveRecord::Migration
   def self.up
     create_table :role_permissions do |t|
       t.string :name
+      t.integer :role_id
 
       t.timestamps
     end

@@ -1,21 +1,21 @@
 Scotch::Application.routes.draw do |map|
+  resources :role_permissions
+
+  resources :events
+
+  resources :checkout_events
+
   resources :document_tags
 
   resources :documents
 
   resources :users
 
-  resources :role_permissions
-
   resources :roles
 
   resources :positions
 
   resources :event_attendees
-
-  resources :events
-
-  resources :checkout_events
 
   resources :item_categories
 
