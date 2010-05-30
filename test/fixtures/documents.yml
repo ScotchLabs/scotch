@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  group_id: 1
+  filename: MyString
+  mime_type: MyString
+
+two:
+  name: MyString
+  group_id: 1
+  filename: MyString
+  mime_type: MyString
