@@ -4,6 +4,7 @@
   <tr>
     <th>Event</th>
     <th>User</th>
+    <th>Checkout</th>
     <th>Notes</th>
     <th></th>
     <th></th>
@@ -14,6 +15,7 @@
   <tr>
     <td><%= checkout_event.event %></td>
     <td><%= checkout_event.user_id %></td>
+    <td><%= checkout_event.checkout_id %></td>
     <td><%= checkout_event.notes %></td>
     <td><%= link_to 'Show', checkout_event %></td>
     <td><%= link_to 'Edit', edit_checkout_event_path(checkout_event) %></td>

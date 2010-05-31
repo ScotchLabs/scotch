@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Title</th>
+    <th>Group</th>
     <th>Start</th>
     <th>End</th>
     <th>Location</th>
@@ -14,6 +15,7 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= event.title %></td>
+    <td><%= event.group_id %></td>
     <td><%= event.start %></td>
     <td><%= event.end %></td>
     <td><%= event.location %></td>

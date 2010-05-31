@@ -3,9 +3,11 @@
 one:
   event: MyString
   user_id: 1
+  checkout_id: 1
   notes: MyString
 
 two:
   event: MyString
   user_id: 1
+  checkout_id: 1
   notes: MyString

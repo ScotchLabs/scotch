@@ -2,12 +2,14 @@
 
 one:
   title: MyString
-  start: 2010-05-30 08:13:25
-  end: 2010-05-30 08:13:25
+  group_id: 1
+  start: 2010-05-30 08:38:33
+  end: 2010-05-30 08:38:33
   location: MyString
 
 two:
   title: MyString
-  start: 2010-05-30 08:13:25
-  end: 2010-05-30 08:13:25
+  group_id: 1
+  start: 2010-05-30 08:38:33
+  end: 2010-05-30 08:38:33
   location: MyString
