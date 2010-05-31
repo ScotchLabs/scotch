@@ -1,0 +1,20 @@
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Group:</b>
+  <%= @checkout.group_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @checkout.user_id %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%= @checkout.item_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_checkout_path(@checkout) %> |
+<%= link_to 'Back', checkouts_path %>
