@@ -3,13 +3,7 @@ Scotch::Application.routes.draw do |map|
 
   devise_for :users
 
-  resources :role_permissions
-
   resources :events
-
-  resources :checkout_events
-
-  resources :document_tags
 
   resources :documents
 
@@ -18,8 +12,6 @@ Scotch::Application.routes.draw do |map|
   resources :roles
 
   resources :positions
-
-  resources :event_attendees
 
   resources :item_categories
 
