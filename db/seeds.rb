@@ -3,25 +3,28 @@
 
 User.transaction do
 
-  User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony", :last_name => "Chivetta",
-              :password => "123456", :confirmed_at => Time.now.zone)
-  User.create(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron", :last_name => "Gross",
-              :password => "123456", :confirmed_at => Time.now.zone)
-  User.create(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel", :last_name => "Freeman",
-              :password => "123456", :confirmed_at => Time.now.zone)
-  User.create(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine", :last_name => "Friedrich",
-              :password => "123456", :confirmed_at => Time.now.zone)
-  User.create(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt", :last_name => "Dickoff",
-              :password => "123456", :confirmed_at => Time.now.zone)
-  User.create(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer", :last_name => "Williams",
-              :password => "123456", :confirmed_at => Time.now.zone)
+  User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
+              :last_name => "Chivetta", :password => "123456")
+  User.create(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
+              :last_name => "Gross", :password => "123456")
+  User.create(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
+              :last_name => "Freeman", :password => "123456")
+  User.create(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine",
+              :last_name => "Friedrich", :password => "123456")
+  User.create(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt",
+              :last_name => "Dickoff", :password => "123456")
+  User.create(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer",
+              :last_name => "Williams", :password => "123456")
 
-  grp = Group.create(:type => "Group", :name => "SYSTEM GROUP", :description => "System group for site wide privilages")
   Role.create(:name => "Member", :group_type => "Group")
+
+  grp = Group.create(:type => "Group", :name => "SYSTEM GROUP", 
+                     :description => "System group for site wide privilages")
   adm = Role.create(:name => "Administrator", :group_type => "Group")
   su = RolePermission.create(:name => "superuser", :role_id => adm.id)
 
   User.all.each { |u|
+    u.confirm! #if we don't do this, you can't log in :(
     Position.create(:group_id => grp.id, :role_id => adm.id, :user_id => u.id)
   }
 
