@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :password, :password_confirmation, :remember_me,
+  attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
     :gender, :residence
 
@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
 
   has_many :checkouts
   has_many :checkout_events
+
+  validates_presence_of :email, :first_name, :last_name
+
+  acts_as_phone_number :phone
 end

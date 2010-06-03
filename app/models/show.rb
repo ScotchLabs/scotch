@@ -1,0 +1,2 @@
+class Show < Group
+end

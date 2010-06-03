@@ -1,1 +1,12 @@
 <h1>Welcome <%= current_user.first_name %></h1>
+
+<% if current_user.groups.count == 0 then %>
+	<h3>You don't have any groups!</h3>
+<% else %>
+	<h3>Your groups</h3>
+	<ul>
+		<% current_user.groups.each do |g| %>
+			<li><%= link_to g.name, g %></li>
+		<% end %>
+	</ul>
+<% end %>

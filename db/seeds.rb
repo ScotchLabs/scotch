@@ -4,7 +4,10 @@
 User.transaction do
 
   User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
-              :last_name => "Chivetta", :password => "123456")
+              :last_name => "Chivetta", :password => "123456", 
+              :phone => "(314) 791-6768", :smc => "2576", 
+              :residence => "Roselawn 1", :home_college => "SCS", 
+              :graduation_year => "2012", :gender => "Male")
   User.create(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
               :last_name => "Gross", :password => "123456")
   User.create(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
@@ -18,7 +21,7 @@ User.transaction do
 
   Role.create(:name => "Member", :group_type => "Group")
 
-  grp = Group.create(:type => "Group", :name => "SYSTEM GROUP", 
+  grp = Group.create(:id => 1, :name => "SYSTEM GROUP", 
                      :description => "System group for site wide privilages")
   adm = Role.create(:name => "Administrator", :group_type => "Group")
   su = RolePermission.create(:name => "superuser", :role_id => adm.id)
