@@ -1,11 +1,6 @@
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Username:</b>
-  <%= @user.username %>
-</p>
-
-<p>
   <b>First name:</b>
   <%= @user.first_name %>
 </p>
@@ -19,17 +14,30 @@
   <b>Email:</b>
   <%= @user.email %>
 </p>
-
 <p>
-  <b>Status:</b>
-  <%= @user.status %>
+  <b>Phone:</b>
+  <%= @user.phone %>
 </p>
-
 <p>
-  <b>Vcard:</b>
-  <%= @user.vcard %>
+  <b>Home College:</b>
+  <%= @user.home_college %>
 </p>
-
+<p>
+  <b>SMC:</b>
+  <%= @user.smc %>
+</p>
+<p>
+  <b>Graduation Year:</b>
+  <%= @user.graduation_year %>
+</p>
+<p>
+  <b>Residence:</b>
+  <%= @user.residence %>
+</p>
+<p>
+  <b>Gender:</b>
+  <%= @user.gender %>
+</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

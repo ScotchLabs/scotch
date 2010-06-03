@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100531052449) do
+ActiveRecord::Schema.define(:version => 20100603040720) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -127,10 +127,15 @@ ActiveRecord::Schema.define(:version => 20100531052449) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "status"
-    t.text     "vcard"
     t.string   "authentication_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "phone"
+    t.string   "home_college"
+    t.string   "smc"
+    t.string   "graduation_year"
+    t.string   "residence"
+    t.string   "gender"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
