@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100603040720) do
+ActiveRecord::Schema.define(:version => 20100604071053) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20100603040720) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
   end
 
   create_table "role_permissions", :force => true do |t|
