@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Group type</th>
+    <th>Permissions</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= role.name %></td>
     <td><%= role.group_type %></td>
+    <td><%= role.permissions.collect{|p| p.name}.join(", ") %></td>
     <td><%= link_to 'Show', role %></td>
     <td><%= link_to 'Edit', edit_role_path(role) %></td>
     <td><%= link_to 'Destroy', role, :confirm => 'Are you sure?', :method => :delete %></td>

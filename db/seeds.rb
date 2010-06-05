@@ -3,12 +3,15 @@
 
 User.transaction do
 
-
+  p = Permission.create(:name => "adminPositions", 
+                        :description => "User may modify group membership at will")
   r = Role.create(:name => "Production Staff", :group_type => "Show")
-  RolePermission.create(:name => "adminPositions", :role_id => r.id)
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
 
+  p = Permission.create(:name => "adminCrew",
+                        :description => "User may modify group membership with crew role at will")
   r = Role.create(:name => "Tech Head", :group_type => "Show")
-  RolePermission.create(:name => "adminCrew", :role_id => r.id)
+  RolePermission.create(:permission_id => p.id, :role_id => r.id)
 
   Role.create(:name => "Crew", :group_type => "Show")
   Role.create(:name => "Cast", :group_type => "Show")
@@ -17,7 +20,8 @@ User.transaction do
   grp = Group.create(:id => 1, :name => "SYSTEM GROUP", 
                      :description => "System group for site wide privilages")
   adm = Role.create(:name => "Administrator", :group_type => "Group")
-  su = RolePermission.create(:name => "superuser", :role_id => adm.id)
+  p = Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
+  su = RolePermission.create(:permission_id => p.id, :role_id => adm.id)
 
   u = User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
               :last_name => "Chivetta", :password => "123456", 
