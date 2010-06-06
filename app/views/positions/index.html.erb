@@ -7,7 +7,7 @@
 <% else %>
 <ul>
   <% @positions.each do |p| %>
-    <li><%= link_to p.user, edit_position_path(p) %> (<%= p.role %>: <%= p %>)</li>
+    <li><%= link_to p.user, p.user %> (<%= link_to p.role, edit_position_path(p) %>: <%= p %>)</li>
   <% end %>
 </ul>
 <% end %>
