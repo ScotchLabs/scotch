@@ -18,8 +18,6 @@ class Group < ActiveRecord::Base
       perms << p.role.permissions
     end
 
-    logger.info "group #{self} provides #{user} with permissions #{perms.join(",")}"
-
     if (parent) then
       return (perms + parent.permissions_for(user)).uniq
     else
