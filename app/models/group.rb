@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
   has_many :documents
   has_many :events
   has_many :positions
+  has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
 

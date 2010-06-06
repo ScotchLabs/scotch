@@ -84,7 +84,8 @@ end
 User.transaction do
   b = Group.where(:name => "Board of Directors").first
 
-  g = Show.create(:name => "Closer", :parent_id => b.id)
+  g = Show.create(:name => "Closer", :parent_id => b.id, 
+                  :description => "This is a blurb about the show that will be pulled for the public web page.")
   r = Role.where(:name => "Production Staff").first
 
   u = User.where(:email => "achivett@andrew.cmu.edu").first

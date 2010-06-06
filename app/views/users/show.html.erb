@@ -1,43 +1,28 @@
 <p class="notice"><%= notice %></p>
 
-<p>
-  <b>First name:</b>
-  <%= @user.first_name %>
-</p>
+<div id="hcard-<%= @user.first_name %>-<%= @user.last_name %>" class="vcard">
+ <h2 class="fn"><%= @user.name %></h2>
+ <div class="org"><%= @user.home_college %> Class of <%= @user.graduation_year %></div>
+ <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
+ <div class="adr">
+  <div class="street-address"><%= @user.residence %></div>
+ </div>
+ <div class="adr">
+  <div class="street-address">SMC <%= @user.smc %></div>
+ </div>
+ <div class="tel"><%= @user.phone %></div>
+</div>
 
-<p>
-  <b>Last name:</b>
-  <%= @user.last_name %>
-</p>
-
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
-<p>
-  <b>Phone:</b>
-  <%= @user.phone %>
-</p>
-<p>
-  <b>Home College:</b>
-  <%= @user.home_college %>
-</p>
-<p>
-  <b>SMC:</b>
-  <%= @user.smc %>
-</p>
-<p>
-  <b>Graduation Year:</b>
-  <%= @user.graduation_year %>
-</p>
-<p>
-  <b>Residence:</b>
-  <%= @user.residence %>
-</p>
-<p>
-  <b>Gender:</b>
-  <%= @user.gender %>
-</p>
-
+<div>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+</div>
+
+<div class="groups">
+	<h3><%= @user.first_name %>'s Groups</h3>
+	<ul>
+		<% @user.positions.each do |p| %>
+			<li><%= link_to p.group, p.group %> as <%=h p %>.</li>
+		<% end %>
+	</ul>
+</div>

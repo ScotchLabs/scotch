@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
   acts_as_phone_number :phone
 
   def to_s 
+    name
+  end
+
+  def name
     first_name + " " + last_name
   end
 
