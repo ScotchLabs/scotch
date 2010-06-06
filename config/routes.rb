@@ -2,24 +2,22 @@ Scotch::Application.routes.draw do |map|
   get "dashboard/index"
 
   devise_for :users
-
-  resources :events
-
-  resources :documents
-
   resources :users
 
-  resources :roles
+  resources :shows, :controller => :groups
+  resources :groups do
+    resources :events
+    resources :documents
+    resources :positions
+    resources :checkouts
+  end
 
-  resources :positions
-
-  resources :item_categories
+  namespace "admin" do
+    resources :roles
+    resources :item_categories
+  end
 
   resources :items
-
-  resources :checkouts
-
-  resources :groups
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

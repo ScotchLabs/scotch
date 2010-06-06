@@ -20,4 +20,16 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :first_name, :last_name
 
   acts_as_phone_number :phone
+
+  def to_s 
+    first_name + " " + last_name
+  end
+
+  def global_permissions
+    Group.system_group.permissions_for(self)
+  end
+
+  def has_global_permission?(permName)
+    global_permissions.include? permName
+  end
 end

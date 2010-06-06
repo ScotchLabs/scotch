@@ -3,6 +3,7 @@
 
 User.transaction do
 
+  #Create roles
   p = Permission.create(:name => "adminPositions", 
                         :description => "User may modify group membership at will")
   r = Role.create(:name => "Production Staff", :group_type => "Show")
@@ -17,12 +18,14 @@ User.transaction do
   Role.create(:name => "Cast", :group_type => "Show")
   Role.create(:name => "Member", :group_type => "Group")
 
+  #Create system group
   grp = Group.create(:id => 1, :name => "SYSTEM GROUP", 
                      :description => "System group for site wide privilages")
   adm = Role.create(:name => "Administrator", :group_type => "Group")
   p = Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
   su = RolePermission.create(:permission_id => p.id, :role_id => adm.id)
 
+  #Create web team
   u = User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
               :last_name => "Chivetta", :password => "123456", 
               :phone => "(314) 791-6768", :smc => "2576", 
@@ -61,5 +64,30 @@ User.transaction do
   u.confirm! #if we don't do this, you can't log in :(
   Position.create(:group_id => grp.id, :role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
+end
 
+User.transaction do
+  #Create Board
+  g = Group.create(:name => "Board of Directors", 
+                     :description => "Scotch'n'Soda Board of Directors")
+  r = Role.create(:name => "Manager", :group_type => "Group")
+
+  u = User.where(:email => "amgross@andrew.cmu.edu").first
+  Position.create(:group_id => g.id, :role_id => r.id, :user_id => u.id,
+                  :display_name => "President")
+
+  u = User.where(:email => "achivett@andrew.cmu.edu").first
+  Position.create(:group_id => g.id, :role_id => r.id, :user_id => u.id,
+                  :display_name => "Webmaster")
+end
+
+User.transaction do
+  b = Group.where(:name => "Board of Directors").first
+
+  g = Show.create(:name => "Closer", :parent_id => b.id)
+  r = Role.where(:name => "Production Staff").first
+
+  u = User.where(:email => "achivett@andrew.cmu.edu").first
+  Position.create(:group_id => g.id, :role_id => r.id, :user_id => u.id, 
+                  :display_name => "Technical Director")
 end

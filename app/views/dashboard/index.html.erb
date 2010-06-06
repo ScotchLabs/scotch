@@ -9,7 +9,11 @@
 	<h3>Your groups</h3>
 	<ul>
 		<% current_user.positions.each do |p| %>
-			<li><%= link_to p.group.name, p.group %> (<%=h p.display_name %>)</li>
+			<li><%= link_to p.group, p.group %> (<%=h p %>) which is a child of <%= p.group.parent or "no group" %>.</li>
+			<p>In this group, you have the following permissions: <%= p.group.permissions_for(current_user).join(", ") %>
 		<% end %>
 	</ul>
 <% end %>
+
+You have the following global permissions: 
+<%= Group.system_group.permissions_for(current_user).join(", ") %>
