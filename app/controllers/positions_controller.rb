@@ -2,7 +2,7 @@ class PositionsController < ApplicationController
   # GET /positions
   # GET /positions.xml
   def index
-    @positions = Position.all
+    @positions = Position.where(:group_id => @group.id).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -60,7 +60,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.update_attributes(params[:position])
-        format.html { redirect_to(@position, :notice => 'Position was successfully updated.') }
+        format.html { redirect_to(group_positions_url(@position.group), :notice => 'Position was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -1,27 +1,15 @@
-<h1>Listing positions</h1>
+<p class="notice"><%= notice %></p>
 
-<table>
-  <tr>
-    <th>Group</th>
-    <th>Role</th>
-    <th>User</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h1><%= link_to @group.name, @group %> Members</h1>
 
-<% @positions.each do |position| %>
-  <tr>
-    <td><%= position.group_id %></td>
-    <td><%= position.role_id %></td>
-    <td><%= position.user_id %></td>
-    <td><%= link_to 'Show', position %></td>
-    <td><%= link_to 'Edit', edit_position_path(position) %></td>
-    <td><%= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% if @positions.count == 0 %>
+  <p>This group does not have any members!?</p>
+<% else %>
+<ul>
+  <% @positions.each do |p| %>
+    <li><%= link_to p.user, edit_position_path(p) %> (<%= p.role %>: <%= p %>)</li>
+  <% end %>
+</ul>
 <% end %>
-</table>
 
-<br />
-
-<%= link_to 'New Position', new_position_path %>
+<%= link_to 'Add a member', new_group_position_path(@group) %>
