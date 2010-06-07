@@ -10,9 +10,11 @@
   </div>
   <% end %>
 
+
   <div class="field">
     <strong>Group:</strong>
     <%= @position.group %>
+    <%= f.hidden_field :group_id %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br />
@@ -20,7 +22,7 @@
   </div>
   <div class="field">
     <%= f.label :role_id %><br />
-    <%= f.collection_select :role_id, @position.group.roles.sort, :id, :name %>
+    <%= f.collection_select :role_id, @group.roles.sort, :id, :name %>
   </div>
   <div class="field">
     <%= f.label :display_name %><br />

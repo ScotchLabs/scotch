@@ -1,31 +1,12 @@
 <h1>Listing events</h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Group</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Location</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @events.each do |event| %>
-  <tr>
-    <td><%= event.title %></td>
-    <td><%= event.group_id %></td>
-    <td><%= event.start %></td>
-    <td><%= event.end %></td>
-    <td><%= event.location %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+  <div>
+    <h3><%= link_to event, event %></h3>
+    <%= event.start %> to <%= event.end %> at <%= event.location %>
+  </div>
 <% end %>
-</table>
 
 <br />
 
-<%= link_to 'New Event', new_event_path %>
+<%= link_to 'New Event', new_group_event_path(@group) %>

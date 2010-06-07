@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  # GET /events
-  # GET /events.xml
+  # GET /group/1/events
+  # GET /group/1/events.xml
   def index
     @events = Event.all
 
@@ -21,10 +21,11 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/new
-  # GET /events/new.xml
+  # GET /group/1/events/new
+  # GET /group/1/events/new.xml
   def new
     @event = Event.new
+    @event.group = @group
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,9 @@ class EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
+    @group = Group.find(params[:event][:group_id])
+
+    @event.group = @group
 
     respond_to do |format|
       if @event.save

@@ -1,6 +1,6 @@
 class CheckoutsController < ApplicationController
-  # GET /checkouts
-  # GET /checkouts.xml
+  # GET /group/1/checkouts
+  # GET /group/1/checkouts.xml
   def index
     @checkouts = Checkout.all
 
@@ -25,6 +25,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.xml
   def new
     @checkout = Checkout.new
+    @checkout.group = @group
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,9 @@ class CheckoutsController < ApplicationController
   # POST /checkouts.xml
   def create
     @checkout = Checkout.new(params[:checkout])
+    @group = Group.find(params[:checkout][:group_id])
+
+    @checkout.group = @group
 
     respond_to do |format|
       if @checkout.save

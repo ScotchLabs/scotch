@@ -30,18 +30,18 @@ Scotch::Application.routes.draw do |map|
   # it also adds a check to make sure things don't migrate somehow between
   # groups.
   resources :groups, :shallow => true do
-    resources :positions, :only => [:index, :new, :create]
-    resources :events, :only => [:index, :new, :create]
-    resources :documents, :only => [:index, :new, :create]
-    resources :checkouts, :only => [:index, :new, :create]
+    resources :positions, :only => [:index, :new]
+    resources :events, :only => [:index, :new]
+    resources :documents, :only => [:index, :new]
+    resources :checkouts, :only => [:index, :new]
     collection do
       get :shows
     end
   end
-  resources :positions, :only => [:show, :edit, :update, :destroy] 
-  resources :events, :only => [:show, :edit, :update, :destroy] 
-  resources :documents, :only => [:show, :edit, :update, :destroy] 
-  resources :checkouts, :only => [:show, :edit, :update, :destroy] 
+  resources :positions, :only => [:show, :edit, :update, :destroy, :create] 
+  resources :events, :only => [:show, :edit, :update, :destroy, :create] 
+  resources :documents, :only => [:show, :edit, :update, :destroy, :create] 
+  resources :checkouts, :only => [:show, :edit, :update, :destroy, :create] 
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,

@@ -4,4 +4,6 @@ class Checkout < ActiveRecord::Base
   has_one :user
   has_one :group
 
+  attr_protected :group_id
+
 end

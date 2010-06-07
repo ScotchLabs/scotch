@@ -1,6 +1,6 @@
 class PositionsController < ApplicationController
-  # GET /positions
-  # GET /positions.xml
+  # GET /groups/1/positions
+  # GET /groups/1/positions.xml
   def index
     @positions = Position.where(:group_id => @group.id).all
 
@@ -21,10 +21,11 @@ class PositionsController < ApplicationController
     end
   end
 
-  # GET /positions/new
-  # GET /positions/new.xml
+  # GET /groups/1/positions/new
+  # GET /groups/1/positions/new.xml
   def new
     @position = Position.new
+    @position.group = @group
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,12 +36,16 @@ class PositionsController < ApplicationController
   # GET /positions/1/edit
   def edit
     @position = Position.find(params[:id])
+    @group = @position.group
   end
 
   # POST /positions
   # POST /positions.xml
   def create
     @position = Position.new(params[:position])
+    @group = Group.find(params[:position][:group_id])
+
+    @position.group = @group
 
     respond_to do |format|
       if @position.save
