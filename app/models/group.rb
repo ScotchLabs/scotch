@@ -8,6 +8,8 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
+  validates_uniqueness_of :name
+
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
   # extraordinary users that enable them to access admin/ and do other
