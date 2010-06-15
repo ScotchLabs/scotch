@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def has_global_permission?(permName)
-    global_permissions.include? Permission.get(permName) ||
-      global_permissions.include? Permission.get("superuser")
+    global_permissions.include?(Permission.get(permName)) ||
+      global_permissions.include?(Permission.get("superuser"))
   end
 end

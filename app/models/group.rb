@@ -40,8 +40,8 @@ class Group < ActiveRecord::Base
   end
 
   def user_has_permission?(user,permName)
-    permissions_for(user).include? Permission.get(permName) ||
-      permissions_for(user).include? Permission.get("superuser")
+    permissions_for(user).include?(Permission.get(permName))||
+      permissions_for(user).include?(Permission.get("superuser"))
   end
 
   def to_s
