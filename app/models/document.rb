@@ -4,5 +4,5 @@ class Document < ActiveRecord::Base
 
   attr_protected :group_id
 
-  validates_presence_of :group
+  validates_presence_of :group_id
 end

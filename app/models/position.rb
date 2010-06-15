@@ -4,7 +4,7 @@ class Position < ActiveRecord::Base
   belongs_to :role
   belongs_to :group
 
-  validates_presence_of :user, :role, :group
+  validates_presence_of :user_id, :role_id, :group_id
 
   attr_protected :group_id
 
