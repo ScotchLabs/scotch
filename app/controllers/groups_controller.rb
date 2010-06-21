@@ -15,9 +15,6 @@ class GroupsController < ApplicationController
       @groups = Group.all
     end
 
-    @groups = [] if @group.nil?
-
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @groups }
