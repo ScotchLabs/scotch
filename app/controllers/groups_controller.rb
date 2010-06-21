@@ -1,8 +1,22 @@
 class GroupsController < ApplicationController
+
+  before_filter :only => [:new, :create] do
+    require_permission Permission.fetch("createGroup")
+  end
+
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.all
+    if params[:group_type] == :show then
+      @groups = Show.all
+    elsif params[:group_type] == :board then
+      @groups = Board.all
+    else
+      @groups = Group.all
+    end
+
+    @groups = [] if @group.nil?
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,7 +38,11 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.xml
   def new
-    @group = Group.new
+    if params[:group_type] == :show then
+      @group = Show.new
+    else
+      @group = Group.new
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,7 +58,11 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.xml
   def create
-    @group = Group.new(params[:group])
+    if params[:group_type] == :show then
+      @group = Show.new(params[:show])
+    else
+      @group = Group.new(params[:group])
+    end
 
     respond_to do |format|
       if @group.save

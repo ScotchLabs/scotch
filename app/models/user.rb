@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
 
   acts_as_phone_number :phone
 
+  DEFAULT_PERMISSIONS = %w(createGroup)
+
   def to_s 
     name
   end
@@ -30,11 +32,12 @@ class User < ActiveRecord::Base
   end
 
   def global_permissions
-    Group.system_group.permissions_for(self)
+    Group.system_group.permissions_for(self) +
+      DEFAULT_PERMISSIONS.collect {|p| Permission.fetch(p)}
   end
 
-  def has_global_permission?(permName)
-    global_permissions.include?(Permission.get(permName)) ||
-      global_permissions.include?(Permission.get("superuser"))
+  def has_global_permission?(permission)
+    global_permissions.include?(permission) ||
+      global_permissions.include?(Permission.fetch("superuser"))
   end
 end

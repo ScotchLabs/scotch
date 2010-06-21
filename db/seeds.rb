@@ -1,16 +1,25 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+Permission.transaction do
+  Permission.create(:name => "adminPositions", 
+                    :description => "User may modify group membership at will")
+  Permission.create(:name => "adminCrew",
+                    :description => "User may modify group membership with crew role at will")
+  Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
+  Permission.create(:name => "createGroup", :description => "User can create generic Groups")
+  Permission.create(:name => "createBoard", :description => "User can create Boards")
+  Permission.create(:name => "createShow", :description => "User can create Shows")
+end
+
 User.transaction do
 
   #Create roles
-  p = Permission.create(:name => "adminPositions", 
-                        :description => "User may modify group membership at will")
+  p = Permission.fetch("adminPositions")
   r = Role.create(:name => "Production Staff", :group_type => "Show")
   RolePermission.create(:permission_id => p.id, :role_id => r.id);
 
-  p = Permission.create(:name => "adminCrew",
-                        :description => "User may modify group membership with crew role at will")
+  p = Permission.fetch("adminCrew")
   r = Role.create(:name => "Tech Head", :group_type => "Show")
   RolePermission.create(:permission_id => p.id, :role_id => r.id)
 
@@ -23,7 +32,7 @@ User.transaction do
                      :description => "System group for site wide privilages")
 
   adm = Role.create(:name => "Administrator", :group_type => "Group")
-  p = Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
+  p = Permission.fetch("superuser")
   su = RolePermission.create(:permission_id => p.id, :role_id => adm.id)
 
   #Create web team
@@ -82,7 +91,7 @@ end
 
 User.transaction do
   #Create Board
-  g = Group.create(:name => "Board of Directors", 
+  g = Board.create(:name => "Board of Directors", 
                      :description => "Scotch'n'Soda Board of Directors")
   r = Role.create(:name => "Manager", :group_type => "Group")
 

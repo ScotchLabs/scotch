@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100605045630) do
+ActiveRecord::Schema.define(:version => 20100621034735) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20100605045630) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "short_name"
   end
 
   create_table "item_categories", :force => true do |t|

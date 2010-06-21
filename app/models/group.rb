@@ -15,7 +15,13 @@ class Group < ActiveRecord::Base
   # extraordinary users that enable them to access admin/ and do other
   # back-end tasks. 
   def self.system_group
-    return Group.find(1)
+    g = Group.find(1)
+
+    unless g.name == "SYSTEM GROUP"
+      raise "Did the system group change?"
+    end
+    
+    return g
   end
 
   # Return all roles that are valid for this group.
@@ -41,9 +47,9 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def user_has_permission?(user,permName)
-    permissions_for(user).include?(Permission.get(permName))||
-      permissions_for(user).include?(Permission.get("superuser"))
+  def user_has_permission?(user,permission)
+    permissions_for(user).include?(permission)||
+      permissions_for(user).include?(Permission.fetch("superuser"))
   end
 
   def to_s
