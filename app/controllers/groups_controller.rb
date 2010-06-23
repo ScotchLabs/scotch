@@ -7,9 +7,9 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    if params[:group_type] == :show then
+    if params[:group_type] == "Show" then
       @groups = Show.all
-    elsif params[:group_type] == :board then
+    elsif params[:group_type] == "Board" then
       @groups = Board.all
     else
       @groups = Group.all
@@ -35,7 +35,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.xml
   def new
-    if params[:group_type] == :show then
+    if params[:group_type] == "Show" then
       @group = Show.new
     else
       @group = Group.new
@@ -55,7 +55,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.xml
   def create
-    if params[:group_type] == :show then
+    if params[:group_type] == "Show" then
       @group = Show.new(params[:show])
     else
       @group = Group.new(params[:group])

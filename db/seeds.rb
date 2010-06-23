@@ -1,6 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+#create permissions
 Permission.transaction do
   Permission.create(:name => "adminPositions", 
                     :description => "User may modify group membership at will")
@@ -12,6 +13,7 @@ Permission.transaction do
   Permission.create(:name => "createShow", :description => "User can create Shows")
 end
 
+#create system group and system users
 User.transaction do
 
   #Create roles
@@ -89,8 +91,8 @@ User.transaction do
 
 end
 
-User.transaction do
-  #Create Board
+#Create Board
+Group.transaction do
   g = Board.create(:name => "Board of Directors", 
                      :description => "Scotch'n'Soda Board of Directors")
   r = Role.create(:name => "Manager", :group_type => "Group")
@@ -108,16 +110,41 @@ User.transaction do
   p.save!
 end
 
+#Create DEMO show FIXME
 User.transaction do
-  b = Group.where(:name => "Board of Directors").first
-
-  g = Show.create(:name => "Closer", :parent_id => b.id, 
+  g = Show.create(:name => "Some Show",
                   :description => "This is a blurb about the show that will be pulled for the public web page.")
   r = Role.where(:name => "Production Staff").first
 
   u = User.where(:email => "achivett@andrew.cmu.edu").first
   p = Position.create(:role_id => r.id, :user_id => u.id, 
                   :display_name => "Technical Director")
+  p.group_id = g.id
+  p.save!
+
+  u = User.where(:email => "amgross@andrew.cmu.edu").first
+  r = Role.where(:name => "Tech Head").first
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Lighting Designer")
+  p.group_id = g.id
+  p.save!
+
+  u = User.where(:email => "dfreeman@andrew.cmu.edu").first
+  r = Role.where(:name => "Crew").first
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Lighting Cnew")
+  p.group_id = g.id
+  p.save!
+
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Electrics Cnew")
+  p.group_id = g.id
+  p.save!
+
+  u = User.where(:email => "jrfriedr@andrew.cmu.edu").first
+  r = Role.where(:name => "Tech Head").first
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Projectionist")
   p.group_id = g.id
   p.save!
 end

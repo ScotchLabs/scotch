@@ -23,8 +23,8 @@ Scotch::Application.routes.draw do |map|
 
   # This line is to help out rails RESTful route lookup.  Without it rails
   # gets confused in some places when trying to create links to Show objects
-  resources :shows, :controller => :groups, :group_type => :show
-  resources :boards, :controller => :groups, :group_type => :board
+  resources :shows, :controller => :groups, :group_type => "Show"
+  resources :boards, :controller => :groups, :group_type => "Board"
 
   # These don't really make sense outside of a group, so we make them
   # sub-resources.  This makes linking to specific examples more of a pain, but
