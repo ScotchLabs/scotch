@@ -1,0 +1,8 @@
+<% @positions.group_by {|p| p.role.name}.each do |name,positions| %>
+  <h3><%= name %></h3>
+  <ul>
+    <% positions.each do |p| %>
+      <li><%= link_to p.user, p.user %>, <%= link_to p, edit_position_path(p) %></li>
+    <% end %>
+  </ul>
+<% end %>
