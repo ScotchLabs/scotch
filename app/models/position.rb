@@ -12,4 +12,8 @@ class Position < ActiveRecord::Base
     display_name
   end
 
+  def <=>(other)
+    role <=> other.role || display_name <=> other.display_name
+  end
+
 end
