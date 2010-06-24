@@ -20,13 +20,13 @@ class InventoryController < ApplicationController
       item_category_slug = :cat.to_s[0..0]
       item_category = ItemCategory.find_by_prefix(item_category_slug)
       if item_category.nil?
-        flash[:notice] => "Item Category does not exist."
+        flash[:notice] = "Item Category does not exist."
         redirect_to "inventory#index"
       end
       item_subcategory_slug = :cat.to_s[1..2].to_i
       item_subcategory = ItemSubcategory.find_by_infix(item_subcategory_slug, :conditions => "item_category_id = #{item_category.id}")
       if item_subcategory_slug.nil?
-        flash[:notice] => "Item Subcategory does not exist."
+        flash[:notice] = "Item Subcategory does not exist."
         redirect_to "inventory#index"
       end
       @items = Item.all(:conditions => "item_subcategory_id = #{item_subcategory.id}")
@@ -42,13 +42,13 @@ class InventoryController < ApplicationController
       item_category_slug = :slug.to_s[0..0]
       item_category = ItemCategory.find_by_prefix(item_category_slug)
       if item_category.nil?
-        flash[:notice] => "Item Category does not exist."
+        flash[:notice] = "Item Category does not exist."
         redirect_to "inventory#index"
       end
       item_subcategory_slug = :slug.to_s[1..2].to_i
       item_subcategory = ItemSubcategory.find_by_infix(item_subcategory_slug, :conditions => "item_category_id = #{item_category.id}")
       if item_subcategory_slug.nil?
-        flash[:notice] => "Item Subcategory does not exist."
+        flash[:notice] = "Item Subcategory does not exist."
         redirect_to "inventory#index"
       end
       item_slug = :slug.to_s[4..6].to_i
