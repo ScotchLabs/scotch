@@ -51,17 +51,8 @@ Scotch::Application.routes.draw do |map|
   namespace "admin" do
     resources :roles
     resources :item_categories
-    resources :item_subcategories
   end
 
   get "dashboard/index"
   root :to => "dashboard#index"
-  
-  match 'inventory' => 'inventory#index'
-  get 'inventory/search'
-  match 'inventory/search/:query' => 'inventory#search'
-  get 'inventory/browse'
-  match 'inventory/browse/:cat' => 'inventory#browse'
-  match 'inventory/item/:item_slug' => 'inventory#item'
-  get 'inventory/newitem'
 end
