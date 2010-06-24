@@ -56,12 +56,4 @@ Scotch::Application.routes.draw do |map|
 
   get "dashboard/index"
   root :to => "dashboard#index"
-  
-  match 'inventory' => 'inventory#index'
-  get 'inventory/search'
-  match 'inventory/search/:query' => 'inventory#search'
-  get 'inventory/browse'
-  match 'inventory/browse/:cat' => 'inventory#browse'
-  match 'inventory/item/:item_slug' => 'inventory#item'
-  get 'inventory/newitem'
 end
