@@ -1,3 +1,4 @@
 class ItemCategory < ActiveRecord::Base
-  # Should this have a parent?
+  has_many :item_subcategories
+  has_many :items, :through => :item_subcategories
 end
