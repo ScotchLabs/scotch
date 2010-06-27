@@ -3,7 +3,7 @@
 <% @events.each do |event| %>
   <div>
     <h3><%= link_to event, event %></h3>
-    <%= event.start %> to <%= event.end %> at <%= event.location %>
+    <%= event.start_time %> to <%= event.end_time%> at <%= event.location %>
   </div>
 <% end %>
 
