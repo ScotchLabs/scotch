@@ -17,6 +17,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+
+      # FIXME: this leaks information
       format.xml  { render :xml => @user }
     end
   end
