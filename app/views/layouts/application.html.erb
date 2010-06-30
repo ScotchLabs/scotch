@@ -18,14 +18,12 @@
       <h1><a href='/'>Scotch on the Web</a></h1>
       <h2>flavortext?</h2>
     </header>
-    <div class='shadow bottomcorner'>
-      <nav>
-        <ul>
-          <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
-          <li class='navselected'><a href='#'>item2</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav>
+      <ul>
+        <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
+        <li class='navselected'><a href='#'>item2</a></li>
+      </ul>
+    </nav>
     <article>
       <header>
         make sure this <a href='#'>header</a> <h1><a href='#'>and h1 a</a></h1> is unaffected, like this <h2>h2</h2>
@@ -47,7 +45,7 @@
       </article>
     <% end %>
     <%= yield %>
-    <footer class='shadow topcorner'>
+    <footer>
       copy info
     </footer>
   </section>
