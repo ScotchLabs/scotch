@@ -11,46 +11,49 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <div id='bannernocss3' class='banner'></div>
-  <div id='banner' class='banner'></div>
-  <section>
-    <header>
-      <h1><a href='/'>Scotch on the Web</a></h1>
-      <h2>flavortext?</h2>
-    </header>
-    <nav>
-      <ul>
-        <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
-        <li class='navselected'><a href='#'>item2</a></li>
-      </ul>
-    </nav>
-    <article>
+  <div id='wrapper'>
+    <div id='bannernocss3' class='banner'></div>
+    <div id='banner' class='banner'></div>
+    <section>
       <header>
-        make sure this <a href='#'>header</a> <h1><a href='#'>and h1 a</a></h1> is unaffected, like this <h2>h2</h2>
+        <h1><a href='/'>Scotch on the Web</a></h1>
+        <h2>flavortext?</h2>
       </header>
-      <div>
       <nav>
-        make sure this
-        <ul><li><a href='#'>nav1</a></li><li><a href='#'>nav2</a></li></ul>
-        is unaffected
+        <ul>
+          <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
+          <li class='navselected'><a href='#'>item2</a></li>
+        </ul>
       </nav>
-      </div>
-      <footer>
-        make sure this footer is unaffected
-      </footer>
-    </article>
-    <% if !notice.nil? or !alert.nil? %>
       <article>
-        <p class="notice"><%= notice %></p><p class="alert"><%= alert %></p>
+        <header>
+          make sure this <a href='#'>header</a> <h1><a href='#'>and h1 a</a></h1> is unaffected, like this <h2>h2</h2>
+        </header>
+        <div>
+        <nav>
+          make sure this
+          <ul><li><a href='#'>nav1</a></li><li><a href='#'>nav2</a></li></ul>
+          is unaffected
+        </nav>
+        </div>
+        <footer>
+          make sure this footer is unaffected
+        </footer>
       </article>
-    <% end %>
-    <%= yield %>
+      <% if !notice.nil? or !alert.nil? %>
+        <article>
+          <p class="notice"><%= notice %></p><p class="alert"><%= alert %></p>
+        </article>
+      <% end %>
+      <%= yield %>
+      <div id='push'></div>
+    </section>
+  </div> 
     <footer>
       copy info
     </footer>
-  </section>
-  <div id='sodabar'>
-    how to do <a href='#'>soda</a>?
-  </div>
+    <div id='sodabar'>
+      how to do <a href='#'>soda</a>?
+    </div>
 </body>
 </html>

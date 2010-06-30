@@ -14,6 +14,7 @@
 	header (18pt), 12pt, 8pt. sometimes (nav and other explicit) bold and uppercase, otherwise bold or normal at regular capitalization.
 */
 /* THE SETUP */
+html, body {height: 100%}
 body {overflow-y:scroll}
 h1, h2, h3, h4, h5, h6, ul, body, li {margin:0;padding:0}
 a {text-decoration:none}
@@ -45,18 +46,20 @@ section > header {height:80px}
 h1 {font:normal normal normal 17pt/17pt Georgia,"Times New Roman",Times,serif}
 h1 a {font-weight:normal}
 h2 {font:normal normal bold 9pt/9pt "Lucida Grande",Tahoma,Verdana,sans-serif}
-body > section > header h1 a {font-size:26pt;display:block;padding-top:18px;color:white}
-body > section > header h1 a:hover {color:white}
-body > section > header h2 {font-size:13pt;letter-spacing:2pt;text-transform:uppercase;line-height:17pt;}
-body > section > nav {-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-bottom-left-radius:8px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomleft:8px;-moz-border-radius-bottomright:8px;background:#fff;margin-bottom:35px;text-transform:uppercase}
-body > section > nav ul li {position:relative;display:table-cell;text-align:center;vertical-align:middle}
-body > section > nav ul li a {display:table-cell;vertical-align:middle;color:#333;width:180px;height:48px}
-body > section > nav ul li a:active, .navselected {background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(222,222,222)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(222,222,222)0%,rgb(255,255,255)100%)}
-body > section > nav ul li a:hover {color:#333;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(207,255,254)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(207,255,254)0%,rgb(255,255,255)100%)}
+#wrapper {min-height:100%;height:auto !important;height:100%;margin-bottom:-61px}
+#push {height:61px;}
+body > div > section > header h1 a {font-size:26pt;display:block;padding-top:18px;color:white}
+body > div > section > header h1 a:hover {color:white}
+body > div > section > header h2 {font-size:13pt;letter-spacing:2pt;text-transform:uppercase;line-height:17pt;}
+body > div > section > nav {-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-bottom-left-radius:8px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomleft:8px;-moz-border-radius-bottomright:8px;background:#fff;margin-bottom:35px;text-transform:uppercase}
+body > div > section > nav ul li {position:relative;display:table-cell;text-align:center;vertical-align:middle}
+body > div > section > nav ul li a {display:table-cell;vertical-align:middle;color:#333;width:180px;height:48px}
+body > div > section > nav ul li a:active, .navselected {background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(222,222,222)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(222,222,222)0%,rgb(255,255,255)100%)}
+body > div > section > nav ul li a:hover {color:#333;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(207,255,254)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(207,255,254)0%,rgb(255,255,255)100%)}
 article {background:#fff;padding:20px;margin-bottom:35px;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-moz-border-radius:8px;-webkit-border-radius:8px}
-body > section > footer {background:#fff;text-align:center;padding:12px 0;margin-bottom:26px;font-size:7pt;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
-#sodabar {color:#fff;height:16px;padding:5px 4px;position:fixed;bottom:0;left:0;width:100%;min-width:900px;background:#333}
-#sodabar a {color:#fff;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;}
+body > footer {width:900px;margin:0 auto;background:#fff;text-align:center;padding:12px 0;font-size:7pt;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
+#sodabar {color:#fff;height:16px;padding:5px 4px;min-width:900px;background:#333}
+#sodabar a {color:#fff}
 
 /* STYLES FOR A HANDHELD SCREEN */
 @media handheld {}
