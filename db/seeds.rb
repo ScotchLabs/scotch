@@ -141,6 +141,16 @@ User.transaction do
   p.group_id = g.id
   p.save!
 
+  u = User.where(:email => "sewillia@andrew.cmu.edu").first
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Lighting Cnew")
+  p.group_id = g.id
+  p.save!
+  p = Position.create(:role_id => r.id, :user_id => u.id,
+                      :display_name => "Electrics Cnew")
+  p.group_id = g.id
+  p.save!
+
   u = User.where(:email => "jrfriedr@andrew.cmu.edu").first
   r = Role.where(:name => "Tech Head").first
   p = Position.create(:role_id => r.id, :user_id => u.id,

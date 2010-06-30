@@ -3,13 +3,13 @@
 one:
   title: MyString
   group_id: 1
-  start: 2010-05-30 08:38:33
-  end: 2010-05-30 08:38:33
+  start_time: 2010-05-30 08:38:33
+  end_time: 2010-05-30 08:38:33
   location: MyString
 
 two:
   title: MyString
   group_id: 1
-  start: 2010-05-30 08:38:33
-  end: 2010-05-30 08:38:33
+  start_time: 2010-05-30 08:38:33
+  end_time: 2010-05-30 08:38:33
   location: MyString
