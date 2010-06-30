@@ -58,7 +58,7 @@ body > div > section > nav ul li a:active, .navselected {background-image:-webki
 body > div > section > nav ul li a:hover {color:#333;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(207,255,254)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(207,255,254)0%,rgb(255,255,255)100%)}
 article {background:#fff;padding:20px;margin-bottom:35px;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-moz-border-radius:8px;-webkit-border-radius:8px}
 body > footer {width:900px;margin:0 auto;background:#fff;text-align:center;padding:12px 0;font-size:7pt;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
-#sodabar {color:#fff;height:16px;padding:5px 4px;min-width:900px;background:#333}
+#sodabar {color:#fff;height:16px;padding:5px 4px;position:fixed;bottom:0;width:100%;background:#333}
 #sodabar a {color:#fff}
 
 /* STYLES FOR A HANDHELD SCREEN */
