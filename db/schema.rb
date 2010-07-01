@@ -87,8 +87,6 @@ ActiveRecord::Schema.define(:version => 20100701021138) do
     t.integer  "item_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "catalog_number"
-    t.integer  "item_category_id"
   end
 
   create_table "permissions", :force => true do |t|
