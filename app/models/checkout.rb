@@ -6,4 +6,5 @@ class Checkout < ActiveRecord::Base
 
   attr_protected :group_id
 
+  validates_presence_of :group, :user
 end

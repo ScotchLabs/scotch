@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Scotch</title>
-<!--  <p class="notice"><%= notice %></p><p class="alert"><%= alert %></p> -->
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <title>Scotch'n'Soda Theatre</title>
+  <meta charset='utf-8'>
+  <%= stylesheet_link_tag "style" %>
+  <%= javascript_include_tag :defaults, "jquery-1.4.1.min", "jquery.colorbox-min" %>
+  <script>
+    jQuery.noConflict();
+  </script>
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div id='wrapper'>
+    <div id='bannernocss3' class='banner'></div>
+    <div id='banner' class='banner'></div>
+    <section>
+      <header>
+        <h1><a href='/'>Scotch on the Web</a></h1>
+        <h2>flavortext?</h2>
+      </header>
+      <nav>
+        <ul>
+          <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
+          <li class='navselected'><a href='#'>item2</a></li>
+        </ul>
+      </nav>
+      <% if !notice.nil? or !alert.nil? %>
+        <article>
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
+        </article>
+      <% end %>
+      <% if yield.include?("<article") %>
+        <%= yield %>
+      <% else %>
+        <article><%= yield %></article>
+      <% end %>
+      <div id='push'></div>
+    </section>
+  </div> 
+    <footer>
+      copy info
+    </footer>
+    <div id='sodabar'>
+      how to do <a href='#'>soda</a>?
+    </div>
 </body>
 </html>
