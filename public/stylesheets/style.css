@@ -26,8 +26,6 @@ ul {list-style-type:none;}
 /*UNUSED*/.clearfix:after {visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
 /*UNUSED*/* html .clearfix {zoom:1} /* IE6 */
 /*UNUSED*/*:first-child+html .clearfix {zoom:1} /* IE7 */
-/*UNUSED*/.orange {color:#ff9900}
-/*UNUSED*/.bold {font-weight:bold}
 .shadow {-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333}
 .topcorner {-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
 .bottomcorner {-webkit-border-bottom-left-radius:8px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomleft:8px;-moz-border-radius-bottomright:8px}

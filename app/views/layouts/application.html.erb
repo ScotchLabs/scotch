@@ -25,27 +25,17 @@
           <li class='navselected'><a href='#'>item2</a></li>
         </ul>
       </nav>
-      <article>
-        <header>
-          make sure this <a href='#'>header</a> <h1><a href='#'>and h1 a</a></h1> is unaffected, like this <h2>h2</h2>
-        </header>
-        <div>
-        <nav>
-          make sure this
-          <ul><li><a href='#'>nav1</a></li><li><a href='#'>nav2</a></li></ul>
-          is unaffected
-        </nav>
-        </div>
-        <footer>
-          make sure this footer is unaffected
-        </footer>
-      </article>
       <% if !notice.nil? or !alert.nil? %>
         <article>
-          <p class="notice"><%= notice %></p><p class="alert"><%= alert %></p>
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
         </article>
       <% end %>
-      <%= yield %>
+      <% if yield.include?("<article") %>
+        <%= yield %>
+      <% else %>
+        <article><%= yield %></article>
+      <% end %>
       <div id='push'></div>
     </section>
   </div> 
