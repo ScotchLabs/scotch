@@ -51,7 +51,6 @@ Scotch::Application.routes.draw do |map|
   namespace "admin" do
     resources :roles
     resources :item_categories
-    resources :item_subcategories
   end
 
   get "dashboard/index"

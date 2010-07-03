@@ -24,6 +24,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories/new
   # GET /item_categories/new.xml
   def new
+    @item_categories = ItemCategory.all
     @item_category = ItemCategory.new
 
     respond_to do |format|
@@ -34,6 +35,7 @@ class ItemCategoriesController < ApplicationController
 
   # GET /item_categories/1/edit
   def edit
+    @item_categories = ItemCategory.all
     @item_category = ItemCategory.find(params[:id])
   end
 

@@ -22,15 +22,15 @@
    460 for layout
  */
 
-/* 200 COLOR GUIDE
- * white:    #fff;
- * beige:    #eeb;
- * grey:     #ddd;
- * black:    #333;
- * dkorange: #f60;
- * ltorange: #f90;
- * dkteal:   #0dd;
- * ltteal:   #dff;
+/* 200 COLOR GUIDE   R    G    B
+ * white:    #fff;  255, 255, 255
+ * beige:    #eeb;  238, 238, 187
+ * grey:     #ddd;  221, 221, 221
+ * black:    #333;   51,  51,  51
+ * dkorange: #f60;  255, 102,   0
+ * ltorange: #f90;  255, 153,   0
+ * dkteal:   #0dd;    0, 221, 221
+ * ltteal:   #dff;  221, 255, 255
  */
  
 /* 300 TYPEFACE GUIDE
@@ -174,6 +174,39 @@ article {
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
+  }
+input[type="text"], input[type="password"] {
+  border: 1px solid #333;              /* black */
+  margin: 2px;
+  font-size: 18px;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(255,255,255)),   /* white */
+    color-stop(1, rgb(221,221,221)));  /* grey */
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,255,255) 0%,               /* white */
+    rgb(221,221,221) 100%);            /* grey */
+  }
+input[type="text"][disabled], input[type="password"][disabled] {
+  border: 1px solid #ddd;  /* grey */
+  }
+input[type="submit"] {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  background: #f90;  /* ltorange */
+  color: #fff;       /* white */
+  border: 0px;
+  padding: 10px 50px;
+  font-weight: bold;
+  }
+input[type="submit"]:hover {
+  background: #0dd;  /* dkteal */
+  }
+input[type="submit"][disabled] {
+  background: #ddd;  /* grey */
   }
 
 
