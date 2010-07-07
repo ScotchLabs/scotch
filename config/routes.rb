@@ -48,10 +48,8 @@ Scotch::Application.routes.draw do |map|
   # webmaster.  They allow configuration of back-end type things.  Ideally,
   # more business logic will move to being set on pages like these in the
   # future.
-  namespace "admin" do
-    resources :roles
-    resources :item_categories
-  end
+  resources :roles
+  resources :item_categories
 
   get "dashboard/index"
   root :to => "dashboard#index"
