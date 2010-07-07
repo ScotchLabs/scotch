@@ -4,16 +4,10 @@ class ItemCategory < ActiveRecord::Base
   has_many :items
   
   validates_presence_of :parent_category, :unless => :parent_category_id.nil?
-  validates :slug, :item_category_slug => :true
+  validates :prefix, :presence => true, :unique_slug => true
   
   def slug
     return nil if parent_category.nil?
-    return parent_category.prefix+prefix
-  end
-  
-  def validates_unique_slug
-    if ItemCategory.all.map {|ic| ic.slug }.compact.include? slug
-      errors.add(:prefix, "does not make a unique slug for this category")
-    end
+    parent_category.prefix.to_s+prefix.to_s
   end
 end
