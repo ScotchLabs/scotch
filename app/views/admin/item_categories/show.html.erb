@@ -1,0 +1,15 @@
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Prefix:</b>
+  <%= @item_category.prefix %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @item_category.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_item_category_path(@item_category) %> |
+<%= link_to 'Back', admin_item_categories_path %>
