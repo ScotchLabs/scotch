@@ -77,10 +77,10 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%; /* IE */
-  margin-bottom: -61px
+  margin-bottom: -83px
   }
 #push {
-  height: 61px
+  height: 83px
   }
 
 
