@@ -2,6 +2,13 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
+  end
+  
+  def results
+    redirect_to :action => "index" unless request.post?unless request.post?
+  end
+  
+  def list
     @items = Item.all
 
     respond_to do |format|

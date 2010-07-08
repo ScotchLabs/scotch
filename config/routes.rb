@@ -11,7 +11,9 @@ Scotch::Application.routes.draw do |map|
   # the future more things might be like this, but it would be better to have
   # such things exist as separate applications and simply consume the models
   # of Scotch via the REST API.
+  match "/items/results" => "items#results"
   resources :items
+  get "/list_items(.:format)" => "items#list"
 
   # FIXME: DAMMIT RAILS TEAM
   # https://rails.lighthouseapp.com/projects/8994/tickets/3765-missing-shallow-routes-in-new-router-dsl

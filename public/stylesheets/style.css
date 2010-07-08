@@ -58,7 +58,7 @@ a {
   text-decoration: none
   }
 ul {
-  list-style-type: none
+  list-style: none;
   }
 
 
@@ -140,6 +140,23 @@ body {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomright: 8px
   }
+/* use these classes on divs inside an article */
+.left-third {
+  float: left;
+  display: inline-block;
+  width: 300px;
+  padding-right: 20px;
+  border-right: 2px solid #ddd;  /* grey */
+  margin-right: 1px;
+  }
+.right-two-thirds {
+  float: left;
+  display: inline-block;
+  width: 514px;
+  margin-left: 1px;
+  border-left: 2px solid #ddd;  /* grey */
+  padding-left: 20px;
+  }
 
 
 /* 450
@@ -157,6 +174,18 @@ body {
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
   font-size: 9pt
   }
+ul {
+  padding-left: 1em;
+  text-indent: -1em
+  }
+ul li:before {
+  content: "\00BB \0020";
+  font-weight: bold;
+  color: #0dd  /* dkteal */
+  }
+ul li, ol li {
+  margin: 1em inherit;
+  }
 h1 {
   font: normal normal normal 17pt/17pt Georgia, "Times New Roman", Times, serif
   }
@@ -164,7 +193,10 @@ h1 a {
   font-weight: normal
   }
 h2 {
-  font: normal normal bold 9pt/9pt "Lucida Grande", Tahoma, Verdana, sans-serif
+  text-transform: uppercase;
+  font-size: 10pt;
+  letter-spacing: 2pt;
+  line-height: 17pt
   }
 article {
   background: #fff;                     /* white */
@@ -175,10 +207,12 @@ article {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
   }
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], select {
   border: 1px solid #333;              /* black */
+  color: #333;                         /* black */
   margin: 2px;
-  font-size: 18px;
+  font-weight: bold;
+  padding: 5px;
   background-image: -webkit-gradient(
     linear,
     left bottom,
@@ -189,8 +223,10 @@ input[type="text"], input[type="password"] {
     center bottom,
     rgb(255,255,255) 0%,               /* white */
     rgb(221,221,221) 100%);            /* grey */
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
   }
-input[type="text"][disabled], input[type="password"][disabled] {
+input[type="text"][disabled], input[type="password"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
   }
 input[type="submit"] {
@@ -262,9 +298,7 @@ body > div > section > header h1 a:hover {
   color: #fff  /* white */
   }
 body > div > section > header h2 {
-  font-size: 13pt;
-  letter-spacing: 2pt;
-  line-height: 17pt
+  font-size: 13pt
   }
 body > div > section > nav {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
@@ -277,12 +311,19 @@ body > div > section > nav {
   margin-bottom: 35px;
   text-transform: uppercase
   }
+body > div > section > nav ul {
+  padding: 0;
+  text-indent: 0
+  }
 body > div > section > nav ul li {
   position: relative;
   display: table-cell;
   text-align: center;
   vertical-align: middle
   }
+body > div > section > nav ul li:before {
+  content:"";
+}
 body > div > section > nav ul li a {
   display: table-cell;
   vertical-align: middle;

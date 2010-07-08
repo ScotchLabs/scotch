@@ -4,10 +4,7 @@
   <title>Scotch'n'Soda Theatre</title>
   <meta charset='utf-8'>
   <%= stylesheet_link_tag "style" %>
-  <%= javascript_include_tag :defaults, "jquery-1.4.1.min", "jquery.colorbox-min" %>
-  <script>
-    jQuery.noConflict();
-  </script>
+  <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
 <body>
@@ -17,14 +14,23 @@
     <section>
       <header>
         <h1><a href='/'>Scotch on the Web</a></h1>
-        <h2>FLAVORTEXT?</h2>
+        <h2>Flavortext?</h2>
       </header>
       <nav>
         <ul>
           <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
-          <li class='navselected'><a href='#'>item2</a></li>
+          <li class='navselected'><%= link_to "Inventory", items_path %></li>
         </ul>
       </nav>
+      <noscript>
+        <article>
+          <p>Hey there! It looks like you've got JavaScript turned off.
+            Unfortunately, the Powers of the Internet don't work so well without it.
+            We've tried to accommodate people in your boat, but the truth is there
+            are some landlocked lakes, if you follow the way I've been drifting.
+            No guarantees.</p>
+        </article>
+      </noscript>
       <% if !notice.nil? or !alert.nil? %>
         <article>
           <p class="notice"><%= notice %></p>
@@ -34,7 +40,7 @@
       <% if yield.include?("<article") %>
         <%= yield %>
       <% else %>
-        <article><%= yield %></article>
+        <article><%= yield %><div class='clearfix'></div></article>
       <% end %>
       <div id='push'></div>
     </section>
