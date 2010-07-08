@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <b>Parent Category:</b>
+  <%= @item_category.parent_category.name unless @item_category.parent_category.nil? %>
+</p>
+
+<p>
   <b>Name:</b>
   <%= @item_category.name %>
 </p>

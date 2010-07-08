@@ -42,6 +42,7 @@ class ItemCategoriesController < ApplicationController
   # POST /item_categories
   # POST /item_categories.xml
   def create
+    @item_categories = ItemCategory.all
     @item_category = ItemCategory.new(params[:item_category])
 
     respond_to do |format|

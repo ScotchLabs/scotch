@@ -4,6 +4,7 @@
   <tr>
     <th>Prefix</th>
     <th>Name</th>
+    <th>Parent</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= item_category.prefix %></td>
     <td><%= item_category.name %></td>
+    <td><%= item_category.parent_category.name unless item_category.parent_category.nil? %></td>
     <td><%= link_to 'Show', item_category %></td>
     <td><%= link_to 'Edit', edit_item_category_path(item_category) %></td>
     <td><%= link_to 'Destroy', item_category, :confirm => 'Are you sure?', :method => :delete %></td>
