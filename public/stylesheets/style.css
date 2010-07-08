@@ -254,6 +254,37 @@ input[type="submit"]:hover {
 input[type="submit"][disabled] {
   background: #ddd;  /* grey */
   }
+.notice {
+  color: green;
+  }
+
+.alert {
+  color: red;
+  }
+
+.field_with_errors {
+  padding: 2px;
+  border: 2px solid red;
+  display: inline-block;
+  }
+
+#errorExplanation {
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  }
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  }
 
 
 /* 460
