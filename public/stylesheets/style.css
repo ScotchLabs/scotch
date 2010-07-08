@@ -141,21 +141,31 @@ body {
   -moz-border-radius-bottomright: 8px
   }
 /* use these classes on divs inside an article */
+.thirds-split-left {
+  background: transparent url('/images/thirds-border.png') repeat-y 320px top;
+  }
+.thirds-split-right {
+  background: transparent url('/images/thirds-border.png') repeat-y 534px top;back
+  }
 .left-third {
   float: left;
   display: inline-block;
   width: 300px;
-  padding-right: 20px;
-  border-right: 2px solid #ddd;  /* grey */
-  margin-right: 1px;
   }
-.right-two-thirds {
+.left-two-thirds {
   float: left;
   display: inline-block;
   width: 514px;
-  margin-left: 1px;
-  border-left: 2px solid #ddd;  /* grey */
-  padding-left: 20px;
+  }
+.right-third {
+  float: right;
+  display: inline-block;
+  width: 300px;
+  }
+.right-two-thirds {
+  float: right;
+  display: inline-block;
+  width: 514px;
   }
 
 
