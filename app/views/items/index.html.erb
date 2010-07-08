@@ -1,13 +1,29 @@
-<%= render "left_side" -%>
-<div class='right-two-thirds'>
-  <h1>Inventory Policies</h1>
-  <p>The following rules apply to all checkouts of Scotch'n'Soda property.</p>
-  <ul>
-    <li>No Scotch'n'Soda property will be taken without checking it out.</li>
-    <li>A checkout for personal use can be approved by the Board of the Dungeon Master.</li>
-    <li>All borrowed items must be returned by the due date.</li>
-    <li>Items may not be checked out for personal use when needed for a show.</li>
-    <li>No one person may check out more than five (5) items at a time for personal use. Stuff to make the thing overflow and go to the next line with the proper indentation.</li>
-  </ul>
-  <p>If you have any questions about the inventory or checking out items, contact Daniel</p>
-</div>
+<h1>Listing items</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Description</th>
+    <th>Item category</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @items.each do |item| %>
+  <tr>
+    <td><%= item.name %></td>
+    <td><%= item.location %></td>
+    <td><%= item.description %></td>
+    <td><%= item.item_category_id %></td>
+    <td><%= link_to 'Show', item %></td>
+    <td><%= link_to 'Edit', edit_item_path(item) %></td>
+    <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Item', new_item_path %>
