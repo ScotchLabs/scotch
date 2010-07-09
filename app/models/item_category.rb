@@ -6,6 +6,8 @@ class ItemCategory < ActiveRecord::Base
   validates :parent_category_id, :object_exists => {:allow_nil => true, :allow_blank => true}
   validates :prefix, :presence => true, :numericality => true, :unique_slug => true
   
+  scope :allParents, :conditions => {:parent_category_id => nil}
+  
   def slug
     return nil if parent_category.nil?
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
