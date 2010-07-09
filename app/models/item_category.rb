@@ -6,7 +6,15 @@ class ItemCategory < ActiveRecord::Base
   validates :parent_category_id, :object_exists => {:allow_nil => true, :allow_blank => true}
   validates :prefix, :presence => true, :numericality => true, :unique_slug => true
   
-  scope :allParents, :conditions => {:parent_category_id => nil}
+  scope :allParents, :conditions => {:parent_category_id => nil}, :order => "prefix ASC"
+  
+  def self.sorted
+    self.allParents.map {|ic| [ic,ic.item_subcategories.sort {|x, y| x.slug<=>y.slug}]}.flatten
+  end
+  
+  def self.groupedOptionsForSelect
+    self.allParents.map{|p| ["#{p.prefix} #{p.name}", p.item_subcategories.map{|isc| ["#{isc.slug} #{isc.name}", isc.id]}]}
+  end
   
   def slug
     return nil if parent_category.nil?
