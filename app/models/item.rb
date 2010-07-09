@@ -4,7 +4,7 @@ class Item < ActiveRecord::Base
   validates_presence_of :name, :catalog_number
   validates_numericality_of :catalog_number
   validates :item_category_id, :object_exists => true
-  validates :catalog_number, :unique_slug => true
+  validates :catalog_number, :unique_slug => {:allow_nil => true, :allow_blank => true}
   
   def slug
     return nil if item_category_id.nil?

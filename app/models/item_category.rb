@@ -4,7 +4,7 @@ class ItemCategory < ActiveRecord::Base
   has_many :items
   
   validates :parent_category_id, :object_exists => {:allow_nil => true, :allow_blank => true}
-  validates :prefix, :presence => true, :numericality => true, :unique_slug => true
+  validates :prefix, :presence => true, :numericality => true, :unique_slug => {:allow_nil => true, :allow_blank => true}
   
   scope :allParents, :conditions => {:parent_category_id => nil}, :order => "prefix ASC"
   
