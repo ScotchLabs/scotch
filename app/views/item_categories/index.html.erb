@@ -12,9 +12,9 @@
 
 <% @item_categories.each do |item_category| %>
   <tr>
-    <td><%= item_category.prefix %></td>
+    <td><%= item_category.slug or item_category.prefix %></td>
     <td><%= item_category.name %></td>
-    <td><%= item_category.parent_category.name unless item_category.parent_category.nil? %></td>
+    <td><%= link_to(item_category.parent_category.name, item_category.parent_category) unless item_category.parent_category.nil? %></td>
     <td><%= link_to 'Show', item_category %></td>
     <td><%= link_to 'Edit', edit_item_category_path(item_category) %></td>
     <td><%= link_to 'Destroy', item_category, :confirm => 'Are you sure?', :method => :delete %></td>

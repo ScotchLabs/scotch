@@ -2,9 +2,9 @@
 
 <table>
   <tr>
+    <th>Catalog #</th>
     <th>Name</th>
     <th>Location</th>
-    <th>Description</th>
     <th>Item category</th>
     <th></th>
     <th></th>
@@ -13,10 +13,10 @@
 
 <% @items.each do |item| %>
   <tr>
+    <td><%= item.slug %></td>
     <td><%= item.name %></td>
     <td><%= item.location %></td>
-    <td><%= item.description %></td>
-    <td><%= item.item_category_id %></td>
+    <td><%= link_to item.item_category.name, item.item_category %></td>
     <td><%= link_to 'Show', item %></td>
     <td><%= link_to 'Edit', edit_item_path(item) %></td>
     <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>

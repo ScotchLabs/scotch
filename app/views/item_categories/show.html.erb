@@ -2,17 +2,17 @@
 
 <p>
   <b>Prefix:</b>
-  <%= @item_category.prefix %>
-</p>
-
-<p>
-  <b>Parent Category:</b>
-  <%= @item_category.parent_category.name unless @item_category.parent_category.nil? %>
+  <%= @item_category.slug or @item_category.prefix %>
 </p>
 
 <p>
   <b>Name:</b>
   <%= @item_category.name %>
+</p>
+
+<p>
+  <b>Parent Category:</b>
+  <%= link_to(@item_category.parent_category.name, @item_category.parent_category) unless @item_category.parent_category.nil? %>
 </p>
 
 
