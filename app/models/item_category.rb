@@ -5,8 +5,8 @@ class ItemCategory < ActiveRecord::Base
   # Note that calling parent_category only works when this has a parent_category_id
   belongs_to :parent_category, :class_name => "ItemCategory" # foreign key parent_category_id
   # All items with "item_category_id" == this id are items of this
-  # when we destroy this, we do not destroy items
-  has_many :items
+  # when we destroy this, we destroy items
+  has_many :items, :dependent => :destroy
   
   validate :parent_category_exists
   validates :prefix, :presence => true, :numericality => true, :unique_slug => {:allow_nil => true, :allow_blank => true}
