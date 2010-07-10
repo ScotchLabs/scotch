@@ -13,7 +13,7 @@
 
 <% @items.each do |item| %>
   <tr>
-    <td><%= item.slug %></td>
+    <td><%= item.catalog_number %></td>
     <td><%= item.name %></td>
     <td><%= item.location %></td>
     <td><%= link_to item.item_category.name, item.item_category %></td>
