@@ -1,6 +1,11 @@
 class ItemCategory < ActiveRecord::Base
-  has_many :item_subcategories, :class_name => "ItemCategory", :foreign_key => :parent_category_id
+  # All ICs with "parent_category_id" == this id are subcategories of this
+  # when we destroy this, we destroy them too.
+  has_many :item_subcategories, :class_name => "ItemCategory", :foreign_key => :parent_category_id, :dependent => :destroy
+  # Note that calling parent_category only works when this has a parent_category_id
   belongs_to :parent_category, :class_name => "ItemCategory" # foreign key parent_category_id
+  # All items with "item_category_id" == this id are items of this
+  # when we destroy this, we do not destroy items
   has_many :items
   
   validate :parent_category_exists
