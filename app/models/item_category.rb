@@ -9,7 +9,8 @@ class ItemCategory < ActiveRecord::Base
   has_many :items, :dependent => :destroy
   
   validate :parent_category_exists
-  validates :prefix, :presence => true, :numericality => true, :unique_slug => {:allow_nil => true, :allow_blank => true}
+  validates :prefix, :presence => true, :numericality => true
+  validate :unique_slug
   
   # this scope selects categories that don't have parents. they are the top-level parents
   scope :parent_categories, where(:parent_category_id => nil).order("prefix ASC")
@@ -63,6 +64,13 @@ protected
       ItemCategory.find(parent_category_id)
     rescue RecordNotFound
       errors[parent_category_id] << "does not correspond to a valid Item Category"
+    end
+  end
+  
+  def unique_slug
+    return if parent_category_id.nil? or parent_category_id.blank?
+    if ItemCategory.all.map {|ic| ic.slug }.compact.include? slug
+      errors[:prefix] << ("makes for a nonunique slug")
     end
   end
   
