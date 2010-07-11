@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(:version => 20100710184356) do
     t.integer  "item_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "item_category_id"
     t.string   "catalog_number"
   end
 
