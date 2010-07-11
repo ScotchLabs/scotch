@@ -10,6 +10,7 @@ class ItemCategory < ActiveRecord::Base
   
   validate :parent_category_exists
   validates :prefix, :presence => true, :numericality => true
+  validate :unique_prefix
   validate :unique_slug
   
   # this scope selects categories that don't have parents. they are the top-level parents
@@ -69,8 +70,16 @@ protected
   
   def unique_slug
     return if parent_category_id.nil? or parent_category_id.blank?
-    if ItemCategory.all.map {|ic| ic.slug }.compact.include? slug
+    ar = ItemCategory.all - [self]
+    if ar.map {|ic| ic.slug }.compact.include? slug
       errors[:prefix] << ("makes for a nonunique slug")
+    end
+  end
+  
+  def unique_prefix
+    return unless parent_category_id.nil? or parent_category_id.blank?
+    unless ItemCategory.all(:conditions => "parent_category_id IS NULL AND prefix = '#{prefix}' AND id != '#{object_id}'").empty?
+      errors[:prefix] << ("is already in use by another parent category")
     end
   end
   
