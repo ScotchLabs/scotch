@@ -1,6 +1,11 @@
 <p class="notice"><%= notice %></p>
 
 <p>
+  <b>Catalog Number:</b>
+  <%= @item.catalog_number %>
+</p>
+
+<p>
   <b>Name:</b>
   <%= @item.name %>
 </p>
@@ -11,13 +16,13 @@
 </p>
 
 <p>
-  <b>Description:</b>
-  <%= @item.description %>
+  <b>Item category:</b>
+  <%= link_to @item.item_category.name, @item.item_category %>
 </p>
 
 <p>
-  <b>Item category:</b>
-  <%= @item.item_category_id %>
+  <b>Description:</b>
+  <%= @item.description %>
 </p>
 
 

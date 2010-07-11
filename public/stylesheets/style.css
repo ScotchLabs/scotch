@@ -1,66 +1,426 @@
-/* colors
-	white: #fff;
-	beige: #eeeebb;
-	grey: #ddd;
-	black: #333;
-	dkorange: #ee6600;
-	ltorange: #ff9900;
-	dkteal: #00dddd;
-	ltteal: #ddffff; */
-/* typefaces
-;font-family:Georgia,"Times New Roman",Times,serif
-	for headers. no small-caps or decorations. appears at 26pt in header and 17pt elsewhere
-;font-family:"Lucida Grande",Tahoma,Verdana,sans-serif;
-	header (18pt), 12pt, 8pt. sometimes (nav and other explicit) bold and uppercase, otherwise bold or normal at regular capitalization.
-*/
-/* THE SETUP */
-html, body {height: 100%}
-body {overflow-y:scroll}
-h1, h2, h3, h4, h5, h6, ul, body, li {margin:0;padding:0}
-a {text-decoration:none}
-ul {list-style-type:none;}
+/* 100 README
+ Theme designed by Jasmine Friedrich in summer 2009,
+ styled by Spencer Williams in summer 2010,
+ for "Scotch on the Web" internal site
+ and "Scotch'n'Soda Theater" internal site,
+ Scotch'n'Soda Theatre, Carnegie Mellon University
+ 
+ For further information, read the full guide available at
+ http://dev.snstheatre.org/~jrfriedr/beta/2009%20Mock%20Ups/GtRfSotW.txt
+ (as of 21 June 2010)
+ 
+ LAYOUT OF THIS DOCUMENT
+ 100 readme
+ 200 color guide
+ 300 typeface guide
+ 400 styles
+   410 resetting margins/paddings
+   420 placing footer
+   430 for other devices
+   440 for convenience in views
+   450 for views
+   460 for layout
+ */
 
-/* THE DEFAULT */
-/*UNUSED*/.fleft {float:left}
-/*UNUSED*/.fright {float:right}
-/*UNUSED*/.clearfix:after {visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
-/*UNUSED*/* html .clearfix {zoom:1} /* IE6 */
-/*UNUSED*/*:first-child+html .clearfix {zoom:1} /* IE7 */
-.shadow {-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333}
-.topcorner {-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
-.bottomcorner {-webkit-border-bottom-left-radius:8px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomleft:8px;-moz-border-radius-bottomright:8px}
-.bottomleftcorner {-webkit-border-bottom-left-radius:8px;-moz-border-radius-bottomleft:8px}
-.bottomrightcorner {-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomright:8px}
+/* 200 COLOR GUIDE   R    G    B
+ * white:    #fff;  255, 255, 255
+ * beige:    #eeb;  238, 238, 187
+ * grey:     #ddd;  221, 221, 221
+ * black:    #333;   51,  51,  51
+ * dkorange: #f60;  255, 102,   0
+ * ltorange: #f90;  255, 153,   0
+ * dkteal:   #0dd;    0, 221, 221
+ * ltteal:   #dff;  221, 255, 255
+ */
+ 
+/* 300 TYPEFACE GUIDE
+ * Georgia,"Times New Roman",Times,serif
+ *   for headers. no small-caps or decorations.
+ *   appears at 26pt/normal in banner h1 and 17pt/normal in other h1
+ * "Lucida Grande",Tahoma,Verdana,sans-serif;
+ *   banner h2 (13pt/17pt), body and other h2 (9pt/normal), footer (7pt/normal).
+ *   sometimes (nav and other explicit) bold and uppercase,
+ *   otherwise bold or normal at regular capitalization.
+ */
+ 
+/* 400 STYLES */
 
-/* THE LAYOUT */
-a {color:#ff9900;font-weight:bold}
-a:hover {color:#00DDDD}
-body {background:#eeeebb;color:#333;font-family:"Lucida Grande",Tahoma,Verdana,sans-serif;font-size:9pt}
-.banner {position:absolute;top:0;width:100%;min-width:900px}
-#banner {height:137px;left:0;z-index:-2;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(238,238,187)),color-stop(0.41,rgb(255,255,255)),color-stop(0.42,rgb(255,102,0)),color-stop(0.95,rgb(255,153,0)),color-stop(0.96,rgb(255,102,0)));background-image:-moz-linear-gradient(center bottom,rgb(238,238,187)0px,rgb(255,255,255)57px,rgb(255,102,0)58px,rgb(255,153,0)132px,rgb(255,102,0)137px)}
-#bannernocss3 {height:80px;background:#ff6600;z-index:-3}
-section {width:900px;margin:0 auto}
-section > header {height:80px}
-h1 {font:normal normal normal 17pt/17pt Georgia,"Times New Roman",Times,serif}
-h1 a {font-weight:normal}
-h2 {font:normal normal bold 9pt/9pt "Lucida Grande",Tahoma,Verdana,sans-serif}
-#wrapper {min-height:100%;height:auto !important;height:100%;margin-bottom:-61px}
-#push {height:61px;}
-body > div > section > header h1 a {font-size:26pt;display:block;padding-top:18px;color:white}
-body > div > section > header h1 a:hover {color:white}
-body > div > section > header h2 {font-size:13pt;letter-spacing:2pt;text-transform:uppercase;line-height:17pt;}
-body > div > section > nav {-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-bottom-left-radius:8px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomleft:8px;-moz-border-radius-bottomright:8px;background:#fff;margin-bottom:35px;text-transform:uppercase}
-body > div > section > nav ul li {position:relative;display:table-cell;text-align:center;vertical-align:middle}
-body > div > section > nav ul li a {display:table-cell;vertical-align:middle;color:#333;width:180px;height:48px}
-body > div > section > nav ul li a:active, .navselected {background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(222,222,222)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(222,222,222)0%,rgb(255,255,255)100%)}
-body > div > section > nav ul li a:hover {color:#333;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(207,255,254)),color-stop(1,rgb(255,255,255)));background-image:-moz-linear-gradient(center bottom,rgb(207,255,254)0%,rgb(255,255,255)100%)}
-article {background:#fff;padding:20px;margin-bottom:35px;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-moz-border-radius:8px;-webkit-border-radius:8px}
-body > footer {width:900px;margin:0 auto;background:#fff;text-align:center;padding:12px 0;font-size:7pt;-webkit-box-shadow:0 5px 20px #333;-moz-box-shadow:0 5px 20px #333;-webkit-border-top-left-radius:8px;-webkit-border-top-right-radius:8px;-moz-border-radius-topleft:8px;-moz-border-radius-topright:8px}
-#sodabar {color:#fff;height:16px;padding:5px 4px;position:fixed;bottom:0;width:100%;background:#333}
-#sodabar a {color:#fff}
+/* 410
+ * These styles are just a plain good idea to have on any website */
+body {
+  overflow-y: scroll
+  }
+h1, h2, h3, h4, h5, h6, ul, body, li {
+  margin: 0;
+  padding: 0
+  }
+a {
+  text-decoration: none
+  }
+ul {
+  list-style: none;
+  }
 
-/* STYLES FOR A HANDHELD SCREEN */
+
+/* 420
+ * These styles allow the footer to be placed at the bottom of content,
+ * and if there's any gap between content and window bottom it'll hug
+ * the window-bottom. rawr.
+ * Make sure that #wrapper margin-bottom and #push height correspond to
+ * the box height of the #sodabar + height of the body > footer
+ */
+html,
+body {
+  height: 100%
+  }
+#wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%; /* IE */
+  margin-bottom: -83px
+  }
+#push {
+  height: 83px
+  }
+
+
+/* 430
+ * These styles are for people who are using tiny browser windows or smartphones */
+@media (max-width: 100px) {}
 @media handheld {}
 
-/* STYLES FOR A NARROW SCREEN */
-@media (max-width: 100px) {}
+
+/* 440
+ * These styles are here for convenience when writing views */
+.fleft {
+  float: left
+  }
+.fright {
+  float: right
+  }
+/* the new clearfix method I read about over at Perishable Press
+ * use it by putting "<div class='clearfix'></div>" after a floated element
+ */
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0
+  }
+* html .clearfix { /* IE6 */
+  zoom: 1
+  }
+*:first-child+html .clearfix { /* IE7 */
+  zoom: 1
+  }
+/* box-shadow and rounded borders */
+.shadow {
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333      /* black */
+  }
+.topcorner {
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px
+  }
+.bottomcorner {
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px
+  }
+.bottomleftcorner {
+  -webkit-border-bottom-left-radius: 8px;
+  -moz-border-radius-bottomleft: 8px
+  }
+.bottomrightcorner {
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px
+  }
+/* use these classes on divs inside an article */
+.thirds-split-left {
+  background: transparent url('/images/thirds-border.png') repeat-y 320px top;
+  }
+.thirds-split-right {
+  background: transparent url('/images/thirds-border.png') repeat-y 534px top;back
+  }
+.left-third {
+  float: left;
+  display: inline-block;
+  width: 300px;
+  }
+.left-two-thirds {
+  float: left;
+  display: inline-block;
+  width: 514px;
+  }
+.right-third {
+  float: right;
+  display: inline-block;
+  width: 300px;
+  }
+.right-two-thirds {
+  float: right;
+  display: inline-block;
+  width: 514px;
+  }
+
+
+/* 450
+ * These styles will affect the views. */
+a {
+  color: #f90;  /* ltorange */
+  font-weight: bold
+  }
+a:hover {
+  color: #0DD  /* dkteal */
+  }
+body {
+  background: #eeb;  /* beige */
+  color: #333;       /* black */
+  font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+  font-size: 9pt
+  }
+ul {
+  padding-left: 1em;
+  text-indent: -1em
+  }
+ul li:before {
+  content: "\00BB \0020";
+  font-weight: bold;
+  color: #0dd  /* dkteal */
+  }
+ul li, ol li {
+  margin: 1em inherit;
+  }
+h1 {
+  font: normal normal normal 17pt/17pt Georgia, "Times New Roman", Times, serif
+  }
+h1 a {
+  font-weight: normal
+  }
+h2 {
+  text-transform: uppercase;
+  font-size: 10pt;
+  letter-spacing: 2pt;
+  line-height: 17pt
+  }
+article {
+  background: #fff;                     /* white */
+  padding: 20px;
+  margin-bottom: 35px;
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px
+  }
+input[type="text"], input[type="password"], select {
+  border: 1px solid #333;              /* black */
+  color: #333;                         /* black */
+  margin: 2px;
+  font-weight: bold;
+  padding: 5px;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(255,255,255)),   /* white */
+    color-stop(1, rgb(221,221,221)));  /* grey */
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(255,255,255) 0%,               /* white */
+    rgb(221,221,221) 100%);            /* grey */
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  }
+input[type="text"][disabled], input[type="password"][disabled], select[disabled] {
+  border: 1px solid #ddd;  /* grey */
+  }
+input[type="submit"] {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  background: #f90;  /* ltorange */
+  color: #fff;       /* white */
+  border: 0px;
+  padding: 10px 50px;
+  font-weight: bold;
+  }
+input[type="submit"]:hover {
+  background: #0dd;  /* dkteal */
+  }
+input[type="submit"][disabled] {
+  background: #ddd;  /* grey */
+  }
+.notice {
+  color: green;
+  }
+
+.alert {
+  color: red;
+  }
+
+.field_with_errors {
+  padding: 2px;
+  border: 2px solid red;
+  display: inline-block;
+  }
+
+#errorExplanation {
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  }
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  }
+
+
+/* 460
+ * These styles define the layout (positioning, backgrounds etc)
+ * and should not affect the views */
+.banner {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-width: 900px
+  }
+#banner {
+  height: 137px;
+  left: 0;
+  z-index: -2;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(238,238,187)),    /* beige */
+    color-stop(0.41,rgb(255,255,255)),  /* white */
+    color-stop(0.42,rgb(255,102,0)),    /* dkorange */
+    color-stop(0.95,rgb(255,153,0)),    /* ltorange */
+    color-stop(0.96,rgb(255,102,0)));   /* dkorange */
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(238,238,187) 0px,   /* beige */
+    rgb(255,255,255) 57px,  /* white */
+    rgb(255,102,0) 58px,    /* dkorange */
+    rgb(255,153,0) 132px,   /* ltorange */
+    rgb(255,102,0) 137px)   /* dkorange */
+  }
+#bannernocss3 { /* legacy, IE */
+  height: 80px;
+  background: #f60;  /* dkorange */
+  z-index: -3
+  }
+body > div > section {
+  width: 900px;
+  margin: 0 auto
+  }
+body > div > section > header {
+  height: 80px
+  }
+body > div > section > header h1 a {
+  font-size: 26pt;
+  display: block;
+  padding-top: 18px;
+  color: #fff  /* white */
+  }
+body > div > section > header h1 a:hover {
+  color: #fff  /* white */
+  }
+body > div > section > header h2 {
+  font-size: 13pt
+  }
+body > div > section > nav {
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  background: #fff;                     /* white */
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  margin-bottom: 35px;
+  text-transform: uppercase
+  }
+body > div > section > nav ul {
+  padding: 0;
+  text-indent: 0
+  }
+body > div > section > nav ul li {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle
+  }
+body > div > section > nav ul li:before {
+  content:"";
+}
+body > div > section > nav ul li a {
+  display: table-cell;
+  vertical-align: middle;
+  color: #333;  /* black */
+  width: 180px;
+  height: 48px
+  }
+body > div > section > nav ul li a:active,
+.navselected {
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(221,221,221)),   /* grey */
+    color-stop(1, rgb(255,255,255)));  /* white */
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(221,221,221) 0%,    /* grey */
+    rgb(255,255,255) 100%)  /* white */
+  }
+body > div > section > nav ul li a:hover {
+  color :#333;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(221,255,255)),   /* ltteal */
+    color-stop(1, rgb(255,255,255)));  /* white */
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(221,255,255) 0%,    /* ltteal */
+    rgb(255,255,255) 100%)  /* white */
+  }
+body > footer {
+  width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 7pt;
+  background: #fff;                     /* white */
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px
+  }
+#sodabar {
+  height: 16px;
+  padding: 5px 4px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #333;  /* black */
+  color: #fff        /* white */
+  }
+#sodabar a {
+  color: #fff  /* white */
+  }
