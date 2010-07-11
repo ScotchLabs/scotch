@@ -1,0 +1,37 @@
+<%= form_tag events_path(:action => :create) do %>
+  <%= hidden_field_tag :event_type, "audition" %>
+  <div>
+    <strong>Group:</strong> <%= @group %>
+    <%= hidden_field_tag "event[group_id]", @group.id %>
+  </div>
+  <div class="field">
+    <%= label_tag :title %><br />
+    <%= text_field_tag "event[title]", "Audition" %>
+  </div>
+  <div class="field">
+    <%= label_tag :start_time %><br />
+    <%= datetime_select "event", "start_time"  %>
+  </div>
+  <div class="field">
+    <%= label_tag :slot_length, "Slot Length" %>
+    <%= text_field_tag :slot_length, 30, :type => "number", :min => 5, :step => 5 %>
+  </div>
+  <div class="field">
+    <%= label_tag :slot_count, "Number of Slots" %>
+    <%= text_field_tag :slot_count, 5, :type => "number", :min => 1 %>
+  </div>
+  <div class="field">
+    <%= label_tag :signups %>
+    <%= text_field_tag :signups, 1, :type => "number", :min => 1 %>
+  <div class="field">
+    <%= label_tag :location %><br />
+    <%= text_field_tag "event[location]", "", :placeholder => "Where should people show up?" %>
+  </div>
+  <div class="field">
+    <%= label_tag :description %><br />
+    <%= text_area_tag "event[description]", "", :placeholder => "Any special instructions?" %>
+  </div>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+<% end %>

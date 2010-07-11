@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
       global_permissions.include?(Permission.fetch("superuser"))
   end
 
+  def <=>(other)
+    (last_name + first_name)<=>(other.last_name + other.first_name)
+  end
+
   private
 
   def set_random_password

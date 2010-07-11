@@ -1,12 +1,11 @@
 <h1>Listing events</h1>
 
-<% @events.each do |event| %>
-  <div>
-    <h3><%= link_to event, event %></h3>
-    <%= event.start_time %> to <%= event.end_time%> at <%= event.location %>
-  </div>
-<% end %>
+<%= render :partial => 'list', :locals => {:events => @events} %>
+<h2>Past Events</h2>
+<%= render :partial => 'list', :locals => {:events => @past_events} %>
 
 <br />
 
-<%= link_to 'New Event', new_group_event_path(@group) %>
+<% if has_permission? "adminEvents" %>
+  <%= link_to 'New Event', new_group_event_path(@group) %>
+<% end %>

@@ -7,6 +7,8 @@ Permission.transaction do
                     :description => "User may modify group membership at will")
   Permission.create(:name => "adminCrew",
                     :description => "User may modify group membership with crew role at will")
+  Permission.create(:name => "adminEvents",
+                    :description => "User may create/modify/delete events and change event attendees")
   Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
   Permission.create(:name => "createGroup", :description => "User can create generic Groups")
   Permission.create(:name => "createBoard", :description => "User can create Boards")
@@ -157,6 +159,61 @@ User.transaction do
                       :display_name => "Projectionist")
   p.group_id = g.id
   p.save!
+
+  e = Event.create(:title => "Audition",
+                   :start_time => 200.hours.ago, :end_time => 199.hours.ago,
+                   :location => "PH 100");
+  e.group_id = g.id
+  e.save!
+  ea = EventAttendee.create(:event_id => e.id, :user_id => u.id)
+  ea = EventAttendee.create(:event_id => e.id)
+
+  e = Event.create(:title => "Audition",
+                   :start_time => 199.hours.ago, :end_time => 198.hours.ago,
+                   :location => "PH 100");
+  e.group_id = g.id
+  e.save!
+  ea = EventAttendee.create(:event_id => e.id)
+  ea = EventAttendee.create(:event_id => e.id, :user_id => u.id)
+  ea = EventAttendee.create(:event_id => e.id)
+
+  e = Event.create(:title => "Audition",
+                   :start_time => 198.hours.ago, :end_time => 197.hours.ago,
+                   :location => "PH 100");
+  e.group_id = g.id
+  e.save!
+  ea = EventAttendee.create(:event_id => e.id)
+  ea = EventAttendee.create(:event_id => e.id)
+
+  e = Event.create(:title => "Tech Interest",
+                   :start_time => 100.hours.ago, :end_time => 99.hours.ago,
+                   :location => "PH 100");
+  e.group_id = g.id
+  e.save!
+
+  e = Event.create(:title => "Rehearsal",
+                   :start_time => 10.hours.ago, :end_time => 9.hours.ago,
+                   :location => "PH 100");
+  e.group_id = g.id
+  e.save!
+
+  e = Event.create(:title => "Tech Rehearsal",
+                   :start_time => 10.hours.since, :end_time => 11.hours.since,
+                   :location => "McConomy");
+  e.group_id = g.id
+  e.save!
+
+  e = Event.create(:title => "Performance",
+                   :start_time => 100.hours.since, :end_time => 101.hours.since,
+                   :location => "McConomy");
+  e.group_id = g.id
+  e.save!
+
+  e = Event.create(:title => "Performance",
+                   :start_time => 120.hours.since, :end_time => 121.hours.since,
+                   :location => "McConomy");
+  e.group_id = g.id
+  e.save!
 end
 
 #Create ItemCategories from current SotW

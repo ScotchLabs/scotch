@@ -1,8 +1,4 @@
 Scotch::Application.routes.draw do |map|
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # Keep in mind you can assign values other than :controller and :action
-
   # Users. Yay.
   devise_for :users
   resources :users
@@ -27,20 +23,23 @@ Scotch::Application.routes.draw do |map|
   resources :boards, :controller => :groups, :group_type => "Board"
 
   # These don't really make sense outside of a group, so we make them
-  # sub-resources.  This makes linking to specific examples more of a pain, but
-  # it also adds a check to make sure things don't migrate somehow between
-  # groups.
+  # sub-resources for the index and new actions.
   resources :groups, :shallow => true do
     resources :positions, :only => [:index, :new]
     resources :events, :only => [:index, :new]
     resources :documents, :only => [:index, :new]
     resources :checkouts, :only => [:index, :new]
+
+    # FIXME: do we use this? should we?
     collection do
-      get :shows
+     get :shows
+     get :boards
     end
   end
+  resources :events, :only => [:show, :edit, :update, :destroy, :create] do
+    put :signup, :on => :member
+  end
   resources :positions, :only => [:show, :edit, :update, :destroy, :create] 
-  resources :events, :only => [:show, :edit, :update, :destroy, :create] 
   resources :documents, :only => [:show, :edit, :update, :destroy, :create] 
   resources :checkouts, :only => [:show, :edit, :update, :destroy, :create] 
 
