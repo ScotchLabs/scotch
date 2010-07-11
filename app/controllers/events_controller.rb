@@ -1,8 +1,14 @@
 class EventsController < ApplicationController
+
+  before_filter :only => [:new, :edit, :create, :update, :destroy] do 
+    require_permission "adminEvents"
+  end
+
   # GET /group/1/events
   # GET /group/1/events.xml
   def index
-    @events = Event.all
+    @events = Event.where(["start_time > ?",Time.zone.now]).order("start_time ASC").all
+    @past_events = Event.where(["start_time < ?",Time.zone.now]).order("start_time ASC").all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,18 +47,23 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    @event = Event.new(params[:event])
     @group = Group.find(params[:event][:group_id])
 
-    @event.group = @group
+    if (params[:event_type] == "audition") then
+      @events = Event.create_audition @group, params[:slot_count].to_i, params[:slot_length].to_i, params[:signups].to_i, params[:event]
+      redirect_to(@group, :notice => "Events were successfully created.")
+    else
+      @event = Event.new(params[:event])
+      @event.group = @group
 
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+      respond_to do |format|
+        if @event.save
+          format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
+          format.xml  { render :xml => @event, :status => :created, :location => @event }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -84,4 +95,31 @@ class EventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # PUT /events/1
+  # PUT /events/1.xml
+  def signup
+    @event = Event.find(params[:id])
+
+    if params.has_key? :user_id then
+      @user = User.find(params[:user_id])
+    else
+      @user = current_user
+    end
+
+    @event_attendee = @event.event_attendees.where(:user_id => nil).first
+
+    @event_attendee.user = @user
+
+    respond_to do |format|
+      if @event_attendee.save
+        format.html { redirect_to(@event, :notice => 'You are now signed up.') }
+        format.xml  { head :ok }
+      else
+        format.html { redirect_to(@event, :notice => 'Unable to signup.') }
+        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
 end

@@ -2,5 +2,9 @@
 
 <%= render 'form' %>
 
+<% if has_permission? "adminEvents" %>
+<p><%= link_to "Delete this event.", event_path( @event, :action => :destroy ) %></p>
+<% end %>
+
 <%= link_to 'Show', @event %> |
 <%= link_to 'Back', events_path %>

@@ -37,14 +37,14 @@ class Group < ActiveRecord::Base
     perms = []
 
     positions.where(:user_id => user.id).each do |p|
-      perms << p.role.permissions
+      perms += p.role.permissions
     end
 
-    if (parent) then
-      return (perms + parent.permissions_for(user)).uniq
-    else
-      return perms.uniq
-    end
+    perms = (perms += parent.permissions_for(user)) if (parent)
+    perms.uniq!
+
+    logger.info "user #{user} granted permissions #{perms.inspect} for group #{self}"
+    return perms
   end
 
   def user_has_permission?(user,permission)
