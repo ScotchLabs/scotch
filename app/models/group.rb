@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
 
-  has_many :checkouts
+  has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events
   has_many :positions

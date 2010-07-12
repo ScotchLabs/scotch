@@ -1,6 +1,6 @@
 class Checkout < ActiveRecord::Base
 
-  has_many :checkout_events
+  has_many :checkout_events, :dependent => :destroy
   has_one :user
   has_one :group
 
