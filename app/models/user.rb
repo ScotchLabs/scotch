@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :positions
   has_many :groups, :through => :positions
 
-  has_many :event_attendees
+  has_many :event_attendees, :dependent => :destroy
 
   has_many :checkouts, :dependent => :destroy
   has_many :checkout_events, :dependent => :destroy
