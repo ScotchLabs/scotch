@@ -18,10 +18,23 @@
       </header>
       <nav>
         <ul>
-          <li class='bottomleftcorner'><a href='#' class='bottomleftcorner'>nav item</a></li>
-          <li class='navselected'><%= link_to "Inventory", items_path %></li>
+          <li class='bottomleftcorner'><%= link_to "Dashboard", dashboard_index_path %></li>
+          <li <%= nav_class(users_path)%> ><%= link_to "Users", users_path %></li>
+          <li <%= nav_class(groups_path)%> ><%= link_to "Groups", groups_path %></li>
+          <li <%= nav_class(items_path)%> ><%= link_to "Inventory", items_path %></li>
         </ul>
       </nav>
+      <% if @group %>
+        <nav>
+          <ul>
+            <li><%= @group %></li>
+            <li <%= nav_class(group_events_path(@group)) %>><%= link_to "Events", group_events_path(@group) %></li>
+            <li <%= nav_class(group_positions_path(@group)) %>><%= link_to "Members", group_positions_path(@group) %></li>
+            <li <%= nav_class(group_checkouts_path(@group)) %>><%= link_to "Checkouts", group_checkouts_path(@group) %></li>
+            <!-- <li <%= nav_class(group_documents_path(@group)) %>><%= link_to "Documents", group_documents_path(@group) %></li> -->
+          </ul>
+        </nav>
+      <% end %>
       <noscript>
         <article>
           <p>Hey there! It looks like you've got JavaScript turned off.
@@ -48,7 +61,7 @@
     <footer>
       <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br />
       &copy; 2008-2010 Scotch'n'Soda Theatre at <b>Carnegie mellon University</b><br />
-      Current Build 0.0 | Help build Scotch on the Web!
+      Current Version <%= render "layouts/version" %> | Help build Scotch on the Web!
     </footer>
     <div id='sodabar'>
       how to do <a href='#'>soda</a>?
