@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
   # virtual attribute. gives the end part of the catalog_number
   def suffix
     return @suffix unless @suffix.nil?
-    self.catalog_number[4..6] unless catalog_number.nil?
+    self.catalog_number[4..6].to_i unless catalog_number.nil?
   end
   
   def suffix=(arg)
