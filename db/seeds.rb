@@ -97,7 +97,7 @@ end
 Group.transaction do
   g = Board.create(:name => "Board of Directors", 
                      :description => "Scotch'n'Soda Board of Directors")
-  r = Role.create(:name => "Manager", :group_type => "Group")
+  r = Role.create(:name => "Manager", :group_type => "Board")
 
   u = User.where(:email => "amgross@andrew.cmu.edu").first
   p = Position.create(:role_id => r.id, :user_id => u.id,

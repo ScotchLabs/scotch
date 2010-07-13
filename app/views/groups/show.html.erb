@@ -1,15 +1,7 @@
-<p class="notice"><%= notice %></p>
-
 <h1><%= @group.name %></h1>
 <% if @group.parent %><p style="font-size: 8px;">Child of <%= @group.parent %></p><% end %>
 
-<p>
-<%= link_to 'Edit Group', edit_group_path(@group) %> |
-<%= link_to 'Memberships', group_positions_path(@group) %> |
-<%= link_to 'Events', group_events_path(@group) %> |
-<%= link_to 'Documents', group_documents_path(@group) %> |
-<%= link_to 'Checkouts', group_checkouts_path(@group) %>
-</p>
+<% if has_permission? "adminGroup" %><small><%= link_to 'Edit Group', edit_group_path(@group) %></small><% end %>
 
 <p>
 <%= @group.description %>
