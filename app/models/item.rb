@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
   # returns true if item is ready to be checked out
   def available?
     Checkout.find_all_by_item_id(id).each do |c|
-      return false unless c.open?
+      return false if c.open?
     end
     true
   end
