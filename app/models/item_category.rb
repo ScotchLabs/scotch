@@ -8,7 +8,7 @@ class ItemCategory < ActiveRecord::Base
   # when we destroy this, we destroy items
   has_many :items, :dependent => :destroy
   
-  validate :parent_category_exists
+  validates_associated :parent_category, :unless => (:parent_category_id.nil? or :parent_category_id.blank?)
   validates :prefix, :presence => true, :numericality => true
   validate :unique_prefix
   validate :unique_slug
@@ -58,15 +58,6 @@ class ItemCategory < ActiveRecord::Base
   end
   
 protected
-
-  def parent_category_exists
-    return if parent_category_id.nil? or parent_category_id.blank?
-    begin
-      ItemCategory.find(parent_category_id)
-    rescue RecordNotFound
-      errors[parent_category_id] << "does not correspond to a valid Item Category"
-    end
-  end
   
   def unique_slug
     return if parent_category_id.nil? or parent_category_id.blank?
