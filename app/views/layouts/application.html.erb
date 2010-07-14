@@ -18,7 +18,7 @@
       </header>
       <nav>
         <ul>
-          <li class='bottomleftcorner'><%= link_to "Dashboard", dashboard_index_path %></li>
+          <li class='bottomleftcorner'><%= link_to "Dashboard", dashboard_index_path, :class => 'bottomleftcorner' %></li>
           <li <%= nav_class(users_path)%> ><%= link_to "Users", users_path %></li>
           <li <%= nav_class(groups_path)%> ><%= link_to "Groups", groups_path %></li>
           <li <%= nav_class(items_path)%> ><%= link_to "Inventory", items_path %></li>
