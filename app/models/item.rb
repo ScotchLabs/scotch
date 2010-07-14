@@ -5,6 +5,14 @@ class Item < ActiveRecord::Base
   validates_presence_of :item_category
   validates :catalog_number, :presence => true, :uniqueness => true, :format => {:with => /\d{3}\-\d{3}/}
   
+  # returns true if item is ready to be checked out
+  def available?
+    Checkout.find_all_by_item_id(id).each do |c|
+      return false unless c.open?
+    end
+    true
+  end
+  
   # virtual attribute. gives the end part of the catalog_number
   def suffix
     return @suffix unless @suffix.nil?
