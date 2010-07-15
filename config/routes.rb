@@ -7,7 +7,9 @@ Scotch::Application.routes.draw do |map|
   # the future more things might be like this, but it would be better to have
   # such things exist as separate applications and simply consume the models
   # of Scotch via the REST API.
-  resources :items
+  resources :items do
+    resources :checkouts, :only => [:index, :new]
+  end
 
   # FIXME: DAMMIT RAILS TEAM
   # https://rails.lighthouseapp.com/projects/8994/tickets/3765-missing-shallow-routes-in-new-router-dsl
@@ -39,9 +41,12 @@ Scotch::Application.routes.draw do |map|
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
     put :signup, :on => :member
   end
-  resources :positions, :only => [:show, :edit, :update, :destroy, :create] 
-  resources :documents, :only => [:show, :edit, :update, :destroy, :create] 
-  resources :checkouts, :only => [:show, :edit, :update, :destroy, :create] 
+  resources :positions, :only => [:show, :edit, :update, :destroy, :create]
+  resources :documents, :only => [:show, :edit, :update, :destroy, :create]
+  resources :checkouts, :only => [:show, :edit, :update, :destroy, :create] do
+    resources :checkout_events, :only => [:new]
+  end
+  resources :checkout_events, :only => [:create, :edit, :update, :destroy]
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,
