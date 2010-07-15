@@ -6,6 +6,14 @@ class Item < ActiveRecord::Base
   validates_presence_of :item_category
   validates :catalog_number, :presence => true, :uniqueness => true, :format => {:with => /\d{3}\-\d{3}/}
   
+  #TODO FIXME using these in lieu of scopes until I figure out how TODO that
+  def self.available_items
+    Item.all.map{|i| ((i.available?)? (i):(nil))}.compact
+  end
+  def self.unavailable_items
+    Item.all.map{|i| ((!i.available?)? (i):(nil))}.compact
+  end
+  
   # some item names are super long
   def shortname
     name[0..27]+((name.length>30)? ("..."):(""))
