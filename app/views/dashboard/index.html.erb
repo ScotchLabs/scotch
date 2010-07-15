@@ -1,12 +1,12 @@
 <h1>Welcome <%= current_user.first_name %></h1>
 
-<% if current_user.groups.count == 0 then %>
+<% if current_user.groups.empty? then %>
 	<h3>You don't have any groups!  You should join some.</h3>
 <% else %>
 	<h3>Your groups</h3>
 	<ul>
 		<% current_user.positions.each do |p| %>
-                  <li><%= link_to p.group, p.group %> (<%=h p %>)</li> <!-- #TODO FIXME there must be a prettier way to do this -->
+                  <li><%= link_to p.group, p.group %> (<%= p %>)</li> <!-- #TODO FIXME there must be a prettier way to do this -->
 		<% end %>
 	</ul>
 <% end %>
