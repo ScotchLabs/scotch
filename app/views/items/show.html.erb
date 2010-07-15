@@ -1,5 +1,5 @@
 <article>
-  <h1><%= @item.name %></h1>
+  <h1><%= @item %></h1>
   <p>
     <b>Catalog Number:</b>
     <%= @item.catalog_number %>
@@ -12,7 +12,7 @@
 
   <p>
     <b>Item category:</b>
-    <%= link_to @item.item_category.name, @item.item_category %>
+    <%= link_to @item.item_category, @item.item_category %><!-- #TODO FIXME there must be a prettier way to do this -->
   </p>
 
   <p>
@@ -38,7 +38,7 @@
   <% end %>
   <% @checkouts.each do |checkout| %>
   <%= link_to "#{checkout.user.first_name} #{checkout.user.last_name}", checkout.user %> checked it out for
-  <%= link_to checkout.group.name, checkout.group %> on
+  <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
   <%= checkout.created_at %><br />
   <% end %>
   </p>

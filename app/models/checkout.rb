@@ -62,6 +62,10 @@ class Checkout < ActiveRecord::Base
     sum
   end
   
+  def to_s
+    "#{user} checked out #{item} for #{group}"
+  end
+  
 private
   
   def create_open_event

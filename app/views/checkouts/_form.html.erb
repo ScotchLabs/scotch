@@ -11,7 +11,7 @@
   <% end %>
 
   <% if params[:group_id] %>
-  <%= f.hidden_field :group_id, :value => params[:group_id] %><%= @group.name %>
+  <%= f.hidden_field :group_id, :value => params[:group_id] %>
   <% else %>
   <div class="field">
     <%= f.label :group_id %><br />
@@ -25,7 +25,7 @@
     <% #TODO default to "Me" %>
     <% #ASK should I be able to select a user to check the item out to?
     # maybe only if I can CheckoutOther? %>
-    <%= f.select :user_id, @users.map { |u| ["#{u.first_name} #{u.last_name}", u.id] } %>
+    <%= f.select :user_id, @users.map { |u| [u.name, u.id] } %>
   </div>
   
   <% if params[:item_id] %>

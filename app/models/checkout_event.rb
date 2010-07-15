@@ -45,6 +45,10 @@ class CheckoutEvent < ActiveRecord::Base
     return nil unless i % 2 == 0
     EVENT_TYPES.flatten[i]
   end
+  
+  def to_s
+    name
+  end
 
 protected
 

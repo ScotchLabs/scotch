@@ -1,4 +1,4 @@
-<h1><%= @group.name %></h1>
+<h1><%= @group %></h1>
 <% if @group.parent %><p style="font-size: 8px;">Child of <%= @group.parent %></p><% end %>
 
 <% if has_permission? "adminGroup" %><small><%= link_to 'Edit Group', edit_group_path(@group) %></small><% end %>

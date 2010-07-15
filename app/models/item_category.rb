@@ -51,12 +51,16 @@ class ItemCategory < ActiveRecord::Base
   
   # useful for creating selects with optgroups of the top-level categories and options of the second-level categories
   def self.groupedOptionsForSelect
-    self.parent_categories.map{|p| ["#{p.prefix} #{p.name}", p.item_subcategories.map{|isc| ["#{isc.slug} #{isc.name}", isc.id]}]}
+    self.parent_categories.map{|p| ["#{p.prefix} #{p}", p.item_subcategories.map{|isc| ["#{isc.slug} #{isc}", isc.id]}]}
   end
   
   def slug
     return nil if parent_category.nil?
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
+  end
+  
+  def to_s
+    name
   end
   
 protected

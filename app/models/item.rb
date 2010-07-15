@@ -56,6 +56,10 @@ class Item < ActiveRecord::Base
     catalog_number <=> other.catalog_number
   end
   
+  def to_s
+    "#{catalog_number} #{name}"
+  end
+  
 private
 
   def create_catalog_number
