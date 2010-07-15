@@ -1,14 +1,16 @@
 <h1>Listing items</h1>
 
+<%= link_to 'New Item', new_item_path %>
+
+<br />
+
 <table>
   <tr>
-    <th>Catalog #</th>
+    <th style='width:60px'>Catalog #</th>
     <th>Name</th>
     <th>Location</th>
     <th>Item category</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th style='width:120px'></th>
   </tr>
 
 <% @items.each do |item| %>
@@ -16,14 +18,13 @@
     <td><%= item.catalog_number %></td>
     <td><%= item.name %></td>
     <td><%= item.location %></td>
-    <td><%= link_to item.item_category.name, item.item_category %></td>
-    <td><%= link_to 'Show', item %></td>
-    <td><%= link_to 'Edit', edit_item_path(item) %></td>
-    <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to item.item_category.shortname, item.item_category %></td>
+    <td><%= link_to 'Show', item %> |
+    <% if item.available? %>
+    <%= link_to 'Check Out', new_item_checkout_path(item) %>
+    <% else %>
+    Uunavailable
+    <% end %>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Item', new_item_path %>
