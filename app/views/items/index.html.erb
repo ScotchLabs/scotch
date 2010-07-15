@@ -16,14 +16,14 @@
 <% @items.each do |item| %>
   <tr>
     <td><%= item.catalog_number %></td>
-    <td><%= item.name %></td>
+    <td><%= item.shortname %></td>
     <td><%= item.location %></td>
-    <td><%= link_to item.item_category.shortname, item.item_category %></td>
+    <td><%= link_to item.item_category.name, item.item_category %></td>
     <td><%= link_to 'Show', item %> |
     <% if item.available? %>
     <%= link_to 'Check Out', new_item_checkout_path(item) %>
     <% else %>
-    Uunavailable
+    Unavailable
     <% end %>
   </tr>
 <% end %>
