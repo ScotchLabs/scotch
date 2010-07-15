@@ -13,8 +13,10 @@ class ItemCategory < ActiveRecord::Base
   validate :unique_prefix
   validate :unique_slug
   
-  # this scope selects categories that don't have parents. they are the top-level parents
+  # this scope selects categories that don't have parents. they are the top-level categories
   scope :parent_categories, where(:parent_category_id => nil).order("prefix ASC")
+  # this scope select categories that have parents. they are the bottom-level categories
+  scope :child_categories, where("parent_category_id IS NOT NULL")
   
   def <=>(other)
     # compare two top-level
