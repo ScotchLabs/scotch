@@ -25,8 +25,8 @@
   <%= link_to 'Edit', edit_item_path(@item) %>, 
   <%= link_to 'Back', items_path %>, 
   <%= link_to 'Destroy', @item, :confirm => 'Are you sure?', :method => :delete -%>
-  <% if @item.available? -%>
-  , <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
+  <% if @item.available? -%>,
+  <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
   <% end %>
   </p>
 </article>
@@ -35,12 +35,13 @@
   <p>
   <% if @checkouts.empty? %>
   No checkouts here!
-  <% end %>
+  <% else %>
   <% @checkouts.each do |checkout| %>
   <%= link_to "#{checkout.user.first_name} #{checkout.user.last_name}", checkout.user %> checked it out for
   <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
   <%= checkout.created_at %><br />
   <% end %>
-  </p>
   <p><%= link_to 'View All Checkouts', item_checkouts_path(@item) %></p>
+  <% end %>
+  </p>
 </article>
