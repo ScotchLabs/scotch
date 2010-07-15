@@ -1,7 +1,0 @@
-<h1>Editing checkout for <% if params[:group_id] %>Group "<%= @checkout.group.name %>"<% else %>Item "<%= @checkout.item.name %>"<% end %></h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @checkout %> |
-<% if params[:group_id] %><%= link_to 'Back', group_checkouts_path %>
-<% elsif params[:item_id] %><%= link_to 'Back', item_checkouts_path %><% end %>

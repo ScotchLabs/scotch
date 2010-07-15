@@ -17,9 +17,8 @@
 
   <h2>Actions</h2>
   <p>
-  <%= link_to 'Edit', edit_checkout_path(@checkout) %>
-  <% if params[:group_id] %>| <%= link_to 'Back', group_checkouts_path %><% end %>
-  <% if params[:item_id] %>| <%= link_to 'Back', item_checkouts_path %><% end %>
+  <% if params[:group_id] %><%= link_to 'Back', group_checkouts_path %><% end %>
+  <% if params[:item_id] %><%= link_to 'Back', item_checkouts_path %><% end %>
   </p>
 </article>
 <article>

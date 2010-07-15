@@ -48,12 +48,12 @@ class CheckoutsController < ApplicationController
   end
 
   # GET /checkouts/1/edit
-  def edit
-    @checkout = Checkout.find(params[:id])
-    @items = Item.all.sort unless params[:item_id]
-    @groups = Group.all unless params[:group_id]
-    @users = User.all
-  end
+  #def edit
+  #  @checkout = Checkout.find(params[:id])
+  #  @items = Item.all.sort unless params[:item_id]
+  #  @groups = Group.all unless params[:group_id]
+  #  @users = User.all
+  #end
 
   # POST /checkouts
   # POST /checkouts.xml
@@ -82,19 +82,19 @@ class CheckoutsController < ApplicationController
 
   # PUT /checkouts/1
   # PUT /checkouts/1.xml
-  def update
-    @checkout = Checkout.find(params[:id])
-
-    respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
-        format.html { redirect_to(@checkout, :notice => 'Checkout was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+  #def update
+  #  @checkout = Checkout.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    if @checkout.update_attributes(params[:checkout])
+  #      format.html { redirect_to(@checkout, :notice => 'Checkout was successfully updated.') }
+  #      format.xml  { head :ok }
+  #    else
+  #      format.html { render :action => "edit" }
+  #      format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+  #    end
+  #  end
+  #end
 
   # DELETE /checkouts/1
   # DELETE /checkouts/1.xml
