@@ -66,13 +66,16 @@ class CheckoutsController < ApplicationController
     @users = User.all
 
     respond_to do |format|
-      if @checkout.save
-        
-        format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
-        format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+      begin
+        if @checkout.save
+          format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
+          format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+        end
+      rescue Exception => e
+        flash[:notice] = e.message
       end
     end
   end

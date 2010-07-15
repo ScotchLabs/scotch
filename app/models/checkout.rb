@@ -65,7 +65,8 @@ class Checkout < ActiveRecord::Base
 private
   
   def create_open_event
-    return CheckoutEvent.new({:user_id => authorizer_id, :checkout_id => id, :event => 'opened'})
+    c = CheckoutEvent.new({:user_id => authorizer_id, :checkout_id => id, :event => 'opened'})
+    raise "Couldn't save a new '#{CheckoutEvent.event_name('opened')}' CheckoutEvent." unless c.save
   end
   
 end
