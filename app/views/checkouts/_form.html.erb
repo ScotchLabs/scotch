@@ -20,7 +20,7 @@
   <% end %>
   
   <div class="field">
-    <%= f.label :user_id %><br />
+    <%= f.label :user_id, "Check out to:" %><br />
     <% #TODO FIXME with autocomplete. mantis#60 %>
     <% #TODO default to "Me" %>
     <% #ASK should I be able to select a user to check the item out to?
@@ -37,6 +37,8 @@
     <%= f.select :item_id, @items.map { |i| [i.shortname, i.id] } %>
   </div>
   <% end %>
+  
+  <%= f.hidden_field :authorizer_id, :value => current_user.id %>
   
   <div class="actions">
     <%= f.submit %>

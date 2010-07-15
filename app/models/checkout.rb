@@ -13,6 +13,10 @@ class Checkout < ActiveRecord::Base
 
   validates_presence_of :group_id, :user_id, :item_id
   validates_associated :group, :user, :item
+
+  attr_accessor :authorizer_id
+  
+  after_create :create_open_event
   
   # if arg is not specified, returns true if any CheckoutEvent
   # exists.
@@ -57,4 +61,11 @@ class Checkout < ActiveRecord::Base
     end
     sum
   end
+  
+private
+  
+  def create_open_event
+    return CheckoutEvent.new({:user_id => authorizer_id, :checkout_id => id, :event => 'opened'})
+  end
+  
 end

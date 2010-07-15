@@ -27,6 +27,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.xml
   def new
     @checkout = Checkout.new
+    @checkout.user_id = current_user.id
     @items = Item.all.sort unless params[:item_id]
     @groups = Group.all unless params[:group_id]
     @users = User.all
@@ -36,7 +37,9 @@ class CheckoutsController < ApplicationController
       item = Item.find params[:item_id]
     end
     @checkout.group = group
+    @group = @checkout.group
     @checkout.item = item
+    @item = @checkout.item
 
     respond_to do |format|
       format.html # new.html.erb
@@ -64,8 +67,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
-        # also create an 'open' event
-        @checkout_event = CheckoutEvent.new_opened_event
+        
         format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
         format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
       else

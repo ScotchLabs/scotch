@@ -32,7 +32,7 @@ class CheckoutEvent < ActiveRecord::Base
   
   validates_presence_of :checkout_id, :user_id
   validates_associated :checkout, :user
-  validates_inclusion_of :event, :in => EVENT_TYPES
+  validates_inclusion_of :event, :in => EVENT_TYPES.map{|e| e[1]}
   validate :event_type
   #TODO deal with notes
   validate :user_has_permission
@@ -44,16 +44,6 @@ class CheckoutEvent < ActiveRecord::Base
     i = EVENT_TYPES.flatten.index(arg)-1
     return nil unless i % 2 == 0
     EVENT_TYPES.flatten[i]
-  end
-  
-  # returns a new event for opening a Checkout
-  def self.new_opened_event(params)
-    e = CheckoutEvent.new
-    e.event = 'opened'
-    return e unless params.class.to_s == "Hash"
-    e.checkout_id = params[:checkout_id] if params.has_key? :checkout_id
-    e.user_id = params[:user_id] if params.has_key? :user_id
-    e
   end
 
 protected
