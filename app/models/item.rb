@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   belongs_to :item_category # foreign key item_category_id
+  has_many :checkouts
 
   validates_presence_of :name, :item_category_id
   validates_presence_of :item_category
