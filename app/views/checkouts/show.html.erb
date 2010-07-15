@@ -30,7 +30,8 @@
   <% end %>
   <% @checkout.checkout_events.each do |checkout_event| %>
   <%= link_to "#{checkout_event.user.first_name} #{checkout_event.user.last_name}", checkout_event.user %> caused a
-  <%= CheckoutEvent.event_name checkout_event.event %> event<br />
+  <%= CheckoutEvent.event_name checkout_event.event %> event on
+  <%= checkout_event.created_at %><br />
   <% if checkout_event.notes %>
   Notes:<%= checkout_event.notes %><br />
   <% end %>
