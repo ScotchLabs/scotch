@@ -3,6 +3,8 @@ class CheckoutsController < ApplicationController
   # GET /group/1/checkouts.xml
   def index
     @checkouts = Checkout.all
+    @item = Item.find(params[:item_id]) if params[:item_id]
+    @group = Group.find(params[:group_id]) if params[:group_id]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +27,16 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.xml
   def new
     @checkout = Checkout.new
-    @checkout.group = @group
+    @items = Item.all.sort unless params[:item_id]
+    @groups = Group.all unless params[:group_id]
+    @users = User.all
+    if params[:group_id]
+      group = Group.find params[:group_id]
+    elsif params[:item_id]
+      item = Item.find params[:item_id]
+    end
+    @checkout.group = group
+    @checkout.item = item
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,18 +47,25 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/1/edit
   def edit
     @checkout = Checkout.find(params[:id])
+    @items = Item.all.sort unless params[:item_id]
+    @groups = Group.all unless params[:group_id]
+    @users = User.all
   end
 
   # POST /checkouts
   # POST /checkouts.xml
   def create
     @checkout = Checkout.new(params[:checkout])
-    @group = Group.find(params[:checkout][:group_id])
-
-    @checkout.group = @group
+    @item = Item.find(@checkout.item_id) if @checkout.item_id
+    @items = Item.all.sort unless params[:item_id]
+    @group = Group.find(@checkout.group_id) if @checkout.group_id
+    @groups = Group.all unless params[:group_id]
+    @users = User.all
 
     respond_to do |format|
       if @checkout.save
+        # also create an 'open' event
+        @checkout_event = CheckoutEvent.new_opened_event
         format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
         format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
       else

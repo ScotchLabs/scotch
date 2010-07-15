@@ -1,10 +1,10 @@
-<h1>Listing checkouts</h1>
+<h1>Listing checkouts for <% if @group %>Group "<%= @group.name %>"<% else %>Item "<%= @item.name %>"<% end %></h1>
 
 <table>
   <tr>
-    <th>Group</th>
+    <% unless @group %><th>Group</th><% end %>
     <th>User</th>
-    <th>Item</th>
+    <% unless @item %><th>Item</th><% end %>
     <th></th>
     <th></th>
     <th></th>
@@ -12,9 +12,9 @@
 
 <% @checkouts.each do |checkout| %>
   <tr>
-    <td><%= checkout.group_id %></td>
-    <td><%= checkout.user_id %></td>
-    <td><%= checkout.item_id %></td>
+    <% unless @group %><td><%= link_to checkout.group.name, checkout.group %></td><% end %>
+    <td><%= link_to "#{checkout.user.first_name} #{checkout.user.last_name}", checkout.user %></td>
+    <% unless @item %><td><%= link_to checkout.item.name, checkout.item %></td><% end %>
     <td><%= link_to 'Show', checkout %></td>
     <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
     <td><%= link_to 'Destroy', checkout, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -24,4 +24,6 @@
 
 <br />
 
-<%= link_to 'New Checkout', new_group_checkout_path %>
+<% if params[:group_id] %><%= link_to 'New Checkout', new_group_checkout_path %>
+<% elsif params[:item_id] %><%= link_to 'New Checkout', new_item_checkout_path %><% end %>
+  
