@@ -1,18 +1,39 @@
-<p>
-  <b>Group:</b>
-  <%= @checkout.group_id %>
-</p>
+<article>
+  <h1>Checkout Info</h1>
+  <p>
+    <b>Group:</b>
+    <%= link_to @checkout.group.name, @checkout.group %>
+  </p>
 
-<p>
-  <b>User:</b>
-  <%= @checkout.user_id %>
-</p>
+  <p>
+    <b>User:</b>
+    <%= link_to "#{@checkout.user.first_name} #{@checkout.user.last_name}", @checkout.user %>
+  </p>
 
-<p>
-  <b>Item:</b>
-  <%= @checkout.item_id %>
-</p>
+  <p>
+    <b>Item:</b>
+    <%= link_to "#{@checkout.item.catalog_number} #{@checkout.item.name}", @checkout.item %>
+  </p>
 
-
-<%= link_to 'Edit', edit_checkout_path(@checkout) %> |
-<%= link_to 'Back', group_checkouts_path %>
+  <h2>Actions</h2>
+  <p>
+  <%= link_to 'Edit', edit_checkout_path(@checkout) %>
+  <% if params[:group_id] %>| <%= link_to 'Back', group_checkouts_path %><% end %>
+  <% if params[:item_id] %>| <%= link_to 'Back', item_checkouts_path %><% end %>
+  </p>
+</article>
+<article>
+  <h1>Checkout Events</h1>
+  <p>
+  <% if @checkout.checkout_events.empty? %>
+  No checkout events here!
+  <% end %>
+  <% @checkout.checkout_events.each do |checkout_event| %>
+  <%= link_to "#{checkout_event.user.first_name} #{checkout.user_event.last_name}", checkout_event.user %> caused a
+  <%= CheckoutEvent.event_name checkout_event.event %> event<br />
+  <% if checkout_event.notes %>
+  Notes:<%= checkout_event.notes %><br />
+  <% end %>
+  <% end %>
+  </p>
+</article>
