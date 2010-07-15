@@ -36,7 +36,7 @@
   <% @item_category.items.each do |item| %>
     <tr>
       <td><%= item.catalog_number %></td>
-      <td><%= item.name %></td>
+      <td><%= item.shortname %></td>
       <td><%= item.location %></td>
       <td><%= link_to 'Show', item %></td>
       <td><%= link_to 'Edit', edit_item_path(item) %></td>

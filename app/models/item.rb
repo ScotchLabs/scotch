@@ -5,6 +5,11 @@ class Item < ActiveRecord::Base
   validates_presence_of :item_category
   validates :catalog_number, :presence => true, :uniqueness => true, :format => {:with => /\d{3}\-\d{3}/}
   
+  # some item names are super long
+  def shortname
+    name[0..27]+((name.length>30)? ("..."):(""))
+  end
+  
   # returns true if item is ready to be checked out
   def available?
     Checkout.find_all_by_item_id(id).each do |c|
