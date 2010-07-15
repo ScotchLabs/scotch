@@ -57,6 +57,11 @@
       <% end %>
       <div id='push'></div>
     </section>
+    <% if request.domain == "localhost" %>
+    <aside>
+      <%= debug params %>
+    </aside>
+    <% end %>
   </div> 
     <footer>
       <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br />

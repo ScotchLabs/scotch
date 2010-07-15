@@ -424,3 +424,9 @@ body > footer {
 #sodabar a {
   color: #fff  /* white */
   }
+aside {
+  position: fixed;
+  bottom: 26px;
+  padding-left:10px;
+  left: 0
+  }
