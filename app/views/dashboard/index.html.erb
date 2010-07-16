@@ -17,7 +17,7 @@
   <h3>Your checkouts</h3>
   <ul>
     <% current_user.checkouts.each do |c| %>
-    <li><%= link_to c, c %></li> <!-- #TODO FIXME there must be a prettier way to do this -->
+    <li><%= link_to "#{c.item} for #{c.group}", c %></li> <!-- #TODO FIXME there must be a prettier way to do this -->
     <% end %>
   </ul>
 <% end %>
