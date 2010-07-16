@@ -57,12 +57,20 @@ class GroupsController < ApplicationController
   def create
     if params[:group_type] == "Show" then
       @group = Show.new(params[:show])
+    elsif params[:group_type] == "Board" then
+      @group = Board.new(params[:show])
     else
       @group = Group.new(params[:group])
     end
 
+    user = User.find(params[:manager_id])
+    role = @group.class.manager_role
+
     respond_to do |format|
-      if @group.save
+      if @group.save 
+        #FIXME: ensure this saves correctly
+        @group.positions.create(:user => user, :role => role, :display_name => "Manager")
+
         format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else

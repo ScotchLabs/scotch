@@ -3,9 +3,8 @@ class ApplicationController < ActionController::Base
 
   layout 'application'
 
-  before_filter :authenticate_user!
-
-  before_filter :locate_group
+  prepend_before_filter :locate_group
+  prepend_before_filter :authenticate_user!
 
   protected
 

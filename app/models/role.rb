@@ -12,4 +12,9 @@ class Role < ActiveRecord::Base
   def to_s
     name
   end
+
+  # Is this a crew role, for use with the adminCrew position
+  def crew?
+    name == "Crew"
+  end
 end

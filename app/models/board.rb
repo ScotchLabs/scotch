@@ -6,4 +6,8 @@ class Board < Group
     end
     return b
   end
+
+  def self.manager_role
+    Role.where(:name => "President").first
+  end
 end

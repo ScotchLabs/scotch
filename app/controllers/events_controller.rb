@@ -7,8 +7,9 @@ class EventsController < ApplicationController
   # GET /group/1/events
   # GET /group/1/events.xml
   def index
-    @events = Event.where(["start_time > ?",Time.zone.now]).order("start_time ASC").all
-    @past_events = Event.where(["start_time < ?",Time.zone.now]).order("start_time ASC").all
+    group_events = Event.where(:group_id => @group.id).order("start_time ASC")
+    @events = group_events.where(["start_time > ?",Time.zone.now]).all
+    @past_events = group_events.where(["start_time < ?",Time.zone.now]).all
 
     respond_to do |format|
       format.html # index.html.erb

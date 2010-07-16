@@ -1,5 +1,13 @@
 <h1>Listing groups</h1>
 
+<% if has_permission? "createGroup" %>
+  <p>
+  <%= link_to 'New Group', new_group_path %> |
+  <%= link_to 'New Show', new_group_path(:group_type => "Show") %> |
+  <%= link_to 'New Board', new_group_path(:group_type => "Board") %>
+  </p>
+<% end %>
+
 <% @groups.each do |group| %>
 	<div class="groupListing">
 		<h2><%= link_to group, group %></h2>
@@ -7,7 +15,3 @@
 		<span class="groupDescription"><%= group.description %></span>
 	</div>
 <% end %>
-
-<br />
-
-<%= link_to 'New Group', new_group_path %>

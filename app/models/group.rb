@@ -8,7 +8,8 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :short_name
+  validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-]{1,10}\Z/
 
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
@@ -56,4 +57,7 @@ class Group < ActiveRecord::Base
     name
   end
 
+  def self.manager_role
+    Role.where(:name => "Administrator").first
+  end
 end

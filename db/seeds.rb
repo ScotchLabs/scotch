@@ -9,35 +9,53 @@ Permission.transaction do
                     :description => "User may modify group membership with crew role at will")
   Permission.create(:name => "adminEvents",
                     :description => "User may create/modify/delete events and change event attendees")
+  Permission.create(:name => "adminGroup",
+                    :description => "User may change basic group information")
+  Permission.create(:name => "adminDocuments",
+                    :description => "User may modify documents at will")
+
+  #Global Permissions
   Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
   Permission.create(:name => "createGroup", :description => "User can create generic Groups")
-  Permission.create(:name => "createBoard", :description => "User can create Boards")
-  Permission.create(:name => "createShow", :description => "User can create Shows")
+end
+
+# create roles
+Role.transaction do
+  # Shows
+  r = Role.create(:name => "Production Staff", :group_type => "Show")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+
+  r = Role.create(:name => "Tech Head", :group_type => "Show")
+  p = Permission.fetch("adminCrew")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id)
+  p = Permission.fetch("adminEvents")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+
+  Role.create(:name => "Crew", :group_type => "Show")
+  Role.create(:name => "Cast", :group_type => "Show")
+
+  # Groups
+  adm = Role.create(:name => "Administrator", :group_type => "Group")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => adm.id)
+
+  Role.create(:name => "Member", :group_type => "Group")
+
+  # Boards
+  r = Role.create(:name => "President", :group_type => "Board")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id)
 end
 
 #create system group and system users
 User.transaction do
-
-  #Create roles
-  p = Permission.fetch("adminPositions")
-  r = Role.create(:name => "Production Staff", :group_type => "Show")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id);
-
-  p = Permission.fetch("adminCrew")
-  r = Role.create(:name => "Tech Head", :group_type => "Show")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id)
-
-  Role.create(:name => "Crew", :group_type => "Show")
-  Role.create(:name => "Cast", :group_type => "Show")
-  Role.create(:name => "Member", :group_type => "Group")
+  adm = Role.find_by_name("Administrator")
 
   #Create system group
-  grp = Group.create(:name => "SYSTEM GROUP", 
+  grp = Group.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
                      :description => "System group for site wide privilages")
-
-  adm = Role.create(:name => "Administrator", :group_type => "Group")
-  p = Permission.fetch("superuser")
-  su = RolePermission.create(:permission_id => p.id, :role_id => adm.id)
+  grp.save!
 
   #Create web team
   u = User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
@@ -46,7 +64,7 @@ User.transaction do
               :residence => "Roselawn 1", :home_college => "SCS", 
               :graduation_year => "2012", :gender => "Male")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id, 
+  pos = Position.new(:role_id => adm.id, :user_id => u.id, 
                   :display_name => "System Administrator")
   pos.group_id = grp.id
   pos.save!
@@ -54,7 +72,7 @@ User.transaction do
   u = User.create(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
               :last_name => "Gross", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id,
+  pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
@@ -62,7 +80,7 @@ User.transaction do
   u = User.create(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
               :last_name => "Freeman", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id,
+  pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
@@ -70,7 +88,7 @@ User.transaction do
   u = User.create(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine",
               :last_name => "Friedrich", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id,
+  pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Design Mistress")
   pos.group_id = grp.id
   pos.save!
@@ -78,7 +96,7 @@ User.transaction do
   u = User.create(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt",
               :last_name => "Dickoff", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id,
+  pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
@@ -86,7 +104,7 @@ User.transaction do
   u = User.create(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer",
               :last_name => "Williams", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
-  pos = Position.create(:role_id => adm.id, :user_id => u.id,
+  pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
@@ -95,9 +113,9 @@ end
 
 #Create Board
 Group.transaction do
-  g = Board.create(:name => "Board of Directors", 
+  r = Role.find_by_name("President")
+  g = Board.create(:name => "Board of Directors", :short_name => "Board",
                      :description => "Scotch'n'Soda Board of Directors")
-  r = Role.create(:name => "Manager", :group_type => "Board")
 
   u = User.where(:email => "amgross@andrew.cmu.edu").first
   p = Position.create(:role_id => r.id, :user_id => u.id,
@@ -114,7 +132,7 @@ end
 
 #Create DEMO show FIXME
 User.transaction do
-  g = Show.create(:name => "Some Show",
+  g = Show.create(:name => "Some Show", :short_name => "Show",
                   :description => "This is a blurb about the show that will be pulled for the public web page.")
   r = Role.where(:name => "Production Staff").first
 
