@@ -18,6 +18,31 @@
   <p><%= f.label :password_confirmation %></p>
   <p><%= f.password_field :password_confirmation %></p>
 
+  <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :home_college %><br />
+    <%= f.text_field :home_college %>
+  </div>
+  <div class="field">
+    <%= f.label :smc %><br />
+    <%= f.text_field :smc %>
+  </div>
+  <div class="field">
+    <%= f.label :graduation_year %><br />
+    <%= f.text_field :graduation_year %>
+  </div>
+  <div class="field">
+    <%= f.label :residence %><br />
+    <%= f.text_field :residence %>
+  </div>
+  <div class="field">
+    <%= f.label :gender %><br />
+    <%= f.text_field :gender %>
+  </div>
+
   <p><%= f.submit "Sign up" %></p>
 <% end %>
 
