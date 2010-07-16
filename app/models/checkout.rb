@@ -7,9 +7,7 @@ class Checkout < ActiveRecord::Base
                  # the group immediately in charge of authorizing the checkout
   belongs_to :item  # the item being checked out
 
-  # I spent lots of hours wondering why my new Checkout's group id was nil
-  # then I looked at the model file.
-  #attr_protected :group_id
+  attr_protected :group_id
 
   validates_presence_of :group_id, :user_id, :item_id
   validates_associated :group, :user, :item
