@@ -18,7 +18,7 @@
       </header>
       <nav>
         <ul>
-          <li class='bottomleftcorner'><%= link_to "Dashboard", dashboard_index_path %></li>
+          <li class='bottomleftcorner'><%= link_to "Dashboard", dashboard_index_path, :class => 'bottomleftcorner' %></li>
           <li <%= nav_class(users_path)%> ><%= link_to "Users", users_path %></li>
           <li <%= nav_class(groups_path)%> ><%= link_to "Groups", groups_path %></li>
           <li <%= nav_class(items_path)%> ><%= link_to "Inventory", items_path %></li>
@@ -57,6 +57,11 @@
       <% end %>
       <div id='push'></div>
     </section>
+    <% if request.domain == "localhost" %>
+    <aside>
+      <%= debug params %>
+    </aside>
+    <% end %>
   </div> 
     <footer>
       <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br />

@@ -161,7 +161,7 @@ User.transaction do
   p.save!
 
   e = Event.create(:title => "Audition",
-                   :start_time => 200.hours.ago, :end_time => 199.hours.ago,
+                   :start_time => 200.hours.from_now, :end_time => 201.hours.from_now,
                    :location => "PH 100");
   e.group_id = g.id
   e.save!
@@ -169,7 +169,7 @@ User.transaction do
   ea = EventAttendee.create(:event_id => e.id)
 
   e = Event.create(:title => "Audition",
-                   :start_time => 199.hours.ago, :end_time => 198.hours.ago,
+                   :start_time => 199.hours.from_now, :end_time => 200.hours.from_now,
                    :location => "PH 100");
   e.group_id = g.id
   e.save!
@@ -178,7 +178,7 @@ User.transaction do
   ea = EventAttendee.create(:event_id => e.id)
 
   e = Event.create(:title => "Audition",
-                   :start_time => 198.hours.ago, :end_time => 197.hours.ago,
+                   :start_time => 198.hours.from_now, :end_time => 199.hours.from_now,
                    :location => "PH 100");
   e.group_id = g.id
   e.save!
@@ -186,31 +186,31 @@ User.transaction do
   ea = EventAttendee.create(:event_id => e.id)
 
   e = Event.create(:title => "Tech Interest",
-                   :start_time => 100.hours.ago, :end_time => 99.hours.ago,
+                   :start_time => 100.hours.from_now, :end_time => 101.hours.from_now,
                    :location => "PH 100");
   e.group_id = g.id
   e.save!
 
   e = Event.create(:title => "Rehearsal",
-                   :start_time => 10.hours.ago, :end_time => 9.hours.ago,
+                   :start_time => 10.hours.from_now, :end_time => 11.hours.from_now,
                    :location => "PH 100");
   e.group_id = g.id
   e.save!
 
   e = Event.create(:title => "Tech Rehearsal",
-                   :start_time => 10.hours.since, :end_time => 11.hours.since,
+                   :start_time => 10.hours.from_now, :end_time => 12.hours.from_now,
                    :location => "McConomy");
   e.group_id = g.id
   e.save!
 
   e = Event.create(:title => "Performance",
-                   :start_time => 100.hours.since, :end_time => 101.hours.since,
+                   :start_time => 100.hours.from_now, :end_time => 101.hours.from_now,
                    :location => "McConomy");
   e.group_id = g.id
   e.save!
 
   e = Event.create(:title => "Performance",
-                   :start_time => 120.hours.since, :end_time => 121.hours.since,
+                   :start_time => 120.hours.from_now, :end_time => 121.hours.from_now,
                    :location => "McConomy");
   e.group_id = g.id
   e.save!

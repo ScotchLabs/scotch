@@ -12,10 +12,10 @@ class User < ActiveRecord::Base
   has_many :positions
   has_many :groups, :through => :positions
 
-  has_many :event_attendees
+  has_many :event_attendees, :dependent => :destroy
 
-  has_many :checkouts
-  has_many :checkout_events
+  has_many :checkouts, :dependent => :destroy
+  has_many :checkout_events, :dependent => :destroy
 
   validates_presence_of :email, :first_name, :last_name
   validates_uniqueness_of :email

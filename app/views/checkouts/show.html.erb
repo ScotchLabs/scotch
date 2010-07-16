@@ -1,18 +1,39 @@
-<p>
-  <b>Group:</b>
-  <%= @checkout.group_id %>
-</p>
+<article>
+  <h1>Checkout Info</h1>
+  <p>
+    <b>Group:</b>
+    <%= link_to @checkout.group, @checkout.group %> <!-- #TODO FIXME there must be a prettier way to do this -->
+  </p>
 
-<p>
-  <b>User:</b>
-  <%= @checkout.user_id %>
-</p>
+  <p>
+    <b>User:</b>
+    <%= link_to @checkout.user, @checkout.user %> <!-- #TODO FIXME there must be a prettier way to do this -->
+  </p>
 
-<p>
-  <b>Item:</b>
-  <%= @checkout.item_id %>
-</p>
+  <p>
+    <b>Item:</b>
+    <%= link_to @checkout.item, @checkout.item %> <!-- #TODO FIXME there must be a prettier way to do this -->
+  </p>
 
-
-<%= link_to 'Edit', edit_checkout_path(@checkout) %> |
-<%= link_to 'Back', group_checkouts_path %>
+  <h2>Actions</h2>
+  <p>
+  <% if params[:group_id] %><%= link_to 'Back', group_checkouts_path %><% end %>
+  <% if params[:item_id] %><%= link_to 'Back', item_checkouts_path %><% end %>
+  </p>
+</article>
+<article>
+  <h1>Checkout Events</h1>
+  <p>
+  <% if @checkout.checkout_events.empty? %>
+  No checkout events here!
+  <% end %>
+  <% @checkout.checkout_events.each do |checkout_event| %>
+  <%= link_to checkout_event.user, checkout_event.user %> caused a <!-- #TODO FIXME there must be a prettier way to do this -->
+  <%= CheckoutEvent.event_name checkout_event.event %> event on
+  <%= checkout_event.created_at %><br />
+  <% if checkout_event.notes %>
+  Notes:<%= checkout_event.notes %><br />
+  <% end %>
+  <% end %>
+  </p>
+</article>

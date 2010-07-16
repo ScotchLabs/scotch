@@ -1,28 +1,47 @@
-<p>
-  <b>Catalog Number:</b>
-  <%= @item.catalog_number %>
-</p>
+<article>
+  <h1><%= @item %></h1>
+  <p>
+    <b>Catalog Number:</b>
+    <%= @item.catalog_number %>
+  </p>
 
-<p>
-  <b>Name:</b>
-  <%= @item.name %>
-</p>
+  <p>
+    <b>Location:</b>
+    <%= @item.location %>
+  </p>
 
-<p>
-  <b>Location:</b>
-  <%= @item.location %>
-</p>
+  <p>
+    <b>Item category:</b>
+    <%= link_to @item.item_category, @item.item_category %><!-- #TODO FIXME there must be a prettier way to do this -->
+  </p>
 
-<p>
-  <b>Item category:</b>
-  <%= link_to @item.item_category.name, @item.item_category %>
-</p>
+  <p>
+    <b>Description:</b>
+    <%= @item.description %>
+  </p>
 
-<p>
-  <b>Description:</b>
-  <%= @item.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+  <h2>Actions</h2>
+  <p>
+  <%= link_to 'Edit', edit_item_path(@item) %>, 
+  <%= link_to 'Back', items_path %>, 
+  <%= link_to 'Destroy', @item, :confirm => 'Are you sure?', :method => :delete -%>
+  <% if @item.available? -%>,
+  <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
+  <% end %>
+  </p>
+</article>
+<article>
+  <h1>Recent Checkouts</h1>
+  <p>
+  <% if @checkouts.empty? %>
+  No checkouts here!
+  <% else %>
+  <% @checkouts.each do |checkout| %>
+  <%= link_to "#{checkout.user.first_name} #{checkout.user.last_name}", checkout.user %> checked it out for
+  <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
+  <%= checkout.created_at %><br />
+  <% end %>
+  <p><%= link_to 'View All Checkouts', item_checkouts_path(@item) %></p>
+  <% end %>
+  </p>
+</article>

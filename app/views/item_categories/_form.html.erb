@@ -20,7 +20,7 @@
   </div>
   <div class="field">
     <%= f.label :parent_category_id %><br />
-    <%= f.select :parent_category_id, ItemCategory.parent_categories.map {|ic| ["#{ic.prefix} #{ic.name}", ic.id]}, :prompt => "None" %>
+    <%= f.select :parent_category_id, ItemCategory.parent_categories.map {|ic| ["#{ic.prefix} #{ic}", ic.id]}, :prompt => "None" %>
   </div>
   <div class="actions">
     <%= f.submit %>

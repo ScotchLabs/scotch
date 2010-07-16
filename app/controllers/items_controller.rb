@@ -14,6 +14,7 @@ class ItemsController < ApplicationController
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
+    @checkouts = @item.checkouts[0...10]
 
     respond_to do |format|
       format.html # show.html.erb

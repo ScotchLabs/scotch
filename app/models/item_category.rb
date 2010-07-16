@@ -8,13 +8,15 @@ class ItemCategory < ActiveRecord::Base
   # when we destroy this, we destroy items
   has_many :items, :dependent => :destroy
   
-  validate :parent_category_exists
+  validates_associated :parent_category
   validates :prefix, :presence => true, :numericality => true
   validate :unique_prefix
   validate :unique_slug
   
-  # this scope selects categories that don't have parents. they are the top-level parents
+  # this scope selects categories that don't have parents. they are the top-level categories
   scope :parent_categories, where(:parent_category_id => nil).order("prefix ASC")
+  # this scope select categories that have parents. they are the bottom-level categories
+  scope :child_categories, where("parent_category_id IS NOT NULL")
   
   def <=>(other)
     # compare two top-level
@@ -49,7 +51,7 @@ class ItemCategory < ActiveRecord::Base
   
   # useful for creating selects with optgroups of the top-level categories and options of the second-level categories
   def self.groupedOptionsForSelect
-    self.parent_categories.map{|p| ["#{p.prefix} #{p.name}", p.item_subcategories.map{|isc| ["#{isc.slug} #{isc.name}", isc.id]}]}
+    self.parent_categories.map{|p| ["#{p.prefix} #{p}", p.item_subcategories.map{|isc| ["#{isc.slug} #{isc}", isc.id]}]}
   end
   
   def slug
@@ -57,16 +59,11 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
-protected
-
-  def parent_category_exists
-    return if parent_category_id.nil? or parent_category_id.blank?
-    begin
-      ItemCategory.find(parent_category_id)
-    rescue RecordNotFound
-      errors[parent_category_id] << "does not correspond to a valid Item Category"
-    end
+  def to_s
+    name
   end
+  
+protected
   
   def unique_slug
     return if parent_category_id.nil? or parent_category_id.blank?

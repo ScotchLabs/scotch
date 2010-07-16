@@ -1,5 +1,5 @@
 <article>
-  <h1>Showing Category "<%= @item_category.name %>"</h1>
+  <h1>Showing Category "<%= @item_category %>"</h1>
 
   <p>
     <b>Prefix:</b>
@@ -8,12 +8,12 @@
 
   <p>
     <b>Name:</b>
-    <%= @item_category.name %>
+    <%= @item_category %>
   </p>
 
   <p>
     <b>Parent Category:</b>
-    <%= link_to(@item_category.parent_category.name, @item_category.parent_category) unless @item_category.parent_category.nil? %>
+    <%= link_to(@item_category.parent_category, @item_category.parent_category) unless @item_category.parent_category.nil? %><!-- #TODO FIXME there must be a prettier way to do this -->
   </p>
 
 
@@ -36,7 +36,7 @@
   <% @item_category.items.each do |item| %>
     <tr>
       <td><%= item.catalog_number %></td>
-      <td><%= item.name %></td>
+      <td><%= item.shortname %></td>
       <td><%= item.location %></td>
       <td><%= link_to 'Show', item %></td>
       <td><%= link_to 'Edit', edit_item_path(item) %></td>
@@ -51,7 +51,7 @@
   <h1>Subcategories</h1>
   <p>
   <% # take subcategories, sort them, map them to links
-  subcats = @item_category.item_subcategories.sort.map {|subcat| link_to("#{subcat.slug} #{subcat.name}", subcat)}
+  subcats = @item_category.item_subcategories.sort.map {|subcat| link_to("#{subcat.slug} #{subcat}", subcat)}
   # put 'and' between the last two subcategories
   if subcats.length > 1
     subcats = subcats-subcats[-2..-1]<<("#{subcats[-2]} and #{subcats[-1]}")

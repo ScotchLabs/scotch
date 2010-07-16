@@ -1,13 +1,16 @@
 class Event < ActiveRecord::Base
   belongs_to :group
-  has_many :event_attendees
+  has_many :event_attendees, :dependent => :destroy
   # FIXME: is there a proper rails 3 way to do this?
-  has_many :attendees, :conditions => "event_attendees.user_id IS NOT NULL", :class_name => "EventAttendee"
+  # EDIT-sewillia: do you mean this? I think it's old rails
+  has_many :attendees, :through => :event_attendees, :source => :user
+  # has_many :attendees, :conditions => "event_attendees.user_id IS NOT NULL", :class_name => "EventAttendee"
 
   attr_protected :group_id
 
   #TODO: validate that start_time and end_time are sane
   #TODO: validate on creation that event is in the future
+  validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
 
   def self.create_audition(group,count,length,signups,params)
@@ -48,4 +51,12 @@ class Event < ActiveRecord::Base
   def <=>(other)
     start_time <=> other.start_time
   end
+  
+protected
+
+  def times_are_sane
+    errors[:start_time] << "cannot be in the past" if start_time.past?
+    errors[:end_time] << "cannot be before start time" if end_time <= start_time
+  end
+
 end

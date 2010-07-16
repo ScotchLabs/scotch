@@ -3,6 +3,8 @@ class CheckoutsController < ApplicationController
   # GET /group/1/checkouts.xml
   def index
     @checkouts = Checkout.all
+    @item = Item.find(params[:item_id]) if params[:item_id]
+    @group = Group.find(params[:group_id]) if params[:group_id]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +27,19 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.xml
   def new
     @checkout = Checkout.new
-    @checkout.group = @group
+    @checkout.user_id = current_user.id
+    @items = Item.all.sort unless params[:item_id]
+    @groups = Group.all unless params[:group_id]
+    @users = User.all
+    if params[:group_id]
+      group = Group.find params[:group_id]
+    elsif params[:item_id]
+      item = Item.find params[:item_id]
+    end
+    @checkout.group = group
+    @group = @checkout.group
+    @checkout.item = item
+    @item = @checkout.item
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,44 +48,53 @@ class CheckoutsController < ApplicationController
   end
 
   # GET /checkouts/1/edit
-  def edit
-    @checkout = Checkout.find(params[:id])
-  end
+  #def edit
+  #  @checkout = Checkout.find(params[:id])
+  #  @items = Item.all.sort unless params[:item_id]
+  #  @groups = Group.all unless params[:group_id]
+  #  @users = User.all
+  #end
 
   # POST /checkouts
   # POST /checkouts.xml
   def create
     @checkout = Checkout.new(params[:checkout])
-    @group = Group.find(params[:checkout][:group_id])
-
-    @checkout.group = @group
+    @item = Item.find(@checkout.item_id) if @checkout.item_id
+    @items = Item.all.sort unless params[:item_id]
+    @group = Group.find(@checkout.group_id) if @checkout.group_id
+    @groups = Group.all unless params[:group_id]
+    @users = User.all
 
     respond_to do |format|
-      if @checkout.save
-        format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
-        format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+      begin
+        if @checkout.save
+          format.html { redirect_to(@checkout, :notice => 'Checkout was successfully created.') }
+          format.xml  { render :xml => @checkout, :status => :created, :location => @checkout }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+        end
+      rescue Exception => e
+        flash[:notice] = e.message
       end
     end
   end
 
   # PUT /checkouts/1
   # PUT /checkouts/1.xml
-  def update
-    @checkout = Checkout.find(params[:id])
-
-    respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
-        format.html { redirect_to(@checkout, :notice => 'Checkout was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+  #def update
+  #  @checkout = Checkout.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    if @checkout.update_attributes(params[:checkout])
+  #      format.html { redirect_to(@checkout, :notice => 'Checkout was successfully updated.') }
+  #      format.xml  { head :ok }
+  #    else
+  #      format.html { render :action => "edit" }
+  #      format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+  #    end
+  #  end
+  #end
 
   # DELETE /checkouts/1
   # DELETE /checkouts/1.xml
