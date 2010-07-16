@@ -217,7 +217,7 @@ article {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
   }
-input[type="text"], input[type="password"], select {
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select {
   border: 1px solid #333;              /* black */
   color: #333;                         /* black */
   margin: 2px;
@@ -236,7 +236,7 @@ input[type="text"], input[type="password"], select {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   }
-input[type="text"][disabled], input[type="password"][disabled], select[disabled] {
+input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
   }
 input[type="submit"] {
