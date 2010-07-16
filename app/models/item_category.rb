@@ -8,7 +8,7 @@ class ItemCategory < ActiveRecord::Base
   # when we destroy this, we destroy items
   has_many :items, :dependent => :destroy
   
-  validates_associated :parent_category, :unless => (:parent_category_id.nil? or :parent_category_id.blank?)
+  validates_associated :parent_category
   validates :prefix, :presence => true, :numericality => true
   validate :unique_prefix
   validate :unique_slug
