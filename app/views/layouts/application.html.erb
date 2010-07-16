@@ -24,7 +24,7 @@
           <li <%= nav_class(items_path)%> ><%= link_to "Inventory", items_path %></li>
         </ul>
       </nav>
-      <% if @group %>
+      <% if @group && ! @group.new_record? %>
         <nav>
           <ul>
             <li><%= @group %></li>

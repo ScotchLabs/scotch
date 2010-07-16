@@ -14,15 +14,15 @@
   </div>
   <div class="field">
     <%= label_tag :slot_length, "Slot Length" %>
-    <%= text_field_tag :slot_length, 30, :type => "number", :min => 5, :step => 5 %>
+    <%= number_field_tag :slot_length, 30, :min => 5, :step => 5 %>
   </div>
   <div class="field">
     <%= label_tag :slot_count, "Number of Slots" %>
-    <%= text_field_tag :slot_count, 5, :type => "number", :min => 1 %>
+    <%= number_field_tag :slot_count, 5, :min => 1 %>
   </div>
   <div class="field">
     <%= label_tag :signups %>
-    <%= text_field_tag :signups, 1, :type => "number", :min => 1 %>
+    <%= number_field_tag :signups, 1, :min => 1 %>
   <div class="field">
     <%= label_tag :location %><br />
     <%= text_field_tag "event[location]", "", :placeholder => "Where should people show up?" %>
