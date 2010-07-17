@@ -30,6 +30,8 @@
     Sorry, you don't have permission to check this item out.
   <% else %>
     This item is currently checked out to <%= link_to @item.current_checkout.user, @item.current_checkout.user %> for <%= link_to @item.current_checkout.group, @item.current_checkout.group %>. <!-- #TODO FIXME there must be a prettier way to do this -->
+    <% if @item.current_checkout.has_deadline? %>Due back on <%= @item.current_checkout.deadline %>.<% end %>
+    <%= link_to "View Checkout", @item.current_checkout %>
   <% end %>
   </p>
 </article>
@@ -42,7 +44,7 @@
   <% @checkouts.each do |checkout| %>
   <%= link_to "#{checkout.user.first_name} #{checkout.user.last_name}", checkout.user %> checked it out for
   <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
-  <%= format_time checkout.created_at %><br>
+  <%= format_time checkout.created_at %>. <%= link_to "View Checkout", @item.current_checkout %><br>
   <% end %>
   <p><%= link_to 'View All Checkouts', item_checkouts_path(@item) %></p>
   <% end %>
