@@ -60,6 +60,10 @@ a {
 ul {
   list-style: none;
   }
+/* HTML5 fix for STUPID firefox */
+section, article, nav, aside, header, footer {
+  display: block;
+  }
 
 
 /* 420
@@ -92,6 +96,9 @@ body {
 
 /* 440
  * These styles are here for convenience when writing views */
+.dkteal {
+  color: #0dd
+  }
 .fleft {
   float: left
   }
@@ -142,30 +149,41 @@ body {
   }
 /* use these classes on divs inside an article */
 .thirds-split-left {
+  /* wrap this around div.left-third and dev.right-two-thirds and put a clearfix before the close */
   background: transparent url('/images/thirds-border.png') repeat-y 303px top;
-  }
-.thirds-split-right {
-  background: transparent url('/images/thirds-border.png') repeat-y 535px top;
   }
 .left-third {
   float: left;
   display: inline-block;
-  width: 282px;
-  }
-.left-two-thirds {
-  float: left;
-  display: inline-block;
-  width: 514px;
-  }
-.right-third {
-  float: right;
-  display: inline-block;
-  width: 300px;
+  width: 283px;
   }
 .right-two-thirds {
   float: right;
   display: inline-block;
-  width: 532px;
+  width: 534px;
+  }
+.thirds-split-right {
+  /* wrap this around div.left-two-thirds and dev.right-third and put a clearfix before the close */
+  background: transparent url('/images/thirds-border.png') repeat-y 554px top;
+  }
+.left-two-thirds {
+  float: left;
+  display: inline-block;
+  width: 534px;
+  }
+.right-third {
+  float: right;
+  display: inline-block;
+  width: 283px;
+  }
+.halves-split {
+  /* wrap this around div.half and put a clearfix before the close */
+  background: transparent url('/images/thirds-border.png') repeat-y 429px top;
+  }
+.half {
+  /* use with fleft or fright */
+  display: inline-block;
+  width: 408px;
   }
 
 
@@ -239,7 +257,8 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
   }
-input[type="submit"], a.button {
+input[type="submit"], input[type="reset"], a.button {
+  display: inline-block;
   font-family: inherit;
   font-size: 10px;
   margin: 2px;
@@ -248,13 +267,14 @@ input[type="submit"], a.button {
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
-  padding: 8px 50px;
+  padding: 8px 0;
+  width:220px;
   font-weight: bold;
   }
-input[type="submit"]:hover, a.button:hover {
+input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
   background: #0dd;  /* dkteal */
   }
-input[type="submit"][disabled] {
+input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #ddd;  /* grey */
   }
 .notice {
@@ -403,6 +423,7 @@ body > div > section > nav ul li a:hover {
   }
 #loginform input[type="submit"], #loginform a.button {
   padding: 5px 10px;
+  width: auto;
   text-transform: none
   }
 body > footer {
