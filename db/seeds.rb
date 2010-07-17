@@ -15,7 +15,7 @@ Permission.transaction do
                     :description => "User may modify documents at will")
 
   #Global Permissions
-  Permission.create(:name => "superuser", :description => "User has ALL PRIVILAGES")
+  Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
   Permission.create(:name => "createGroup", :description => "User can create generic Groups")
 end
 
@@ -54,7 +54,7 @@ User.transaction do
 
   #Create system group
   grp = Group.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
-                     :description => "System group for site wide privilages")
+                     :description => "System group for site wide privileges")
   grp.save!
 
   #Create web team
@@ -152,22 +152,22 @@ User.transaction do
   u = User.where(:email => "dfreeman@andrew.cmu.edu").first
   r = Role.where(:name => "Crew").first
   p = Position.create(:role_id => r.id, :user_id => u.id,
-                      :display_name => "Lighting Cnew")
+                      :display_name => "Lighting Crew")
   p.group_id = g.id
   p.save!
 
   p = Position.create(:role_id => r.id, :user_id => u.id,
-                      :display_name => "Electrics Cnew")
+                      :display_name => "Electrics Crew")
   p.group_id = g.id
   p.save!
 
   u = User.where(:email => "sewillia@andrew.cmu.edu").first
   p = Position.create(:role_id => r.id, :user_id => u.id,
-                      :display_name => "Lighting Cnew")
+                      :display_name => "Lighting Crew")
   p.group_id = g.id
   p.save!
   p = Position.create(:role_id => r.id, :user_id => u.id,
-                      :display_name => "Electrics Cnew")
+                      :display_name => "Electrics Crew")
   p.group_id = g.id
   p.save!
 
