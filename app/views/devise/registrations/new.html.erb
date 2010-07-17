@@ -1,50 +1,99 @@
+<% ast = raw("<span class='dkteal'>*</span>") %>
+<article>
+  <h1>Create Your Scotch on the Web Account!</h1>
+  <p>
+    Creating an account will allow you to register for auditions,
+    browse our onlinetech equipment inventory, see our technical resources,
+    sign up for tech crews and easily contact any other member of
+    Scotch'n'Soda. Required fields are marked with <%= ast %>.
+  </p>
+</article>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<article>
+  <div class='halves-split'>
+    <div class='fleft half'>
+      <h1>Personal Information</h1>
+      
+      <%= devise_error_messages! %>
+      
+      <p>
+        <%= f.label :first_name %><%= ast %> <%= f.text_field :first_name, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+
+      <p>
+        <%= f.label :last_name %><%= ast %> <%= f.text_field :last_name, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+
+      <p>
+        <%= f.label :email %><%= ast %> <%= f.text_field :email, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+
+      <p>
+        <%= f.label :password %><%= ast %> <%= f.password_field :password, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+
+      <p>
+        <%= f.label :password_confirmation %><%= ast %> <%= f.password_field :password_confirmation, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+
+      <p>
+        <%= f.label :phone %><%= ast %> <%= f.text_field :phone, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+      
+      <p>
+        <%= f.label :home_college %><%= ast %> <%= f.text_field :home_college, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+      
+      <p>
+        <%= f.label :smc %><%= ast %> <%= f.text_field :smc, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+      
+      <p>
+        <%= f.label :graduation_year %><%= ast %> <%= f.text_field :graduation_year, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+      
+      <p>
+        <%= f.label :residence %><%= ast %> <%= f.text_field :residence, :class => "fright" %>
+        <div class='clearfix'></div>
+      </p>
+      
+      <p>
+        <%= f.label :gender %> <span class='fright'><%= f.radio_button :gender, "male" %> Boy <%= f.radio_button :gender, "female" %> Girl</span>
+        <div class='clearfix'></div>
+      </p>
+    </div>
+    <div class='fright half'>
+      <h1>Interest &amp; Experience</h1>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+</article>
+<article>
+  <h1>Everything In Order?</h1>
+  <p>
+    Please make sure the information you've entered is correct. Once you submit this form,
+    check your email for a confirmation. <!--TODO Oh, and one more thing:<br>
+    Yes, I want to be added to the Scotch'n'Soda d-list, which will send out occasional e-mail
+    updates on S'n'S shows and programs.--><br>
+    <div style='width:100%;text-align:center'>
+      <%= f.submit "Create My Account!" %> <input type='reset' value='Reset This Form' />
+    </div>
+  </p>
+</article>  
+  <%= render :partial => "devise/shared/links" %>
+<% end %>
 <h2>Sign up</h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+  
+  
 
-  <p><%= f.label :first_name %></p>
-  <p><%= f.text_field :first_name %></p>
 
-  <p><%= f.label :last_name %></p>
-  <p><%= f.text_field :last_name %></p>
-
-  <p><%= f.label :email %></p>
-  <p><%= f.text_field :email %></p>
-
-  <p><%= f.label :password %></p>
-  <p><%= f.password_field :password %></p>
-
-  <p><%= f.label :password_confirmation %></p>
-  <p><%= f.password_field :password_confirmation %></p>
-
-  <div class="field">
-    <%= f.label :phone %><br>
-    <%= f.text_field :phone %>
-  </div>
-  <div class="field">
-    <%= f.label :home_college %><br>
-    <%= f.text_field :home_college %>
-  </div>
-  <div class="field">
-    <%= f.label :smc %><br>
-
-    <%= f.text_field :smc %>
-  </div>
-  <div class="field">
-    <%= f.label :graduation_year %><br>
-    <%= f.text_field :graduation_year %>
-  </div>
-  <div class="field">
-    <%= f.label :residence %><br>
-    <%= f.text_field :residence %>
-  </div>
-  <div class="field">
-    <%= f.label :gender %><br>
-    <%= f.text_field :gender %>
-  </div>
-
-  <p><%= f.submit "Sign up" %></p>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
