@@ -142,15 +142,15 @@ body {
   }
 /* use these classes on divs inside an article */
 .thirds-split-left {
-  background: transparent url('/images/thirds-border.png') repeat-y 320px top;
+  background: transparent url('/images/thirds-border.png') repeat-y 303px top;
   }
 .thirds-split-right {
-  background: transparent url('/images/thirds-border.png') repeat-y 534px top;back
+  background: transparent url('/images/thirds-border.png') repeat-y 535px top;
   }
 .left-third {
   float: left;
   display: inline-block;
-  width: 300px;
+  width: 282px;
   }
 .left-two-thirds {
   float: left;
@@ -165,7 +165,7 @@ body {
 .right-two-thirds {
   float: right;
   display: inline-block;
-  width: 514px;
+  width: 532px;
   }
 
 
@@ -239,16 +239,19 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
   }
-input[type="submit"] {
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
+input[type="submit"], a.button {
+  font-family: inherit;
+  font-size: 10px;
+  margin: 2px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
-  padding: 10px 50px;
+  padding: 8px 50px;
   font-weight: bold;
   }
-input[type="submit"]:hover {
+input[type="submit"]:hover, a.button:hover {
   background: #0dd;  /* dkteal */
   }
 input[type="submit"][disabled] {
@@ -257,17 +260,14 @@ input[type="submit"][disabled] {
 .notice {
   color: green;
   }
-
 .alert {
   color: red;
   }
-
 .field_with_errors {
   padding: 2px;
   border: 2px solid red;
   display: inline-block;
   }
-
 #errorExplanation {
   border: 2px solid red;
   padding: 7px;
@@ -276,7 +276,6 @@ input[type="submit"][disabled] {
   margin-bottom: 20px;
   background-color: #f0f0f0;
   }
-
 #errorExplanation h2 {
   text-align: left;
   font-weight: bold;
@@ -370,7 +369,7 @@ body > div > section > nav ul li a {
   vertical-align: middle;
   color: #333;  /* black */
   width: 180px;
-  height: 48px
+  height: 40px
   }
 body > div > section > nav ul li a:active,
 .navselected {
@@ -397,6 +396,14 @@ body > div > section > nav ul li a:hover {
     center bottom,
     rgb(221,255,255) 0%,    /* ltteal */
     rgb(255,255,255) 100%)  /* white */
+  }
+#loginform {
+  float: right;
+  padding: 5px
+  }
+#loginform input[type="submit"], #loginform a.button {
+  padding: 5px 10px;
+  text-transform: none
   }
 body > footer {
   width: 900px;
