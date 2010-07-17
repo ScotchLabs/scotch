@@ -19,9 +19,9 @@ module ApplicationHelper
   #how far in the future or past something is.  (e.g. if it is next week, just
   #print "May 20", but if it was last year print "May 20, 2010")
   def format_time(time)
-    time.sprintf("%Y-%m-%d %H:%M")
+    time.strftime("%Y-%m-%d %H:%M")
   end
   def format_date(date)
-    time.sprintf("%Y-%m-%d")
+    time.strftime("%Y-%m-%d")
   end
 end
