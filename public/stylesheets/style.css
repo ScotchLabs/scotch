@@ -371,51 +371,62 @@ body > div > section > nav {
   margin-bottom: 35px;
   text-transform: uppercase
   }
-body > div > section > nav ul {
+body > div > section > nav > ul {
   padding: 0;
   text-indent: 0
   }
-body > div > section > nav ul li {
+body > div > section > nav > ul > li {
   position: relative;
-  display: table-cell;
+  display: inline-block;
   text-align: center;
-  vertical-align: middle
+  vertical-align: middle;
+  margin: 0
   }
-body > div > section > nav ul li:before {
-  content:"";
+body > div > section > nav > ul > li:before {
+  content: ""
 }
-body > div > section > nav ul li a {
+body > div > section > nav > ul > li > a {
   display: table-cell;
   vertical-align: middle;
   color: #333;  /* black */
-  width: 180px;
-  height: 40px
+  width: 109px;
+  height: 40px;
   }
-body > div > section > nav ul li a:active,
-.navselected {
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, rgb(221,221,221)),   /* grey */
-    color-stop(1, rgb(255,255,255)));  /* white */
-  background-image: -moz-linear-gradient(
-    center bottom,
-    rgb(221,221,221) 0%,    /* grey */
-    rgb(255,255,255) 100%)  /* white */
+#subnav {
+  position: absolute;
+  margin: 0 auto;
+  width: 900px
   }
-body > div > section > nav ul li a:hover {
-  color :#333;
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, rgb(221,255,255)),   /* ltteal */
-    color-stop(1, rgb(255,255,255)));  /* white */
-  background-image: -moz-linear-gradient(
-    center bottom,
-    rgb(221,255,255) 0%,    /* ltteal */
-    rgb(255,255,255) 100%)  /* white */
+  
+#subnav > ul {
+  padding: 0;
+  text-indent: 0
+  }
+#subnav > ul > li {
+  display:inline-block;
+  margin: 5px 4px;
+  margin-left: 0
+  }
+/* tricky way of having the first li have no left margin */
+#subnav > ul > li + li {
+  margin-left: 4px
+  }
+#subnav > ul > li:before {
+  content: ""
+  }
+#subnav > ul > li > * {
+  display:inline-block;
+  background: #fff;                     /* white */
+  color: #333;                          /* black */
+  line-height: 9px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  padding: 8px 18px;
+  }
+#subnav > ul > li > a:hover {
+  color: #0dd  /* dkteal */
   }
 #loginform {
   float: right;

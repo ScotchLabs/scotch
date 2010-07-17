@@ -35,17 +35,6 @@
           <%= render "layouts/login" %>
         <% end %>
       </nav>
-      <% if @group && ! @group.new_record? %>
-        <nav>
-          <ul>
-            <li><%= @group %></li>
-            <li <%= nav_class(group_events_path(@group)) %>><%= link_to "Events", group_events_path(@group) %></li>
-            <li <%= nav_class(group_positions_path(@group)) %>><%= link_to "Members", group_positions_path(@group) %></li>
-            <li <%= nav_class(group_checkouts_path(@group)) %>><%= link_to "Checkouts", group_checkouts_path(@group) %></li>
-            <!-- <li <%= nav_class(group_documents_path(@group)) %>><%= link_to "Documents", group_documents_path(@group) %></li> -->
-          </ul>
-        </nav>
-      <% end %>
       <noscript>
         <article>
           <p>Hey there! It looks like you've got JavaScript turned off.
