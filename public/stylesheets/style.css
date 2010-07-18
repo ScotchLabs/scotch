@@ -402,11 +402,10 @@ body > div > section > nav > ul > li:before {
   content: ""
 }
 body > div > section > nav > ul > li > a {
-  display: table-cell;
-  vertical-align: middle;
+  display: inline-block;
   color: #333;  /* black */
   width: 93px;
-  height: 32px;
+  padding: 16px 0 6px;
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
