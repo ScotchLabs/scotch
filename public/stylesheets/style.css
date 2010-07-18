@@ -395,7 +395,8 @@ body > div > section > nav > ul > li {
   display: inline-block;
   text-align: center;
   vertical-align: middle;
-  margin: 0
+  margin: 0;
+  padding: 0 8px 8px
   }
 body > div > section > nav > ul > li:before {
   content: ""
@@ -404,8 +405,16 @@ body > div > section > nav > ul > li > a {
   display: table-cell;
   vertical-align: middle;
   color: #333;  /* black */
-  width: 109px;
-  height: 40px;
+  width: 93px;
+  height: 32px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px
+  }
+.navselected, body > div > section > nav > ul > li > a:hover {
+  background: #ddd !important;  /* grey */
+  color: #333 !important;       /* black */
   }
 #subnav {
   position: absolute;
@@ -441,7 +450,8 @@ body > div > section > nav > ul > li > a {
   padding: 8px 18px;
   }
 #subnav > ul > li > a:hover {
-  color: #0dd  /* dkteal */
+  color: #333;      /* black */
+  background: #ddd  /* grey */
   }
 #loginform {
   float: right;

@@ -7,9 +7,10 @@ module ApplicationHelper
     current_user.has_global_permission?(permName)
   end
 
+  #TODO FIXME this is too specific. I'll deal with it later.
   def nav_class(link)
     if current_page? link then
-      "class='navselected'"
+      "navselected"
     else
       ""
     end
