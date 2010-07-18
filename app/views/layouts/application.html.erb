@@ -23,6 +23,9 @@
   <div id='wrapper'>
     <div id='bannernocss3' class='banner'></div>
     <div id='banner' class='banner'></div>
+    <% if current_user %>
+    <span id='logout'><h2><%= link_to "Log Out", destroy_user_session_path %></h2></span>
+    <% end %>
     <section>
       <header>
         <h1><a href='/'>Scotch on the Web</a></h1>
@@ -65,7 +68,7 @@
   </div> 
     <footer>
       <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br>
-      &copy; 2008-2010 Scotch'n'Soda Theatre at <b>Carnegie mellon University</b><br>
+      &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
       Current Version <%= render "layouts/version" %> | Help build Scotch on the Web!
     </footer>
     <div id='sodabar'>
