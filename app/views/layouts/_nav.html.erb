@@ -1,7 +1,7 @@
 <ul>
   <li><%= link_to "Dashboard", dashboard_index_path, :class =>  nav_class(dashboard_index_path) %></li>
   <li><a href='#'>Calendar</a></li>
-  <li><a href='#'>Shows</a></li>
+  <li><%= link_to "Shows", shows_path, :class => nav_class(shows_path) %></li>
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", items_path, :class => nav_class(items_path) %></li>
   <li><a href='#'>Resources</a></li>
@@ -11,10 +11,10 @@
   <div id='subnav'>
     <ul>
       <li><b><%= @group %></b></li>
-      <li><%= link_to "Events", group_events_path(@group), :class =>  nav_class(group_events_path) %></li>
-      <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path) %></li>
-      <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path) %></li>
-      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path) %></li>
+      <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
+      <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
+      <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li>
+      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
     </ul>
   </div>
   <% end %>
