@@ -24,4 +24,16 @@ module ApplicationHelper
   def format_date(date)
     time.strftime("%Y-%m-%d")
   end
+  
+  def flavortext
+    flav = [
+      "Scotch'n'Soda's Online Informatory",
+      "Have you seen the new Dungeon?",
+      "Unofficially sponsored by Jolt Cola",
+      "Is informatory even a word?",
+      "It seemed like a good idea at the time",
+      "Eh, we'll do it later"
+    ]
+    flav[rand(flav.length)]
+  end
 end
