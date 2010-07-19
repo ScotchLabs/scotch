@@ -1,78 +1,69 @@
-<% ast = raw("<span class='dkteal'>*</span>") %>
 <article>
   <h1>Create Your Scotch on the Web Account!</h1>
   <p>
     Creating an account will allow you to register for auditions,
     browse our onlinetech equipment inventory, see our technical resources,
     sign up for tech crews and easily contact any other member of
-    Scotch'n'Soda. Required fields are marked with <%= ast %>.
+    Scotch'n'Soda.
   </p>
 </article>
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
 <article>
   <div class='halves-split'>
     <div class='fleft half'>
-      <h1>Personal Information</h1>
+      <h1>Required Information</h1>
+      <p>We've gotta have something in our big black book y'know.</p>
       
       <%= devise_error_messages! %>
       
       <p>
-        <%= f.label :first_name %><%= ast %> <%= f.text_field :first_name, :class => "fright" %>
+        <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
         <div class='clearfix'></div>
       </p>
 
       <p>
-        <%= f.label :last_name %><%= ast %> <%= f.text_field :last_name, :class => "fright" %>
+        <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
         <div class='clearfix'></div>
       </p>
 
       <p>
-        <%= f.label :email %><%= ast %> <%= f.text_field :email, :class => "fright" %>
+        <%= f.label :email %><span class='fright'><%= f.text_field :email %></span>
         <div class='clearfix'></div>
       </p>
 
       <p>
-        <%= f.label :password %><%= ast %> <%= f.password_field :password, :class => "fright" %>
+        <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
         <div class='clearfix'></div>
       </p>
 
       <p>
-        <%= f.label :password_confirmation %><%= ast %> <%= f.password_field :password_confirmation, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-
-      <p>
-        <%= f.label :phone %><%= ast %> <%= f.text_field :phone, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-      
-      <p>
-        <%= f.label :home_college %><%= ast %> <%= f.text_field :home_college, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-      
-      <p>
-        <%= f.label :smc %><%= ast %> <%= f.text_field :smc, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-      
-      <p>
-        <%= f.label :graduation_year %><%= ast %> <%= f.text_field :graduation_year, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-      
-      <p>
-        <%= f.label :residence %><%= ast %> <%= f.text_field :residence, :class => "fright" %>
-        <div class='clearfix'></div>
-      </p>
-      
-      <p>
-        <%= f.label :gender %> <span class='fright'><%= f.radio_button :gender, "male" %> Boy <%= f.radio_button :gender, "female" %> Girl</span>
+        <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
         <div class='clearfix'></div>
       </p>
     </div>
     <div class='fright half'>
-      <h1>Interest &amp; Experience</h1>
+      <h1>Optional Information</h1>
+      <p>Tell us a little about yourself.</p>
+      <p>
+        <%= f.label :smc, "SMC" %><span class='fright'><%= f.text_field :smc %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :graduation_year %><span class='fright'><%= f.select :graduation_year, (Time.now.year.to_i...(Time.now.year.to_i+6)), :prompt => "Select a year" %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :residence %><span class='fright'><%= f.text_field :residence %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :gender %> <span class='fright'><%= f.radio_button :gender, "male" %> Boy <%= f.radio_button :gender, "female" %> Girl</span>
+        <div class='clearfix'></div>
+      </p>
     </div>
     <div class='clearfix'></div>
   </div>
