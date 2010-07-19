@@ -53,7 +53,7 @@
           <p class="alert">
             <%= alert %>
             <% if alert == "You have to confirm your account before continuing." %>
-              <%= link_to("Resend confirmation instructions", new_confirmation_path(resource_name)) %>
+              <%= link_to("Resend confirmation instructions", new_confirmation_path(resource_name)) %>.
             <% end %>
           </p>
         </article>
