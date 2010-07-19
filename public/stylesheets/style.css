@@ -278,12 +278,6 @@ input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
 input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #ddd;  /* grey */
   }
-.notice {
-  color: green;
-  }
-.alert {
-  color: red;
-  }
 .field_with_errors {
   padding: 2px;
   border: 2px solid red;
