@@ -9,6 +9,10 @@
   <div class="street-address">SMC <%= @user.smc %></div>
  </div>
  <div class="tel"><%= @user.phone %></div>
+ <% if @user.birthday %>
+ <div>Birthday: <%= format_date(@user.birthday) %></div>
+ <div>Age: <%= @user.age %></div>
+ <% end %>
 </div>
 
 <div>

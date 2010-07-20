@@ -46,6 +46,10 @@
     <%= f.label :gender %><br>
     <%= f.text_field :gender %>
   </div>
+  <div class="field">
+    <%= f.label :birthday %><br>
+    <%= f.date_select :birthday, :start_year => Time.now.year - 30, :end_year => Time.now.year - 17, :prompt => true %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

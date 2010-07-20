@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100710184356) do
+ActiveRecord::Schema.define(:version => 20100720060606) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20100710184356) do
     t.string   "graduation_year"
     t.string   "residence"
     t.string   "gender"
+    t.date     "birthday"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

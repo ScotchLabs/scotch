@@ -44,6 +44,15 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
+    #TODO FIXME I don't like having validation outside the model, but I can't think of another way short of
+    # expanding birthday into birthyear, birthmonth and birthday.
+    if params[:user]["birthday(1i)"] and params[:user]["birthday(2i)"] and params[:user]["birthday(3i)"]
+      begin
+        @user.birthday = Date.parse("#{params[:user]["birthday(2i)"]}/#{params[:user]["birthday(3i)"]}/#{params[:user]["birthday(1i)"]}")
+      rescue Exception => e
+        @user.errors[:birthday] << "was not parsable"
+      end
+    end
 
     respond_to do |format|
       if @user.save
@@ -60,6 +69,15 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
+    #TODO FIXME I don't like having validation outside the model, but I can't think of another way short of
+    # expanding birthday into birthyear, birthmonth and birthday.
+    if params[:user]["birthday(1i)"] and params[:user]["birthday(2i)"] and params[:user]["birthday(3i)"]
+      begin
+        @user.birthday = Date.parse("#{params[:user]["birthday(2i)"]}/#{params[:user]["birthday(3i)"]}/#{params[:user]["birthday(1i)"]}")
+      rescue Exception => e
+        @user.errors[:birthday] << "was not parsable"
+      end
+    end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])

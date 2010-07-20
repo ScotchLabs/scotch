@@ -34,6 +34,10 @@ class User < ActiveRecord::Base
   def to_s 
     name
   end
+  
+  def age
+    ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
+  end
 
   def name
     first_name + " " + last_name

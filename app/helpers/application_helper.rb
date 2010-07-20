@@ -23,7 +23,7 @@ module ApplicationHelper
     time.strftime("%Y-%m-%d %H:%M")
   end
   def format_date(date)
-    time.strftime("%Y-%m-%d")
+    date.strftime("%Y-%m-%d")
   end
   
   def flavortext
