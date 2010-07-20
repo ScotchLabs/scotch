@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :first_name, :last_name
   validates_uniqueness_of :email
-  validates_length_of :phone, :minimum => 3
+  validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :smc, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true

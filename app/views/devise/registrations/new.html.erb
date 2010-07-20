@@ -35,10 +35,6 @@
         <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
         <div class='clearfix'></div>
       </p>
-      <p>
-        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
-        <div class='clearfix'></div>
-      </p>
     </div>
     <div class='fright half'>
       <h1>Optional Information</h1>
@@ -61,6 +57,10 @@
       </p>
       <p>
         <%= f.label :birthday %><span class='fright'><%= f.date_select :birthday, :start_year => Time.now.year - 30, :end_year => Time.now.year - 17, :prompt => true %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
         <div class='clearfix'></div>
       </p>
       <p>That's enough for now. You can tell us more once you're inside.</p>
