@@ -11,9 +11,9 @@
 
 <% @checkouts.each do |checkout| %>
   <tr>
-    <% unless @group %><td><%= link_to checkout.group, checkout.group %></td><% end %><!-- #TODO FIXME there must be a prettier way to do this -->
-    <td><%= link_to checkout.user, checkout.user %></td><!-- #TODO FIXME there must be a prettier way to do this -->
-    <% unless @item %><td><%= link_to checkout.item, checkout.item %></td><% end %><!-- #TODO FIXME there must be a prettier way to do this -->
+    <% unless @group %><td><%= link_to checkout.group, checkout.group %></td><% end %><% #TODO FIXME there must be a prettier way to do this %>
+    <td><%= link_to checkout.user, checkout.user %></td><% #TODO FIXME there must be a prettier way to do this %>
+    <% unless @item %><td><%= link_to checkout.item, checkout.item %></td><% end %><% #TODO FIXME there must be a prettier way to do this %>
     <td><%= link_to 'Show', checkout %></td>
     <td><%= link_to 'Destroy', checkout, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
