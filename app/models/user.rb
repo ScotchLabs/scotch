@@ -35,6 +35,14 @@ class User < ActiveRecord::Base
     name
   end
   
+  def active_member?
+    # what constitutes an active member?
+    # being in a position right now
+    return true unless positions.empty?
+    # being in a position for a show within the past year
+    #TODO
+  end
+  
   def age
     ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
   end
