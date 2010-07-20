@@ -59,14 +59,10 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    puts "vvvvvvvv"
     @user = User.find(params[:id])
-    puts "birthday: #{params[:user][:birthday]}, birthmonth: #{params[:user][:birthmonth]}, birthyear: #{params[:user][:birthyear]}"
-    
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        puts "birthday: #{@user.birthday}, birthmonth: #{@user.birthmonth}, birthyear: #{@user.birthyear}"
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -74,7 +70,6 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
-    puts "^^^^^^^^"
   end
 
   # DELETE /users/1
