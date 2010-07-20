@@ -56,11 +56,9 @@
         <div class='clearfix'></div>
       </p>
       <p>
-        <%= f.label "Birthday" %>
+        <%= f.label :birthday %>
         <span class='fright'>
-          <%= f.select :birthday, (1..31), :prompt => "Day" %>
-          <%= f.select :birthmonth, (1..12).map {|i| [["January","February","March","April","May","June","July","August","September","October","November","December"][i-1],i] }, :prompt => "Month" %>
-          <%= f.select :birthyear, (Time.now.year.to_i-80..Time.now.year.to_i-10), :prompt => "Year"%>
+          <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
         </span>
         <div class='clearfix'></div>
       </p>

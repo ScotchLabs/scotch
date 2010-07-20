@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :birthmonth, :birthyear
+    :gender, :residence, :birthday
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -43,13 +43,8 @@ class User < ActiveRecord::Base
     #TODO
   end
   
-  def birthdate
-    return nil unless birthmonth and birthday and birthyear
-    DateTime.parse("#{birthmonth}/#{birthday}/#{birthyear}")
-  end
-  
   def age
-    ((Time.now - DateTime.parse(birthdate.to_s))/(60*60*24)/365.2422).to_i
+    ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
   end
 
   def name
