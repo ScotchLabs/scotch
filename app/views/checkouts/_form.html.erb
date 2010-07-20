@@ -24,7 +24,8 @@
     <% #TODO FIXME with autocomplete. mantis#60 %>
     <% #TODO default to "Me" %>
     <% #ASK should I be able to select a user to check the item out to?
-    # maybe only if I can CheckoutOther? %>
+    # maybe only if I can CheckoutOther?
+    %>
     <%= f.select :user_id, @users.map { |u| [u.name, u.id] } %>
   </div>
   
