@@ -1,7 +1,7 @@
 <span id='loginform'>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <%= f.text_field :email, {:value => "Email Address", :onFocus => "clearText(this)", :onBlur => "putText(this)"} %>
-    <%= f.password_field :password, {:value => "Password", :onFocus => "clearText(this)", :onBlur => "putText(this)"} %>
+    <%= f.text_field :email, {:placeholder => "Email Address"} %>
+    <%= f.password_field :password, {:placeholder => "Password"} %>
 
     <% if devise_mapping.rememberable? -%>
       <%= f.check_box :remember_me, { :checked => true, :style => "display:none;" } %> <% f.label :remember_me %>

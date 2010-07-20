@@ -6,18 +6,6 @@
   <%= stylesheet_link_tag "style" %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
-  <script>
-    // Use this function in the onFocus and onBlur of a form element
-    // to do that "clear default value" thing. Taken with gusto from
-    // http://www.bradino.com/javascript/clear-textfield-default-value-onclick/
-    // then canniablized to fix it a little
-    function clearText(field){
-      if (field.defaultValue == field.value) field.value = ''
-    }
-    function putText(field){
-      if (field.value == '') field.value = field.defaultValue
-    }
-  </script>
 </head>
 <body>
   <div id='wrapper'>
