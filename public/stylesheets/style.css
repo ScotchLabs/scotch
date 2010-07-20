@@ -479,7 +479,7 @@ body > footer {
   }
 aside {
   position: fixed;
-  bottom: 26px;
+  top: 0;
   padding-left:10px;
   left: 0;
   max-height: 90%;
