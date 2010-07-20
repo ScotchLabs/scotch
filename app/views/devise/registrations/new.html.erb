@@ -15,29 +15,28 @@
       <p>We've gotta have something in our big black book y'know.</p>
       
       <%= devise_error_messages! %>
-      
       <p>
         <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
         <div class='clearfix'></div>
       </p>
-
       <p>
         <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
         <div class='clearfix'></div>
       </p>
-
       <p>
         <%= f.label :email %><span class='fright'><%= f.text_field :email %></span>
         <div class='clearfix'></div>
       </p>
-
       <p>
         <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
         <div class='clearfix'></div>
       </p>
-
       <p>
         <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
+        <div class='clearfix'></div>
+      </p>
+      <p>
+        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
         <div class='clearfix'></div>
       </p>
     </div>
@@ -46,10 +45,6 @@
       <p>Tell us a little about yourself.</p>
       <p>
         <%= f.label :smc, "SMC" %><span class='fright'><%= f.text_field :smc %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
         <div class='clearfix'></div>
       </p>
       <p>
