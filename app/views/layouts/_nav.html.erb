@@ -6,7 +6,7 @@
   <li><%= link_to "Inventory", items_path, :class => nav_class(items_path) %></li>
   <li><a href='#'>Resources</a></li>
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
-  <li><a href='#'>Account</a></li>
+  <li><%= link_to "Account", current_user, :class => nav_class(current_user) %></li>
   <% if @group && ! @group.new_record? %>
   <div id='subnav'>
     <ul>
