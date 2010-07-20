@@ -44,7 +44,7 @@
         <div class='clearfix'></div>
       </p>
       <p>
-        <%= f.label :graduation_year %><span class='fright'><%= f.select :graduation_year, (Time.now.year.to_i...(Time.now.year.to_i+6)), :prompt => "Select a year" %></span>
+        <%= f.label :graduation_year %><span class='fright'><%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %></span>
         <div class='clearfix'></div>
       </p>
       <p>
@@ -56,7 +56,12 @@
         <div class='clearfix'></div>
       </p>
       <p>
-        <%= f.label :birthday %><span class='fright'><%= f.date_select :birthday, :start_year => Time.now.year - 80, :end_year => Time.now.year - 10, :prompt => true %></span>
+        <%= f.label "Birthday" %>
+        <span class='fright'>
+          <%= f.select :birthday, (1..31), :prompt => "Day" %>
+          <%= f.select :birthmonth, (1..12).map {|i| [["January","February","March","April","May","June","July","August","September","October","November","December"][i-1],i] }, :prompt => "Month" %>
+          <%= f.select :birthyear, (Time.now.year.to_i-80..Time.now.year.to_i-10), :prompt => "Year"%>
+        </span>
         <div class='clearfix'></div>
       </p>
       <p>

@@ -47,8 +47,10 @@
     <%= f.text_field :gender %>
   </div>
   <div class="field">
-    <%= f.label :birthday %><br>
-    <%= f.date_select :birthday, :start_year => Time.now.year - 80, :end_year => Time.now.year - 10, :prompt => true %>
+    <%= f.label "Birthday" %><br>
+    <%= f.select :birthday, (1..31), :prompt => "Day" %>
+    <%= f.select :birthmonth, (1..12).map {|i| [["January","February","March","April","May","June","July","August","September","October","November","December"][i-1],i] }, :prompt => "Month" %>
+    <%= f.select :birthyear, (Time.now.year.to_i-80..Time.now.year.to_i-10), :prompt => "Year"%>
   </div>
   <div class="actions">
     <%= f.submit %>

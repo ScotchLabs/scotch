@@ -44,15 +44,6 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-    #TODO FIXME I don't like having validation outside the model, but I can't think of another way short of
-    # expanding birthday into birthyear, birthmonth and birthday.
-    if params[:user]["birthday(1i)"] and params[:user]["birthday(2i)"] and params[:user]["birthday(3i)"]
-      begin
-        @user.birthday = Date.parse("#{params[:user]["birthday(2i)"]}/#{params[:user]["birthday(3i)"]}/#{params[:user]["birthday(1i)"]}")
-      rescue Exception => e
-        @user.errors[:birthday] << "was not parsable"
-      end
-    end
 
     respond_to do |format|
       if @user.save
@@ -68,19 +59,14 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
+    puts "vvvvvvvv"
     @user = User.find(params[:id])
-    #TODO FIXME I don't like having validation outside the model, but I can't think of another way short of
-    # expanding birthday into birthyear, birthmonth and birthday.
-    if params[:user]["birthday(1i)"] and params[:user]["birthday(2i)"] and params[:user]["birthday(3i)"]
-      begin
-        @user.birthday = Date.parse("#{params[:user]["birthday(2i)"]}/#{params[:user]["birthday(3i)"]}/#{params[:user]["birthday(1i)"]}")
-      rescue Exception => e
-        @user.errors[:birthday] << "was not parsable"
-      end
-    end
+    puts "birthday: #{params[:user][:birthday]}, birthmonth: #{params[:user][:birthmonth]}, birthyear: #{params[:user][:birthyear]}"
+    
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
+        puts "birthday: #{@user.birthday}, birthmonth: #{@user.birthmonth}, birthyear: #{@user.birthyear}"
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -88,6 +74,7 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
+    puts "^^^^^^^^"
   end
 
   # DELETE /users/1
