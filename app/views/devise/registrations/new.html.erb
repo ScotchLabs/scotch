@@ -15,57 +15,63 @@
       <p>We've gotta have something in our big black book y'know.</p>
       
       <%= devise_error_messages! %>
-      <p>
-        <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :email %><span class='fright'><%= f.text_field :email %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
-        <div class='clearfix'></div>
-      </p>
+      
+      <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :email %><span class='fright'><%= f.text_field :email %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
+      <div class='clearfix'></div>
+      
     </div>
     <div class='fright half'>
       <h1>Optional Information</h1>
       <p>Tell us a little about yourself.</p>
-      <p>
-        <%= f.label :smc, "SMC" %><span class='fright'><%= f.text_field :smc %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :graduation_year %><span class='fright'><%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :residence %><span class='fright'><%= f.text_field :residence %></span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :gender %><span class='fright'><%= f.radio_button :gender, "male" %> Boy <%= f.radio_button :gender, "female" %> Girl</span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :birthday %>
-        <span class='fright'>
-          <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
-        </span>
-        <div class='clearfix'></div>
-      </p>
-      <p>
-        <%= f.label :phone %><span class='fright'><%= f.text_field :phone %></span>
-        <div class='clearfix'></div>
-      </p>
+      
+      <%= f.label :smc, "SMC" %> (<%= link_to 'why do you want this?', '#why-smc', :class => 'lightwindow' %>)
+      <span class='fright'><%= f.text_field :smc %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :graduation_year %>
+      <span class='fright'>
+        <%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %>
+      </span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :residence %>
+      <span class='fright'><%= f.text_field :residence %></span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :gender %>
+      <span class='fright'>
+        <%= f.radio_button :gender, "male" %> Boy
+        <%= f.radio_button :gender, "female" %> Girl
+      </span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :birthday %>
+      <span class='fright'>
+        <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
+      </span>
+      <div class='clearfix'></div>
+      
+      <%= f.label :phone %> (<%= link_to "why do you want this?", "#why-phone", :class => "lightwindow" %>)
+      <span class='fright'><%= f.text_field :phone %></span>
+      <div class='clearfix'></div>
+      
+      <div class='hidden'>
+        <div id='why-smc'><h1>SMC</h1><p>We'd like your smc because...well I don't know. We're the mafia.</p></div>
+        <div id='why-phone'><h1>Phone Number</h1><p><strike>Sometimes</strike> At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number public.</p></div>
+      </div>
+        
       <p>That's enough for now. You can tell us more once you're inside.</p>
     </div>
     <div class='clearfix'></div>

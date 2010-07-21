@@ -3,8 +3,8 @@
 <head>
   <title>Scotch'n'Soda Theatre</title>
   <meta charset='utf-8'>
-  <%= stylesheet_link_tag "style" %>
-  <%= javascript_include_tag :defaults, "http://html5shim.googlecode.com/svn/trunk/html5.js" %>
+  <%= stylesheet_link_tag "style", 'lightwindow' %>
+  <%= javascript_include_tag :defaults, "http://html5shim.googlecode.com/svn/trunk/html5.js", 'lightwindow' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
@@ -38,9 +38,7 @@
       <% if !notice.nil? or !alert.nil? %>
         <article>
           <p class="notice"><%= notice %></p>
-          <p class="alert">
-            <%= alert %>
-          </p>
+          <p class="alert"><%= alert %></p>
         </article>
       <% end %>
       <% if yield.include?("<article") %>
