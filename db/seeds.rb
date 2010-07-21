@@ -85,7 +85,7 @@ User.transaction do
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine",
+  u = User.create(:email => "jasmine@cmu.edu", :first_name => "Jasmine",
               :last_name => "Friedrich", :password => "123456")
   u.confirm! #if we don't do this, you can't log in :(
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
