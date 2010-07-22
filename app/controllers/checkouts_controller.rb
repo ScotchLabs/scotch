@@ -59,9 +59,10 @@ class CheckoutsController < ApplicationController
   # POST /checkouts.xml
   def create
     @checkout = Checkout.new(params[:checkout])
+    @checkout.group_id = params[:checkout][:group_id]
     @item = Item.find(@checkout.item_id) if @checkout.item_id
     @items = Item.all.sort unless params[:item_id]
-    @group = Group.find(@checkout.group_id) if @checkout.group_id
+    @group = Group.find(params[:checkout][:group_id])
     @groups = Group.all unless params[:group_id]
     @users = User.all
 

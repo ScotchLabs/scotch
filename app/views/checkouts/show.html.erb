@@ -30,9 +30,9 @@
   <% @checkout.checkout_events.each do |checkout_event| %>
   <%= link_to checkout_event.user, checkout_event.user %> caused a <!-- #TODO FIXME there must be a prettier way to do this -->
   <%= CheckoutEvent.event_name checkout_event.event %> event on
-  <%= checkout_event.created_at %><br />
+  <%= checkout_event.created_at %><br>
   <% if checkout_event.notes %>
-  Notes:<%= checkout_event.notes %><br />
+  Notes:<%= checkout_event.notes %><br>
   <% end %>
   <% end %>
   </p>

@@ -2,7 +2,7 @@
 
 <%= link_to 'New Item', new_item_path %>
 
-<br />
+<br>
 
 <table>
   <tr>
@@ -18,7 +18,7 @@
     <td><%= item.catalog_number %></td>
     <td><%= item.shortname %></td>
     <td><%= item.location %></td>
-    <td><%= link_to item.item_category, item.item_category %></td> #TODO FIXME there must be a prettier way to do this
+    <td><%= link_to item.item_category, item.item_category %></td> <!-- #TODO FIXME there must be a prettier way to do this -->
     <td><%= link_to 'Show', item %> |
     <% if item.available? %>
     <%= link_to 'Check Out', new_item_checkout_path(item) %>

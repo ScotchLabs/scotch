@@ -1,6 +1,6 @@
 Scotch::Application.routes.draw do |map|
   # Users. Yay.
-  devise_for :users
+  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}
   resources :users
 
   # Items stand by themselves since we have an inventory that is global.  In
@@ -54,6 +54,8 @@ Scotch::Application.routes.draw do |map|
   # future.
   resources :roles
   resources :item_categories
+  
+  resources :help_items
 
   get "dashboard/index"
   root :to => "dashboard#index"

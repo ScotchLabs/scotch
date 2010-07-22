@@ -60,6 +60,10 @@ a {
 ul {
   list-style: none;
   }
+/* HTML5 fix for STUPID firefox */
+section, article, nav, aside, header, footer {
+  display: block;
+  }
 
 
 /* 420
@@ -92,6 +96,12 @@ body {
 
 /* 440
  * These styles are here for convenience when writing views */
+.hidden {
+  display: none
+  }
+.dkteal {
+  color: #0dd
+  }
 .fleft {
   float: left
   }
@@ -142,30 +152,41 @@ body {
   }
 /* use these classes on divs inside an article */
 .thirds-split-left {
-  background: transparent url('/images/thirds-border.png') repeat-y 320px top;
-  }
-.thirds-split-right {
-  background: transparent url('/images/thirds-border.png') repeat-y 534px top;back
+  /* wrap this around div.left-third and dev.right-two-thirds and put a clearfix before the close */
+  background: transparent url('/images/thirds-border.png') repeat-y 303px top;
   }
 .left-third {
   float: left;
   display: inline-block;
-  width: 300px;
-  }
-.left-two-thirds {
-  float: left;
-  display: inline-block;
-  width: 514px;
-  }
-.right-third {
-  float: right;
-  display: inline-block;
-  width: 300px;
+  width: 283px;
   }
 .right-two-thirds {
   float: right;
   display: inline-block;
-  width: 514px;
+  width: 534px;
+  }
+.thirds-split-right {
+  /* wrap this around div.left-two-thirds and dev.right-third and put a clearfix before the close */
+  background: transparent url('/images/thirds-border.png') repeat-y 554px top;
+  }
+.left-two-thirds {
+  float: left;
+  display: inline-block;
+  width: 534px;
+  }
+.right-third {
+  float: right;
+  display: inline-block;
+  width: 283px;
+  }
+.halves-split {
+  /* wrap this around div.half and put a clearfix before the close */
+  background: transparent url('/images/thirds-border.png') repeat-y 429px top;
+  }
+.half {
+  /* use with fleft or fright */
+  display: inline-block;
+  width: 408px;
   }
 
 
@@ -217,7 +238,7 @@ article {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
   }
-input[type="text"], input[type="password"], select {
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select {
   border: 1px solid #333;              /* black */
   color: #333;                         /* black */
   margin: 2px;
@@ -236,38 +257,36 @@ input[type="text"], input[type="password"], select {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   }
-input[type="text"][disabled], input[type="password"][disabled], select[disabled] {
+input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
   }
-input[type="submit"] {
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
+input[type="submit"], input[type="reset"], a.button {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 10px;
+  margin: 2px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
-  padding: 10px 50px;
+  padding: 8px 0;
+  width:220px;
   font-weight: bold;
+  text-align: center;
   }
-input[type="submit"]:hover {
+input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
   background: #0dd;  /* dkteal */
+  cursor: pointer;
   }
-input[type="submit"][disabled] {
+input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #ddd;  /* grey */
   }
-.notice {
-  color: green;
-  }
-
-.alert {
-  color: red;
-  }
-
 .field_with_errors {
   padding: 2px;
   border: 2px solid red;
   display: inline-block;
   }
-
 #errorExplanation {
   border: 2px solid red;
   padding: 7px;
@@ -276,7 +295,6 @@ input[type="submit"][disabled] {
   margin-bottom: 20px;
   background-color: #f0f0f0;
   }
-
 #errorExplanation h2 {
   text-align: left;
   font-weight: bold;
@@ -322,6 +340,21 @@ input[type="submit"][disabled] {
   background: #f60;  /* dkorange */
   z-index: -3
   }
+#logout {
+  background: #333;  /* black */
+  position: fixed;
+  top: 0;
+  right: 10px;
+  color: #fff;       /* white */
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  padding: 3px 11px
+  }
+#logout * {
+  color: #fff;  /* white */
+  }
 body > div > section {
   width: 900px;
   margin: 0 auto
@@ -352,65 +385,89 @@ body > div > section > nav {
   margin-bottom: 35px;
   text-transform: uppercase
   }
-body > div > section > nav ul {
+body > div > section > nav > ul {
   padding: 0;
   text-indent: 0
   }
-body > div > section > nav ul li {
+body > div > section > nav > ul > li {
   position: relative;
-  display: table-cell;
+  display: inline-block;
   text-align: center;
-  vertical-align: middle
-  }
-body > div > section > nav ul li:before {
-  content:"";
-}
-body > div > section > nav ul li a {
-  display: table-cell;
   vertical-align: middle;
+  margin: 0;
+  padding: 0 8px 8px
+  }
+body > div > section > nav > ul > li:before {
+  content: ""
+}
+body > div > section > nav > ul > li > a {
+  display: inline-block;
   color: #333;  /* black */
-  width: 180px;
-  height: 48px
+  width: 93px;
+  padding: 16px 0 6px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px
   }
-body > div > section > nav ul li a:active,
-.navselected {
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, rgb(221,221,221)),   /* grey */
-    color-stop(1, rgb(255,255,255)));  /* white */
-  background-image: -moz-linear-gradient(
-    center bottom,
-    rgb(221,221,221) 0%,    /* grey */
-    rgb(255,255,255) 100%)  /* white */
+.navselected, body > div > section > nav > ul > li > a:hover {
+  background: #ddd !important;  /* grey */
+  color: #333 !important;       /* black */
   }
-body > div > section > nav ul li a:hover {
-  color :#333;
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, rgb(221,255,255)),   /* ltteal */
-    color-stop(1, rgb(255,255,255)));  /* white */
-  background-image: -moz-linear-gradient(
-    center bottom,
-    rgb(221,255,255) 0%,    /* ltteal */
-    rgb(255,255,255) 100%)  /* white */
+#subnav {
+  position: absolute;
+  margin: 0 auto;
+  width: 900px
+  }
+  
+#subnav > ul {
+  padding: 0;
+  text-indent: 0
+  }
+#subnav > ul > li {
+  display:inline-block;
+  margin: 5px 4px;
+  margin-left: 0
+  }
+/* tricky way of having the first li have no left margin */
+#subnav > ul > li + li {
+  margin-left: 4px
+  }
+#subnav > ul > li:before {
+  content: ""
+  }
+#subnav > ul > li > * {
+  display:inline-block;
+  background: #fff;                     /* white */
+  color: #333;                          /* black */
+  line-height: 9px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  padding: 8px 18px;
+  }
+#subnav > ul > li > a:hover {
+  color: #333;      /* black */
+  background: #ddd  /* grey */
+  }
+#loginform {
+  float: right;
+  padding: 5px
+  }
+#loginform input[type="submit"], #loginform a.button {
+  padding: 5px 10px;
+  width: auto;
+  text-transform: none
   }
 body > footer {
-  width: 900px;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   padding: 12px 0;
   font-size: 7pt;
-  background: #fff;                     /* white */
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  -webkit-border-top-left-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px
+  background: #333;  /* black */
+  color: #fff;       /* white */
   }
 #sodabar {
   height: 16px;
@@ -426,7 +483,7 @@ body > footer {
   }
 aside {
   position: fixed;
-  bottom: 26px;
+  top: 0;
   padding-left:10px;
   left: 0;
   max-height: 90%;

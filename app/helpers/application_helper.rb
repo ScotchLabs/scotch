@@ -7,9 +7,10 @@ module ApplicationHelper
     current_user.has_global_permission?(permName)
   end
 
+  #TODO FIXME this is too specific. I'll deal with it later.
   def nav_class(link)
     if current_page? link then
-      "class='navselected'"
+      "navselected"
     else
       ""
     end
@@ -19,9 +20,21 @@ module ApplicationHelper
   #how far in the future or past something is.  (e.g. if it is next week, just
   #print "May 20", but if it was last year print "May 20, 2010")
   def format_time(time)
-    time.sprintf("%Y-%m-%d %H:%M")
+    time.strftime("%Y-%m-%d %H:%M")
   end
   def format_date(date)
-    time.sprintf("%Y-%m-%d")
+    date.strftime("%Y-%m-%d")
+  end
+  
+  def flavortext
+    flav = [
+      "Scotch'n'Soda's Online Informatory",
+      "Have you seen the new Dungeon?",
+      "Unofficially sponsored by Jolt Cola",
+      "Is informatory even a word?",
+      "It seemed like a good idea at the time",
+      "Eh, we'll do it later"
+    ]
+    flav[rand(flav.length)]
   end
 end

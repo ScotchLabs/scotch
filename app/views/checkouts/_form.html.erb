@@ -14,17 +14,18 @@
   <%= f.hidden_field :group_id, :value => params[:group_id] %>
   <% else %>
   <div class="field">
-    <%= f.label :group_id %><br />
+    <%= f.label :group_id %><br>
     <%= f.select :group_id, @groups.map { |g| [g.name, g.id] } %>
   </div>
   <% end %>
   
   <div class="field">
-    <%= f.label :user_id, "Check out to:" %><br />
+    <%= f.label :user_id, "Check out to:" %><br>
     <% #TODO FIXME with autocomplete. mantis#60 %>
     <% #TODO default to "Me" %>
     <% #ASK should I be able to select a user to check the item out to?
-    # maybe only if I can CheckoutOther? %>
+    # maybe only if I can CheckoutOther?
+    %>
     <%= f.select :user_id, @users.map { |u| [u.name, u.id] } %>
   </div>
   
@@ -32,7 +33,7 @@
   <%= f.hidden_field :item_id, :value => params[:item_id] %>
   <% else %>
   <div class="field">
-    <%= f.label :item_id %><br />
+    <%= f.label :item_id %><br>
     <% #TODO FIXME with autocomplete %>
     <%= f.select :item_id, @items.map { |i| [i.shortname, i.id] } %>
   </div>

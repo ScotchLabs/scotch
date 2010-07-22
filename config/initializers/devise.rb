@@ -2,7 +2,7 @@
 # four configuration values can also be set straight in your models.
 Devise.setup do |config|
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "please-change-me@config-initializers-devise.com"
+  config.mailer_sender = "webmaster@snstheatre.org"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating an user. By default is
@@ -105,12 +105,13 @@ Devise.setup do |config|
   # you can configure them inside the config.warden block. The example below
   # allows you to setup OAuth, using http://github.com/roman/warden_oauth
   #
-  # config.warden do |manager|
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
   #   manager.oauth(:twitter) do |twitter|
   #     twitter.consumer_secret = <YOUR CONSUMER SECRET>
   #     twitter.consumer_key  = <YOUR CONSUMER KEY>
   #     twitter.options :site => 'http://twitter.com'
   #   end
   #   manager.default_strategies(:scope => :user).unshift :twitter_oauth
-  # end
+  end
 end

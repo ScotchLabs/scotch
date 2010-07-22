@@ -21,10 +21,14 @@ class Item < ActiveRecord::Base
   
   # returns true if item is ready to be checked out
   def available?
-    Checkout.find_all_by_item_id(id).each do |c|
-      return false if c.open?
+    current_checkout.nil?
+  end
+  
+  def current_checkout
+    checkouts.each do |c|
+      return c if c.open?
     end
-    true
+    nil
   end
   
   # virtual attribute. gives the end part of the catalog_number

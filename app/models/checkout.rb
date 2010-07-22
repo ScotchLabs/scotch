@@ -7,9 +7,7 @@ class Checkout < ActiveRecord::Base
                  # the group immediately in charge of authorizing the checkout
   belongs_to :item  # the item being checked out
 
-  # I spent lots of hours wondering why my new Checkout's group id was nil
-  # then I looked at the model file.
-  #attr_protected :group_id
+  attr_protected :group_id
 
   validates_presence_of :group_id, :user_id, :item_id
   validates_associated :group, :user, :item
@@ -32,32 +30,42 @@ class Checkout < ActiveRecord::Base
     !has_event?('closed')
   end
   
+  def opener
+    return nil unless open?
+    events('opened').first.user
+  end
+  
   def events(arg)
     checkout_events.map { |e| (e.event == arg)? (e):(nil) }.compact
   end
   
   def overdue?
-    latestDeadlineEvent = events('deadlined').sort {|a,b|
-      #TODO ASK how to deal with notes for separate COEs
-    }.last
-    #TODO ASK how to deal with notes for separate COEs
-    # return date of deadlined > Time.now
+    return false unless has_deadline?
+    DateTime.now > deadline
   end
   
-  #ASK should a Checkout be allowed to have
-  # multiple 'paymentRequired' events?
+  def has_deadline?
+    has_event?('deadlined')
+  end
+  
+  def deadline
+    latestDeadlineEvent = events('deadlined').sort {|a, b|
+      a.created_at <=> b.created_at
+    }.last
+    DateTime.parse latestDeadlineEvent.notes
+  end
+  
   def paymentRequired
-    sum = 0
-    events('paymentRequired').each do |e|
-      #TODO ASK how to deal with notes for separate COEs
-    end
-    sum
+    latestPaymentRequiredEvent = events('paymentRequired').sort {|a, b|
+      a.created_at <=> b.created_at
+    }.last
+    latestPaymentRequiredEvent.notes.to_f
   end
   
   def paymentReceived
     sum = 0
     events('paymentReceived').each do |e|
-      #TODO ASK how to deal with notes for separate COEs
+      sum << e.notes.to_f
     end
     sum
   end

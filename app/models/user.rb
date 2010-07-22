@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence
+    :gender, :residence, :birthday
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -19,11 +19,10 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :first_name, :last_name
   validates_uniqueness_of :email
-  validates_length_of :phone, :minimum => 3
-  validates_length_of :residence, :minimum => 3
-  validates_length_of :smc, :minimum => 3
-  validates_length_of :graduation_year, :minimum => 3
-  validates_length_of :home_college, :minimum => 3
+  validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_length_of :smc, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
   
   before_validation :set_random_password
 
@@ -34,6 +33,18 @@ class User < ActiveRecord::Base
 
   def to_s 
     name
+  end
+  
+  def active_member?
+    # what constitutes an active member?
+    # being in a position right now
+    return true unless positions.empty?
+    # being in a position for a show within the past year
+    #TODO
+  end
+  
+  def age
+    ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
   end
 
   def name
