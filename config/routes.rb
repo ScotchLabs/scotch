@@ -54,6 +54,8 @@ Scotch::Application.routes.draw do |map|
   # future.
   resources :roles
   resources :item_categories
+  
+  resources :help_items
 
   get "dashboard/index"
   root :to => "dashboard#index"

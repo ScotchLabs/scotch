@@ -1,0 +1,27 @@
+<h1>Listing help_items</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Anchor</th>
+      <th>Display text</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @help_items.each do |help_item| %>
+  <tr>
+    <td><%= help_item.name %></td>
+    <td><%= help_item.anchor %></td>
+      <td><%= help_item.display_text %></td>
+    <td><%= link_to 'Show', help_item %></td>
+    <td><%= link_to 'Edit', edit_help_item_path(help_item) %></td>
+    <td><%= link_to 'Destroy', help_item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Help item', new_help_item_path %>

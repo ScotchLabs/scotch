@@ -36,7 +36,7 @@
       <h1>Optional Information</h1>
       <p>Tell us a little about yourself.</p>
       
-      <%= f.label :smc, "SMC" %> (<%= link_to 'why do you want this?', '#why-smc', :class => 'lightwindow' %>)
+      <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").link) %>)
       <span class='fright'><%= f.text_field :smc %></span>
       <div class='clearfix'></div>
       
@@ -63,13 +63,13 @@
       </span>
       <div class='clearfix'></div>
       
-      <%= f.label :phone %> (<%= link_to "why do you want this?", "#why-phone", :class => "lightwindow" %>)
+      <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").link) %>)
       <span class='fright'><%= f.text_field :phone %></span>
       <div class='clearfix'></div>
       
       <div class='hidden'>
-        <div id='why-smc'><h1>SMC</h1><p>We'd like your smc because...well I don't know. We're the mafia.</p></div>
-        <div id='why-phone'><h1>Phone Number</h1><p><strike>Sometimes</strike> At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number public.</p></div>
+        <%= raw(HelpItem.get("why-smc").block) %>
+        <%= raw(HelpItem.get("why-phone").block) %>
       </div>
         
       <p>That's enough for now. You can tell us more once you're inside.</p>
