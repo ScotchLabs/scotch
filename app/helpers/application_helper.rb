@@ -1,10 +1,12 @@
 module ApplicationHelper
   def has_permission?(permName)
-    current_user.has_global_permission?(permName) ||
-      (@group && @group.user_has_permission?(current_user,permName))
+    perm = Permission.fetch(permName)
+    current_user.has_global_permission?(perm) ||
+      (@group && @group.user_has_permission?(current_user,perm))
   end
   def has_global_permission?(permName)
-    current_user.has_global_permission?(permName)
+    perm = Permission.fetch(permName)
+    current_user.has_global_permission?(perm)
   end
 
   #TODO FIXME this is too specific. I'll deal with it later.

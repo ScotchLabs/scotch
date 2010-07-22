@@ -1,10 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :group
   has_many :event_attendees, :dependent => :destroy
-  # FIXME: is there a proper rails 3 way to do this?
-  # EDIT-sewillia: do you mean this? I think it's old rails
   has_many :attendees, :through => :event_attendees, :source => :user
-  # has_many :attendees, :conditions => "event_attendees.user_id IS NOT NULL", :class_name => "EventAttendee"
 
   attr_protected :group_id
 

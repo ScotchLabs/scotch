@@ -1,3 +1,6 @@
+<!-- FIXME: This needs to be styled better -->
+<%= link_to "Add a position", new_group_position_path(@group) %>
+
 <% @positions.group_by {|p| p.role.name}.sort.each do |name,positions| %>
   <h3><%= name %></h3>
   <ul>
@@ -15,4 +18,9 @@
   </ul>
 <% end %>
 
-Unfilled Positions: <%= unfilled_show_positions.join(", ") %>
+<% if has_permission? "adminPositions" %>
+<h3>Unfilled Positions</h3>
+<!-- FIXME: These need to be styled better -->
+<p>Unfilled Tech Heads: <%= raw unfilled_tech_heads.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Tech Head").id, :display_name => name)}.join(", ") %></p>
+<p>Unfilled Production Staff: <%= raw unfilled_production_staff.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Production Staff").id, :display_name => name)}.join(", ") %></p>
+<% end %>
