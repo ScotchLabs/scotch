@@ -8,10 +8,10 @@ class Item < ActiveRecord::Base
   
   #TODO FIXME using these in lieu of scopes until I figure out how TODO that
   def self.available_items
-    Item.all.map{|i| ((i.available?)? (i):(nil))}.compact
+    Item.all.select { |i| i.available? }
   end
   def self.unavailable_items
-    Item.all.map{|i| ((!i.available?)? (i):(nil))}.compact
+    Item.all.select {|i| !i.available? }
   end
   
   # some item names are super long
