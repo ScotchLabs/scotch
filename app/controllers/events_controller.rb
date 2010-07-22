@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+  prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy]
+
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
   end
@@ -8,6 +10,7 @@ class EventsController < ApplicationController
   # GET /group/1/events.xml
   def index
     group_events = Event.where(:group_id => @group.id).order("start_time ASC")
+    group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
     @events = group_events.where(["start_time > ?",Time.zone.now]).all
     @past_events = group_events.where(["start_time < ?",Time.zone.now]).all
 
@@ -20,8 +23,6 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    @event = Event.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @event }
@@ -42,7 +43,6 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
   end
 
   # POST /events
@@ -72,8 +72,6 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
-
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
@@ -88,7 +86,6 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
-    @event = Event.find(params[:id])
     @event.destroy
 
     respond_to do |format|
@@ -100,8 +97,6 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def signup
-    @event = Event.find(params[:id])
-
     if params.has_key? :user_id then
       @user = User.find(params[:user_id])
     else
@@ -123,4 +118,10 @@ class EventsController < ApplicationController
     end
   end
 
+  protected
+
+  def locate_event
+    @event = Event.find(params[:id]) if params[:id]
+    @group = @event.group if @group.nil?
+  end
 end

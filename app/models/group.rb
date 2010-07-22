@@ -44,7 +44,6 @@ class Group < ActiveRecord::Base
     perms = (perms += parent.permissions_for(user)) if (parent)
     perms.uniq!
 
-    logger.info "user #{user} granted permissions #{perms.inspect} for group #{self}"
     return perms
   end
 

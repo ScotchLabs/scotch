@@ -1,6 +1,6 @@
 <h2>
-  <%= @event.group %>:
-  <%= @event.title %>
+  <%= link_to @event.group, @event.group %>:
+  <%= link_to @event.title, group_events_path(@event.group, :event_title => @event.title) %>
 </h2>
 
 <p>
@@ -14,7 +14,7 @@
 
 <p>
   <b>Attendees:</b>
-  <% @event.attendees.collect{|ea| ea.user}.sort.each do |u| %>
+  <% @event.attendees.sort.each do |u| %>
     <%= link_to u, u %>
   <% end %>
 </p>
@@ -27,4 +27,4 @@
 <% if has_permission? "adminEvents" %>
   <%= link_to 'Edit', edit_event_path(@event) %> |
 <% end %>
-<%= link_to @event.group, @event.group %>
+<%= link_to "All Events", group_events_path(@event.group) %>

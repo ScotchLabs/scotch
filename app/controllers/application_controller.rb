@@ -15,16 +15,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_permission (permission)
-    return true if permission.nil?
+  def require_permission (permName)
+    permission = Permission.fetch(permName)
 
     if current_user.has_global_permission? permission then
-      logger.info "#{current_user} globally has permission #{permission}"
       return true
     end
 
     if @group.user_has_permission? current_user,permission
-      logger.info "#{current_user} in group #{@group | "-"} has permission #{permission}"
       return true
     end
 

@@ -1,11 +1,9 @@
 <h1>Listing events</h1>
+<% if has_permission? "adminEvents" %>
+  <%= link_to 'Create a New Event', new_group_event_path(@group) %><br />
+<% end %>
 
+<h2>Future Events</h2>
 <%= render :partial => 'list', :locals => {:events => @events} %>
 <h2>Past Events</h2>
 <%= render :partial => 'list', :locals => {:events => @past_events} %>
-
-<br />
-
-<% if has_permission? "adminEvents" %>
-  <%= link_to 'New Event', new_group_event_path(@group) %>
-<% end %>

@@ -27,7 +27,9 @@ Scotch::Application.routes.draw do |map|
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
   resources :groups, :shallow => true do
-    resources :positions, :only => [:index, :new]
+    resources :positions, :only => [:index, :new] do
+      post :bulk_create, :on => :collection
+    end
     resources :events, :only => [:index, :new]
     resources :documents, :only => [:index, :new]
     resources :checkouts, :only => [:index, :new]

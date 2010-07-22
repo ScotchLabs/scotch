@@ -17,4 +17,9 @@ class Role < ActiveRecord::Base
   def crew?
     name == "Crew"
   end
+
+  # Canonical crew role
+  def self.crew
+    self.find_by_name("Crew")
+  end
 end
