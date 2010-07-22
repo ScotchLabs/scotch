@@ -1,5 +1,3 @@
-<p class="notice"><%= notice %></p>
-
 <p>
   <b>Name:</b>
   <%= @role.name %>
@@ -10,6 +8,12 @@
   <%= @role.group_type %>
 </p>
 
+<h3>Permissions</h3>
+<ul>
+	<% @role.permissions.each do |p| %>
+		<li><strong><%= p.name %></strong>: <%= p.description %></li>
+	<% end %>
+</ul>
 
 <%= link_to 'Edit', edit_role_path(@role) %> |
 <%= link_to 'Back', roles_path %>

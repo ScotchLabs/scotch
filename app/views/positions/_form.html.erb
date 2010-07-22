@@ -10,17 +10,23 @@
   </div>
   <% end %>
 
+
   <div class="field">
-    <%= f.label :group_id %><br />
-    <%= f.text_field :group_id %>
-  </div>
-  <div class="field">
-    <%= f.label :role_id %><br />
-    <%= f.text_field :role_id %>
+    <strong>Group:</strong>
+    <%= @position.group %>
+    <%= f.hidden_field :group_id %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
+    <%= f.collection_select :user_id, User.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :role_id %><br />
+    <%= f.collection_select :role_id, @group.roles.sort, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :display_name %><br />
+    <%= f.text_field :display_name %>
   </div>
   <div class="actions">
     <%= f.submit %>

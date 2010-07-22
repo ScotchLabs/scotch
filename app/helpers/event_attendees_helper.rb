@@ -1,2 +1,0 @@
-module EventAttendeesHelper
-end

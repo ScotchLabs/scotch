@@ -1,0 +1,26 @@
+<!-- FIXME: This needs to be styled better -->
+<%= link_to "Add a position", new_group_position_path(@group) %>
+
+<% @positions.group_by {|p| p.role.name}.sort.each do |name,positions| %>
+  <h3><%= name %></h3>
+  <ul>
+    <% positions.sort.group_by{|p| p.display_name}.each do |title,ps| %>
+      <li><strong><%= ps.first %></strong>
+        <% ps.each do |p| %>
+          <%= link_to p.user, p.user %>
+          <% if has_permission? "adminPositions" || (p.role.crew? && has_permission?("adminCrew")) %>
+            <%= link_to image_tag("delete_icon.png", :size => "8x8"), p, :method => :delete, 
+              :confirm => "Are you sure you want to remove #{p.user} from the role of #{p}?" %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if has_permission? "adminPositions" %>
+<h3>Unfilled Positions</h3>
+<!-- FIXME: These need to be styled better -->
+<p>Unfilled Tech Heads: <%= raw unfilled_tech_heads.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Tech Head").id, :display_name => name)}.join(", ") %></p>
+<p>Unfilled Production Staff: <%= raw unfilled_production_staff.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Production Staff").id, :display_name => name)}.join(", ") %></p>
+<% end %>

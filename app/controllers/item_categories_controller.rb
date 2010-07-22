@@ -2,7 +2,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories
   # GET /item_categories.xml
   def index
-    @item_categories = ItemCategory.all
+    @item_categories = ItemCategory.all.sort
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,6 +24,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories/new
   # GET /item_categories/new.xml
   def new
+    @item_categories = ItemCategory.all.sort
     @item_category = ItemCategory.new
 
     respond_to do |format|
@@ -34,12 +35,14 @@ class ItemCategoriesController < ApplicationController
 
   # GET /item_categories/1/edit
   def edit
+    @item_categories = ItemCategory.all.sort
     @item_category = ItemCategory.find(params[:id])
   end
 
   # POST /item_categories
   # POST /item_categories.xml
   def create
+    @item_categories = ItemCategory.all.sort
     @item_category = ItemCategory.new(params[:item_category])
 
     respond_to do |format|

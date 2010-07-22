@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
-  # GET /documents
-  # GET /documents.xml
+  # GET /groups/1/documents
+  # GET /groups/1/documents.xml
   def index
     @documents = Document.all
 
@@ -21,10 +21,11 @@ class DocumentsController < ApplicationController
     end
   end
 
-  # GET /documents/new
-  # GET /documents/new.xml
+  # GET /groups/1/documents/new
+  # GET /groups/1/documents/new.xml
   def new
     @document = Document.new
+    @document.group = @group
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,7 @@ class DocumentsController < ApplicationController
   # POST /documents.xml
   def create
     @document = Document.new(params[:document])
+    @group = Group.find(params[:document][:group_id])
 
     respond_to do |format|
       if @document.save

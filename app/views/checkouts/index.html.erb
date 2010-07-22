@@ -1,27 +1,27 @@
-<h1>Listing checkouts</h1>
+<h1>Listing checkouts for <% if @group %>Group "<%= @group %>"<% else %>Item "<%= @item %>"<% end %></h1>
 
 <table>
   <tr>
-    <th>Group</th>
+    <% unless @group %><th>Group</th><% end %>
     <th>User</th>
-    <th>Item</th>
-    <th></th>
+    <% unless @item %><th>Item</th><% end %>
     <th></th>
     <th></th>
   </tr>
 
 <% @checkouts.each do |checkout| %>
   <tr>
-    <td><%= checkout.group_id %></td>
-    <td><%= checkout.user_id %></td>
-    <td><%= checkout.item_id %></td>
+    <% unless @group %><td><%= link_to checkout.group, checkout.group %></td><% end %><!-- #TODO FIXME there must be a prettier way to do this -->
+    <td><%= link_to checkout.user, checkout.user %></td><!-- #TODO FIXME there must be a prettier way to do this -->
+    <% unless @item %><td><%= link_to checkout.item, checkout.item %></td><% end %><!-- #TODO FIXME there must be a prettier way to do this -->
     <td><%= link_to 'Show', checkout %></td>
-    <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
     <td><%= link_to 'Destroy', checkout, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
+<br>
 
-<%= link_to 'New Checkout', new_checkout_path %>
+<% if params[:group_id] %><%= link_to 'New Checkout', new_group_checkout_path %>
+<% elsif params[:item_id] %><%= link_to 'New Checkout', new_item_checkout_path %><% end %>
+  

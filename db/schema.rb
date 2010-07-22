@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100530124336) do
+ActiveRecord::Schema.define(:version => 20100722050744) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -55,11 +55,12 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
   create_table "events", :force => true do |t|
     t.string   "title"
     t.integer  "group_id"
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   create_table "groups", :force => true do |t|
@@ -69,6 +70,16 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "short_name"
+  end
+
+  create_table "help_items", :force => true do |t|
+    t.string   "display_text"
+    t.string   "name"
+    t.string   "anchor"
+    t.text     "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "item_categories", :force => true do |t|
@@ -76,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_category_id"
   end
 
   create_table "items", :force => true do |t|
@@ -83,6 +95,14 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
     t.string   "location"
     t.text     "description"
     t.integer  "item_category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "catalog_number"
+  end
+
+  create_table "permissions", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -93,13 +113,14 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
   end
 
   create_table "role_permissions", :force => true do |t|
-    t.string   "name"
     t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "permission_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -110,14 +131,37 @@ ActiveRecord::Schema.define(:version => 20100530124336) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username"
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                       :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "email"
     t.string   "status"
-    t.text     "vcard"
+    t.string   "authentication_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "phone"
+    t.string   "home_college"
+    t.string   "smc"
+    t.string   "graduation_year"
+    t.string   "residence"
+    t.string   "gender"
+    t.date     "birthday"
   end
+
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

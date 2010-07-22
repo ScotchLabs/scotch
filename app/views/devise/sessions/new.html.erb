@@ -1,0 +1,59 @@
+<article>
+  <div class='thirds-split-left'>
+    <div class='left-third'>
+      <h1>F.A.Q.</h1>
+      <p>
+        <b>What is Scotch on the Web?</b><br>
+        Scotch on the Web is Scotch'n'Soda Theatre's online information system.
+        It keeps track of out inventory, history, members, calendars and more!
+      </p>
+      <p>
+        <b>Why should I create an account?</b><br>
+        For current members and interested students alike, Scotch on the Web
+        is the only place to sign up for auditions, and is the easiest way to
+        keep in touch with the organization year-round.
+      </p>
+      <p>
+        <b>Can I help develop Scotch on the Web?</b><br>
+        Yes! This is a huge undertaking and a great opportunity to contribute to
+        a complex and frequently-used project. Send an email to
+        <%= mail_to "achivett@andrew.cmu.edu", "Anthony" %> if you're interested
+        in helping out.<br>
+        We'd love to have you on the team!
+      </p>
+      <p>
+        <b>Wait, I just wanted to learn about S'n'S!</b><br>
+        Oh, sorry! Check out our <%= link_to "public website", "http://snstheatre.org/" %>!
+      </p>
+    </div>
+    <div class='right-two-thirds'>
+      <h1>Making Scotch'n'Soda Better Since 2008</h1>
+      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <p>
+        <b>Scotch on the Web</b> is an important tool that facilitates a host
+        of tasks for all members of Scotch'n'Soda Theatre. <b>Signup is free
+        and easy!</b> Whether you're already a part of Sn'nS or you're brand
+        new, sign up to...
+      </p>
+      <ul>
+        <li>Immediately hear about auditions and tech opportunities and how
+          to get involved at any point in the year.</li>
+        <li>Peruse our inventory, technical guides, script library, and
+          show archive.</li>
+        <li>Contact any member of Scotch'n'Soda quickly and easily.</li>
+        <li>See what the No Parking Players Improv Troupe, the Workshopping
+          Committee and our other associated acts are up to.</li>
+      </ul>
+      <%= image_tag "seal.png", {:class => "fright", :style => "margin-top:-20px"} %>
+      <p>
+        So get your Andrew ID in hand and
+        <%= link_to "create an account", new_registration_path(resource_name) %>!
+      </p>
+      <div style='width:100%; text-align:center; margin-top:2em'>
+        <%= link_to "Register", new_registration_path(resource_name), :class => "button" %>
+      </div>
+      <% end %>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+</article>

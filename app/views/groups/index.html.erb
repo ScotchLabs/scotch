@@ -1,29 +1,17 @@
 <h1>Listing groups</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Type</th>
-    <th>Parent</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<% if has_permission? "createGroup" %>
+  <p>
+  <%= link_to 'New Group', new_group_path %> |
+  <%= link_to 'New Show', new_group_path(:group_type => "Show") %> |
+  <%= link_to 'New Board', new_group_path(:group_type => "Board") %>
+  </p>
+<% end %>
 
 <% @groups.each do |group| %>
-  <tr>
-    <td><%= group.name %></td>
-    <td><%= group.description %></td>
-    <td><%= group.type %></td>
-    <td><%= group.parent_id %></td>
-    <td><%= link_to 'Show', group %></td>
-    <td><%= link_to 'Edit', edit_group_path(group) %></td>
-    <td><%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+	<div class="groupListing">
+		<h2><%= link_to group, group %></h2>
+		<span style="text-transform: uppercase; color: #AAA;"><%= group.type %></span>
+		<span class="groupDescription"><%= group.description %></span>
+	</div>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Group', new_group_path %>

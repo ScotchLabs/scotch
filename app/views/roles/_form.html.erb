@@ -18,6 +18,19 @@
     <%= f.label :group_type %><br />
     <%= f.text_field :group_type %>
   </div>
+
+  <strong>Permissions:</strong><br />
+  <table cellpadding="2px" >
+	  <tr><th>&nbsp;</th><th>Permission</th><th>Description</th></tr>
+	  <% Permission.all.each do |p| %>
+		  <tr>
+			  <td><%= check_box_tag "permission[#{p.id}", "1", @role.permissions.include?(p) %></td>
+			  <td><%= p.name %></td>
+			  <td><%= p.description %></td>
+		  </tr>
+	  <% end %>
+  </table>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

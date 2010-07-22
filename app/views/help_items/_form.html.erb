@@ -1,0 +1,35 @@
+<%= form_for(@help_item) do |f| %>
+  <% if @help_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@help_item.errors.count, "error") %> prohibited this help_item from being saved:</h2>
+
+      <ul>
+      <% @help_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :display_text %><br />
+    <%= f.text_field :display_text %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :anchor %><br />
+    <%= f.text_field :anchor %>
+  </div>
+  <div class="field">
+    <%= f.label :message %><br />
+    You can use <%= raw(HelpItem.get("redcloth").link) %> in your message!<br>
+    <div class='hidden'><%= raw(HelpItem.get("redcloth").block) %></div>
+    <%= f.text_area :message %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

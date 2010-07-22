@@ -1,84 +1,64 @@
 Scotch::Application.routes.draw do |map|
-  resources :role_permissions
-
-  resources :events
-
-  resources :checkout_events
-
-  resources :document_tags
-
-  resources :documents
-
+  # Users. Yay.
+  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}
   resources :users
 
+  # Items stand by themselves since we have an inventory that is global.  In
+  # the future more things might be like this, but it would be better to have
+  # such things exist as separate applications and simply consume the models
+  # of Scotch via the REST API.
+  resources :items do
+    resources :checkouts, :only => [:index, :new]
+  end
+
+  # FIXME: DAMMIT RAILS TEAM
+  # https://rails.lighthouseapp.com/projects/8994/tickets/3765-missing-shallow-routes-in-new-router-dsl
+  # So rails 3 doesn't have support for shallow routes, which is exactly what
+  # we need!  So, the stuff below is an ugly hack to do shallow routes by
+  # hand.  At some point when the rails core team gets off their ass and
+  # actually fixes this (they love rewriting things, not maintenance of APIs,
+  # something about agile?) we'll go back and clean it up.  ARGH!
+
+  # This line is to help out rails RESTful route lookup.  Without it rails
+  # gets confused in some places when trying to create links to Show objects
+  resources :shows, :controller => :groups, :group_type => "Show"
+  resources :boards, :controller => :groups, :group_type => "Board"
+
+  # These don't really make sense outside of a group, so we make them
+  # sub-resources for the index and new actions.
+  resources :groups, :shallow => true do
+    resources :positions, :only => [:index, :new] do
+      post :bulk_create, :on => :collection
+    end
+    resources :events, :only => [:index, :new]
+    resources :documents, :only => [:index, :new]
+    resources :checkouts, :only => [:index, :new]
+
+    # FIXME: do we use this? should we?
+    collection do
+     get :shows
+     get :boards
+    end
+  end
+  resources :events, :only => [:show, :edit, :update, :destroy, :create] do
+    put :signup, :on => :member
+  end
+  resources :positions, :only => [:show, :edit, :update, :destroy, :create]
+  resources :documents, :only => [:show, :edit, :update, :destroy, :create]
+  resources :checkouts, :only => [:show, :destroy, :create] do
+    resources :checkout_events, :only => [:new]
+  end
+  resources :checkout_events, :only => [:create, :edit, :update, :destroy]
+
+  # These things shouldn't ever really be accessed by someone other than the
+  # webmaster.  They allow configuration of back-end type things.  Ideally,
+  # more business logic will move to being set on pages like these in the
+  # future.
   resources :roles
-
-  resources :positions
-
-  resources :event_attendees
-
   resources :item_categories
+  
+  resources :help_items
 
-  resources :items
-
-  resources :checkouts
-
-  resources :groups
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get :short
-  #       post :toggle
-  #     end
-  #
-  #     collection do
-  #       get :sold
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get :recent, :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => "welcome#index"
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  get "dashboard/index"
+  root :to => "dashboard#index"
 end

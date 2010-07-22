@@ -1,0 +1,4 @@
+ActsAsPhoneNumber
+=================
+
+This plugin allows you to define fields as phone numbers, so that they are canonized to 1112223333 for storage in the database (perhaps as an int), and reformatted to "(111) 222-3333" for display.

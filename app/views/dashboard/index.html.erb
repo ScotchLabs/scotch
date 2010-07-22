@@ -1,0 +1,23 @@
+<h1>Welcome <%= current_user.first_name %></h1>
+
+<% if current_user.groups.empty? then %>
+	<h3>You don't have any groups!  You should join some.</h3>
+<% else %>
+	<h3>Your groups</h3>
+	<ul>
+		<% current_user.positions.each do |p| %>
+      <li><%= link_to p.group, p.group %> (<%= p %>)</li> <!-- #TODO FIXME there must be a prettier way to do this -->
+		<% end %>
+	</ul>
+<% end %>
+
+<% if current_user.checkouts.empty? %>
+  <h3>You don't have any checkouts!</h3>
+<% else %>
+  <h3>Your checkouts</h3>
+  <ul>
+    <% current_user.checkouts.each do |c| %>
+    <li><%= link_to "#{c.item} for #{c.group}", c %></li> <!-- #TODO FIXME there must be a prettier way to do this -->
+    <% end %>
+  </ul>
+<% end %>

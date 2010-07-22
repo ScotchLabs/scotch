@@ -1,0 +1,25 @@
+<% squish_events(events) do |es| %>
+  <div>
+    <% if es.length == 1 %> <!-- Standard Event -->
+      <% e = es[0] %>
+      <h3><%= link_to e, e %></h3>
+      <%= e.start_time %> to <%= e.end_time %> at <%= e.location %><br />
+      <small><%= e.description %></small>
+    <% else %> <!-- Multi-Part Event -->
+      <h3><%= es[0].title %></h3>
+      <ul>
+        <% es.each do |e| %>
+          <li><%= link_to e.start_time, e %>:
+          <% e.event_attendees.sort.each do |ea| %>
+            <% if e.future? && ea.user.nil? then %>
+              <%= link_to "Signup!", signup_event_url(e), :method => :put %>
+            <% else %>
+              <%= ea.user || "-" %>
+            <% end %>
+          <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>

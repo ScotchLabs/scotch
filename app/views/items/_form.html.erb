@@ -11,20 +11,24 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :location %><br />
+    <%= f.label :item_category_id %><br>
+    <%= f.select :item_category_id, grouped_options_for_select(ItemCategory.groupedOptionsForSelect,(@item.item_category_id or nil),"None") %>
+  </div>
+  <div class="field">
+    <%= f.label :suffix %><br>
+    <%= f.text_field :suffix %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br>
     <%= f.text_field :location %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description %><br>
     <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :item_category_id %><br />
-    <%= f.text_field :item_category_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

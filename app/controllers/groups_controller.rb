@@ -1,8 +1,19 @@
 class GroupsController < ApplicationController
+
+  before_filter :only => [:new, :create] do
+    require_permission Permission.fetch("createGroup")
+  end
+
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.all
+    if params[:group_type] == "Show" then
+      @groups = Show.all
+    elsif params[:group_type] == "Board" then
+      @groups = Board.all
+    else
+      @groups = Group.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,7 +35,11 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.xml
   def new
-    @group = Group.new
+    if params[:group_type] == "Show" then
+      @group = Show.new
+    else
+      @group = Group.new
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,10 +55,22 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.xml
   def create
-    @group = Group.new(params[:group])
+    if params[:group_type] == "Show" then
+      @group = Show.new(params[:show])
+    elsif params[:group_type] == "Board" then
+      @group = Board.new(params[:show])
+    else
+      @group = Group.new(params[:group])
+    end
+
+    user = User.find(params[:manager_id])
+    role = @group.class.manager_role
 
     respond_to do |format|
-      if @group.save
+      if @group.save 
+        #FIXME: ensure this saves correctly
+        @group.positions.create(:user => user, :role => role, :display_name => "Manager")
+
         format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else

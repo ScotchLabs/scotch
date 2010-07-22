@@ -4,6 +4,7 @@
   <tr>
     <th>Prefix</th>
     <th>Name</th>
+    <th>Parent</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,8 +12,9 @@
 
 <% @item_categories.each do |item_category| %>
   <tr>
-    <td><%= item_category.prefix %></td>
-    <td><%= item_category.name %></td>
+    <td><%= item_category.slug or item_category.prefix %></td>
+    <td><%= item_category %></td>
+    <td><%= link_to(item_category.parent_category, item_category.parent_category) unless item_category.parent_category.nil? %></td> <!-- #TODO FIXME there must be a prettier way to do this -->
     <td><%= link_to 'Show', item_category %></td>
     <td><%= link_to 'Edit', edit_item_category_path(item_category) %></td>
     <td><%= link_to 'Destroy', item_category, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -20,6 +22,6 @@
 <% end %>
 </table>
 
-<br />
+<br>
 
 <%= link_to 'New Item category', new_item_category_path %>
