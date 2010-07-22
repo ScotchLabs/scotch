@@ -3,9 +3,10 @@
 <head>
   <title>Scotch'n'Soda Theatre</title>
   <meta charset='utf-8'>
-  <%= stylesheet_link_tag "style", 'lightwindow' %>
-  <%= javascript_include_tag :defaults, "html5.js", 'lightwindow' %>
+  <%= stylesheet_link_tag 'style', 'colorbox' %>
+  <%= javascript_include_tag 'jquery-1.4.1.min', 'html5', 'application', 'jquery.colorbox' %>
   <%= csrf_meta_tag %>
+  <script>var $ = jQuery.noConflict()</script>
 </head>
 <body>
   <div id='wrapper'>
