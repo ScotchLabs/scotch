@@ -34,9 +34,10 @@ module ApplicationHelper
       "Scotch'n'Soda's Online Informatory",
       "Have you seen the new Dungeon?",
       "Unofficially sponsored by Jolt Cola",
-      "Is informatory even a word?",
       "It seemed like a good idea at the time",
-      "Eh, we'll do it later"
+      "Enabling Dangerous Acts Since 1938",
+      "No, we will *not* implement an S'n'Cest feature!",
+      "Where good decisions go to die"
     ]
     flav[rand(flav.length)]
   end
