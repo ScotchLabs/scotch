@@ -54,4 +54,38 @@ module ApplicationHelper
     end
     u
   end
+  
+  def filter_referrals(text)
+    return if text.nil? or text.blank?
+    
+    # the first/most prevalent syntax should be
+    # "#{obj.class.to_s}##{obj.id}"
+    # we don't want to use object_id since it's not findable
+    typeRegex = /Checkout|Document|User|Group|Event|HelpItem|Item/
+    matches = text.scan(/#{typeRegex}\#[\d]+/)
+    matches.each do |match|
+      puts "REFERRAL MATCH: #{match}"
+      classname = match[0...match.index('#')]
+      id = match[match.index('#')+1..-1]
+      
+      begin
+        objclass = Kernel.const_get classname
+      rescue NameError
+        # ignore thing that doesn't match
+        # since we can't find it to validate
+        next
+      end
+      
+      obj = objclass.find(id)
+      # ignore thing we can't find
+      # since we can't find it to validate
+      next if obj.nil?
+      
+      # this part assumes that all REFERRABLE classes
+      # implement a smarter "to_s" than Object's
+      text.gsub!(match, link_to(obj.to_s, obj))
+    end
+    
+    raw(text)
+  end
 end
