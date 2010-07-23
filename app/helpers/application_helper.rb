@@ -30,6 +30,7 @@ module ApplicationHelper
   
   def flavortext
     flav = [
+      "Breaking Legs and Taking Names Since 1938",
       "Scotch'n'Soda's Online Informatory",
       "Have you seen the new Dungeon?",
       "Unofficially sponsored by Jolt Cola",
@@ -38,5 +39,18 @@ module ApplicationHelper
       "Eh, we'll do it later"
     ]
     flav[rand(flav.length)]
+  end
+  
+  # so help me if we ever have more than one person in a "Webmaster" Position
+  def current_webmaster
+    u = Position.where(:display_name => "Webmaster").first.user
+    # heaven forbid we ever have no webmaster
+    if u.nil?
+      u = User.new
+      u.first_name = "the"
+      u.last_name = "webmaster"
+      u.email = "webmaster@snstheatre.org"
+    end
+    u
   end
 end
