@@ -48,7 +48,8 @@
       <% end %>
       <div id='push'></div>
     </section>
-    <% if request.domain == "localhost" %>
+    <% if Group.system_group.users.include? current_user %>
+      <%= render "layouts/admin" %>
       <%= render "layouts/debug" %>
     <% end %>
   </div> 
