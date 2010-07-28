@@ -483,9 +483,29 @@ body > footer {
   }
 aside {
   position: fixed;
-  top: 0;
-  padding-left:10px;
+  top: 80px;
   left: 0;
-  max-height: 90%;
+  height: 65%;;
   overflow: auto
+  }
+aside ul {
+  padding-left: 0;
+  text-indent: 0
+  }
+aside ul li:before {
+  content:"";
+  }
+aside ul li {
+  margin: 10px 0;
+  }
+aside ul li a {
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  padding-right: 10px;
+  background: #333;  /* black */
+  color: #fff; /* white */
+  display: inline-block;
+  padding: 8px;
   }

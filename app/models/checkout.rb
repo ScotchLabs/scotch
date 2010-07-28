@@ -36,7 +36,7 @@ class Checkout < ActiveRecord::Base
   end
   
   def events(arg)
-    checkout_events.map { |e| (e.event == arg)? (e):(nil) }.compact
+    checkout_events.select { |e| e.event == arg }
   end
   
   def overdue?

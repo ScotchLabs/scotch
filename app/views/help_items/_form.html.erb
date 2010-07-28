@@ -25,8 +25,7 @@
   </div>
   <div class="field">
     <%= f.label :message %><br />
-    You can use <%= raw(HelpItem.get("redcloth").link) %> in your message!<br>
-    <div class='hidden'><%= raw(HelpItem.get("redcloth").block) %></div>
+    You can use <%= raw(HelpItem.get("redcloth").full) %> in your message!<br>
     <%= f.text_area :message %>
   </div>
   <div class="actions">
