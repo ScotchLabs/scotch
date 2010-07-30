@@ -28,7 +28,7 @@
     <%= text_field_tag "event[location]", "", :placeholder => "Where should people show up?" %>
   </div>
   <div class="field">
-    <%= label_tag :description %><br />
+    <%= label_tag :description %>(You may use <%= raw(HelpItem.get("textile").full) %>.)<br />
     <%= text_area_tag "event[description]", "", :placeholder => "Any special instructions?" %>
   </div>
   <div class="actions">

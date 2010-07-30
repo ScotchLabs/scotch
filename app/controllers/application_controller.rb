@@ -30,7 +30,20 @@ class ApplicationController < ActionController::Base
 
     flash[:notice] = "You are not authorized to do that!"
 
-    redirect_to :dashboard
+    redirect_to :dashboard_index
+  end
+  def require_global_permission (permName)
+    permission = Permission.fetch(permName)
+
+    if current_user.has_global_permission? permission then
+      return true
+    end
+
+    logger.warn "#{current_user} denied access due to lack of permission #{permission}"
+
+    flash[:notice] = "You are not authorized to do that!"
+
+    redirect_to :dashboard_index
   end
 
 end

@@ -4,9 +4,9 @@
       <h2><%= pluralize(@help_item.errors.count, "error") %> prohibited this help_item from being saved:</h2>
 
       <ul>
-      <% @help_item.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @help_item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -25,7 +25,8 @@
   </div>
   <div class="field">
     <%= f.label :message %><br />
-    You can use <%= raw(HelpItem.get("redcloth").full) %> in your message!<br>
+    You can use <%= raw(HelpItem.get("redcloth").link) %> in your message!<br>
+    <div class='hidden'><%= raw(HelpItem.get("redcloth").block) %></div>
     <%= f.text_area :message %>
   </div>
   <div class="actions">

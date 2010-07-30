@@ -1,7 +1,10 @@
-<h2>
-  <%= link_to @event.group, @event.group %>:
+<% if has_permission? "adminEvents" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+' Edit', edit_event_path(@event) %></div>
+<% end %>
+
+<h1>
   <%= link_to @event.title, group_events_path(@event.group, :event_title => @event.title) %>
-</h2>
+</h1>
 
 <p>
   <b>Start:</b>
@@ -12,19 +15,13 @@
   <%= @event.location %>
 </p>
 
-<p>
+<% if @event.attendees.count > 0 %>
+  <p>
   <b>Attendees:</b>
-  <% @event.attendees.sort.each do |u| %>
-    <%= link_to u, u %>
-  <% end %>
-</p>
+  <%= raw @event.attendees.sort.collect{|u| link_to u, u}.join(", ") %>
+  </p>
+<% end %>
 
 <p>
-  <b>Description:</b>
-  <%= @event.description %>
+  <%= raw textilize(@event.description) %>
 </p>
-
-<% if has_permission? "adminEvents" %>
-  <%= link_to 'Edit', edit_event_path(@event) %> |
-<% end %>
-<%= link_to "All Events", group_events_path(@event.group) %>

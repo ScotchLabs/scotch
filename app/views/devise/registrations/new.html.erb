@@ -36,7 +36,7 @@
       <h1>Optional Information</h1>
       <p>Tell us a little about yourself.</p>
       
-      <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").full) %>)
+      <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").link) %>)
       <span class='fright'><%= f.text_field :smc %></span>
       <div class='clearfix'></div>
       
@@ -63,9 +63,14 @@
       </span>
       <div class='clearfix'></div>
       
-      <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").full) %>)
+      <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").link) %>)
       <span class='fright'><%= f.text_field :phone %></span>
       <div class='clearfix'></div>
+      
+      <div class='hidden'>
+        <%= raw(HelpItem.get("why-smc").block) %>
+        <%= raw(HelpItem.get("why-phone").block) %>
+      </div>
         
       <p>That's enough for now. You can tell us more once you're inside.</p>
     </div>

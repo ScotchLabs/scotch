@@ -1,4 +1,15 @@
 class UsersController < ApplicationController
+
+  prepend_before_filter :find_user
+
+  before_filter :only => [:create, :destroy, :new] do
+    require_global_permission "adminUsers"
+  end
+
+  before_filter :only => [:edit, :update] do
+    @user == current_user or require_global_permission "adminUsers"
+  end
+
   # GET /users
   # GET /users.xml
   def index
@@ -13,8 +24,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
 
@@ -36,7 +45,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
     @user.valid?  # this makes the errors OrderedHash get some kv pairs.
   end
 
@@ -59,8 +67,6 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    @user = User.find(params[:id])
-
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
@@ -75,12 +81,17 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
     end
+  end
+
+  protected
+
+  def find_user
+    @user = User.find(params[:id]) if params[:id]
   end
 end

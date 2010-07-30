@@ -39,6 +39,10 @@ Scotch::Application.routes.draw do |map|
      get :shows
      get :boards
     end
+    member do
+      post :join
+      post :leave
+    end
   end
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
     put :signup, :on => :member
@@ -56,9 +60,13 @@ Scotch::Application.routes.draw do |map|
   # future.
   resources :roles
   resources :item_categories
-  
   resources :help_items
 
+  resources :feedbacks, :only => [:create, :new]
+
   get "dashboard/index"
+  get "dashboard/calendar"
+  get "dashboard/sysadmin"
+
   root :to => "dashboard#index"
 end
