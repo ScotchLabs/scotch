@@ -1,8 +1,9 @@
+<% if has_permission? "adminGroup" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_group_path(@group) %></div>
+<% end %>
 <h1><%= @group %></h1>
 <% if @group.parent %><p style="font-size: 8px;">Child of <%= @group.parent %></p><% end %>
 
-<% if has_permission? "adminGroup" %><small><%= link_to 'Edit Group', edit_group_path(@group) %></small><% end %>
-
 <p>
-<%= @group.description %>
+<%= raw textilize(@group.description) %>
 </p>

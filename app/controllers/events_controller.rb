@@ -97,13 +97,14 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def signup
-    if params.has_key? :user_id then
-      @user = User.find(params[:user_id])
-    else
-      @user = current_user
-    end
 
+    @user = current_user
     @event_attendee = @event.event_attendees.where(:user_id => nil).first
+
+    if @event_attendee.nil? 
+      redirect_to @event, :notice => "No free slots available."
+      return
+    end
 
     @event_attendee.user = @user
 

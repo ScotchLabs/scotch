@@ -1,0 +1,48 @@
+<article>
+  <h3>What's this?</h3>
+  This is the System Administrator tab.  It's a special tab that shows up only
+  for users in the <%= link_to Group.system_group, Group.system_group %>.  You
+  shouldn't do anything here unless you really are sure of what will happen.
+</article>
+
+<% if has_global_permission? "createGroup" or has_global_permission? "createShow" or has_global_permission? "createBoard" %>
+  <article>
+  <h3>Group Actions</h3>
+  <% if has_global_permission? "createGroup" %><p>
+    <%= image_tag "add_icon.png", :size => "12x12" %>
+    <%= link_to 'New Group', new_group_path %>
+    FIXME Blurb on when a Group is the correct choice.
+  </p><% end %>
+  <% if has_global_permission? "createShow" %></p>
+    <%= image_tag "add_icon.png", :size => "12x12" %>
+    <%= link_to 'New Show', new_group_path(:group_type => "Show") %>
+    FIXME Blurb on when a Show is the correct choice.
+  </p><% end %>
+  <% if has_global_permission? "createBoard" %><p>
+    <%= image_tag "add_icon.png", :size => "12x12" %>
+    <%= link_to 'New Board', new_group_path(:group_type => "Board") %>
+    FIXME Blurb on when a Board is the correct choice.
+  </p><% end %>
+  </article>
+<% end %>
+
+<% if has_global_permission? "adminHelpItems" %>
+  <article>
+    <h3><%= link_to "Administer Help Items", help_items_path %></h3>
+    <p>Blurb about help items</p>
+  </article>
+<% end %> 
+
+<% if has_global_permission? "adminRoles" %>
+  <article>
+    <h3><%= link_to "Administer Roles", roles_path %></h3>
+    <p>Blurb about permissions and roles</p>
+  </article>
+<% end %>
+
+<% if has_global_permission? "adminItemCategories" %>
+  <article>
+    <h3><%= link_to "Administer Item Categories", item_categories_path %></h3>
+    <p>Blurb about item categories</p>
+  </article>
+<% end %>

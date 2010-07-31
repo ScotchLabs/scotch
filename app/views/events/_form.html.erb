@@ -10,10 +10,7 @@
   </div>
   <% end %>
 
-  <div>
-    <strong>Group:</strong> <%= @group %>
-    <%= f.hidden_field :group_id %>
-  </div>
+  <%= f.hidden_field :group_id %>
   <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -31,8 +28,12 @@
     <%= f.text_field :location %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description %> (You may use <%= raw(HelpItem.get("textile").full) %>.)<br>
     <%= f.text_area :description, :rows => 4 %>
+  </div>
+  <div class="field">
+    <%= f.label :attendee_ids, "Attendees" %> (leave blank for all)<br>
+    <%= f.select :attendee_ids, @group.member_positions.collect{|u,p| ["#{u} (#{p.join(', ')})",u.id]}, {}, :multiple => true, :size => 6 %>
   </div>
   <div class="actions">
     <%= f.submit %>

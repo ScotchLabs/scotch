@@ -6,6 +6,29 @@ class PositionsController < ApplicationController
   # be created or deleted since that's all the UI really supports
   append_before_filter :prevent_show_editing, :only => [:edit, :update]
 
+  before_filter :only => [:edit, :new, :update, :create] do
+    require_permission "adminPositions"
+  end
+
+  before_filter :only => [:destroy] do
+    if @position.role.crew? then
+      require_permission "adminCrew"
+    else
+      require_permission "adminPositions"
+    end
+  end
+
+  # Users with adminCrew can only create crew members through the bulk_create
+  # action.  Yes, this isn't really ideal, but it's a simple way of doing it.
+  before_filter :only => [:bulk_create] do
+    role = Role.find(params[:role_id])
+    if role.crew? then
+      require_permission "adminCrew"
+    else
+      require_permisison "adminPositions"
+    end
+  end
+
   # GET /groups/1/positions
   # GET /groups/1/positions.xml
   def index
@@ -68,7 +91,6 @@ class PositionsController < ApplicationController
   # POST /positions/bulk_create.xml
   # FIXME: validate privilages
   def bulk_create
-    @group = Group.find(params[:group_id])
     role = Role.find(params[:role_id])
 
     Position.transaction do

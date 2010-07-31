@@ -1,20 +1,32 @@
 <ul>
   <li><%= link_to "Dashboard", dashboard_index_path, :class =>  nav_class(dashboard_index_path) %></li>
-  <li><a href='#'>Calendar</a></li>
-  <li><%= link_to "Shows", shows_path, :class => nav_class(shows_path) %></li>
+  <!-- <li><%= link_to "Calendar", dashboard_calendar_path, :class => nav_class(dashboard_calendar_path) %></li> -->
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", items_path, :class => nav_class(items_path) %></li>
-  <li><a href='#'>Resources</a></li>
+  <!-- <li><a href='#'>Resources</a></li> FIXME what is this for? -->
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
-  <li><%= link_to "Account", current_user, :class => nav_class(current_user) %></li>
+  <!-- TODO move this up next to the logout button -->
+  <li><%= link_to "Account", current_user, :class => nav_class(current_user) %></li> 
+  <% if Group.system_group.users.include? current_user %>
+    <li style="background-color: #FAA"><%= link_to "SysAdmin", dashboard_sysadmin_path %></li>
+  <% end %>
   <% if @group && ! @group.new_record? %>
   <div id='subnav'>
     <ul>
-      <li><b><%= @group %></b></li>
+      <li><b><%= link_to @group, @group %></b></li>
       <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
       <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
-      <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li>
-      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
+      <!-- <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li> -->
+      <!-- <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li> -->
+      <% if @group.class.name == "Group" then %>
+        <li>
+        <% if @group.users.include? current_user then %>
+          <%= link_to image_tag("delete_icon.png", :size => "12x12") + " Leave this group", leave_group_url(@group), :method => :post %><br />
+        <% else %>
+          <%= link_to image_tag("add_icon.png", :size => "12x12") + " Join this group", join_group_url(@group), :method => :post %><br />
+        <% end %>
+        </li>
+      <% end %>
     </ul>
   </div>
   <% end %>

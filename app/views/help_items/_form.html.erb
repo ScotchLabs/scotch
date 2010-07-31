@@ -4,9 +4,9 @@
       <h2><%= pluralize(@help_item.errors.count, "error") %> prohibited this help_item from being saved:</h2>
 
       <ul>
-      <% @help_item.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @help_item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>

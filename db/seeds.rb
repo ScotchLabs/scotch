@@ -4,7 +4,7 @@
 #create permissions
 Permission.transaction do
   Permission.create(:name => "adminPositions", 
-                    :description => "User may modify group membership at will")
+                    :description => "User may modify group membership at will.  Any role granted this permission should also be granted adminCrew.")
   Permission.create(:name => "adminCrew",
                     :description => "User may modify group membership with crew role at will")
   Permission.create(:name => "adminEvents",
@@ -15,8 +15,15 @@ Permission.transaction do
                     :description => "User may modify documents at will")
 
   #Global Permissions
-  Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
-  Permission.create(:name => "createGroup", :description => "User can create generic Groups")
+  Permission.create(:name => "superuser", :description => "GLOBAL: User has ALL PRIVILEGES, EVERYWHERE")
+  Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
+  Permission.create(:name => "createShow", :description => "GLOBAL: User can create Shows")
+  Permission.create(:name => "createBoard", :description => "GLOBAL: User can create Boards")
+  #TODO Permission.create(:name => "archiveGroup", :desciption => "User can archive a group")
+  Permission.create(:name => "adminHelpItems", :description => "GLOBAL: User can edit HelpItems")
+  Permission.create(:name => "adminItemCategories", :description => "GLOBAL: User can edit ItemCategories")
+  Permission.create(:name => "adminRoles", :description => "GLOBAL: User can edit available roles")
+  Permission.create(:name => "adminUsers", :description => "GLOBAL: User can edit all users in the system")
 end
 
 # create roles
@@ -43,17 +50,17 @@ Role.transaction do
   Role.create(:name => "Member", :group_type => "Group")
 
   # Boards
-  r = Role.create(:name => "President", :group_type => "Board")
+  r = Role.create(:name => "Head", :group_type => "Board")
   p = Permission.fetch("superuser")
   RolePermission.create(:permission_id => p.id, :role_id => r.id)
 end
 
 #create system group and system users
 User.transaction do
-  adm = Role.find_by_name("Administrator")
+  adm = Role.find_by_name("Head")
 
   #Create system group
-  grp = Group.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
+  grp = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
                      :description => "System group for site wide privileges")
   grp.save!
 
@@ -65,7 +72,7 @@ User.transaction do
               :graduation_year => "2012", :gender => "Male")
   u.confirm! #if we don't do this, you can't log in :(
   pos = Position.new(:role_id => adm.id, :user_id => u.id, 
-                  :display_name => "System Administrator")
+                  :display_name => "Webmaster")
   pos.group_id = grp.id
   pos.save!
 
@@ -113,7 +120,7 @@ end
 
 #Create Board
 Group.transaction do
-  r = Role.find_by_name("President")
+  r = Role.find_by_name("Head")
   g = Board.create(:name => "Board of Directors", :short_name => "Board",
                      :description => "Scotch'n'Soda Board of Directors")
 
@@ -128,6 +135,19 @@ Group.transaction do
                   :display_name => "Webmaster")
   p.group_id = g.id
   p.save!
+end
+
+#Create SNS group
+Group.transaction do
+  sys = Group.system_group
+  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => sys.id,
+                   :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
+  r = Role.find_by_name("Member")
+  User.all.each do |u|
+    p = Position.create(:role_id => r.id, :group_id => g.id, :display_name => "Member", :user_id => u.id)
+    p.group_id = g.id
+    p.save!
+  end
 end
 
 #Create DEMO show FIXME
@@ -2261,7 +2281,7 @@ HelpItem.transaction do
       :message => "We'd like your smc because...well I don't know. We're the mafia.")
     HelpItem.create(:name => "Phone Number", :anchor => "why-phone", :display_text => "why do you want this?",
       :message => "-Sometimes- At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number public.")
-    HelpItem.create(:name => "RedCloth", :anchor => "redcloth", :display_text => "RedCloth",
+    HelpItem.create(:name => "Textile", :anchor => "textile", :display_text => "Textile",
       :message => "[\"RedCloth\":http://redcloth.org/]  enables us to use the [\"Textile markup language\":http://en.wikipedia.org/wiki/Textile_(markup_language)]. Here are some examples of how to format certain things ([\"full manual\":http://redcloth.org/textile/]):
 
       <notextile><pre>h1. Foo --> creates an h1 element<br>

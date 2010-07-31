@@ -8,12 +8,22 @@ class Position < ActiveRecord::Base
 
   attr_protected :group_id
 
+  validate :role_matches_group
+
   def to_s
     display_name
   end
 
   def <=>(other)
     role <=> other.role || display_name <=> other.display_name
+  end
+
+  protected
+
+  def role_matches_group
+    unless role.group_type == group.class.name
+      errors[:role] << "isn't aproproate for this group"
+    end
   end
 
 end

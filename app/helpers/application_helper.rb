@@ -44,7 +44,8 @@ module ApplicationHelper
   
   # so help me if we ever have more than one person in a "Webmaster" Position
   def current_webmaster
-    u = Position.where(:display_name => "Webmaster").first.user
+    p = Group.system_group.positions.where(:display_name => "Webmaster").first
+    u = p ? p.user : nil
     # heaven forbid we ever have no webmaster
     if u.nil?
       u = User.new
