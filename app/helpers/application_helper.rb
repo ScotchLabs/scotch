@@ -30,13 +30,63 @@ module ApplicationHelper
   
   def flavortext
     flav = [
+      "Breaking Legs and Taking Names Since 1938",
       "Scotch'n'Soda's Online Informatory",
       "Have you seen the new Dungeon?",
       "Unofficially sponsored by Jolt Cola",
-      "Is informatory even a word?",
       "It seemed like a good idea at the time",
-      "Eh, we'll do it later"
+      "Enabling Dangerous Acts Since 1938",
+      "No, we will *not* implement an S'n'Cest feature!",
+      "Where good decisions go to die"
     ]
     flav[rand(flav.length)]
+  end
+  
+  # so help me if we ever have more than one person in a "Webmaster" Position
+  def current_webmaster
+    p = Group.system_group.positions.where(:display_name => "Webmaster").first
+    u = p ? p.user : nil
+    # heaven forbid we ever have no webmaster
+    if u.nil?
+      u = User.new
+      u.first_name = "the"
+      u.last_name = "webmaster"
+      u.email = "webmaster@snstheatre.org"
+    end
+    u
+  end
+  
+  def filter_referrals(text)
+    return if text.nil? or text.blank?
+    
+    # the first/most prevalent syntax should be
+    # "#{obj.class.to_s}##{obj.id}"
+    # we don't want to use object_id since it's not findable
+    typeRegex = /Checkout|Document|User|Group|Event|HelpItem|Item/
+    matches = text.scan(/#{typeRegex}\#[\d]+/)
+    matches.each do |match|
+      puts "REFERRAL MATCH: #{match}"
+      classname = match[0...match.index('#')]
+      id = match[match.index('#')+1..-1]
+      
+      begin
+        objclass = Kernel.const_get classname
+      rescue NameError
+        # ignore thing that doesn't match
+        # since we can't find it to validate
+        next
+      end
+      
+      obj = objclass.find(id)
+      # ignore thing we can't find
+      # since we can't find it to validate
+      next if obj.nil?
+      
+      # this part assumes that all REFERRABLE classes
+      # implement a smarter "to_s" than Object's
+      text.gsub!(match, link_to(obj.to_s, obj))
+    end
+    
+    raw(text)
   end
 end

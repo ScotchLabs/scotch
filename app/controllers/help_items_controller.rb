@@ -1,4 +1,9 @@
 class HelpItemsController < ApplicationController
+
+  before_filter :only => [:new, :edit, :create, :update, :destroy] do 
+    require_global_permission "adminHelpItems"
+  end
+
   # GET /help_items
   # GET /help_items.xml
   def index
@@ -24,12 +29,7 @@ class HelpItemsController < ApplicationController
   # GET /help_items/new
   # GET /help_items/new.xml
   def new
-    @help_item = HelpItem.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @help_item }
-    end
+    redirect_to help_items_path, :notice => "Help items can not be added via the user interface.  Please contact a Scotch developer."
   end
 
   # GET /help_items/1/edit
@@ -40,17 +40,7 @@ class HelpItemsController < ApplicationController
   # POST /help_items
   # POST /help_items.xml
   def create
-    @help_item = HelpItem.new(params[:help_item])
-
-    respond_to do |format|
-      if @help_item.save
-        format.html { redirect_to(@help_item, :notice => 'Help item was successfully created.') }
-        format.xml  { render :xml => @help_item, :status => :created, :location => @help_item }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @help_item.errors, :status => :unprocessable_entity }
-      end
-    end
+    redirect_to help_items_path, :notice => "Help items can not be added via the user interface.  Please contact a Scotch developer."
   end
 
   # PUT /help_items/1
@@ -72,12 +62,6 @@ class HelpItemsController < ApplicationController
   # DELETE /help_items/1
   # DELETE /help_items/1.xml
   def destroy
-    @help_item = HelpItem.find(params[:id])
-    @help_item.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(help_items_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to help_items_path, :notice => "Help items can not be deleted via the user interface.  Please contact a Scotch developer."
   end
 end

@@ -340,10 +340,12 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #f60;  /* dkorange */
   z-index: -3
   }
+
+/* FIXME Anthony broke this and made it look like crap */
 #logout {
   background: #333;  /* black */
   position: fixed;
-  top: 0;
+  top: 0px;
   right: 10px;
   color: #fff;       /* white */
   -webkit-border-bottom-left-radius: 8px;
@@ -352,9 +354,17 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   -moz-border-radius-bottomright: 8px;
   padding: 3px 11px
   }
+#logout > ul > li {
+  display:inline-block;
+  margin: 5px 5px 5px 5px;
+}
+#logout > ul > li:before {
+  content: ""
+}
 #logout * {
   color: #fff;  /* white */
-  }
+}
+
 body > div > section {
   width: 900px;
   margin: 0 auto
@@ -489,3 +499,6 @@ aside {
   max-height: 90%;
   overflow: auto
   }
+.edit_link {
+  float: right;
+}

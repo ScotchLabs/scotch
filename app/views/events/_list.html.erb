@@ -4,7 +4,7 @@
       <% e = es[0] %>
       <h3><%= link_to e, e %></h3>
       <%= e.start_time %> to <%= e.end_time %> at <%= e.location %><br />
-      <small><%= e.description %></small>
+      <small><%= raw textilize(e.description) %></small>
     <% else %> <!-- Multi-Part Event -->
       <h3><%= es[0].title %></h3>
       <ul>

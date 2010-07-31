@@ -59,4 +59,8 @@ class Group < ActiveRecord::Base
   def self.manager_role
     Role.where(:name => "Administrator").first
   end
+
+  def member_positions
+    positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
+  end
 end

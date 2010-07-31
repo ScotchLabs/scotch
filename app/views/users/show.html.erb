@@ -1,3 +1,6 @@
+<% if @user == current_user or has_global_permission? "adminUsers" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_user_path(@user) %></div>
+<% end %>
 <div id="hcard-<%= @user.first_name %>-<%= @user.last_name %>" class="vcard">
  <h2 class="fn"><%= @user %></h2>
  <div class="org"><%= @user.home_college %> Class of <%= @user.graduation_year %></div>
@@ -15,10 +18,6 @@
  <% end %>
 </div>
 
-<div>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
-</div>
 
 <div class="groups">
 	<h3><%= @user.first_name %>'s Groups</h3>

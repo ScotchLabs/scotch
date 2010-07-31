@@ -1,5 +1,8 @@
-<!-- FIXME: This needs to be styled better -->
-<%= link_to "Add a position", new_group_position_path(@group) %>
+<% if has_permission? "adminPositions" %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Show Members", new_group_position_path(@group) %></div>
+<% elsif has_permission? "adminCrew" %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Crew Members", new_group_position_path(@group) %></div>
+<% end %>
 
 <% @positions.group_by {|p| p.role.name}.sort.each do |name,positions| %>
   <h3><%= name %></h3>
