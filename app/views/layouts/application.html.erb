@@ -14,6 +14,17 @@
     <div id='banner' class='banner'></div>
     <% if current_user %>
       <ul id='logout'>
+        <% if request.domain == "localhost" %>
+        <li><a href='#' id='debuglink'>Show Debug</a></li>
+        <div class='hidden'>
+          <div id='debugblock'>
+            <h2>Params</h2>
+            <%= debug params %>
+          </div>
+        </div>
+        <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
+        <% end %>
+        
         <li><%= link_to "Feedback", new_feedback_path %></li>
         <li><%= link_to "Log Out", destroy_user_session_path %></li>
       </ul>
@@ -52,18 +63,6 @@
       <% end %>
       <div id='push'></div>
     </section>
-    <% if request.domain == "localhost" %>
-    <aside>
-      <a href='#' id='debuglink' style='color:#fff'>Show Debug</a>
-      <div class='hidden'>
-        <div id='debugblock'>
-          <h2>Params</h2>
-          <%= debug params %>
-        </div>
-      </div>
-      <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
-    </aside>
-    <% end %>
   </div> 
     <footer>
       <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br>
