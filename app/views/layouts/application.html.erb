@@ -13,10 +13,10 @@
     <div id='bannernocss3' class='banner'></div>
     <div id='banner' class='banner'></div>
     <% if current_user %>
-      <div id='logout'><ul>
+      <ul id='logout'>
         <li><%= link_to "Feedback", new_feedback_path %></li>
         <li><%= link_to "Log Out", destroy_user_session_path %></li>
-      </ul></div>
+      </ul>
     <% end %>
     <section>
       <header>
