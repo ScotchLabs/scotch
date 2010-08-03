@@ -475,7 +475,7 @@ body > footer {
   text-align: center;
   padding: 12px 0;
   font-size: 7pt;
-  background: #333;  /* black */
+  background: #333 url(/images/soda-border.png) repeat-x bottom left;  /* black */
   color: #fff;       /* white */
   }
 #sodabar {
