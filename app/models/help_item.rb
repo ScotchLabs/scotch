@@ -1,3 +1,4 @@
+include HelpItemsHelper
 class HelpItem < ActiveRecord::Base
   validates :display_text, :presence => true
   validates :name, :presence => true, :uniqueness => true
@@ -22,38 +23,18 @@ class HelpItem < ActiveRecord::Base
   # You can override the default display text with the argument
   def link(display=nil)
     display = display_text unless display
-    "<a href='#' id='colorbox-#{anchor}'>#{display}</a>"
+    getLinkHtml(anchor, display)
   end
   
   # call this from a view to set up the linking script between
   # he anchor element and the block element
   def script_full(params=Hash.new)
-    "<script>$(document).ready(function(){#{script(params)}})</script>"
+    getScriptCall(anchor, params, true)
   end
   # use this instead of the full version if you're going to be
   # using several HelpItems
   def script(params=Hash.new)
-    # defaults
-    p = Hash.new
-    p[:inline] = true
-    p[:href] = "\"##{anchor}\""
-    p[:opacity] = 0.25
-    p[:transition] = '"none"'
-    p[:width] = '"50%"'
-    
-    # override defaults / add params
-    params.each do |k, v|
-      p[k] = v
-    end
-    
-    # turn into string
-    t = ""
-    p.each do |k, v|
-      t << "#{k}: #{v}, "
-    end
-    t = t[0...-2]
-    
-    "$(\"#colorbox-#{anchor}\").colorbox({#{t}})"
+    getScriptCall(anchor, params, false)
   end
   
   # call this from a view to fetch a lightwindow inline element
@@ -63,11 +44,14 @@ class HelpItem < ActiveRecord::Base
   def block(format=Hash.new)
     title_tag = (format[:title_tag] or "h1")
     message_tag = (format[:message_tag] or "p")
-    m = message or ""
-    return "<div id='#{anchor}'><#{title_tag}>#{name}</#{title_tag}><#{message_tag}>#{RedCloth.new(m).to_html}</#{message_tag}></div>"
+    m = (message or "")
+    getDivBlock(anchor,title_tag,name,message_tag,m,false)
   end
   # use this instead of the other if you're only using one HelpItem
   def block_full(format=Hash.new)
-    "<div class='hidden'>#{block(format)}</div>"
+    title_tag = (format[:title_tag] or "h1")
+    message_tag = (format[:message_tag] or "p")
+    m = (message or "")
+    getDivBlock(anchor,title_tag,name,message_tag,m,true)
   end
 end

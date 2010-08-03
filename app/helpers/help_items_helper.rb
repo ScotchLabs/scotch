@@ -1,2 +1,46 @@
 module HelpItemsHelper
+  def getLinkHtml(anchor, display)
+    "<a href='#' id='colorbox-#{anchor}'>#{display}</a>"
+  end
+
+  def getScriptCall(anchor, params=Hash.new, full=false)
+    t = ""
+    t = "" if full
+    
+    # defaults
+    p = Hash.new
+    p[:inline] = true
+    p[:href] = "\"##{anchor}\""
+    p[:opacity] = 0.25
+    p[:transition] = '"none"'
+    p[:width] = '"50%"'
+    
+    # override defaults / add params
+    params.each do |k, v|
+      p[k] = v
+    end
+    
+    # turn into string
+    paramstring = ""
+    p.each do |k, v|
+      paramstring << "#{k}: #{v}, "
+    end
+    paramstring = paramstring[0...-2]
+    
+    script = "$(\"#colorbox-#{anchor}\").colorbox({#{paramstring}})"
+    
+    if full
+      "<script>$(document).ready(function(){#{script}});</script>"
+    else
+      "$(document).ready(function(){#{script}});"
+    end
+  end
+  
+  def getDivBlock(anchor, title_tag, name, message_tag, m, full)
+    t = ""
+    t = "<div class='hidden'>" if full
+    t = "#{t}<div id='#{anchor}'><#{title_tag}>#{name}</#{title_tag}><#{message_tag}>#{RedCloth.new(m).to_html}</#{message_tag}></div>"
+    t = "#{t}</div>" if full
+    t
+  end
 end
