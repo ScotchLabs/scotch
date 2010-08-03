@@ -29,7 +29,17 @@
 <% if has_global_permission? "adminHelpItems" %>
   <article>
     <h3><%= link_to "Administer Help Items", help_items_path %></h3>
-    <p>Blurb about help items</p>
+    <p>Any time you want to put a short message in a colorbox, Help Items are the way to go!
+      Currently they're a little hacky, but someday we hope to fix that. In order to use a Help Item,
+      first create the one you need, then include it in the view with one or more of the following:
+      <ul>
+        <li><tt>raw(HelpItem.get("foo").full)</tt> will include everything you need for a Help Item with the anchor "<tt>foo</tt>"</li>
+        <li><tt>raw(HelpItem.get("foo").link)</tt> will give you just the link part (the &lt;a&gt; tag)</li>
+        <li><tt>raw(HelpItem.get("foo").script_full)</tt> will give you the full javascript needed</li>
+        <li><tt>raw(HelpItem.get("foo").script)</tt> will give you the one javascript call for this Help Item&mdash;be sure to put it inside <tt>&lt;script&gt;</tt> tags!</li>
+        <li><tt>raw(HelpItem.get("foo").block_full)</tt> will print the entire message block inside a hidden <tt>div</tt></li>
+        <li><tt>raw(HelpItem.get("foo").block)</tt> will print the message block. If you want the message to be hidden from view normally, put this line inside a hidden div or use <tt>block_full</tt></li>
+      </ul></p>
   </article>
 <% end %> 
 
