@@ -287,6 +287,9 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   border: 2px solid red;
   display: inline-block;
   }
+.field {
+  min-height: 30px;
+  }
 #errorExplanation {
   border: 2px solid red;
   padding: 7px;
@@ -303,6 +306,9 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   margin-bottom: 0px;
   background-color: #c00;
   }
+.colorboxlink {
+  font-size: 8pt;
+}
 
 
 /* 460
@@ -374,7 +380,7 @@ body > div > section > header {
 body > div > section > header h1 a {
   font-size: 26pt;
   display: block;
-  padding-top: 18px;
+  padding-top: 23px;
   color: #fff  /* white */
   }
 body > div > section > header h1 a:hover {
@@ -489,14 +495,6 @@ body > footer {
   }
 #sodabar a {
   color: #fff  /* white */
-  }
-aside {
-  position: fixed;
-  top: 0;
-  padding-left:10px;
-  left: 0;
-  max-height: 90%;
-  overflow: auto
   }
 .edit_link {
   float: right;

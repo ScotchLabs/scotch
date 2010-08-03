@@ -16,19 +16,29 @@
       
       <%= devise_error_messages! %>
       
+      <div class='field'>
       <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
+      </div>
       <div class='clearfix'></div>
       
+      <div class='field'>
       <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
+      </div>
       <div class='clearfix'></div>
       
+      <div class='field'>
       <%= f.label :email %><span class='fright'><%= f.text_field :email %></span>
+      </div>
       <div class='clearfix'></div>
       
+      <div class='field'>
       <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
+      </div>
       <div class='clearfix'></div>
       
+      <div class='field'>
       <%= f.label :password_confirmation %><span class='fright'><%= f.password_field :password_confirmation %></span>
+      </div>
       <div class='clearfix'></div>
       
     </div>
@@ -36,35 +46,47 @@
       <h1>Optional Information</h1>
       <p>Tell us a little about yourself.</p>
       
-      <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").full) %>)
-      <span class='fright'><%= f.text_field :smc %></span>
+      <div class='field'>
+        <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").full) %>)
+        <span class='fright'><%= f.text_field :smc %></span>
+      </div>
       <div class='clearfix'></div>
       
-      <%= f.label :graduation_year %>
-      <span class='fright'>
-        <%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %>
-      </span>
+      <div class='field'>
+        <%= f.label :graduation_year %>
+        <span class='fright'>
+          <%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %>
+        </span>
+      </div>
       <div class='clearfix'></div>
       
-      <%= f.label :residence %>
-      <span class='fright'><%= f.text_field :residence %></span>
+      <div class='field'>
+        <%= f.label :residence %>
+        <span class='fright'><%= f.text_field :residence %></span>
+      </div>
       <div class='clearfix'></div>
       
-      <%= f.label :gender %>
-      <span class='fright'>
-        <%= f.radio_button :gender, "male" %> Boy
-        <%= f.radio_button :gender, "female" %> Girl
-      </span>
+      <div class='field'>
+        <%= f.label :gender %>
+        <span class='fright'>
+          <%= f.radio_button :gender, "male" %> Boy
+          <%= f.radio_button :gender, "female" %> Girl
+        </span>
+      </div>
       <div class='clearfix'></div>
       
-      <%= f.label :birthday %>
-      <span class='fright'>
-        <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
-      </span>
+      <div class='field'>
+        <%= f.label :birthday %>
+        <span class='fright'>
+          <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
+        </span>
+      </div>
       <div class='clearfix'></div>
       
-      <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").full) %>)
-      <span class='fright'><%= f.text_field :phone %></span>
+      <div class='field'>
+        <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").full) %>)
+        <span class='fright'><%= f.text_field :phone %></span>
+      </div>
       <div class='clearfix'></div>
         
       <p>That's enough for now. You can tell us more once you're inside.</p>

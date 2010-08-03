@@ -30,8 +30,8 @@ module ApplicationHelper
   
   def flavortext
     flav = [
-      "Breaking Legs and Taking Names Since 1938",
       "Scotch'n'Soda's Online Informatory",
+      "Breaking Legs and Taking Names Since 1938",
       "Have you seen the new Dungeon?",
       "Unofficially sponsored by Jolt Cola",
       "It seemed like a good idea at the time",
@@ -39,7 +39,11 @@ module ApplicationHelper
       "No, we will *not* implement an S'n'Cest feature!",
       "Where good decisions go to die"
     ]
-    flav[rand(flav.length)]
+    if current_user
+      flav[rand(flav.length)]
+    else
+      flav[0]
+    end
   end
   
   # so help me if we ever have more than one person in a "Webmaster" Position

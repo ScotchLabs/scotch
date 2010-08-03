@@ -1,6 +1,6 @@
 module HelpItemsHelper
   def getLinkHtml(anchor, display)
-    "<a href='#' id='colorbox-#{anchor}'>#{display}</a>"
+    "<a href='#' id='colorbox-#{anchor}' class='colorboxlink'>#{display}</a>"
   end
 
   def getScriptCall(anchor, params=Hash.new, full=false)
@@ -13,7 +13,7 @@ module HelpItemsHelper
     p[:href] = "\"##{anchor}\""
     p[:opacity] = 0.25
     p[:transition] = '"none"'
-    p[:width] = '"50%"'
+    p[:width] = '"25%"'
     
     # override defaults / add params
     params.each do |k, v|
