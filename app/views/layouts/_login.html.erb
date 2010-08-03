@@ -1,3 +1,6 @@
+<% unless current_user %>
+<span id='loginerror'><%= notice %><%= alert %></span>
+<% end %>
 <span id='loginform'>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
     <%= f.text_field :email, {:placeholder => "Email Address"} %>

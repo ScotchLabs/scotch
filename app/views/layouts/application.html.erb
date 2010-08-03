@@ -50,7 +50,7 @@
             No guarantees.</p>
         </article>
       </noscript>
-      <% if !notice.nil? or !alert.nil? %>
+      <% if current_user and (!notice.nil? or !alert.nil?) %>
         <article>
           <p class="notice"><%= notice %></p>
           <p class="alert"><%= alert %></p>

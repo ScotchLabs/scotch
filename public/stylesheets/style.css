@@ -466,6 +466,12 @@ body > div > section > nav > ul > li > a {
   color: #333;      /* black */
   background: #ddd  /* grey */
   }
+#loginerror {
+  float: left;
+  text-transform: none;
+  padding: 8px;
+  line-height: 23px;
+}
 #loginform {
   float: right;
   padding: 5px
