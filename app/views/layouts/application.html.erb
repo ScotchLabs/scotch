@@ -54,7 +54,14 @@
     </section>
     <% if request.domain == "localhost" %>
     <aside>
-      <%= debug params %>
+      <a href='#' id='debuglink' style='color:#fff'>Show Debug</a>
+      <div class='hidden'>
+        <div id='debugblock'>
+          <h2>Params</h2>
+          <%= debug params %>
+        </div>
+      </div>
+      <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
     </aside>
     <% end %>
   </div> 
