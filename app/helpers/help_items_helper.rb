@@ -1,6 +1,6 @@
 module HelpItemsHelper
   def getLinkHtml(anchor, display)
-    "<a href='#' id='colorbox-#{anchor}' class='colorboxlink'>#{display}</a>"
+    "<a href='#' id='colorbox-#{anchor}'>#{display}</a>"
   end
 
   def getScriptCall(anchor, params=Hash.new, full=false)

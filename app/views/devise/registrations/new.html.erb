@@ -47,7 +47,7 @@
       <p>Tell us a little about yourself.</p>
       
       <div class='field'>
-        <%= f.label :smc, "SMC" %> (<%= raw(HelpItem.get("why-smc").full) %>)
+        <%= f.label :smc, "SMC" %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-smc").full) %>)</span>
         <span class='fright'><%= f.text_field :smc %></span>
       </div>
       <div class='clearfix'></div>
@@ -84,7 +84,7 @@
       <div class='clearfix'></div>
       
       <div class='field'>
-        <%= f.label :phone %> (<%= raw(HelpItem.get("why-phone").full) %>)
+        <%= f.label :phone %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-phone").full) %>)</span>
         <span class='fright'><%= f.text_field :phone %></span>
       </div>
       <div class='clearfix'></div>
