@@ -61,8 +61,8 @@ class HelpItem < ActiveRecord::Base
   # You can override the default structure with format[:title_tag]
   # and format[:message_tag]
   def block(format=Hash.new)
-    title_tag = format[:title_tag] or "h1"
-    message_tag = format[:message_tag] or "p"
+    title_tag = (format[:title_tag] or "h1")
+    message_tag = (format[:message_tag] or "p")
     m = message or ""
     return "<div id='#{anchor}'><#{title_tag}>#{name}</#{title_tag}><#{message_tag}>#{RedCloth.new(m).to_html}</#{message_tag}></div>"
   end
