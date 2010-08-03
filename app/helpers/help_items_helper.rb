@@ -36,7 +36,11 @@ module HelpItemsHelper
     end
   end
   
-  def getDivBlock(anchor, title_tag, name, message_tag, m, full)
+  def getDivBlock(anchor, name, format=Hash.new, full=false)
+    title_tag = (format[:title_tag] or "h1")
+    message_tag = (format[:message_tag] or "p")
+    m = (message or "")
+    
     t = ""
     t = "<div class='hidden'>" if full
     t = "#{t}<div id='#{anchor}'><#{title_tag}>#{name}</#{title_tag}><#{message_tag}>#{RedCloth.new(m).to_html}</#{message_tag}></div>"

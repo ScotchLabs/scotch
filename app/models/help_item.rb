@@ -34,7 +34,7 @@ class HelpItem < ActiveRecord::Base
   # use this instead of the full version if you're going to be
   # using several HelpItems
   def script(params=Hash.new)
-    getScriptCall(anchor, params, false)
+    getScriptCall(anchor, params)
   end
   
   # call this from a view to fetch a lightwindow inline element
@@ -42,16 +42,10 @@ class HelpItem < ActiveRecord::Base
   # You can override the default structure with format[:title_tag]
   # and format[:message_tag]
   def block(format=Hash.new)
-    title_tag = (format[:title_tag] or "h1")
-    message_tag = (format[:message_tag] or "p")
-    m = (message or "")
-    getDivBlock(anchor,title_tag,name,message_tag,m,false)
+    getDivBlock(anchor, name, format)
   end
   # use this instead of the other if you're only using one HelpItem
   def block_full(format=Hash.new)
-    title_tag = (format[:title_tag] or "h1")
-    message_tag = (format[:message_tag] or "p")
-    m = (message or "")
-    getDivBlock(anchor,title_tag,name,message_tag,m,true)
+    getDivBlock(anchor,name,format,true)
   end
 end
