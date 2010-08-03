@@ -1,20 +1,19 @@
 class Checkout < ActiveRecord::Base
-
   has_many :checkout_events, :dependent => :destroy
-  # http://guides.rails.info/association_basics.html#choosing-between-belongs-to-and-has-one
+  
   belongs_to :user  # the user responsible for returning the item
   belongs_to :group # the group using the item,
-                 # the group immediately in charge of authorizing the checkout
+                    # the group immediately in charge of authorizing the checkout
   belongs_to :item  # the item being checked out
 
   attr_protected :group_id
-
-  validates_presence_of :group_id, :user_id, :item_id
-  validates_associated :group, :user, :item
-
+  
   attr_accessor :authorizer_id
   
   after_create :create_open_event
+
+  validates_presence_of :group_id, :user_id, :item_id
+  validates_associated :group, :user, :item
   
   # if arg is not specified, returns true if any CheckoutEvent
   # exists.

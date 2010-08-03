@@ -14,6 +14,9 @@ Permission.transaction do
   Permission.create(:name => "adminDocuments",
                     :description => "User may modify documents at will")
 
+  Permission.create(:name => "checkoutSelf", :description => "User may check out items to self and group or groups self is in")
+  Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
+
   #Global Permissions
   Permission.create(:name => "superuser", :description => "GLOBAL: User has ALL PRIVILEGES, EVERYWHERE")
   Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")

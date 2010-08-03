@@ -29,6 +29,8 @@ module ApplicationHelper
   end
   
   def flavortext
+    # The first flavortext in this list is the only one used until the person
+    # logs in, then it cycles pseudo-randomly
     flav = [
       "Scotch'n'Soda's Online Informatory",
       "Breaking Legs and Taking Names Since 1938",
@@ -58,6 +60,17 @@ module ApplicationHelper
       u.email = "webmaster@snstheatre.org"
     end
     u
+  end
+  
+  # This is for use with the user's autocomplete view
+  # It finds the user that corresponds to the identifier
+  # currently the identifier we use is
+  # FIRST LAST EMAIL
+  def retreive_user(identifier)
+    return nil if identifier.nil? or identifier.blank?
+    return nil if identifier.split(" ").length != 3
+    email = identifier.split(" ")[2]
+    User.find_by_email(email)
   end
   
   def filter_referrals(text)
