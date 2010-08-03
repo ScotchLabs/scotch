@@ -8,7 +8,7 @@ class HelpItem < ActiveRecord::Base
   # if the thing you're looking for doesn't exist it will error, so we don't
   # go into production with missing things
   def self.get(needle)
-    self.find_by_name!(needle)
+    self.find_by_anchor!(needle)
   end
   
   # call this from a view to get the full package:
