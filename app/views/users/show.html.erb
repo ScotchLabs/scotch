@@ -3,18 +3,20 @@
 <% end %>
 <div id="hcard-<%= @user.first_name %>-<%= @user.last_name %>" class="vcard">
  <h2 class="fn"><%= @user %></h2>
- <div class="org"><%= @user.home_college %> Class of <%= @user.graduation_year %></div>
  <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
- <div class="adr">
-  <div class="street-address"><%= @user.residence %></div>
- </div>
- <div class="adr">
-  <div class="street-address">SMC <%= @user.smc %></div>
- </div>
- <div class="tel"><%= @user.phone %></div>
- <% if @user.birthday %>
- <div>Birthday: <%= format_date(@user.birthday) %></div>
- <div>Age: <%= @user.age %></div>
+ <% if (current_user == @user) || @user.public_profile || (has_global_permission? "adminUsers") %>
+   <div class="org"><%= @user.home_college %> Class of <%= @user.graduation_year %></div>
+   <div class="adr">
+     <div class="street-address"><%= @user.residence %></div>
+   </div>
+   <div class="adr">
+     <div class="street-address">SMC <%= @user.smc %></div>
+   </div>
+   <div class="tel"><%= @user.phone %></div>
+   <% if @user.birthday %>
+     <div>Birthday: <%= format_date(@user.birthday) %></div>
+     <div>Age: <%= @user.age %></div>
+   <% end %>
  <% end %>
 </div>
 

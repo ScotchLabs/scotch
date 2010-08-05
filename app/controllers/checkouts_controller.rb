@@ -1,3 +1,5 @@
+include ApplicationHelper
+
 class CheckoutsController < ApplicationController
   # GET /group/1/checkouts
   # GET /group/1/checkouts.xml
@@ -64,7 +66,8 @@ class CheckoutsController < ApplicationController
     @items = Item.all.sort unless params[:item_id]
     @group = Group.find(params[:checkout][:group_id])
     @groups = Group.all unless params[:group_id]
-    @users = User.all
+    u = retreive_user(params[:custom][:user_identifier])
+    @checkout.user_id = u.id
 
     respond_to do |format|
       begin

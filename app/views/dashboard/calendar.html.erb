@@ -1,0 +1,12 @@
+<h1>Your events</h1>
+<!-- TODO load the events via AJAX instead of serializing them all out now -->
+<script>
+$(document).ready(function() {
+    $('#calendar').fullCalendar({
+    events: [
+<%= current_user.user_events.collect { |e| e.to_json }.join(", ") %>
+    ]
+    })
+});
+</script>
+<div id='calendar'></div>

@@ -8,8 +8,9 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
-  validates_uniqueness_of :name, :short_name
-  validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-]{1,10}\Z/
+  # I think names should be unique too, but that hasn't been the case
+  validates_uniqueness_of :short_name
+  validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/
 
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
@@ -62,5 +63,18 @@ class Group < ActiveRecord::Base
 
   def member_positions
     positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
+  end
+
+  def <=>(other)
+    other_date = (other.archive_date or Date.today)
+    me_date = (archive_date or Date.today)
+    other_date <=> me_date
+  end
+
+  def archived?
+    archive_date && archive_date < Date.today
+  end
+  def active?
+    not self.archived?
   end
 end

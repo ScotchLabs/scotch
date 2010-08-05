@@ -30,7 +30,7 @@
     #cboxMiddleLeft{width:25px; background:url(/images/colorbox/border2.png) 0 0 repeat-y;}
     #cboxMiddleRight{width:25px; background:url(/images/colorbox/border2.png) -25px 0 repeat-y;}
     #cboxContent{background:#fff;}
-        #cboxLoadedContent{margin-bottom:20px;}
+        #cboxLoadedContent{margin-bottom:20px;padding:7px;}
         #cboxTitle{position:absolute; bottom:0; left:0; text-align:center; width:100%; color:#999;}
         #cboxCurrent{position:absolute; bottom:0; left:100px; color:#999;}
         #cboxSlideshow{position:absolute; bottom:0; right:42px; color:#444;}

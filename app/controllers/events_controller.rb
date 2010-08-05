@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy]
+  prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup]
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
