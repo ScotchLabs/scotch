@@ -13,16 +13,23 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :positions
 
   has_many :event_attendees, :dependent => :destroy
+  has_many :events, :through => :event_attendees
 
   has_many :checkouts, :dependent => :destroy
   has_many :checkout_events, :dependent => :destroy
 
-  validates_presence_of :email, :first_name, :last_name
-  validates_uniqueness_of :email
+  validates_presence_of :first_name, :last_name
+
+  # FIXME we should lowercase the email provided by the user 
+  validates_format_of :email, :with => /\A([a-z0-9+]+)@andrew\.cmu\.edu\Z/i
+
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
+
   validates_length_of :smc, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_numericality_of :smc, :only_integer => true, :allow_nil => true, :allow_blank => true
   validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
   before_validation :set_random_password
 
@@ -30,6 +37,10 @@ class User < ActiveRecord::Base
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
+
+  def self.recent
+    User.where(["current_sign_in_at > ?", 2.hour.ago]).all
+  end
 
   def to_s 
     name
@@ -65,8 +76,23 @@ class User < ActiveRecord::Base
     (last_name + first_name)<=>(other.last_name + other.first_name)
   end
 
+  # All events which should appear on the user's calendar
+  def user_events
+    es = events.all
+    groups.each do |g|
+      es += g.events.select { |e| e.attendees.count == 0 }
+    end
+    return es
+  end
+
+  # FIXME redo this as a scope
+  def active_groups
+    self.groups.all.select{|g| g.active?}
+  end
+
   private
 
+  # FIXME: this doesn't seem to work
   def set_random_password
     if password.nil? then
       password = ActiveSupport::SecureRandom.hex(16)

@@ -45,6 +45,9 @@ class Event < ActiveRecord::Base
   def to_s
     title
   end
+  def to_json
+    "{title : '[#{group.short_name}] #{title}', start : '#{start_time.strftime("%Y-%m-%d")}', end : '#{end_time.strftime("%Y-%m-%d")}'}"
+  end
   def <=>(other)
     start_time <=> other.start_time
   end

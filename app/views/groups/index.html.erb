@@ -1,11 +1,12 @@
 <article>
 <h1>Listing groups</h1>
 
-<% @groups.each do |group| %>
+<% @groups.sort.each do |group| %>
 	<div class="groupListing">
           <h2><%= link_to group, group %></h2> 
+          <% if group.archived? %><span style="text-transform: uppercase; color: #CAA;">archived</span><% end %>
           <span style="text-transform: uppercase; color: #AAA;"><%= group.type %></span>
-          <span class="groupDescription"><%= group.description %></span>
+          <span class="groupDescription"><%= raw truncate(textilize_without_paragraph(group.description), :length => 250, :omission => "…") %></span>
         </div>
 <% end %>
 </article>

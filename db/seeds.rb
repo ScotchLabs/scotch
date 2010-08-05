@@ -1,6 +1,8 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+require 'xml'
+
 #create permissions
 Permission.transaction do
   Permission.create(:name => "adminPositions", 
@@ -18,7 +20,7 @@ Permission.transaction do
   Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
 
   #Global Permissions
-  Permission.create(:name => "superuser", :description => "GLOBAL: User has ALL PRIVILEGES, EVERYWHERE")
+  Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
   Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
   Permission.create(:name => "createShow", :description => "GLOBAL: User can create Shows")
   Permission.create(:name => "createBoard", :description => "GLOBAL: User can create Boards")
@@ -68,52 +70,64 @@ User.transaction do
   grp.save!
 
   #Create web team
-  u = User.create(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
+  u = User.new(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
               :last_name => "Chivetta", :password => "123456", 
               :phone => "(314) 791-6768", :smc => "2576", 
               :residence => "Roselawn 1", :home_college => "SCS", 
               :graduation_year => "2012", :gender => "Male")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id, 
                   :display_name => "Webmaster")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
+  u = User.new(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
               :last_name => "Gross", :password => "123456")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
+  u = User.new(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
               :last_name => "Freeman", :password => "123456")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "jasmine@cmu.edu", :first_name => "Jasmine",
+  u = User.new(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine",
               :last_name => "Friedrich", :password => "123456")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Design Mistress")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt",
+  u = User.new(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt",
               :last_name => "Dickoff", :password => "123456")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.create(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer",
+  u = User.new(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer",
               :last_name => "Williams", :password => "123456")
+  u.skip_confirmation!
   u.confirm! #if we don't do this, you can't log in :(
+  u.save!
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
@@ -194,7 +208,7 @@ User.transaction do
   p.group_id = g.id
   p.save!
 
-  u = User.where(:email => "jasmine@cmu.edu").first
+  u = User.where(:email => "jrfriedr@andrew.cmu.edu").first
   r = Role.where(:name => "Tech Head").first
   p = Position.create(:role_id => r.id, :user_id => u.id,
                       :display_name => "Projectionist")
@@ -257,112 +271,6 @@ User.transaction do
   e.save!
 end
 
-#Create ItemCategories from current SotW
-ItemCategory.transaction do
-  p = ItemCategory.create(:prefix => 0, :name => "Office Equipment")
-  ItemCategory.create(:prefix => 0, :name => "Electronics", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Finance", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Library and Archives", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Furniture", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Office Supplies", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Office", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 1, :name => "Carpentry")
-  ItemCategory.create(:prefix => 0, :name => "Power Tools", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Non-Power Tools", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Flats", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Doors", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Platforms", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Carpentry", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 2, :name => "Paint")
-  ItemCategory.create(:prefix => 0, :name => "Stage Paint", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Fence Paint", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Painting Equipment", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Paint", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 3, :name => "Sound")
-  ItemCategory.create(:prefix => 1, :name => "Speakers/Stands", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Sound Board", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Mic ELements", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Mic Packs", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 5, :name => "Cables and Adapters", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 6, :name => "Clearcom", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Sound", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 4, :name => "Lighting")
-  ItemCategory.create(:prefix => 0, :name => "Instruments", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Barrels", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Instrument Accessories", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Lighting Consoles", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Power/Electrics Capital", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 5, :name => "LC and DMX Cable", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 6, :name => "Trees and Bases", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 7, :name => "Gel Material", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 8, :name => "Lamps", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Lighting", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 5, :name => "Costumes")
-  ItemCategory.create(:prefix => 0, :name => "Capital Equipment", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Classical", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Medieval", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "16th Century", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "17th Century", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 5, :name => "18th Century", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 6, :name => "19th Century", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 7, :name => "1900s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 8, :name => "1910s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 9, :name => "1920s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 10, :name => "1930s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 11, :name => "1940s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 12, :name => "1950s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 13, :name => "1960s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 14, :name => "1970s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 15, :name => "1980s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 16, :name => "1990s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 17, :name => "2000s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 18, :name => "2010s", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 19, :name => "Arabia", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 20, :name => "Sequined", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 21, :name => "Suits", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 96, :name => "Accessories", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 97, :name => "Pantomime/Animals", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 98, :name => "Uniforms", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Costumes", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 6, :name => "Props")
-  ItemCategory.create(:prefix => 0, :name => "Bedroom", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Living Room", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Kitchen - Ceramics", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Kitchen - Glassware", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Kitchen - Cooking Supplies", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 5, :name => "Kitchen - Plasticware", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 6, :name => "Kitchen - Serving Items", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 7, :name => "Kitchen - Misc", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 8, :name => "Bathroom", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 9, :name => "Outdoors", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 10, :name => "Office Supplies", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 11, :name => "Toys", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 12, :name => "Practical", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 13, :name => "Accessories", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Props", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 7, :name => "Hair/Makeup")
-  ItemCategory.create(:prefix => 99, :name => "Misc. Hair/Makeup", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 8, :name => "Mixed Use")
-  ItemCategory.create(:prefix => 0, :name => "Dungeon Carts", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 1, :name => "Edison Extension Cords", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 2, :name => "Curtains", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 3, :name => "Cleaning Supplies", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 4, :name => "Storage Boxes", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Misc. Mixed Use", :parent_category_id => p.id)
-  
-  p = ItemCategory.create(:prefix => 9, :name => "Miscellaneous")
-  ItemCategory.create(:prefix => 0, :name => "ABTech Shared Equipment", :parent_category_id => p.id)
-  ItemCategory.create(:prefix => 99, :name => "Miscellaneous", :parent_category_id => p.id)
-end
-
 HelpItem.transaction do
     HelpItem.create(:name => "SMC", :anchor => "why-smc", :display_text => "why do you want this?",
       :message => "We'd like your smc because...well I don't know. We're the mafia.")
@@ -381,4 +289,135 @@ _word_   -> italics
 ==word== -> word will not be textiled
 # item1  -> ordered list item
 * item1  -> unordered list item</pre></notextile>")
+end
+
+# Some things are already html encoded
+coder = HTMLEntities.new
+
+# read xml file of old data
+gz = Zlib::GzipReader.open('db/prod.xml.gz')
+xml = gz.read
+gz.close
+
+# parse the file
+parser, parser.string = XML::Parser.new, xml
+doc = parser.parse
+
+#import categories
+doc.find("//categories").each do |s|
+  number = s.find("number").first.content.to_i
+  name = s.find("name").first.content
+  item = ItemCategory.new(:prefix => number, :name => name)
+  item.save!
+end
+
+#import subcategories
+doc.find("//subcategories").each do |s|
+  number = s.find("number").first.content.to_i
+  name = s.find("name").first.content
+  parentid = s.find("broadid").first.content.to_i
+  parent = ItemCategory.find_by_prefix(parentid)
+  item = ItemCategory.new(:prefix => (number % 100), :name => name, :parent_category_id => parent.id)
+  item.save!
+end
+
+
+#import items
+item_categories_hash = Hash.new
+ItemCategory.all.each { |i| item_categories_hash[i.slug.to_i] = i.id }
+doc.find("//inventory").each do |s|
+  name = s.find("itemname").first.content
+  location = s.find("location").first.content
+  description = coder.decode(s.find("description").first.content)
+
+  itemnum = s.find("itemnum").first.content
+  suffix = itemnum.length >= 3 ? itemnum[-3..-1].to_i : itemnum.to_i
+
+  item_category_id = item_categories_hash[s.find("category").first.content.to_i]
+  item = Item.new(:name => name, :location => location, :description => description,
+                  :suffix => suffix, :item_category_id => item_category_id)
+  item.save!
+end
+
+#import users
+doc.find("//users").each do |s|
+  email = s.find("email").first.content.downcase
+  first_name = s.find("firstname").first.content
+  last_name = s.find("lastname").first.content
+  password = ActiveSupport::SecureRandom.hex(8)
+
+  phone = s.find("phone").first.content
+  smc = s.find("smc").first.content
+  residence = s.find("residence").first.content
+  home_college = s.find("homecoll").first.content
+  graduation_year = s.find("gradyear").first.content
+  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+
+  smc = nil if smc == "0"
+  graduation_year = nil if graduation_year == "0"
+
+  public_profile = (s.find("privphone").first.content == "1") and
+                   (s.find("privhomecoll").first.content == "1") and
+                   (s.find("privsmc").first.content == "1") and
+                   (s.find("privresidence").first.content == "1") and
+                   (s.find("privgradyear").first.content == "1")
+
+  u = User.new(:email => email, :first_name => first_name, :last_name => last_name,
+           :phone => phone, :smc => smc, :residence => residence,
+           :home_college => home_college, :graduation_year => graduation_year,
+           :gender => gender, :public_profile => public_profile, :password => password)
+
+  u.skip_confirmation!
+  u.confirm!
+  unless u.save
+    puts "Unable to save user #{email}:" 
+    u.errors.each_full { |msg| puts " " + msg }
+  end
+end
+
+#import shows
+doc.find("//shows").each do |s|
+  name = s.find_first("showname").content
+  short_name = s.find_first("showabbrev").content.gsub(/ /,"_")
+  archive_date = Date.parse(s.find_first("strikedate").content)
+  unless s.find_first("showdesc").nil?
+    description = coder.decode(s.find_first("showdesc").content)
+    description += "\n\nAuthor: " + coder.decode(s.find_first("showauth").content) if s.find_first("showauth")
+    description += "\nShow Times: " + coder.decode(s.find_first("showtimes").content) if s.find_first("showtimes")
+  else
+    description = nil
+  end
+
+  puts "creating show #{name} (#{short_name})"
+
+  g = Show.new(:name => name, :short_name => short_name, :archive_date => archive_date,
+               :description => description)
+  g.save!
+
+  # Yay, xpath, FTW!
+  doc.find("//staff[shownum/text()=\"#{s.find_first("shownum").content}\"]").each do |p|
+    display_name = p.find_first("position").content
+
+    if ["Choreographer", "Director", "Music Director", "Production Liaison", "Production Manager", "Stage Manager", "Stage Manager (2)", "Technical Director"].include? display_name.gsub(/Assistant /,"") then
+      role = Role.find_by_name("Production Staff")
+    elsif display_name =~ /Crew/ then
+      role = Role.find_by_name("Crew")
+    elsif p.find_first("key").content == "act" then
+      role = Role.find_by_name("Cast")
+    else
+      role = Role.find_by_name("Tech Head")
+    end
+
+    user = User.find_by_email(p.find_first("andrewid").content + "@andrew.cmu.edu")
+
+    if user
+      p = Position.new(:role_id => role.id, :user_id => user.id,
+                 :display_name => display_name)
+      p.group_id = g.id
+      unless p.save
+        puts "Unable to save user #{email}:" 
+        u.errors.each_full { |msg| puts " " + msg }
+      end
+    end
+  end
 end

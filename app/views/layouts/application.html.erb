@@ -7,6 +7,10 @@
   <%= stylesheet_link_tag 'style', 'colorbox', 'jquery.autocomplete' %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
+  <% if current_page? dashboard_calendar_path %>
+    <%= stylesheet_link_tag "fullcalendar.css" %>
+    <%= javascript_include_tag "fullcalendar.min.js" %>
+  <% end %>
 </head>
 <body>
   <div id='wrapper'>
@@ -69,8 +73,6 @@
       &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
       Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %>
     </footer>
-    <div id='sodabar'>
-      how to do <a href='#'>soda</a>?
-    </div>
+    <%= render :partial => 'layouts/sodabar' %>
 </body>
 </html>

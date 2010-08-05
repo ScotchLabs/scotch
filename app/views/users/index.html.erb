@@ -1,4 +1,4 @@
-<h1>Listing users</h1>
+<h1>Scotch Users</h1>
 
 <% @users.each do |user| %>
   <div class="user">
@@ -6,7 +6,3 @@
     &lt;<%= user.email %>&gt;
   </div>
 <% end %>
-
-<br>
-
-<%= link_to 'New User', new_user_path %>

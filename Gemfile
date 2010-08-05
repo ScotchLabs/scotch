@@ -9,3 +9,7 @@ gem 'devise', '1.1.0'
 gem 'RedCloth', '4.2.3'
 
 gem 'exception_notifier', '1.0.0'
+
+gem 'libxml-ruby', '1.1.4'
+
+gem 'htmlentities'
