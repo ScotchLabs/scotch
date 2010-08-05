@@ -287,6 +287,9 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   border: 2px solid red;
   display: inline-block;
   }
+.field {
+  min-height: 30px;
+  }
 #errorExplanation {
   border: 2px solid red;
   padding: 7px;
@@ -303,6 +306,9 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   margin-bottom: 0px;
   background-color: #c00;
   }
+.colorboxlink {
+  font-size: 8pt;
+}
 
 
 /* 460
@@ -343,27 +349,26 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
 
 /* FIXME Anthony broke this and made it look like crap */
 #logout {
-  background: #333;  /* black */
   position: fixed;
-  top: 0px;
-  right: 10px;
-  color: #fff;       /* white */
+  top: 0;
+  right: 0;
+  }
+#logout > li {
+  display: inline;
+  margin: 0 5px;
+}
+#logout > li:before {
+  content: ""
+  }
+#logout > li > a {
+  color: #fff;  /* white */
+  background: #333;  /* black */
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
-  padding: 3px 11px
+  padding: 3px 11px;
   }
-#logout > ul > li {
-  display:inline-block;
-  margin: 5px 5px 5px 5px;
-}
-#logout > ul > li:before {
-  content: ""
-}
-#logout * {
-  color: #fff;  /* white */
-}
 
 body > div > section {
   width: 900px;
@@ -375,7 +380,7 @@ body > div > section > header {
 body > div > section > header h1 a {
   font-size: 26pt;
   display: block;
-  padding-top: 18px;
+  padding-top: 23px;
   color: #fff  /* white */
   }
 body > div > section > header h1 a:hover {
@@ -461,6 +466,12 @@ body > div > section > nav > ul > li > a {
   color: #333;      /* black */
   background: #ddd  /* grey */
   }
+#loginerror {
+  float: left;
+  text-transform: none;
+  padding: 8px;
+  line-height: 23px;
+}
 #loginform {
   float: right;
   padding: 5px
@@ -476,7 +487,7 @@ body > footer {
   text-align: center;
   padding: 12px 0;
   font-size: 7pt;
-  background: #333;  /* black */
+  background: #333 url(/images/soda-border.png) repeat-x bottom left;  /* black */
   color: #fff;       /* white */
   }
 #sodabar {
@@ -490,14 +501,6 @@ body > footer {
   }
 #sodabar a {
   color: #fff  /* white */
-  }
-aside {
-  position: fixed;
-  top: 0;
-  padding-left:10px;
-  left: 0;
-  max-height: 90%;
-  overflow: auto
   }
 .edit_link {
   float: right;

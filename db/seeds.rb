@@ -14,6 +14,9 @@ Permission.transaction do
   Permission.create(:name => "adminDocuments",
                     :description => "User may modify documents at will")
 
+  Permission.create(:name => "checkoutSelf", :description => "User may check out items to self and group or groups self is in")
+  Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
+
   #Global Permissions
   Permission.create(:name => "superuser", :description => "GLOBAL: User has ALL PRIVILEGES, EVERYWHERE")
   Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
@@ -368,14 +371,14 @@ HelpItem.transaction do
     HelpItem.create(:name => "Textile", :anchor => "textile", :display_text => "Textile",
       :message => "[\"RedCloth\":http://redcloth.org/]  enables us to use the [\"Textile markup language\":http://en.wikipedia.org/wiki/Textile_(markup_language)]. Here are some examples of how to format certain things ([\"full manual\":http://redcloth.org/textile/]):
 
-      <notextile><pre>h1. Foo --> creates an h1 element<br>
-      h2. Bar --> creates an h2 element<br>
-      _word_ --> italics<br>
-      *word* --> bold<br>
-      -word- --> strikethrough<br>
-      +word+ --> underline<br>
-      @word@ --> code<br>
-      ==word== --> word will not be textiled<br>
-      # item1 --> ordered list item<br>
-      * item1 --> unordered list item</pre></notextile>")
+<notextile><pre>h1. Foo  -> creates an h1 element
+h2. Bar  -> creates an h2 element
+_word_   -> italics
+*word*   -> bold
+-word-   -> strikethrough
++word+   -> underline
+@word@   -> code
+==word== -> word will not be textiled
+# item1  -> ordered list item
+* item1  -> unordered list item</pre></notextile>")
 end

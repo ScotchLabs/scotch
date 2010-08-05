@@ -14,10 +14,16 @@ class UsersController < ApplicationController
   # GET /users.xml
   def index
     @users = User.all
+    
+    # Autocomplete uses the q param and the js format
+    if params[:q]
+      @users = @users.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }
+      format.js { render :text => @users.map{|u| "#{u.name} #{u.email}"}.join("\n") }
     end
   end
 

@@ -20,13 +20,11 @@
   <% end %>
   
   <div class="field">
-    <%= f.label :user_id, "Check out to:" %><br>
-    <% #TODO FIXME with autocomplete. mantis#60 %>
-    <% #TODO default to "Me" %>
+    <%= f.label :user_name, "Check out to:" %><br>
     <% #ASK should I be able to select a user to check the item out to?
     # maybe only if I can CheckoutOther?
     %>
-    <%= f.select :user_id, @users.map { |u| [u.name, u.id] } %>
+    <%= text_field "custom", "user_identifier", :value => ("#{@checkout.user.name} #{@checkout.user.email}" or "#{current_user.name} #{current_user.email}") %>
   </div>
   
   <% if params[:item_id] %>
