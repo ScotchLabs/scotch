@@ -12,4 +12,10 @@ gem 'exception_notifier', '1.0.0'
 
 gem 'libxml-ruby', '1.1.4'
 
-gem 'htmlentities'
+gem 'htmlentities', '4.2.1'
+
+gem 'smurf', '1.0.4'
+
+gem 'paperclip', '2.3.3'
+
+gem 'digest-whirlpool', '1.0.0'

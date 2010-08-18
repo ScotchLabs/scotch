@@ -4,6 +4,8 @@
 <h1><%= @group %></h1>
 <% if @group.parent %><p style="font-size: 8px;">Child of <%= @group.parent %></p><% end %>
 
+<%= image_tag @group.image.url(:medium) %>
+
 <p>
 <%= raw textilize(@group.description) %>
 </p>

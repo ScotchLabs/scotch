@@ -8,6 +8,9 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
+  has_attached_file :image, :styles => { :medium => "200x200>", :thumb => "75x75>" },
+    :default_url => '/images/missing_image.jpg'
+
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
   validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/
@@ -28,7 +31,7 @@ class Group < ActiveRecord::Base
 
   # Return all roles that are valid for this group.
   def roles
-    return Role.where(["group_type = ?",self.class.name]).all
+    return Role.where :group_type => self.class.name
   end
 
   # Return all permissions that a user has for this group.  This is calculated
@@ -68,7 +71,12 @@ class Group < ActiveRecord::Base
   def <=>(other)
     other_date = (other.archive_date or Date.today)
     me_date = (archive_date or Date.today)
-    other_date <=> me_date
+    datesort = other_date <=> me_date
+    if datesort == 0
+      return name.downcase <=> other.name.downcase
+    else
+      return datesort
+    end
   end
 
   def archived?

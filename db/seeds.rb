@@ -3,6 +3,58 @@
 
 require 'xml'
 
+# Some things are already html encoded
+coder = HTMLEntities.new
+
+# read xml file of old data
+gz = Zlib::GzipReader.open('db/prod.xml.gz')
+xml = gz.read
+gz.close
+
+# parse the file
+parser, parser.string = XML::Parser.new, xml
+doc = parser.parse
+
+#import users
+doc.find("//users").each do |s|
+  email = s.find("email").first.content.downcase
+  email = "jrfriedr@andrew.cmu.edu" if email == "jasmine@cmu.edu"
+  first_name = s.find("firstname").first.content
+  last_name = s.find("lastname").first.content
+  password = s.find("password").first.content
+  password_salt = password[0..31]
+  encrypted_password = password[32..159]
+
+  phone = s.find("phone").first.content
+  smc = s.find("smc").first.content
+  residence = s.find("residence").first.content
+  home_college = s.find("homecoll").first.content
+  graduation_year = s.find("gradyear").first.content
+  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+
+  smc = nil if smc == "0"
+  graduation_year = nil if graduation_year == "0"
+
+  public_profile = (s.find("privphone").first.content == "1") and
+                   (s.find("privhomecoll").first.content == "1") and
+                   (s.find("privsmc").first.content == "1") and
+                   (s.find("privresidence").first.content == "1") and
+                   (s.find("privgradyear").first.content == "1")
+
+  u = User.new(:email => email, :first_name => first_name, :last_name => last_name,
+           :phone => phone, :smc => smc, :residence => residence,
+           :home_college => home_college, :graduation_year => graduation_year,
+           :gender => gender, :public_profile => public_profile, :password => "123456")
+  u.encrypted_password = encrypted_password
+  u.password_salt = password_salt
+  u.skip_confirmation!
+  u.confirm!
+  unless u.save
+    puts "Unable to save user #{email}:" 
+    u.errors.each_full { |msg| puts " " + msg }
+  end
+end
+
 #create permissions
 Permission.transaction do
   Permission.create(:name => "adminPositions", 
@@ -70,69 +122,41 @@ User.transaction do
   grp.save!
 
   #Create web team
-  u = User.new(:email => "achivett@andrew.cmu.edu", :first_name => "Anthony",
-              :last_name => "Chivetta", :password => "123456", 
-              :phone => "(314) 791-6768", :smc => "2576", 
-              :residence => "Roselawn 1", :home_college => "SCS", 
-              :graduation_year => "2012", :gender => "Male")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("achivett@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id, 
                   :display_name => "Webmaster")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.new(:email => "amgross@andrew.cmu.edu", :first_name => "Aaron",
-              :last_name => "Gross", :password => "123456")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("amgross@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.new(:email => "dfreeman@andrew.cmu.edu", :first_name => "Daniel",
-              :last_name => "Freeman", :password => "123456")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("dfreeman@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.new(:email => "jrfriedr@andrew.cmu.edu", :first_name => "Jasmine",
-              :last_name => "Friedrich", :password => "123456")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("jrfriedr@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Design Mistress")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.new(:email => "mdickoff@andrew.cmu.edu", :first_name => "Matt",
-              :last_name => "Dickoff", :password => "123456")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("mdickoff@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
 
-  u = User.new(:email => "sewillia@andrew.cmu.edu", :first_name => "Spencer",
-              :last_name => "Williams", :password => "123456")
-  u.skip_confirmation!
-  u.confirm! #if we don't do this, you can't log in :(
-  u.save!
+  u = User.find_by_email("sewillia@andrew.cmu.edu")
   pos = Position.new(:role_id => adm.id, :user_id => u.id,
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
-
 end
 
 #Create Board
@@ -291,18 +315,6 @@ _word_   -> italics
 * item1  -> unordered list item</pre></notextile>")
 end
 
-# Some things are already html encoded
-coder = HTMLEntities.new
-
-# read xml file of old data
-gz = Zlib::GzipReader.open('db/prod.xml.gz')
-xml = gz.read
-gz.close
-
-# parse the file
-parser, parser.string = XML::Parser.new, xml
-doc = parser.parse
-
 #import categories
 doc.find("//categories").each do |s|
   number = s.find("number").first.content.to_i
@@ -321,7 +333,6 @@ doc.find("//subcategories").each do |s|
   item.save!
 end
 
-
 #import items
 item_categories_hash = Hash.new
 ItemCategory.all.each { |i| item_categories_hash[i.slug.to_i] = i.id }
@@ -337,42 +348,6 @@ doc.find("//inventory").each do |s|
   item = Item.new(:name => name, :location => location, :description => description,
                   :suffix => suffix, :item_category_id => item_category_id)
   item.save!
-end
-
-#import users
-doc.find("//users").each do |s|
-  email = s.find("email").first.content.downcase
-  first_name = s.find("firstname").first.content
-  last_name = s.find("lastname").first.content
-  password = ActiveSupport::SecureRandom.hex(8)
-
-  phone = s.find("phone").first.content
-  smc = s.find("smc").first.content
-  residence = s.find("residence").first.content
-  home_college = s.find("homecoll").first.content
-  graduation_year = s.find("gradyear").first.content
-  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
-
-  smc = nil if smc == "0"
-  graduation_year = nil if graduation_year == "0"
-
-  public_profile = (s.find("privphone").first.content == "1") and
-                   (s.find("privhomecoll").first.content == "1") and
-                   (s.find("privsmc").first.content == "1") and
-                   (s.find("privresidence").first.content == "1") and
-                   (s.find("privgradyear").first.content == "1")
-
-  u = User.new(:email => email, :first_name => first_name, :last_name => last_name,
-           :phone => phone, :smc => smc, :residence => residence,
-           :home_college => home_college, :graduation_year => graduation_year,
-           :gender => gender, :public_profile => public_profile, :password => password)
-
-  u.skip_confirmation!
-  u.confirm!
-  unless u.save
-    puts "Unable to save user #{email}:" 
-    u.errors.each_full { |msg| puts " " + msg }
-  end
 end
 
 #import shows

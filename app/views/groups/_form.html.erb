@@ -1,4 +1,4 @@
-<%= form_for(@group) do |f| %>
+<%= form_for(@group, :html => { :multipart => true }) do |f| %>
   <% if @group.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
@@ -20,6 +20,11 @@
   <div class="field">
     <%= f.label :short_name %>
     <%= f.text_field :short_name %>
+  </div>
+
+  <div>
+    <%= f.label :image %><br>
+    <%= f.file_field :image %>
   </div>
 
   <% if params[:group_type] != "Show" && @group.new_record? %>

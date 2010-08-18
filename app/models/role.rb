@@ -3,6 +3,7 @@ class Role < ActiveRecord::Base
   has_many :permissions, :through => :role_permissions
 
   validates_inclusion_of :group_type, :in => ["Group", "Show", "Board"]
+  validates_uniqueness_of :name, :scope => :group_type
 
   # Sort based on the number of permissions
   def <=>(other)

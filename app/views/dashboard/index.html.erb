@@ -1,40 +1,61 @@
 <article>
-<h1>Welcome <%= current_user.first_name %></h1>
+  <div class='halves-split'>
+    <div class='half fleft'>
+      <h1><%= current_user.name %></h1>
+      <% if current_user.incomplete_record? %>
+      It looks like your profile is incomplete.<br>
+      <%= link_to "Tell us more about yourself!", edit_user_path(current_user) %><br>
+      <% end %>
+      <h1>Positions</h1>
+      <ul>
+        <% current_user.active_positions.sort.uniq.each do |p| %>
+          <li><%= link_to p, p %> in <%= link_to p.group, p.group %></li> <!-- #TODO show positions -->
+        <% end %>
+      </ul>
+      <h1>Checkouts</h1>
+      <h3>Items checked out to you</h3>
+      <% unless current_user.current_checkouts_to.empty? %>
+      <ul>
+        <% current_user.current_checkouts_to.each do |checkout| %>
+        <li><%= link_to checkout.item, checkout.item %> for <%= link_to checkout.group, checkout.group %>. Checked out by <%= link_to checkout.opener, checkout.opener %>. <%= link_to "View Checkout", checkout %>. <%= link_to "Check In", new_checkout_checkout_event_path(checkout, :event => 'closed') %>.</li> <!-- #TODO FIXME there must be a prettier way to do this -->
+        <% end %>
+      </ul>
+      <% else %>
+      Nothing checked out to you!
+      <% end %>
+      <h3>Items checked out by you</h3>
+      <% unless current_user.current_checkouts_by.empty? %>
+      <ul>
+        <% current_user.current_checkouts_by.each do |checkout| %>
+        <li><%= link_to checkout.item, checkout.item %> for <%= link_to checkout.group, checkout.group %>. Checked out to <%= link_to checkout.user, checkout.user %>. <%= link_to "View Checkout", checkout %>.</li> <!-- #TODO FIXME there must be a prettier way to do this -->
+        <% end %>
+      </ul>
+      <% else %>
+      Nothing checked out by you!
+      <% end %>
+      <h1>Notifications</h1>
+      TODO
+    </div>
+    <div class='half fright'>
+      <h1>Announcements</h1>
+      TODO
+      <h1>Upcoming Events</h1>
+      <% events = current_user.future_events.uniq.sort
+      #TODO only show the NEXT 10
+      #ASK should we implement some sort of User Settings where they override that?
+      %>
+      <% unless events.length == 0 %>
+        <ul>
+          <% events.each do |event| %>
+            <li>
+              <%= format_time event.start_time %>
+              <%= link_to event.group, event.group %>: <%= link_to event, event %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <div class='clearfix'></div>
+  </div>
 </article>
 
-<% unless current_user.active_groups.empty? then %>
-  <article>
-  <h3>Your groups</h3>
-  <ul>
-    <% current_user.active_groups.sort.uniq.each do |g| %>
-      <li><%= link_to g, g %></li> <!-- #TODO show positions -->
-    <% end %>
-  </ul>
-  </article>
-<% end %>
-
-<% events = current_user.user_events.select{|e| e.future?} %>
-<% unless events.length == 0 %>
-  <article>
-  <h3>Your upcoming events</h3>
-  <ul>
-    <% events.each do |e| %>
-      <li>
-        <%= link_to e.group, e.group %>: <%= link_to e, e %>
-        <%= format_time e.start_time %>
-      </li>
-    <% end %>
-  </ul>
-  </article>
-<% end %>
-
-<% unless current_user.checkouts.empty? %>
-  <article>
-  <h3>Your checkouts</h3>
-  <ul>
-    <% current_user.checkouts.each do |c| %>
-    <li><%= link_to "#{c.item} for #{c.group}", c %></li> <!-- #TODO FIXME there must be a prettier way to do this -->
-    <% end %>
-  </ul>
-  </article>
-<% end %>
