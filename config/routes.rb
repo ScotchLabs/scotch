@@ -1,9 +1,5 @@
 Scotch::Application.routes.draw do |map|
 
-  resources :feed_posts
-
-  resources :watchers
-
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}
   resources :users
