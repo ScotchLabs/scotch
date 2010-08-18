@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Parent:</b>
+  <%= @feed_post.parent_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @feed_post.user_id %>
+</p>
+
+<p>
+  <b>Post type:</b>
+  <%= @feed_post.post_type %>
+</p>
+
+<p>
+  <b>Headline:</b>
+  <%= @feed_post.headline %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @feed_post.body %>
+</p>
+
+
+<%= link_to 'Edit', edit_feed_post_path(@feed_post) %> |
+<%= link_to 'Back', feed_posts_path %>

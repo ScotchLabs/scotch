@@ -1,19 +1,27 @@
 class Checkout < ActiveRecord::Base
   has_many :checkout_events, :dependent => :destroy
   
-  belongs_to :user  # the user responsible for returning the item
-  belongs_to :group # the group using the item,
-                    # the group immediately in charge of authorizing the checkout
-  belongs_to :item  # the item being checked out
+  # the person the item was checked out BY
+  belongs_to :opener, :class_name => "User"
+  # the person the item was checked out TO
+  belongs_to :user
+  belongs_to :group
+  belongs_to :item
 
-  attr_protected :group_id
-  
-  attr_accessor :authorizer_id
+  attr_protected :opener_id
   
   after_create :create_open_event
 
-  validates_presence_of :group_id, :user_id, :item_id
-  validates_associated :group, :user, :item
+  validates_presence_of :group, :user, :item, :opener
+  
+  def checkout_time
+    return nil unless has_event? "opened"
+    events('opened').first.created_at
+  end
+  def checkin_time
+    return nil unless has_event? "closed"
+    events('closed').first.created_at
+  end
   
   # if arg is not specified, returns true if any CheckoutEvent
   # exists.
@@ -26,12 +34,12 @@ class Checkout < ActiveRecord::Base
   end
   
   def open?
-    !has_event?('closed')
+    has_event? 'opened' and !has_event? 'closed'
   end
   
-  def opener
-    return nil unless open?
-    events('opened').first.user
+  def openable
+    return false if open? or has_event? 'closed'
+    true
   end
   
   def events(arg)
@@ -55,6 +63,7 @@ class Checkout < ActiveRecord::Base
   end
   
   def paymentRequired
+    return 0 unless has_event? 'paymentRequired'
     latestPaymentRequiredEvent = events('paymentRequired').sort {|a, b|
       a.created_at <=> b.created_at
     }.last
@@ -64,7 +73,7 @@ class Checkout < ActiveRecord::Base
   def paymentReceived
     sum = 0
     events('paymentReceived').each do |e|
-      sum << e.notes.to_f
+      sum = sum + e.notes.to_f
     end
     sum
   end
@@ -76,8 +85,12 @@ class Checkout < ActiveRecord::Base
 private
   
   def create_open_event
-    c = CheckoutEvent.new({:user_id => authorizer_id, :checkout_id => id, :event => 'opened'})
-    raise "Couldn't save a new '#{CheckoutEvent.event_name('opened')}' CheckoutEvent." unless c.save
+    c = CheckoutEvent.new({:checkout_id => id, :event => 'opened'})
+    c.user_id = opener_id
+    unless c.save
+      puts c.errors
+      raise "Couldn't save a new '#{CheckoutEvent.event_name('opened')}' CheckoutEvent."
+    end
   end
   
 end

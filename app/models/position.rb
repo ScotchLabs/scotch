@@ -15,7 +15,13 @@ class Position < ActiveRecord::Base
   end
 
   def <=>(other)
-    role <=> other.role || display_name <=> other.display_name
+    gsort = group<=>other.group
+    if gsort == 0
+      puts "gsort is 0. group is #{group}, other group is #{other.group}"
+      role <=> other.role || display_name <=> other.display_name
+    else
+      return gsort
+    end
   end
 
   protected

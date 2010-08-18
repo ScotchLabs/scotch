@@ -14,25 +14,6 @@
 </head>
 <body>
   <div id='wrapper'>
-    <div id='bannernocss3' class='banner'></div>
-    <div id='banner' class='banner'></div>
-    <% if current_user %>
-      <ul id='logout'>
-        <% if request.domain == "localhost" %>
-        <li><a href='#' id='debuglink'>Show Debug</a></li>
-        <div class='hidden'>
-          <div id='debugblock'>
-            <h2>Params</h2>
-            <%= debug params %>
-          </div>
-        </div>
-        <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
-        <% end %>
-        
-        <li><%= link_to "Feedback", new_feedback_path %></li>
-        <li><%= link_to "Log Out", destroy_user_session_path %></li>
-      </ul>
-    <% end %>
     <section>
       <header>
         <h1><a href='/'>Scotch on the Web</a></h1>
@@ -67,12 +48,29 @@
       <% end %>
       <div id='push'></div>
     </section>
-  </div> 
-    <footer>
-      <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br>
-      &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
-      Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %>
-    </footer>
-    <%= render :partial => 'layouts/sodabar' %>
+  </div>
+  <% if current_user %>
+    <ul id='logout'>
+      <% if request.domain == "localhost" %>
+      <li><a href='#' id='debuglink'>Show Debug</a></li>
+      <div class='hidden'>
+        <div id='debugblock'>
+          <h2>Params</h2>
+          <%= debug params %>
+        </div>
+      </div>
+      <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
+      <% end %>
+      <li><%= link_to "Account", current_user %></li> 
+      <li><%= link_to "Feedback", new_feedback_path %></li>
+      <li><%= link_to "Log Out", destroy_user_session_path %></li>
+    </ul>
+  <% end %>
+  <footer>
+    <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br>
+    &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
+    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %>
+  </footer>
+  <%= render :partial => 'layouts/sodabar' %>
 </body>
 </html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100809005353) do
+ActiveRecord::Schema.define(:version => 20100808162125) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20100809005353) do
     t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "opener_id"
   end
 
   create_table "document_tags", :force => true do |t|
@@ -103,7 +104,7 @@ ActiveRecord::Schema.define(:version => 20100809005353) do
     t.integer  "item_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "catalog_number"
+    t.integer  "suffix"
   end
 
   create_table "permissions", :force => true do |t|
@@ -137,9 +138,9 @@ ActiveRecord::Schema.define(:version => 20100809005353) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                :default => "",    :null => false
-    t.string   "encrypted_password",    :limit => 128, :default => "",    :null => false
-    t.string   "password_salt",                        :default => "",    :null => false
+    t.string   "email",                               :default => "",   :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "",   :null => false
+    t.string   "password_salt",                       :default => "",   :null => false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -164,11 +165,7 @@ ActiveRecord::Schema.define(:version => 20100809005353) do
     t.string   "residence"
     t.string   "gender"
     t.date     "birthday"
-    t.boolean  "public_profile",                       :default => false, :null => false
-    t.string   "headshot_file_name"
-    t.string   "headshot_content_type"
-    t.integer  "headshot_file_size"
-    t.datetime "headshot_updated_at"
+    t.boolean  "public_profile",                      :default => true, :null => false
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

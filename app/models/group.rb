@@ -31,7 +31,7 @@ class Group < ActiveRecord::Base
 
   # Return all roles that are valid for this group.
   def roles
-    return Role.where(["group_type = ?",self.class.name]).all
+    return Role.where :group_type => self.class.name
   end
 
   # Return all permissions that a user has for this group.  This is calculated
@@ -71,7 +71,12 @@ class Group < ActiveRecord::Base
   def <=>(other)
     other_date = (other.archive_date or Date.today)
     me_date = (archive_date or Date.today)
-    other_date <=> me_date
+    datesort = other_date <=> me_date
+    if datesort == 0
+      return name.downcase <=> other.name.downcase
+    else
+      return datesort
+    end
   end
 
   def archived?
