@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100805041010) do
+ActiveRecord::Schema.define(:version => 20100809005353) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -73,6 +73,10 @@ ActiveRecord::Schema.define(:version => 20100805041010) do
     t.datetime "updated_at"
     t.string   "short_name"
     t.date     "archive_date"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "help_items", :force => true do |t|
@@ -133,16 +137,16 @@ ActiveRecord::Schema.define(:version => 20100805041010) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "",    :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "",    :null => false
-    t.string   "password_salt",                       :default => "",    :null => false
+    t.string   "email",                                :default => "",    :null => false
+    t.string   "encrypted_password",    :limit => 128, :default => "",    :null => false
+    t.string   "password_salt",                        :default => "",    :null => false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -160,7 +164,11 @@ ActiveRecord::Schema.define(:version => 20100805041010) do
     t.string   "residence"
     t.string   "gender"
     t.date     "birthday"
-    t.boolean  "public_profile",                      :default => false, :null => false
+    t.boolean  "public_profile",                       :default => false, :null => false
+    t.string   "headshot_file_name"
+    t.string   "headshot_content_type"
+    t.integer  "headshot_file_size"
+    t.datetime "headshot_updated_at"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

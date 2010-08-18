@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday
+    :gender, :residence, :birthday, :headshot
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -18,7 +18,15 @@ class User < ActiveRecord::Base
   has_many :checkouts, :dependent => :destroy
   has_many :checkout_events, :dependent => :destroy
 
-  validates_presence_of :first_name, :last_name
+  #FIXME Right now we symlink to the /data/upload directory in production
+  #circumventing the security restrictions enabled in that directory.  We
+  #really should serve out of that directory instead using the
+  #upload.snstheatre.org domain.  This link details one way to do that.
+  #http://stackoverflow.com/questions/2562249/how-can-i-set-paperclips-storage-mechanism-based-on-the-current-rails-environmen
+  has_attached_file :headshot, :styles => { :medium => "200x200>", :thumb => "75x75>" }, 
+    :default_url => '/images/missing_headshot.jpg'
+
+  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt
 
   # FIXME we should lowercase the email provided by the user 
   validates_format_of :email, :with => /\A([a-z0-9+]+)@andrew\.cmu\.edu\Z/i
@@ -80,7 +88,7 @@ class User < ActiveRecord::Base
   def user_events
     es = events.all
     groups.each do |g|
-      es += g.events.select { |e| e.attendees.count == 0 }
+      es += g.events.select { |e| e.event_attendees.count == 0 }
     end
     return es
   end

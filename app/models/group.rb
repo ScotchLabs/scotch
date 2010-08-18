@@ -8,6 +8,9 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
+  has_attached_file :image, :styles => { :medium => "200x200>", :thumb => "75x75>" },
+    :default_url => '/images/missing_image.jpg'
+
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
   validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/

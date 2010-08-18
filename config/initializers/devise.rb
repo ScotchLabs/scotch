@@ -19,12 +19,12 @@ Devise.setup do |config|
   # config.http_authenticatable = true
 
   # The realm used in Http Basic Authentication
-  # config.http_authentication_realm = "Application"
+  config.http_authentication_realm = "Scotch"
 
   # ==> Configuration for :database_authenticatable
   # Invoke `rake secret` and use the printed value to setup a pepper to generate
   # the encrypted password. By default no pepper is used.
-  # config.pepper = "rake secret output"
+  config.pepper = "6343cda380e28963f0b7f90833e823006c3e737418c2a6ee7520388d9b798896dcb512d4e0cc0eff125800a826314cdd212bf4b6f4abc67279564e6698dd86f8"
 
   # Configure how many times you want the password is reencrypted. Default is 10.
   # config.stretches = 10
@@ -34,7 +34,7 @@ Devise.setup do |config|
   # authentication tools as :clearance_sha1, :authlogic_sha512 (then you should set
   # stretches above to 20 for default behavior) and :restful_authentication_sha1
   # (then you should set stretches to 10, and copy REST_AUTH_SITE_KEY to pepper)
-  # config.encryptor = :sha1
+  config.encryptor = :sotw
 
   # ==> Configuration for :confirmable
   # The time you want give to your user to confirm his account. During this time
@@ -43,11 +43,11 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  config.remember_for = 2.weeks
 
   # ==> Configuration for :validatable
   # Range for password length
-  # config.password_length = 6..20
+  config.password_length = 6..20
 
   # Regex to use to validate the email address
   # config.email_regexp = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i
@@ -55,7 +55,7 @@ Devise.setup do |config|
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again.
-  # config.timeout_in = 10.minutes
+  # config.timeout_in = 2.days
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
@@ -79,7 +79,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  config.token_authentication_key = :auth_token
+  config.token_authentication_key = :authentication_token
 
   # ==> General configuration
   # Load and configure the ORM. Supports :active_record (default), :mongoid
@@ -95,11 +95,11 @@ Devise.setup do |config|
   # accessing "/users/sign_in", it knows you are accessing an User. This makes
   # routes as "/sign_in" not possible, unless you tell Devise to use the default
   # scope, setting true below.
-  # config.use_default_scope = true
+  config.use_default_scope = true
 
   # Configure the default scope used by Devise. By default it's the first devise
   # role declared in your routes.
-  # config.default_scope = :user
+  config.default_scope = :user
 
   # If you want to use other strategies, that are not (yet) supported by Devise,
   # you can configure them inside the config.warden block. The example below
@@ -115,5 +115,4 @@ Devise.setup do |config|
   #   manager.default_strategies(:scope => :user).unshift :twitter_oauth
   end
 
-  config.encryptor = :bcrypt
 end
