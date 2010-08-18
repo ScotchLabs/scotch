@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20100809005353) do
     t.string   "headshot_content_type"
     t.integer  "headshot_file_size"
     t.datetime "headshot_updated_at"
+    t.string   "andrew_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
