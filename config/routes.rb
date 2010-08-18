@@ -1,7 +1,7 @@
 Scotch::Application.routes.draw do |map|
 
   # Users. Yay.
-  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}
+  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "users/sessions"}
   resources :users
 
   # Items stand by themselves since we have an inventory that is global.  In

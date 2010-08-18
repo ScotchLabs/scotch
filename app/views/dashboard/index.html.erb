@@ -33,12 +33,8 @@
       <% else %>
       Nothing checked out by you!
       <% end %>
-      <h1>Notifications</h1>
-      TODO
     </div>
     <div class='half fright'>
-      <h1>Announcements</h1>
-      TODO
       <h1>Upcoming Events</h1>
       <% events = current_user.future_events.uniq.sort
       #TODO only show the NEXT 10

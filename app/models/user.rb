@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :headshot
+    :gender, :residence, :birthday, :andrew_id, :headshot
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -48,13 +48,40 @@ class User < ActiveRecord::Base
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
 
-  def self.recent
-    User.where(["current_sign_in_at > ?", 2.hour.ago]).all
-  end
+  scope :recent, where(["current_sign_in_at > ?", 2.hour.ago])
+
+####################
+# OBJECT OVERRIDES #
+####################
 
   def to_s 
     name
   end
+  
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+  
+  def <=>(other)
+    (last_name + first_name)<=>(other.last_name + other.first_name)
+  end
+  
+###################
+# TABLE OVERRIDES #
+###################
+
+  def andrew_id=(a)
+    unless @andrew_id.nil?
+      logger.debug "Someone tried to set #{self.name}'s andrew id, but it's not nil so we're going to warn and ignore that"
+      return
+    end
+    super
+    self.email="#{andrew_id}@andrew.cmu.edu"
+  end
+  
+########################
+# EXTENDED INFORMATION #
+########################
   
   def active_member?
     # what constitutes an active member?
@@ -69,10 +96,6 @@ class User < ActiveRecord::Base
     true
   end
   
-  def future_events
-    user_events.select{|e| e.future?}
-  end
-  
   def age
     ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
   end
@@ -80,6 +103,21 @@ class User < ActiveRecord::Base
   def name
     first_name + " " + last_name
   end
+
+#################################
+# GROUPS AND POSITIONS METHODS #
+#################################
+
+  def active_groups
+    self.groups.all.select{|g| g.active?}
+  end
+  def active_positions
+    positions.select{ |p| p.group.active? }
+  end
+  
+#######################
+# PERMISSIONS METHODS #
+#######################
 
   def global_permissions
     Group.system_group.permissions_for(self) +
@@ -91,9 +129,9 @@ class User < ActiveRecord::Base
       global_permissions.include?(Permission.fetch("superuser"))
   end
 
-  def <=>(other)
-    (last_name + first_name)<=>(other.last_name + other.first_name)
-  end
+#################
+# EVENT METHODS #
+#################
 
   # All events which should appear on the user's calendar
   def user_events
@@ -104,16 +142,13 @@ class User < ActiveRecord::Base
     return es
   end
 
-  # FIXME redo this as a scope
-  #sewillia: I don't think we should. scopes are called on the class to return instances,
-  #  not called on instances to return associations
-  def active_groups
-    self.groups.all.select{|g| g.active?}
+  def future_events
+    user_events.select{|e| e.future?}
   end
-  def active_positions
-    positions.select{ |p| p.group.active? }
-  end
-  
+
+####################
+# CHECKOUT METHODS #
+####################
   def can_check_out_items_to?(other, group)
     unless other.class.to_s == "User"
       #puts "other is not a User"
@@ -127,54 +162,29 @@ class User < ActiveRecord::Base
     cs = Permission.fetch "checkoutSelf"
     co = Permission.fetch "checkoutOther"
     
-    if has_global_permission? cs and groups.include? group and self == other
-      # if user has checkoutSelf globally, he can check out items to
-      # himself in any of his groups
-      #puts "user has checkoutSelf globally"
-      #puts "user's groups includes group, other is user"
-      return true
-      
-    elsif group.permissions_for(self).include? cs and self == other
-      # if user has checkoutSelf for a group, he can check out items to
-      # himself in that group
-      #puts "user has checkoutSelf for group"
-      #puts "other is user"
-      return true
-      
-    elsif has_global_permission? co and other.groups.include? group
-      # if user has checkoutOther globally, she can check out items to
-      # anyone in any group
-      #puts "user has checkoutOther globally"
-      #puts "other's groups includes group"
-      return true
-      
-    elsif group.permission_for(self).include? co and other.groups.include? group
-      # if user has checkoutOther for a group, she can check out items to
-      # anyone in that group
-      #puts "user has checkoutOther for group"
-      #puts "other is in group"
-      return true
-      
-    else
-      #puts "user does not have permissions, or other/group combo was incorrect"
-      false
-    end
-    false
+    # if user has checkoutSelf globally, he can check out items to himself in any of his groups
+    return true if has_global_permission? cs and groups.include? group and self == other
+    
+    # if user has checkoutSelf for a group, he can check out items to himself in that group
+    return true if group.permissions_for(self).include? cs and self == other
+    
+    # if user has checkoutOther globally, she can check out items to anyone in any group
+    return true if has_global_permission? co and other.groups.include? group
+    
+    # if user has checkoutOther for a group, she can check out items to anyone in that group
+    return true if group.permission_for(self).include? co and other.groups.include? group
+    
+    return false
   end
 
   def allowedToCauseEvent? (event,checkout)
-    #puts "checking if #{name} is allowed to cause a #{event[0]} on #{checkout}"
     return false unless event.class.to_s == 'Array' and checkout.class.to_s == 'Checkout'
     eventType = event[0]
     eventList = event[5]
-    #puts "event list: #{eventList.join(", ")}"
-    #puts "checking for other..."
+    
     return true if eventList.include? 'other' # anyone is allowed to do an 'other' event
-    #puts "checking for opener..."
     return true if eventList.include? 'opener' and self == checkout.opener
-    #puts "checking for owner..."
     return true if eventList.include? 'owner' and self == checkout.user
-    #puts "none found"
     return false
   end
   
@@ -189,6 +199,7 @@ class User < ActiveRecord::Base
 private
 
   # FIXME: this doesn't seem to work
+  # use @password
   def set_random_password
     if password.nil? then
       password = ActiveSupport::SecureRandom.hex(16)
