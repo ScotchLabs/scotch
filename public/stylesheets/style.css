@@ -156,7 +156,7 @@ body {
 /* use these classes on divs inside an article */
 .thirds-split-left {
   /* wrap this around div.left-third and div.right-two-thirds and put a clearfix before the close */
-  background: transparent url('/images/thirds-border.png') repeat-y 303px top;
+  background: transparent url('/images/layout/thirds-border.png') repeat-y 303px top;
 }
 .left-third {
   float: left;
@@ -170,7 +170,7 @@ body {
 }
 .thirds-split-right {
   /* wrap this around div.left-two-thirds and div.right-third and put a clearfix before the close */
-  background: transparent url('/images/thirds-border.png') repeat-y 554px top;
+  background: transparent url('/images/layout/thirds-border.png') repeat-y 554px top;
 }
 .left-two-thirds {
   float: left;
@@ -184,7 +184,7 @@ body {
 }
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
-  background: transparent url('/images/thirds-border.png') repeat-y 429px top;
+  background: transparent url('/images/layout/thirds-border.png') repeat-y 429px top;
 }
 .half {
   /* use with fleft or fright */
@@ -319,7 +319,7 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
  * These styles define the layout (positioning, backgrounds etc)
  * and should not affect the views */
 body {
-  background: #eeb url(/images/bg.png) repeat-x scroll left top;  /* beige */
+  background: #eeb url("/images/layout/header.png") repeat-x scroll left top;  /* beige */
 }
 
 #logout {
