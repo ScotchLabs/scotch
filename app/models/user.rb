@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    "#{id}-#{name.parameterize}"
+    andrew_id
   end
   
   def <=>(other)
@@ -77,6 +77,15 @@ class User < ActiveRecord::Base
     end
     super
     self.email="#{andrew_id}@andrew.cmu.edu"
+    self.andrew_id
+  end
+  
+  def email=(e)
+    super
+    if self.andrew_id.nil? and e.include? "@andrew.cmu.edu"
+      self.andrew_id = e[0...e.index("@andrew.cmu.edu")]
+    end
+    self.email
   end
   
 ########################
