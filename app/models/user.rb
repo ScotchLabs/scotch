@@ -41,8 +41,6 @@ class User < ActiveRecord::Base
 
   # FIXME we should lowercase the email provided by the user 
   # FIXME we should use Devise's built-in email validation
-  validates_format_of :email, :with => /\A([a-z0-9+]+)@andrew\.cmu\.edu\Z/i
-
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
 
