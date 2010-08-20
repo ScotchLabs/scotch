@@ -68,6 +68,7 @@ Scotch::Application.routes.draw do |map|
   get "dashboard/index"
   get "dashboard/calendar"
   get "dashboard/sysadmin"
+  get "dashboard/terms"
 
   root :to => "dashboard#index"
 end

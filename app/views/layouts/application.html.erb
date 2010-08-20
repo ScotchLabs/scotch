@@ -69,7 +69,8 @@
   <footer id='footer'>
     <b>Scotch on the Web</b> is designed and developed by the Scotch'n'Soda Web Team<br>
     &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
-    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %>
+    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %><br>
+    <%= link_to "Terms of Use & Privacy Policy", dashboard_terms_url %>
   </footer>
   <%= render :partial => 'layouts/sodabar' %>
 </body>
