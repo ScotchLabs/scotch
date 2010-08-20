@@ -348,22 +348,22 @@ body > div > section {
   width: 900px;
   margin: 0 auto
 }
-body > div > section > header {
+#header {
   height: 80px
 }
-body > div > section > header h1 a {
+#header h1 a {
   font-size: 26pt;
   display: block;
   padding-top: 23px;
   color: #fff  /* white */
 }
-body > div > section > header h1 a:hover {
+#header h1 a:hover {
   color: #fff  /* white */
 }
-body > div > section > header h2 {
+#header h2 {
   font-size: 13pt
 }
-body > div > section > nav {
+#nav {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   background: #fff;                     /* white */
@@ -374,11 +374,11 @@ body > div > section > nav {
   margin-bottom: 35px;
   text-transform: uppercase
 }
-body > div > section > nav > ul {
+#nav > ul {
   padding: 0;
   text-indent: 0
 }
-body > div > section > nav > ul > li {
+#nav > ul > li {
   position: relative;
   display: inline-block;
   text-align: center;
@@ -386,10 +386,10 @@ body > div > section > nav > ul > li {
   margin: 0;
   padding: 0 8px 8px
 }
-body > div > section > nav > ul > li:before {
+#nav > ul > li:before {
   content: ""
 }
-body > div > section > nav > ul > li > a {
+#nav > ul > li > a {
   display: inline-block;
   color: #333;  /* black */
   width: 93px;
@@ -399,7 +399,7 @@ body > div > section > nav > ul > li > a {
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px
 }
-.navselected, body > div > section > nav > ul > li > a:hover {
+.navselected, #nav > ul > li > a:hover {
   background: #ddd !important;  /* grey */
   color: #333 !important;       /* black */
 }
@@ -455,7 +455,7 @@ body > div > section > nav > ul > li > a {
   width: auto;
   text-transform: none
 }
-body > footer {
+#footer {
   height: 32px;
   width: 100%;
   margin: 0 auto;
