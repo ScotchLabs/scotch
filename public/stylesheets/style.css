@@ -52,21 +52,21 @@
  * These styles are just a plain good idea to have on any website */
 body {
   overflow-y: scroll
-  }
+}
 h1, h2, h3, h4, h5, h6, ul, body, li {
   margin: 0;
   padding: 0
-  }
+}
 a {
   text-decoration: none
-  }
+}
 ul {
   list-style: none;
-  }
+}
 /* HTML5 fix for STUPID firefox */
 section, article, nav, aside, header, footer {
   display: block;
-  }
+}
 
 
 /* 420
@@ -79,16 +79,16 @@ section, article, nav, aside, header, footer {
 html,
 body {
   height: 100%
-  }
+}
 #wrapper {
   min-height: 100%;
   height: auto !important;
   height: 100%; /* IE */
   margin-bottom: -83px
-  }
+}
 #push {
   height: 83px
-  }
+}
 
 
 /* 430
@@ -101,16 +101,16 @@ body {
  * These styles are here for convenience when writing views */
 .hidden {
   display: none
-  }
+}
 .dkteal {
   color: #0dd
-  }
+}
 .fleft {
   float: left
-  }
+}
 .fright {
   float: right
-  }
+}
 /* the new clearfix method I read about over at Perishable Press
  * use it by putting "<div class='clearfix'></div>" after a floated element
  */
@@ -121,77 +121,77 @@ body {
   content: " ";
   clear: both;
   height: 0
-  }
+}
 * html .clearfix { /* IE6 */
   zoom: 1
-  }
+}
 *:first-child+html .clearfix { /* IE7 */
   zoom: 1
-  }
+}
 /* box-shadow and rounded borders */
 .shadow {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333      /* black */
-  }
+}
 .topcorner {
   -webkit-border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright: 8px
-  }
+}
 .bottomcorner {
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px
-  }
+}
 .bottomleftcorner {
   -webkit-border-bottom-left-radius: 8px;
   -moz-border-radius-bottomleft: 8px
-  }
+}
 .bottomrightcorner {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomright: 8px
-  }
+}
 /* use these classes on divs inside an article */
 .thirds-split-left {
   /* wrap this around div.left-third and div.right-two-thirds and put a clearfix before the close */
   background: transparent url('/images/thirds-border.png') repeat-y 303px top;
-  }
+}
 .left-third {
   float: left;
   display: inline-block;
   width: 283px;
-  }
+}
 .right-two-thirds {
   float: right;
   display: inline-block;
   width: 534px;
-  }
+}
 .thirds-split-right {
   /* wrap this around div.left-two-thirds and div.right-third and put a clearfix before the close */
   background: transparent url('/images/thirds-border.png') repeat-y 554px top;
-  }
+}
 .left-two-thirds {
   float: left;
   display: inline-block;
   width: 534px;
-  }
+}
 .right-third {
   float: right;
   display: inline-block;
   width: 283px;
-  }
+}
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
   background: transparent url('/images/thirds-border.png') repeat-y 429px top;
-  }
+}
 .half {
   /* use with fleft or fright */
   display: inline-block;
   *display: inline; /* IE7 and below */
   width: 408px;
-  }
+}
 
 
 /* 450
@@ -199,40 +199,40 @@ body {
 a {
   color: #f90;  /* ltorange */
   font-weight: bold
-  }
+}
 a:hover {
   color: #0DD  /* dkteal */
-  }
+}
 body {
   /* bg color is defined below as beige */
   color: #333;       /* black */
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
   font-size: 9pt
-  }
+}
 ul {
   padding-left: 1em;
   text-indent: -1em
-  }
+}
 ul li:before {
   content: "\00BB \0020";
   font-weight: bold;
   color: #0dd  /* dkteal */
-  }
+}
 ul li, ol li {
   margin: 1em inherit;
-  }
+}
 h1 {
   font: normal normal normal 17pt/17pt Georgia, "Times New Roman", Times, serif
-  }
+}
 h1 a {
   font-weight: normal
-  }
+}
 h2 {
   text-transform: uppercase;
   font-size: 10pt;
   letter-spacing: 2pt;
   line-height: 17pt
-  }
+}
 article {
   background: #fff;                     /* white */
   padding: 20px;
@@ -241,7 +241,7 @@ article {
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
-  }
+}
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select {
   border: 1px solid #333;              /* black */
   color: #333;                         /* black */
@@ -260,10 +260,10 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     rgb(221,221,221) 100%);            /* grey */
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
-  }
+}
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
-  }
+}
 input[type="submit"], input[type="reset"], a.button {
   display: inline-block;
   font-family: inherit;
@@ -278,22 +278,22 @@ input[type="submit"], input[type="reset"], a.button {
   width:220px;
   font-weight: bold;
   text-align: center;
-  }
+}
 input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
   background: #0dd;  /* dkteal */
   cursor: pointer;
-  }
+}
 input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #ddd;  /* grey */
-  }
+}
 .field_with_errors {
   padding: 2px;
   border: 2px solid red;
   display: inline-block;
-  }
+}
 .field {
   min-height: 30px;
-  }
+}
 #errorExplanation {
   border: 2px solid red;
   padding: 7px;
@@ -301,7 +301,7 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   margin-top: 10px;
   margin-bottom: 20px;
   background-color: #f0f0f0;
-  }
+}
 #errorExplanation h2 {
   text-align: left;
   font-weight: bold;
@@ -309,7 +309,7 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   margin: -7px;
   margin-bottom: 0px;
   background-color: #c00;
-  }
+}
 .colorboxlink {
   font-size: 8pt;
 }
@@ -326,14 +326,14 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  }
+}
 #logout > li {
   display: inline;
   margin: 0 5px;
 }
 #logout > li:before {
   content: ""
-  }
+}
 #logout > li > a {
   color: #fff;  /* white */
   background: #333;  /* black */
@@ -342,27 +342,27 @@ body {
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   padding: 3px 11px;
-  }
+}
 
 body > div > section {
   width: 900px;
   margin: 0 auto
-  }
+}
 body > div > section > header {
   height: 80px
-  }
+}
 body > div > section > header h1 a {
   font-size: 26pt;
   display: block;
   padding-top: 23px;
   color: #fff  /* white */
-  }
+}
 body > div > section > header h1 a:hover {
   color: #fff  /* white */
-  }
+}
 body > div > section > header h2 {
   font-size: 13pt
-  }
+}
 body > div > section > nav {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
@@ -373,11 +373,11 @@ body > div > section > nav {
   -moz-border-radius-bottomright: 8px;
   margin-bottom: 35px;
   text-transform: uppercase
-  }
+}
 body > div > section > nav > ul {
   padding: 0;
   text-indent: 0
-  }
+}
 body > div > section > nav > ul > li {
   position: relative;
   display: inline-block;
@@ -385,7 +385,7 @@ body > div > section > nav > ul > li {
   vertical-align: middle;
   margin: 0;
   padding: 0 8px 8px
-  }
+}
 body > div > section > nav > ul > li:before {
   content: ""
 }
@@ -398,33 +398,33 @@ body > div > section > nav > ul > li > a {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px
-  }
+}
 .navselected, body > div > section > nav > ul > li > a:hover {
   background: #ddd !important;  /* grey */
   color: #333 !important;       /* black */
-  }
+}
 #subnav {
   position: absolute;
   margin: 0 auto;
   width: 900px
-  }
+}
   
 #subnav > ul {
   padding: 0;
   text-indent: 0
-  }
+}
 #subnav > ul > li {
   display:inline-block;
   margin: 5px 4px;
   margin-left: 0
-  }
+}
 /* tricky way of having the first li have no left margin */
 #subnav > ul > li + li {
   margin-left: 4px
-  }
+}
 #subnav > ul > li:before {
   content: ""
-  }
+}
 #subnav > ul > li > * {
   display:inline-block;
   background: #fff;                     /* white */
@@ -435,11 +435,11 @@ body > div > section > nav > ul > li > a {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   padding: 8px 18px;
-  }
+}
 #subnav > ul > li > a:hover {
   color: #333;      /* black */
   background: #ddd  /* grey */
-  }
+}
 #loginerror {
   float: left;
   text-transform: none;
@@ -449,12 +449,12 @@ body > div > section > nav > ul > li > a {
 #loginform {
   float: right;
   padding: 5px
-  }
+}
 #loginform input[type="submit"], #loginform a.button {
   padding: 5px 10px;
   width: auto;
   text-transform: none
-  }
+}
 body > footer {
   height: 32px;
   width: 100%;
@@ -466,7 +466,7 @@ body > footer {
   border: 1px solid #000;
   border-width: 0 0 1px;
   color: #fff;             /* white */
-  }
+}
 #sodabar {
   height: 16px;
   padding: 5px 4px;
@@ -478,10 +478,10 @@ body > footer {
   border: 1px solid #555;
   border-width: 1px 0 0;
   color: #fff              /* white */
-  }
+}
 #sodabar a {
   color: #fff  /* white */
-  }
+}
 .edit_link {
   float: right;
 }
