@@ -1,32 +1,37 @@
-<% if @user == current_user or has_global_permission? "adminUsers" %>
-  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_user_path(@user) %></div>
-<% end %>
-<%= image_tag @user.headshot.url(:medium) %>
-<div id="hcard-<%= @user.first_name %>-<%= @user.last_name %>" class="vcard">
- <h2 class="fn"><%= @user %></h2>
- <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
- <% if (current_user == @user) || @user.public_profile || (has_global_permission? "adminUsers") %>
-   <div class="org"><%= @user.home_college %> Class of <%= @user.graduation_year %></div>
-   <div class="adr">
-     <div class="street-address"><%= @user.residence %></div>
-   </div>
-   <div class="adr">
-     <div class="street-address">SMC <%= @user.smc %></div>
-   </div>
-   <div class="tel"><%= @user.phone %></div>
-   <% if @user.birthday %>
-     <div>Birthday: <%= format_date(@user.birthday) %></div>
-     <div>Age: <%= @user.age %></div>
-   <% end %>
- <% end %>
-</div>
-
-
-<div class="groups">
-	<h3><%= @user.first_name %>'s Groups</h3>
-	<ul>
-		<% @user.positions.each do |p| %>
-			<li><%= link_to p.group, p.group %> as <%=h p %>.</li>
+<div class='halves-split'>
+	<div class='half fleft'>
+		<div style='padding: 15px; background: #333; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
+			<div class='fleft' style='margin-right: 20px'><%= image_tag @user.headshot.url(:medium) %></div>
+			<h1 style='color:#fff'><%= @user %></h1>
+			<a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
+			<div class='clearfix'></div>
+		</div>
+	</div>
+	<div class='half fright'>
+		<% if @user == current_user or has_global_permission? "adminUsers" %>
+			<div class="edit_link">
+				<%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_user_path(@user) %>
+			</div>
 		<% end %>
-	</ul>
+		<h1>Personal Information</h1>
+		<table>
+			<tr><td style='width:150px'>Phone</td><td><%= @user.phone %></td></tr>
+			<tr><td>Email</td><td><%= @user.email %></td></tr>
+			<tr><td>Andrew ID</td><td><%= @user.andrew_id %></td></tr>
+			<tr><td>SMC</td><td><%= @user.smc %></td></tr>
+			<tr style='height:1em'></tr>
+			<tr><td>Residence</td><td><%= @user.residence %></td></tr>
+			<tr><td>Sex</td><td><%= @user.gender %></td></tr>
+			<tr><td>Birthday</td><td><%= @user.birthday %></td></tr>
+			<tr><td>Age</td><td><%= @user.age %></td></tr>
+			<tr style='height:1em'></tr>
+			<tr><td>Graduation Year</td><td><%= @user.graduation_year %></td></tr>
+			<tr><td>School</td><td><%= @user.home_college %></td></tr>
+			<tr><td>Major(s)</td><td><%= @user.majors %></td></tr>
+			<tr><td>Minor(s)</td><td><%= @user.minors %></td></tr>
+			<tr style='height:1em'></tr>
+			<tr><td>Other Activities</td><td><%= @user.other_activities %></td></tr>
+		</table>
+	</div>
+	<div class='clearfix'></div>
 </div>

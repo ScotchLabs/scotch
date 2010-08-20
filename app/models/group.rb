@@ -8,8 +8,17 @@ class Group < ActiveRecord::Base
 
   belongs_to :parent, :class_name => "Group"
 
-  has_attached_file :image, :styles => { :medium => "200x200>", :thumb => "75x75>" },
-    :default_url => '/images/missing_image.jpg'
+  has_attached_file :image, :styles => 
+    { :medium => "150x150#", :thumb => "50x50#" },
+    :default_url => '/images/missing/:class_:style.png'
+
+  validates_attachment_size :image, :less_than => 10.megabytes,
+    :message => "must be less than 10 megabytes",
+    :unless => lambda { |user| !user.image.nil? }
+  validates_attachment_content_type :image,
+    :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
+    :message => "must be an image",
+		:unless => lambda { |user| !user.image.nil? }
 
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name

@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :andrew_id, :headshot
+    :gender, :residence, :birthday, :andrew_id, :headshot, :majors, :minors,
+    :other_activities
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -24,8 +25,17 @@ class User < ActiveRecord::Base
   #really should serve out of that directory instead using the
   #upload.snstheatre.org domain.  This link details one way to do that.
   #http://stackoverflow.com/questions/2562249/how-can-i-set-paperclips-storage-mechanism-based-on-the-current-rails-environmen
-  has_attached_file :headshot, :styles => { :medium => "200x200>", :thumb => "75x75>" }, 
-    :default_url => '/images/missing_headshot.jpg'
+  has_attached_file :headshot, 
+    :styles => {:medium => "150x150#", :thumb => "50x50#"},
+    :default_url => '/images/missing/:class_:style.png'
+
+  validates_attachment_size :headshot, :less_than => 10.megabytes,
+    :message => "must be less than 10 megabytes",
+    :unless => lambda { |user| !user.headshot.nil? }
+  validates_attachment_content_type :headshot,
+    :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
+    :message => "must be an image",
+    :unless => lambda { |user| !user.headshot.nil? }	
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt
 

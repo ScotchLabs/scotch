@@ -1,3 +1,51 @@
-<h1>Editing user</h1>
+<%= form_for(@user, :html => { :multipart => true }) do |f| %>
+  <% if @user.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
 
-<%= render 'form' %>
+<div class='halves-split'>
+  <div class='half fleft'>
+    <div style='padding: 15px; background: #333; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
+      <div class='fleft' style='margin-right: 20px'><%= image_tag @user.headshot.url(:medium) %></div>
+      <h1 style='color:#fff'><%= @user %></h1>
+      <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
+      <div class='clearfix'></div>
+    </div>
+  </div>
+  <div class='half fright'>
+    <% if @user == current_user or has_global_permission? "adminUsers" %>
+      <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_user_path(@user) %></div>
+    <% end %>
+    <h1>Personal Information</h1>
+    <table>
+      <tr><td style='width:150px'><%= f.label :phone %></td><td><%= f.text_field :phone %></td></tr>
+      <tr><td><%= f.label :email %></td><td><%= f.text_field :email %></td></tr>
+      <tr><td><%= f.label :andrew_id %></td><td><%= f.text_field :andrew_id %></td></tr>
+      <tr><td><%= f.label :smc %></td><td><%= f.text_field :smc %></td></tr>
+      <tr style='height:1em'></tr>
+      <tr><td><%= f.label :residence %></td><td><%= f.text_field :residence %></td></tr>
+      <tr><td><%= f.label :gender %></td><td><%= f.text_field :gender %></td></tr>
+      <tr><td><%= f.label :birthday %></td><td><%= f.text_field :birthday %></td></tr>
+      <tr><td>Age</td><td><%= @user.age %></td></tr>
+      <tr style='height:1em'></tr>
+      <tr><td><%= f.label :graduation_year %></td><td><%= f.text_field :graduation_year %></td></tr>
+      <tr><td><%= f.label :home_college %></td><td><%= f.text_field :home_college %></td></tr>
+      <tr><td><%= f.label :majors %></td><td><%= f.text_field :majors %></td></tr>
+      <tr><td><%= f.label :minors %></td><td><%= f.text_field :minors %></td></tr>
+      <tr style='height:1em'></tr>
+      <tr><td><%= f.label :other_activities %></td><td><%= f.text_field :other_activities %></td></tr>
+    </table>
+		<br/>
+		<%= f.submit %>
+  </div>
+  <div class='clearfix'></div>
+</div>
+
+<% end %>
