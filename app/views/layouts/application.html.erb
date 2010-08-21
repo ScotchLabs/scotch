@@ -41,10 +41,12 @@
           <p class="alert"><%= alert %></p>
         </article>
       <% end %>
-      <% if yield.include?("<article") %>
-        <%= yield %>
+      <%
+      @y = yield
+      if @y.include?("<article") %>
+        <%= @y %>
       <% else %>
-        <article><%= yield %><div class='clearfix'></div></article>
+        <article><%= @y %><div class='clearfix'></div></article>
       <% end %>
       <div id='push'></div>
     </section>
