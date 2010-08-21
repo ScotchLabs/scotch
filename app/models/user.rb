@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	# Coerce Paperclip into using custom storage
+	include Shared::AttachmentHelper
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -7,7 +9,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :andrew_id, :headshot
+    :gender, :residence, :birthday, :andrew_id, :headshot, :majors, :minors,
+    :other_activities
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -19,20 +22,25 @@ class User < ActiveRecord::Base
   has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
   has_many :checkout_events, :dependent => :destroy
 
-  #FIXME Right now we symlink to the /data/upload directory in production
-  #circumventing the security restrictions enabled in that directory.  We
-  #really should serve out of that directory instead using the
-  #upload.snstheatre.org domain.  This link details one way to do that.
-  #http://stackoverflow.com/questions/2562249/how-can-i-set-paperclips-storage-mechanism-based-on-the-current-rails-environmen
-  has_attached_file :headshot, :styles => { :medium => "200x200>", :thumb => "75x75>" }, 
-    :default_url => '/images/missing_headshot.jpg'
+	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrew_id end
+
+  has_attachment :headshot, 
+    :styles => {:medium => "150x150#", :thumb => "50x50#"},
+    :default_url => '/images/missing/:class_:style.png',
+		:file_name => 'headshots/:andrew_:style.:extension'
+
+  validates_attachment_size :headshot, :less_than => 10.megabytes,
+    :message => "must be less than 10 megabytes",
+    :unless => lambda { |user| !user.headshot.nil? }
+  validates_attachment_content_type :headshot,
+    :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
+    :message => "must be an image",
+    :unless => lambda { |user| !user.headshot.nil? }	
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt
 
   # FIXME we should lowercase the email provided by the user 
   # FIXME we should use Devise's built-in email validation
-  validates_format_of :email, :with => /\A([a-z0-9+]+)@andrew\.cmu\.edu\Z/i
-
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
 
@@ -48,7 +56,7 @@ class User < ActiveRecord::Base
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
 
-  scope :recent, where(["current_sign_in_at > ?", 2.hour.ago])
+  scope :recent, where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC")
 
 ####################
 # OBJECT OVERRIDES #
@@ -59,7 +67,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    "#{id}-#{name.parameterize}"
+    andrew_id
   end
   
   def <=>(other)
@@ -77,6 +85,15 @@ class User < ActiveRecord::Base
     end
     super
     self.email="#{andrew_id}@andrew.cmu.edu"
+    self.andrew_id
+  end
+  
+  def email=(e)
+    super
+    if self.andrew_id.nil? and e.include? "@andrew.cmu.edu"
+      self.andrew_id = e[0...e.index("@andrew.cmu.edu")]
+    end
+    self.email
   end
   
 ########################

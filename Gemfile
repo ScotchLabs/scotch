@@ -10,6 +10,8 @@ gem 'RedCloth', '4.2.3'
 
 gem 'exception_notifier', '1.0.0'
 
+gem 'will_paginate', '~> 3.0.pre2'
+
 gem 'libxml-ruby', '1.1.4'
 
 gem 'htmlentities', '4.2.1'

@@ -1,8 +1,11 @@
+<article>
 <h1>Listing items</h1>
 
 <%= link_to 'New Item', new_item_path %>
 
 <br>
+
+<%= will_paginate @items %>
 
 <table>
   <tr>
@@ -27,4 +30,4 @@
     <% end %>
   </tr>
 <% end %>
-</table>
+</table></article>
