@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	# Coerce Paperclip into using custom storage
+	include Shared::AttachmentHelper
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -20,14 +22,12 @@ class User < ActiveRecord::Base
   has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
   has_many :checkout_events, :dependent => :destroy
 
-  #FIXME Right now we symlink to the /data/upload directory in production
-  #circumventing the security restrictions enabled in that directory.  We
-  #really should serve out of that directory instead using the
-  #upload.snstheatre.org domain.  This link details one way to do that.
-  #http://stackoverflow.com/questions/2562249/how-can-i-set-paperclips-storage-mechanism-based-on-the-current-rails-environmen
-  has_attached_file :headshot, 
+	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrew_id end
+
+  has_attachment :headshot, 
     :styles => {:medium => "150x150#", :thumb => "50x50#"},
-    :default_url => '/images/missing/:class_:style.png'
+    :default_url => '/images/missing/:class_:style.png',
+		:file_name => 'headshots/:andrew_:style.:extension'
 
   validates_attachment_size :headshot, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
