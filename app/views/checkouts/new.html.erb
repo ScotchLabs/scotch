@@ -1,6 +1,8 @@
+<article>
 <h1>New checkout for <% if params[:group_id] %>Group "<%= @group.name %>"<% else %>Item "<%= @item.name %>"<% end %></h1>
 
 <%= render 'form' %>
 
 <% if params[:group_id] %><%= link_to 'Back', group_checkouts_path %>
 <% elsif params[:item_id] %><%= link_to 'Back', item_checkouts_path %><% end %>
+</article>
