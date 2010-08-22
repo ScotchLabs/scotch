@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
     :gender, :residence, :birthday, :andrew_id, :headshot, :majors, :minors,
-    :other_activities
+    :other_activities, :about
 
   has_many :positions
   has_many :groups, :through => :positions

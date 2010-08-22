@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100820035155) do
+ActiveRecord::Schema.define(:version => 20100821183650) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(:version => 20100820035155) do
     t.string   "majors"
     t.string   "minors"
     t.string   "other_activities"
+    t.text     "about"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

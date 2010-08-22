@@ -14,9 +14,12 @@
 <div class='halves-split'>
   <div class='half fleft'>
     <div style='padding: 15px; background: #333; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
-      <div class='fleft' style='margin-right: 20px'><%= image_tag @user.headshot.url(:medium) %></div>
-      <h1 style='color:#fff'><%= @user %></h1>
-      <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
+      <div class='fleft' style='margin-right: 20px'>
+				<%= image_tag @user.headshot.url(:medium), :style => 'border: 1px solid white'%>
+			</div>
+	    <h1 style='color:#fff'><%= @user %></h1>
+	    <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a><br/>
+			<%= f.label :headshot %><%= f.file_field :headshot, :style => "width:200px; color:white" %>
       <div class='clearfix'></div>
     </div>
   </div>
@@ -42,6 +45,7 @@
       <tr><td><%= f.label :minors %></td><td><%= f.text_field :minors %></td></tr>
       <tr style='height:1em'></tr>
       <tr><td><%= f.label :other_activities %></td><td><%= f.text_field :other_activities %></td></tr>
+			<tr><td><%= f.label :about %></td><td><%= f.text_area :about %></td></tr>
     </table>
 		<br/>
 		<%= f.submit %>
