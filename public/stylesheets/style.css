@@ -84,10 +84,10 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%; /* IE */
-  margin-bottom: -83px
+  margin-bottom: -94px
 }
 #push {
-  height: 83px
+  height: 94px
 }
 
 
@@ -456,7 +456,7 @@ body > div > section {
   text-transform: none
 }
 #footer {
-  height: 32px;
+  height: 43px;
   width: 100%;
   margin: 0 auto;
   text-align: center;
