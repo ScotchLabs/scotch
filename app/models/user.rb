@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     :message => "must be an image",
     :unless => lambda { |user| !user.headshot.nil? }	
 
-  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt
+  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrew_id
 
   # FIXME we should lowercase the email provided by the user 
   # FIXME we should use Devise's built-in email validation
