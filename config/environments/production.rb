@@ -47,8 +47,10 @@ Scotch::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.middleware.use ExceptionNotifier,
+  config.middleware.use "::ExceptionNotifier", 
       :email_prefix => "[Scotch] ",
       :sender_address => %{"Exception Notifier" <webmaster@snstheatre.org>},
       :exception_recipients => %w{web@snstheatre.org}
+
+  config.action_mailer.default_url_options = { :host => 'scotch.snstheatre.org' }
 end
