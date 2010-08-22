@@ -38,6 +38,9 @@ class Group < ActiveRecord::Base
     return g
   end
 
+  def roles
+    self.class.roles
+  end
   # Return all roles that are valid for this group.
   def self.roles
     return Role.where :group_type => self.name
@@ -69,6 +72,9 @@ class Group < ActiveRecord::Base
     name
   end
 
+  def manager_role
+    self.class.manager_role
+  end
   def self.manager_role
     Role.where(:name => "Administrator").first
   end
