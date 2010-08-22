@@ -182,6 +182,18 @@ body {
   display: inline-block;
   width: 283px;
 }
+.thirds-split {
+  /* wrap this around div.third + div.third + div.third and put a clearfix before the close */
+  background: transparent url('/images/layout/two-thirds-borders.png') repeat-y 278px top;
+}
+.third {
+  display: inline-block;
+  width: 258px;
+  float: left;
+}
+.third + .third {
+  margin-left: 43px;
+}
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
   background: transparent url('/images/layout/thirds-border.png') repeat-y 429px top;

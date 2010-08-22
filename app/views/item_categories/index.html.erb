@@ -1,5 +1,6 @@
+<%= render "shared/inventory_form" %>
 <article>
-<h1>Listing item_categories</h1>
+<h1>Listing Item Categories</h1>
 
 <table>
   <tr>
@@ -16,9 +17,7 @@
     <td><%= item_category.slug or item_category.prefix %></td>
     <td><%= item_category %></td>
     <td><%= link_to(item_category.parent_category, item_category.parent_category) unless item_category.parent_category.nil? %></td> <!-- #TODO FIXME there must be a prettier way to do this -->
-    <td><%= link_to 'Show', item_category %></td>
-    <td><%= link_to 'Edit', edit_item_category_path(item_category) %></td>
-    <td><%= link_to 'Destroy', item_category, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'View Items', item_category %></td>
   </tr>
 <% end %>
 </table>

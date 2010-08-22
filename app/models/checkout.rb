@@ -37,9 +37,14 @@ class Checkout < ActiveRecord::Base
     has_event? 'opened' and !has_event? 'closed'
   end
   
-  def openable
-    return false if open? or has_event? 'closed'
-    true
+  def openable?
+    if !has_event? 'opened'
+      return true
+    elsif has_event? 'closed'
+      return false
+    else # has 'opened' and does not have 'closed'
+      return true
+    end
   end
   
   def events(arg)
