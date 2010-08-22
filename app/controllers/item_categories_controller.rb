@@ -7,7 +7,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories
   # GET /item_categories.xml
   def index
-    @item_categories = ItemCategory.all.sort
+    @item_categories = ItemCategory.where(:parent_category_id => nil).sort
 
     respond_to do |format|
       format.html # index.html.erb
