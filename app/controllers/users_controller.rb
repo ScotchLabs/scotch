@@ -13,11 +13,12 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.all
-    
     # Autocomplete uses the q param and the js format
+    # FIXME this loads all users from the database, ouch!
     if params[:q]
-      @users = @users.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+      @users = User.all.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+    else
+      @users = User.order("last_name ASC, first_name ASC").paginate(:per_page => 30, :page => params[:page])
     end
 
     respond_to do |format|

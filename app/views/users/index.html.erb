@@ -1,6 +1,8 @@
 <article>
 <h1>Scotch Users</h1>
 
+<%= will_paginate @users %>
+
 <% @users.each do |user| %>
   <div class="user">
     <%= link_to user, user %>
