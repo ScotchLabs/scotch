@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
   end
   
   def age
-    ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
+    ((Date.today - birthday)/365.2422).to_i unless birthday.nil?
   end
 
   def name

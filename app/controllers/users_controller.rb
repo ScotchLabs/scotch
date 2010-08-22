@@ -98,7 +98,7 @@ class UsersController < ApplicationController
   protected
 
   def find_user
-    unless params.nil? or params[:id].nil?
+    unless params.nil? or params[:id].nil? or params[:id].to_i > 0
       @user = User.find_by_andrew_id(params[:id])
       raise ActiveRecord::RecordNotFound unless @user
     end
