@@ -15,44 +15,19 @@ gz.close
 parser, parser.string = XML::Parser.new, xml
 doc = parser.parse
 
-#import users
-doc.find("//users").each do |s|
-  email = s.find("email").first.content.downcase
-  email = "jrfriedr@andrew.cmu.edu" if email == "jasmine@cmu.edu"
-  first_name = s.find("firstname").first.content
-  last_name = s.find("lastname").first.content
-  password = s.find("password").first.content
-  password_salt = password[0..31]
-  encrypted_password = password[32..159]
+#create magical groups
+Group.transaction do
+  sys = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
+                     :description => "System group for site wide privileges")
+  sys.save!
 
-  phone = s.find("phone").first.content
-  smc = s.find("smc").first.content
-  residence = s.find("residence").first.content
-  home_college = s.find("homecoll").first.content
-  graduation_year = s.find("gradyear").first.content
-  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+  g = Board.create(:name => "Board of Directors", :short_name => "Board",
+                   :description => "Scotch'n'Soda Board of Directors")
+  g.save!
 
-  smc = nil if smc == "0"
-  graduation_year = nil if graduation_year == "0"
-
-  public_profile = (s.find("privphone").first.content == "1") and
-                   (s.find("privhomecoll").first.content == "1") and
-                   (s.find("privsmc").first.content == "1") and
-                   (s.find("privresidence").first.content == "1") and
-                   (s.find("privgradyear").first.content == "1")
-
-  u = User.new(:email => email, :first_name => first_name, :last_name => last_name,
-           :phone => phone, :smc => smc, :residence => residence,
-           :home_college => home_college, :graduation_year => graduation_year,
-           :gender => gender, :public_profile => public_profile, :password => "123456")
-  u.encrypted_password = encrypted_password
-  u.password_salt = password_salt
-  u.skip_confirmation!
-  u.confirm!
-  unless u.save
-    puts "Unable to save user #{email}:" 
-    u.errors.each_full { |msg| puts " " + msg }
-  end
+  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => sys.id,
+                   :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
+  g.save!
 end
 
 #create permissions
@@ -112,14 +87,70 @@ Role.transaction do
   RolePermission.create(:permission_id => p.id, :role_id => r.id)
 end
 
+member_role = Role.find_by_name("Member")
+head_role = Board.manager_role
+sns_group = Group.find_by_short_name("sns")
+board_group = Group.find_by_short_name("Board")
+
+#import users
+doc.find("//users").each do |s|
+  email = s.find("email").first.content.downcase
+  email = "jrfriedr@andrew.cmu.edu" if email == "jasmine@cmu.edu"
+  first_name = s.find("firstname").first.content
+  last_name = s.find("lastname").first.content
+  password = s.find("password").first.content
+  password_salt = password[0..31]
+  encrypted_password = password[32..159]
+
+  #<boardpos>Vice President</boardpos>
+  board_position = s.find("boardpos").first.nil? ? nil : s.find("boardpos").first.content
+
+  phone = s.find("phone").first.content
+  smc = s.find("smc").first.content
+  residence = s.find("residence").first.content
+  home_college = s.find("homecoll").first.content
+  graduation_year = s.find("gradyear").first.content
+  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+
+  smc = nil if smc == "0"
+  graduation_year = nil if graduation_year == "0"
+
+  public_profile = (s.find("privphone").first.content == "1") and
+                   (s.find("privhomecoll").first.content == "1") and
+                   (s.find("privsmc").first.content == "1") and
+                   (s.find("privresidence").first.content == "1") and
+                   (s.find("privgradyear").first.content == "1")
+
+  u = User.new(:email => email, :first_name => first_name, :last_name => last_name,
+           :phone => phone, :smc => smc, :residence => residence,
+           :home_college => home_college, :graduation_year => graduation_year,
+           :gender => gender, :public_profile => public_profile, :password => "123456")
+  u.encrypted_password = encrypted_password
+  u.password_salt = password_salt
+  u.skip_confirmation!
+  u.confirm!
+  unless u.save
+    puts "Unable to save user #{email}:" 
+    u.errors.each_full { |msg| puts " " + msg }
+  else
+    p = Position.new(:role_id => member_role.id, :display_name => "Member", :user_id => u.id)
+    p.group_id = sns_group.id
+    p.save!
+
+    if board_position
+      puts "creating board position #{board_position} for #{u}"
+      p = Position.new(:role_id => head_role.id, :user_id => u.id,
+                          :display_name => board_position)
+      p.group_id = board_group.id
+      p.save!
+    end
+  end
+end
+
 #create system group and system users
 User.transaction do
-  adm = Role.find_by_name("Head")
-
-  #Create system group
-  grp = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
-                     :description => "System group for site wide privileges")
-  grp.save!
+  adm = head_role
+  grp = Group.system_group
 
   #Create web team
   u = User.find_by_email("achivett@andrew.cmu.edu")
@@ -157,38 +188,6 @@ User.transaction do
                   :display_name => "Developer")
   pos.group_id = grp.id
   pos.save!
-end
-
-#Create Board
-Group.transaction do
-  r = Role.find_by_name("Head")
-  g = Board.create(:name => "Board of Directors", :short_name => "Board",
-                     :description => "Scotch'n'Soda Board of Directors")
-
-  u = User.where(:email => "amgross@andrew.cmu.edu").first
-  p = Position.create(:role_id => r.id, :user_id => u.id,
-                  :display_name => "President")
-  p.group_id = g.id
-  p.save!
-
-  u = User.where(:email => "achivett@andrew.cmu.edu").first
-  p = Position.create(:role_id => r.id, :user_id => u.id,
-                  :display_name => "Webmaster")
-  p.group_id = g.id
-  p.save!
-end
-
-#Create SNS group
-Group.transaction do
-  sys = Group.system_group
-  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => sys.id,
-                   :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
-  r = Role.find_by_name("Member")
-  User.all.each do |u|
-    p = Position.create(:role_id => r.id, :group_id => g.id, :display_name => "Member", :user_id => u.id)
-    p.group_id = g.id
-    p.save!
-  end
 end
 
 HelpItem.transaction do

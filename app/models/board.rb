@@ -8,6 +8,6 @@ class Board < Group
   end
 
   def self.manager_role
-    roles.where(:name => "President").first
+    self.roles.where(:name => "Head").first
   end
 end

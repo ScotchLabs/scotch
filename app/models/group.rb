@@ -39,8 +39,8 @@ class Group < ActiveRecord::Base
   end
 
   # Return all roles that are valid for this group.
-  def roles
-    return Role.where :group_type => self.class.name
+  def self.roles
+    return Role.where :group_type => self.name
   end
 
   # Return all permissions that a user has for this group.  This is calculated
