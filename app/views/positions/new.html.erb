@@ -1,8 +1,8 @@
-<article>
 <% if params[:group_type] == "Show" then %>
   <%= render 'show_form' %>
 <% else %>
+  <article>
   <h1>New position</h1>
   <%= render 'form' %>
+  </article>
 <% end %>
-</article>
