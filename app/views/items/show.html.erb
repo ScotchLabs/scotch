@@ -22,15 +22,14 @@
 
   <h2>Actions</h2>
   <p>
-  <%= link_to 'Edit', edit_item_path(@item) %> |
-  <%= link_to 'Back', items_path %><br>
+  <%= link_to 'Edit Item', edit_item_path(@item) %><br>
   <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
     <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
   <% elsif @item.available? %>
     Sorry, you don't have permission to check this item out.
   <% else %>
     This item is currently checked out to <%= link_to @item.current_checkout.user, @item.current_checkout.user %> for <%= link_to @item.current_checkout.group, @item.current_checkout.group %>. <!-- #TODO FIXME there must be a prettier way to do this -->
-    <% if @item.current_checkout.has_deadline? %>Due back on <%= @item.current_checkout.deadline %>.<% end %>
+    <% if @item.current_checkout.has_deadline? %>Due back on <%= format_date @item.current_checkout.deadline %>.<% end %>
     <%= link_to "View Checkout", @item.current_checkout %>
   <% end %>
   </p>
@@ -42,8 +41,10 @@
   No checkouts here!
   <% else %>
   <% @checkouts.each do |checkout| %>
-  <%= link_to checkout.opener, checkout.opener %> checked it out to 
-  <%= link_to checkout.user, checkout.user %> for
+  <%= link_to checkout.opener, checkout.opener %> checked it out
+  <% if checkout.opener != checkout.user %>
+    to <%= link_to checkout.user, checkout.user %> 
+  <% end %>for
   <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
   <%= format_time checkout.created_at %>. <%= link_to "View Checkout", @item.current_checkout %><br>
   <% end %>

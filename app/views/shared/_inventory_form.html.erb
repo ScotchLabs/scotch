@@ -1,0 +1,33 @@
+<article>
+  <div class='thirds-split'>
+    <div class='third'>
+      <h1>Search or Browse</h1>
+      <p></p>
+    </div>
+    <div class='third'>
+      <h1>Return Items</h1>
+      <p>
+      <% if current_user.current_checkouts_to.empty? %>
+        You don't have any items to return!
+      <% else %>
+        <% for checkout in current_user.current_checkouts_to %>
+          <%= link_to checkout.item, checkout %>
+          <% if checkout.has_deadline? %>
+            is due back <%= format_date checkout.deadline %>
+          <% end %>
+        <% end %>
+      <% end %>
+      </p>
+    </div>
+    <div class='third'>
+      <h1>Add New Items</h1>
+      <p>
+        Did you find, buy or make a new Thing for Scotch'n'Soda?
+        Did you unearth Something in the Dungeon we didn't know about?<br>
+        Slap a number on it!
+        <%= link_to "Add New Item", new_item_path, :class => 'button' %>
+      </p>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+</article>

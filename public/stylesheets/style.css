@@ -182,6 +182,18 @@ body {
   display: inline-block;
   width: 283px;
 }
+.thirds-split {
+  /* wrap this around div.third + div.third + div.third and put a clearfix before the close */
+  background: transparent url('/images/layout/two-thirds-borders.png') repeat-y 278px top;
+}
+.third {
+  display: inline-block;
+  width: 258px;
+  float: left;
+}
+.third + .third {
+  margin-left: 43px;
+}
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
   background: transparent url('/images/layout/thirds-border.png') repeat-y 429px top;
@@ -241,6 +253,27 @@ article {
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
+}
+.three-grid {
+  display: inline-block;
+  width: 234px;
+  background: #fff;                     /* white */
+  padding: 20px;
+  margin-bottom: 35px;
+  -webkit-box-shadow: 0 5px 20px #333;  /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  margin-right: 35px;
+}
+.three-grid:hover {
+  background: #ddd;
+}
+.grid-last {
+  margin-right: 0;
+}
+.three-grid a {
+  color: #333;
 }
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select {
   border: 1px solid #333;              /* black */

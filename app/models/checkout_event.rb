@@ -125,6 +125,6 @@ protected
   end
   
   def checkout_openable
-    errors[:checkout] << "is closed and may not be opened." unless checkout.openable
+    errors[:checkout] << "is closed and may not be opened." unless checkout.openable?
   end
 end

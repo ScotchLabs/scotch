@@ -60,6 +60,14 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
+  def num_items
+    c=items.count
+    for ic in item_subcategories
+      c += ic.num_items
+    end
+    c
+  end
+  
   def to_s
     name
   end
