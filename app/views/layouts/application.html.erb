@@ -57,8 +57,7 @@
         </div>
       </div>
       <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
-      <% end %>
-      <li><%= link_to "Account", current_user %></li> 
+      <% end %> 
       <li><%= link_to "Feedback", new_feedback_path %></li>
       <li><%= link_to "Log Out", destroy_user_session_path %></li>
     </ul>
