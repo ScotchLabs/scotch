@@ -9,7 +9,14 @@
 <div class='three-grid-no-link grid-last'>
   <h1><%= @item %></h1>
   <h2><%= @item.location %></h2>
-  <%= link_to "More Info", '#', :onClick => "$('#more').show()" %>
+  <%= link_to "More Info", '#', :onClick => "$('#more').show()" %><br>
+  <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
+    <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
+  <% elsif @item.available?
+    #TODO user needs to ask someone to check out item to her.
+  else %>
+    Unavailable for Checkout
+  <% end %>
 </div>
 <article id='more' class='hidden'>
   <h2>Description</h2>
