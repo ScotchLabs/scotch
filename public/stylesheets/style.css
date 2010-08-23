@@ -254,7 +254,7 @@ article {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
 }
-.three-grid {
+.three-grid, .three-grid-no-link {
   display: inline-block;
   width: 234px;
   background: #fff;                     /* white */

@@ -32,7 +32,7 @@
     <h1>&lt; <%= @item_category.parent_category.slug or @item_category.parent_category.prefix %> <%= @item_category.parent_category %></h1>
     <h2><%= pluralize @item_category.parent_category.num_items, "Item" %></h2>
   <% end %></div>
-  <div class='three-grid grid-last'>
+  <div class='three-grid-no-link grid-last'>
     <h1><%= @item_category.slug or @item_category.prefix %> <%= @item_category %></h1>
     <h2>
       <%= pluralize @item_category.num_items, "Item" %>
