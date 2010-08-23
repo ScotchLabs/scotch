@@ -110,8 +110,10 @@ class User < ActiveRecord::Base
   end
   
   def incomplete_record?
-    #TODO
-    true
+    return true unless self.phone and self.home_college and self.graduation_year \
+      and self.smc and self.gender and self.residence and self.birthday and self.headshot \
+      and self.majors and self.about
+    false
   end
   
   def age
