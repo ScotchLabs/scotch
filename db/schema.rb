@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100821183650) do
+ActiveRecord::Schema.define(:version => 20100823051957) do
 
   create_table "checkout_events", :force => true do |t|
     t.string   "event"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(:version => 20100821183650) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+  end
+
+  create_table "feed_posts", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "user_id"
+    t.string   "post_type"
+    t.string   "headline"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "parent_type"
   end
 
   create_table "groups", :force => true do |t|
@@ -180,5 +191,13 @@ ActiveRecord::Schema.define(:version => 20100821183650) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "watchers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "item_type"
+  end
 
 end

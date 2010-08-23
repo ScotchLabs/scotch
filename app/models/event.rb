@@ -1,7 +1,10 @@
 class Event < ActiveRecord::Base
-  belongs_to :group
+  include WatchFeed
+  
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user
+  
+  belongs_to :group
 
   attr_protected :group_id
 

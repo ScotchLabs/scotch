@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
+  include WatchFeed
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -21,6 +22,8 @@ class User < ActiveRecord::Base
   has_many :checkouts_to, :dependent => :destroy, :class_name => "Checkout", :foreign_key => :user_id
   has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
   has_many :checkout_events, :dependent => :destroy
+  
+  has_many :watchees, :class_name => "Watcher"
 
 	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrew_id end
 
@@ -39,8 +42,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrew_id
 
-  # FIXME we should lowercase the email provided by the user 
-  # FIXME we should use Devise's built-in email validation
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
 
@@ -211,6 +212,24 @@ class User < ActiveRecord::Base
   
   def current_checkouts_by
     checkouts_by.select{|ch| ch.open?}
+  end
+
+###################
+# WATCHER METHODS #
+###################
+
+  def following? (object)
+    return false if object.nil?
+    if watchees.select {|w| w.item_type == object.class.to_s and w.item_id == object.id }.empty?
+      return false
+    else
+      return true
+    end
+  end
+  def watcher_for (object)
+    return if object.nil?
+    watchees.select {|w| w.item_type == object.class.to_s and w.item_id == object.id }
+    return watchees.first
   end
 
 private

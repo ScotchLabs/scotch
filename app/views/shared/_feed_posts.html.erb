@@ -1,0 +1,36 @@
+<a name='wall'></a>
+<article>
+  <div class='halves-split'>
+    <div class='half fleft'>
+      <h1>Wall</h1>
+      <h2>
+      <% unless current_user.following? object %>
+      <%= link_to "Follow this #{object.class}", new_watcher_path(:item_type => object.class, :item_id => object.id) %>
+      <% else %>
+      <%= link_to "Stop Following this #{object.class}", current_user.watcher_for(object), :confirm => "Are you sure?", :method => :delete %>
+      <% end %></h2>
+      <h2>Recent Posts</h2>
+      <ul>
+        <% for post in object.recent_posts %>
+          <li>
+            <%= link_to post.headline, post %><br>
+            Posted by <%= link_to post.user, post.user %> on <%= format_date post.created_at %>
+          </li>
+        <% end %>
+      </ul>
+      <h2><%= link_to "All Posts", url_for([object, FeedPost])%></h2>
+    </div>
+    <div class='half fright'>
+      <h1>New Post</h1>
+      <%= form_for(FeedPost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
+        <%= f.hidden_field :parent_type, :value => object.class.to_s %>
+        <%= f.hidden_field :parent_id, :value => object.id.to_s %>
+        <%= f.hidden_field :post_type, :value => "wall" %>
+        <%= f.label :headline %>: <%= f.text_field :headline %><br>
+        <%= f.label :body %>:<br><%= f.text_area :body %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+</article>

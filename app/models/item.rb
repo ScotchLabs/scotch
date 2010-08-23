@@ -1,6 +1,9 @@
 class Item < ActiveRecord::Base
-  belongs_to :item_category # foreign key item_category_id
+  include WatchFeed
+  
   has_many :checkouts
+
+  belongs_to :item_category # foreign key item_category_id
 
   validates_presence_of :name, :item_category_id, :suffix
   validates_uniqueness_of :suffix, :scope => :item_category_id

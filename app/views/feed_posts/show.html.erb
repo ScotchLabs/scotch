@@ -1,0 +1,31 @@
+<article>
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <b>Parent:</b>
+    <%= @feed_post.parent_id %>
+  </p>
+
+  <p>
+    <b>User:</b>
+    <%= @feed_post.user_id %>
+  </p>
+
+  <p>
+    <b>Post type:</b>
+    <%= @feed_post.post_type %>
+  </p>
+
+  <p>
+    <b>Headline:</b>
+    <%= @feed_post.headline %>
+  </p>
+
+  <p>
+    <b>Body:</b>
+    <%= @feed_post.body %>
+  </p>
+
+
+</article>
+<%= render "shared/feed_posts", :object => @feed_post %>

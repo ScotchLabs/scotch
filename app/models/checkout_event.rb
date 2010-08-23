@@ -36,7 +36,7 @@ class CheckoutEvent < ActiveRecord::Base
   ]
   
   validates_presence_of :checkout, :user
-  validates_inclusion_of :event, :in => EVENT_TYPES.map{|e| e[0]}
+  validates_inclusion_of :event, :in => EVENT_TYPES.map{|e| e[0]}, :message => "is not included in the list: #{EVENT_TYPES.map{|e| e[0]}.inspect}"
   validate :event_type
   validate :notes_ok
   validate :user_has_permission
