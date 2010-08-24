@@ -28,6 +28,7 @@
  * black:    #333;   51,  51,  51
  * ???:      #555;   85,  85,  85 for use next to #000 as a divider between footer and soda
  * ???:      #000;    0,   0,   0 see above
+ * ???:      #aaa;                for placeholder text in non-html5 browsers
  *
  * beige:    #eeb;  238, 238, 187
  * dkorange: #f60;  255, 102,   0
@@ -326,6 +327,9 @@ input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
 }
 input[type="submit"][disabled], input[type="reset"][disabled]  {
   background: #ddd;  /* grey */
+}
+.placeholder {
+  color: #aaa !important;
 }
 .field_with_errors {
   padding: 2px;
