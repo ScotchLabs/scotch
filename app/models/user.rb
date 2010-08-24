@@ -50,8 +50,6 @@ class User < ActiveRecord::Base
   validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
-  before_validation :set_random_password
-
   acts_as_phone_number :phone
 
   DEFAULT_PERMISSIONS = %w(createGroup)
@@ -234,13 +232,4 @@ class User < ActiveRecord::Base
     return watchees.first
   end
 
-private
-
-  # FIXME: this doesn't seem to work
-  # use @password
-  def set_random_password
-    if password.nil? then
-      password = ActiveSupport::SecureRandom.hex(16)
-    end
-  end
 end
