@@ -2,11 +2,17 @@ class WatchersController < ApplicationController
   # GET /watchers
   # GET /watchers.xml
   def index
-    @watchers = Watcher.all
+    u = User.find_by_andrew_id(params[:user_id])
+    if u.nil?
+      flash[:notice] = "Invalid andrew id"
+      redirect_to current_user
+    else
+      @watchers = Watcher.where(:user_id => u.id)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @watchers }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @watchers }
+      end
     end
   end
 

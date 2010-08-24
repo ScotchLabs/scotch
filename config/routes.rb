@@ -6,7 +6,7 @@ Scotch::Application.routes.draw do |map|
     resources :watchers, :only => [:index]
     resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
   end
-  resources :watchers, :except => [:index]
+  resources :watchers, :only => [:new, :create, :destroy]
 
   # Items stand by themselves since we have an inventory that is global.  In
   # the future more things might be like this, but it would be better to have
