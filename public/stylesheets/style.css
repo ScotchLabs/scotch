@@ -392,14 +392,16 @@ body > div > section {
 #header {
   height: 80px
 }
-#header h1 a {
+#header h1 {
   font-size: 26pt;
-  display: block;
   padding-top: 23px;
   color: #fff  /* white */
 }
+#header h1 a {
+  color: #fff;  /* white */  
+}
 #header h1 a:hover {
-  color: #fff  /* white */
+  color: #fff;  /* white */
 }
 #header h2 {
   font-size: 13pt
@@ -478,8 +480,8 @@ body > div > section {
   padding: 8px 18px;
 }
 #subnav > ul > li > a:hover {
-  color: #333;      /* black */
-  background: #ddd  /* grey */
+  color: #333;       /* black */
+  background: #ddd;  /* grey */
 }
 #loginerror {
   float: left;
@@ -518,10 +520,10 @@ body > div > section {
   background-color: #333;  /* black */
   border: 1px solid #555;
   border-width: 1px 0 0;
-  color: #fff              /* white */
+  color: #fff;             /* white */
 }
 #sodabar a {
-  color: #fff  /* white */
+  color: #fff;  /* white */
 }
 .edit_link {
   float: right;
