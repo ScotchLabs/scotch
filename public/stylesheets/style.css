@@ -415,7 +415,6 @@ body > div > section {
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   margin-bottom: 35px;
-  text-transform: uppercase
 }
 #nav > ul {
   padding: 0;
@@ -426,6 +425,7 @@ body > div > section {
   display: inline-block;
   text-align: center;
   vertical-align: middle;
+  text-transform: uppercase;
   margin: 0;
   padding: 0 8px 8px
 }
