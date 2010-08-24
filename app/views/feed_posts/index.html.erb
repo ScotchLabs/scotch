@@ -1,28 +1,28 @@
-<h1>Listing feed_posts</h1>
+<article>
+  <h1>Listing feed_posts</h1>
 
-<table>
-  <tr>
-    <th>Parent</th>
-    <th>User</th>
-    <th>Post type</th>
-    <th>Headline</th>
-    <th>Body</th>
-    <th></th>
-    <th></th>
-  </tr>
+  <table>
+    <tr>
+      <th>Parent</th>
+      <th>User</th>
+      <th>Post type</th>
+      <th>Headline</th>
+      <th>Body</th>
+      <th></th>
+      <th></th>
+    </tr>
 
-<% @feed_posts.each do |feed_post| %>
-  <tr>
-    <td><%= feed_post.parent_id %></td>
-    <td><%= feed_post.user_id %></td>
-    <td><%= feed_post.post_type %></td>
-    <td><%= feed_post.headline %></td>
-    <td><%= feed_post.body %></td>
-    <td><%= link_to 'Show', feed_post %></td>
-    <% if feed_post.user == current_user %><td><%= link_to 'Destroy', feed_post, :confirm => 'Are you sure?', :method => :delete %></td><% end %>
-  </tr>
-<% end %>
-</table>
+  <% @feed_posts.each do |feed_post| %>
+    <tr>
+      <td><%= feed_post.parent_id %></td>
+      <td><%= feed_post.user_id %></td>
+      <td><%= feed_post.post_type %></td>
+      <td><%= feed_post.headline %></td>
+      <td><%= feed_post.body %></td>
+      <td><%= link_to 'Show', feed_post %></td>
+      <% if feed_post.user == current_user %><td><%= link_to 'Destroy', feed_post, :confirm => 'Are you sure?', :method => :delete %></td><% end %>
+    </tr>
+  <% end %>
+  </table>
 
-<br />
-
+</article>

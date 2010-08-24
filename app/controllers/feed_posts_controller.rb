@@ -4,21 +4,25 @@ class FeedPostsController < ApplicationController
   def index
     #FIXME I don't know there's a polymorphic way to do this.
     if params[:checkout_id]
-      @feed_posts = Checkout.find(params[:checkout_id]).feed_posts
+      @parent = Checkout.find(params[:checkout_id])
     elsif params[:document_id]
-      @feed_posts = Document.find(params[:document_id]).feed_posts
+      @parent = Document.find(params[:document_id])
     elsif params[:event_id]
-      @feed_posts = Event.find(params[:event_id]).feed_posts
+      @parent = Event.find(params[:event_id])
     elsif params[:feed_post_id]
-      @feed_posts = FeedPost.find(params[:feed_post_id]).feed_posts
+      @parent = FeedPost.find(params[:feed_post_id])
     elsif params[:group_id]
-      @feed_posts = Group.find(params[:group_id]).feed_posts
+      @parent = Group.find(params[:group_id])
     elsif params[:item_id]
-      @feed_posts = Item.find(params[:item_id]).feed_posts
+      @parent = Item.find(params[:item_id])
     elsif params[:user_id]
-      @feed_posts = User.find(params[:user_id]).feed_posts
-    else
+      @parent = User.find_by_andrew_id(params[:user_id])
+    end
+    
+    if @parent.nil? or !@parent.respond_to? 'feed_posts'
       @feed_posts = FeedPost.all
+    else
+      @feed_posts = @parent.feed_posts
     end
 
     respond_to do |format|
