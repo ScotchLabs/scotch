@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
   acts_as_phone_number :phone
+  before_validation :downcase_email
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
@@ -232,4 +233,9 @@ class User < ActiveRecord::Base
     return watchees.first
   end
 
+  protected
+
+  def downcase_email
+    self.email = self.email.downcase
+  end
 end
