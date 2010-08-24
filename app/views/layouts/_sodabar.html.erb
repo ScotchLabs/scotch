@@ -1,4 +1,4 @@
 <div id='sodabar'>
   Recent Users:
-  <%= raw User.recent.sort.collect{|u| link_to u, u}.join(", ") %>
+  <%= raw User.recent.collect{|u| link_to u, u}.join(", ") %>
 </div>
