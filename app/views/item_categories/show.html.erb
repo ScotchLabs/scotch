@@ -1,43 +1,52 @@
-<% if @item_category.parent_category.nil?
-  # this is a parent category
+<% if @item_category.items.empty?
+  # this is a category that contains other categories
   %>
-  <div class='three-grid'><%= link_to item_categories_path do %>
-    <h1>&lt;&lt; Back</h1>
-    <h2><%= pluralize ItemCategory.parent_categories.count, "Category" %></h2>
+  <div class='grid'>
+  
+    <%= link_to item_categories_path do %>
+      <span class='three-grid'>
+        <h1>&lt;&lt; Back</h1>
+        <h2><%= pluralize ItemCategory.parent_categories.count, "Category" %></h2>
+      </span>
     <% end %>
-  </div>
-  <%
-  i=2
-  for item_category in @item_category.item_subcategories %>
-  <div class='three-grid<%= (i%3==0)? (" grid-last"):("") %>'><%= link_to item_category do %>
-    <h1>
-      <%= item_category.slug or item_category.prefix %>: <%= item_category %>
-    </h1>
-    <h2><%= pluralize item_category.num_items, "Item" %></h2>
+  
+    <% for item_category in @item_category.item_subcategories %>
+      <%= render "as_grid_link", :object => item_category %>
     <% end %>
+  
   </div>
-
-  <%
-  i=i+1
-  end %>
 
 <% else
-  # this is a subcategory
+  # this is a category that contains items
   %>
-  <div class='three-grid'><%= link_to item_categories_path do %>
-    <h1>&lt;&lt; Beginning</h1>
-    <h2><%= pluralize ItemCategory.parent_categories.count, "Category" %></h2>
-  <% end %></div>
-  <div class='three-grid'><%= link_to @item_category.parent_category do %>
-    <h1>&lt; <%= @item_category.parent_category.slug or @item_category.parent_category.prefix %> <%= @item_category.parent_category %></h1>
-    <h2><%= pluralize @item_category.parent_category.num_items, "Item" %></h2>
-  <% end %></div>
-  <div class='three-grid-no-link grid-last'>
-    <h1><%= @item_category.slug or @item_category.prefix %> <%= @item_category %></h1>
-    <h2>
-      <%= pluralize @item_category.num_items, "Item" %>
-    </h2>
+  
+  <div class='grid'>
+  
+    <%= link_to item_categories_path do %>
+      <span class='three-grid'>
+        <h1>&lt;&lt; Beginning</h1>
+        <h2><%= pluralize ItemCategory.parent_categories.count, "Category" %></h2>
+      </span>
+    <% end %>
+  
+    <%= link_to @item_category.parent_category do %>
+      <span class='three-grid'>
+        <h1>&lt; <%= @item_category.parent_category.slug or @item_category.parent_category.prefix %> <%= @item_category.parent_category %></h1>
+        <h2><%= pluralize @item_category.parent_category.num_items, "Item" %></h2>
+      </span>
+    <% end %>
+  
+    <span>
+      <span class='three-grid-no-link'>
+        <h1><%= @item_category.slug or @item_category.prefix %> <%= @item_category %></h1>
+        <h2>
+          <%= pluralize @item_category.num_items, "Item" %>
+        </h2>
+      </span>
+    </span>
+  
   </div>
+  
   <% unless @item_category.items.empty? %>
   <article>
     <h1>Items in this Category</h1>
@@ -46,8 +55,6 @@
         <th>Catalog #</th>
         <th>Name</th>
         <th>Location</th>
-        <th></th>
-        <th></th>
         <th></th>
       </tr>
 
@@ -67,22 +74,5 @@
     </table>
   </article>
   <% end %>
-  <% unless @item_category.item_subcategories.empty? %>
-  <article>
-    <h1>Subcategories</h1>
-    <p>
-    <% # take subcategories, sort them, map them to links
-    subcats = @item_category.item_subcategories.sort.map do |subcat|
-      link_to("#{subcat.slug} #{subcat}", subcat)
-    end
-    # put 'and' between the last two subcategories
-    if subcats.length > 1
-      subcats = subcats-subcats[-2..-1]<<("#{subcats[-2]} and #{subcats[-1]}")
-    end %>
-    <%= # join the rest with ", " 
-    raw(subcats.join ", ")
-    %>
-    </p>
-  </article>
-  <% end %>
+  
 <% end %>

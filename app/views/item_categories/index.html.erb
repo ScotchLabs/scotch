@@ -1,14 +1,5 @@
-<%
-i=1
-for item_category in @item_categories %>
-<div class='three-grid<%= (i%3==0)? (" grid-last"):("") %>'><%= link_to item_category do %>
-  <h1>
-    <%= item_category.slug or item_category.prefix %>: <%= item_category %>
-  </h1>
-  <h2><%= pluralize item_category.num_items, "Item" %></h2>
+<div class='grid'>
+  <% for item_category in @item_categories %>
+    <%= render "as_grid_link", :object => item_category %>
   <% end %>
 </div>
-
-<%
-i=i+1
-end %>

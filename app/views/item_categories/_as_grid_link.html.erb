@@ -1,0 +1,8 @@
+<%= link_to object do %>
+  <span class='three-grid'>
+    <h1>
+      <%= object.slug or object.prefix %>: <%= object %>
+    </h1>
+    <h2><%= pluralize object.num_items, "Item" %></h2>
+  </span>
+<% end %>

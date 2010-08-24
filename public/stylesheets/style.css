@@ -254,10 +254,18 @@ article {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px
 }
+/* In order to create a three-grid, wrap your grid items
+ *   in <div class='grid'>...</div>.
+ * Grid items that are links should be structured as
+ *   <a ...><span class='three-grid'>...</span></a>
+ * Grid items that are not links should be structured as
+ *   <span><span class='three-grid-no-link'>...</span</span>
+ */
 .three-grid, .three-grid-no-link {
   display: inline-block;
   width: 234px;
   background: #fff;                     /* white */
+  color: #333;                          /* black */
   padding: 20px;
   margin-bottom: 35px;
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
@@ -269,7 +277,7 @@ article {
 .three-grid:hover {
   background: #ddd;
 }
-.grid-last {
+div.grid > :nth-child(3n+0) > span {
   margin-right: 0;
 }
 .three-grid a {
