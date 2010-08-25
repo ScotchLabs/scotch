@@ -4,7 +4,7 @@ Scotch::Application.routes.draw do |map|
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "users/sessions"}
   resources :users do
     resources :watchers, :only => [:index]
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
   resources :watchers, :only => [:new, :create, :destroy]
 
@@ -14,7 +14,7 @@ Scotch::Application.routes.draw do |map|
   # of Scotch via the REST API.
   resources :items do
     resources :checkouts, :only => [:index, :new]
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
 
   # FIXME: DAMMIT RAILS TEAM
@@ -28,16 +28,16 @@ Scotch::Application.routes.draw do |map|
   # This line is to help out rails RESTful route lookup.  Without it rails
   # gets confused in some places when trying to create links to Show objects
   resources :shows, :controller => :groups, :group_type => "Show" do
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
   resources :boards, :controller => :groups, :group_type => "Board" do 
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
 
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
   resources :groups, :shallow => true do
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection
     end
@@ -57,15 +57,15 @@ Scotch::Application.routes.draw do |map|
   end
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
     put :signup, :on => :member
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
   resources :positions, :only => [:show, :edit, :update, :destroy, :create]
   resources :documents, :only => [:show, :edit, :update, :destroy, :create] do
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
   resources :checkouts, :only => [:show, :destroy, :create] do
     resources :checkout_events, :only => [:new]
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
   resources :checkout_events, :except => [:new, :index, :show, :delete, :edit, :update]
 
@@ -79,8 +79,8 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
-  resources :feed_posts, :except => [:index, :new, :edit, :update] do
-    resources :feed_posts, :only => [:index, :new], :path_names => {:feed_posts => "wall"}
+  resources :feedposts, :except => [:index, :new, :edit, :update] do
+    resources :feedposts, :only => [:index, :new], :path_names => {:feedposts => "wall"}
   end
 
   get "dashboard/index"

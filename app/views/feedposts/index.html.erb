@@ -1,0 +1,28 @@
+<article>
+  <h1>Listing feedposts</h1>
+
+  <table>
+    <tr>
+      <th>Parent</th>
+      <th>User</th>
+      <th>Post type</th>
+      <th>Headline</th>
+      <th>Body</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @feedposts.each do |feedpost| %>
+    <tr>
+      <td><%= feedpost.parent_id %></td>
+      <td><%= feedpost.user_id %></td>
+      <td><%= feedpost.post_type %></td>
+      <td><%= feedpost.headline %></td>
+      <td><%= feedpost.body %></td>
+      <td><%= link_to 'Show', feedpost %></td>
+      <% if feedpost.user == current_user %><td><%= link_to 'Destroy', feedpost, :confirm => 'Are you sure?', :method => :delete %></td><% end %>
+    </tr>
+  <% end %>
+  </table>
+
+</article>

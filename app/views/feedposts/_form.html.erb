@@ -1,10 +1,10 @@
-<%= form_for(@feed_post) do |f| %>
-  <% if @feed_post.errors.any? %>
+<%= form_for(@feedpost) do |f| %>
+  <% if @feedpost.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@feed_post.errors.count, "error") %> prohibited this feed_post from being saved:</h2>
+      <h2><%= pluralize(@feedpost.errors.count, "error") %> prohibited this feedpost from being saved:</h2>
 
       <ul>
-      <% @feed_post.errors.full_messages.each do |msg| %>
+      <% @feedpost.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

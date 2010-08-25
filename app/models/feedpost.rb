@@ -1,8 +1,8 @@
-class FeedPost < Watchable
+class Feedpost < Watchable
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   
-  attr_protected :user_id, :parent_id
+  attr_protected :user_id, :parent_id, :parent_type
   
   #FIXME what other types are there and
   # what differentiates them?
