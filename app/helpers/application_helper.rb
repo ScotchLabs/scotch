@@ -32,6 +32,33 @@ module ApplicationHelper
     # The first flavortext in this list is the only one used until the person
     # logs in, then it cycles pseudo-randomly
     flav = [
+      "Scotch'n'Soda's Online Informatory",
+      "Breaking Legs and Taking Names Since 1938",
+      "Have you seen the new Dungeon?",
+      "Unofficially sponsored by Jolt Cola",
+      "It seemed like a good idea at the time",
+      "Enabling Dangerous Acts Since 1938",
+      "No, we will *not* implement an S'n'Cest feature!",
+      "Where good decisions go to die",
+      "The Mafia of Theatre",
+      "Proud to be Fierce!",
+      "SSTH FTW",
+      "<Show Name Here> BITES",
+      "We took Facebook and changed the Stylesheet",
+      "Because social networking is one of big brother's favorite things",
+      "Conscripting Baggers Since 1938",
+      "Loving Every Minute Of It Since 1938",
+      "Too close for missiles, switching to guns", # if you remember facebook in 2005 you will keep this one
+      "Pretentious since 1938",
+      "Anyone want to steal the fence?",
+      "Powered By Kitten Sneezes",
+      "This message brought to you by Spackle For President",
+      "Have you finished your budget yet?",
+      "Who are we kidding, it's really \"Scotchbook\"",
+      "Like Facebook, but not for losers",
+      "Better Than 7 Hours of Sex and Bacon",
+      "And Now Back To Our Regularly Scheduled Lecture...kiddinggg!",
+      "Because Academics Come First",
       "If you aren't on academic probation, you aren't trying hard enough"
     ]
     if current_user
