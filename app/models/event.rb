@@ -1,6 +1,4 @@
-class Event < ActiveRecord::Base
-  include WatchFeed
-  
+class Event < Watchable
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user
   

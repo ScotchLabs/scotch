@@ -1,6 +1,4 @@
-class Document < ActiveRecord::Base
-  include WatchFeed
-  
+class Document < Watchable
   has_many :document_tags
   
   belongs_to :group

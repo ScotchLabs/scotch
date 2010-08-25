@@ -1,6 +1,4 @@
-class Group < ActiveRecord::Base
-  include WatchFeed
-  
+class Group < Watchable
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy

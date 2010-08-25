@@ -1,7 +1,6 @@
-class User < ActiveRecord::Base
+class User < Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
-  include WatchFeed
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,

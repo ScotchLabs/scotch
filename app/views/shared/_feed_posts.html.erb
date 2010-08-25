@@ -11,7 +11,7 @@
       <% end %></h2>
       <h2>Recent Posts</h2>
       <ul>
-        <% for post in object.recent_posts %>
+        <% for post in object.feed_posts.recent %>
           <li>
             <%= link_to post.headline, post %><br>
             Posted by <%= link_to post.user, post.user %> on <%= format_date post.created_at %>
