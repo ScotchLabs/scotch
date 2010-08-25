@@ -17,7 +17,6 @@ unless object.nil?
   # things in a shared view. the alternative is to make get_text
   # and get_subtext into helper methods for each model
   if object.class.to_s == "Item"
-    logger.debug "object is an Item"
     p << link_to("More Info", '#', :onClick => "$('#more').show()")
     p << "<br>"
     if object.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")
