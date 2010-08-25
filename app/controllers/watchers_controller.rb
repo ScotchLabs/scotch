@@ -2,7 +2,7 @@ class WatchersController < ApplicationController
   # GET /watchers
   # GET /watchers.xml
   def index
-    u = User.find_by_andrew_id(params[:user_id])
+    u = User.find_by_andrewid(params[:user_id])
     if u.nil?
       flash[:notice] = "Invalid andrew id"
       redirect_to current_user

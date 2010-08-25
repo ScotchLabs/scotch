@@ -3,12 +3,12 @@ class Users::SessionsController < Devise::SessionsController
   
   def lookup_email
     unless params.nil? or params[:user].nil?
-      if params[:user].has_key? :andrew_id
-        if params[:user][:andrew_id].include? "@"
-          params[:user][:email] = params[:user][:andrew_id]
+      if params[:user].has_key? :andrewid
+        if params[:user][:andrewid].include? "@"
+          params[:user][:email] = params[:user][:andrewid]
         else
-          u = User.find_by_andrew_id(params[:user][:andrew_id])
-          params[:user][:email] = u.nil? ? "#{params[:user][:andrew_id]}@andrew.cmu.edu" : u.email
+          u = User.find_by_andrewid(params[:user][:andrewid])
+          params[:user][:email] = u.nil? ? "#{params[:user][:andrewid]}@andrew.cmu.edu" : u.email
         end
       end
     end

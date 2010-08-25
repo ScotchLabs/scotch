@@ -16,7 +16,7 @@ class FeedPostsController < ApplicationController
     elsif params[:item_id]
       @parent = Item.find(params[:item_id])
     elsif params[:user_id]
-      @parent = User.find_by_andrew_id(params[:user_id])
+      @parent = User.find_by_andrewid(params[:user_id])
     end
     
     if @parent.nil? or !@parent.respond_to? 'feed_posts'

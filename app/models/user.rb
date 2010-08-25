@@ -9,8 +9,8 @@ class User < Watchable
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :andrew_id, :headshot, :majors, :minors,
-    :other_activities, :about
+    :gender, :residence, :birthday, :headshot, :majors, :minors,
+    :other_activities, :about, :andrewid
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -24,7 +24,7 @@ class User < Watchable
   
   has_many :watchees, :class_name => "Watcher"
 
-	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrew_id end
+	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrewid end
 
   has_attachment :headshot, 
     :styles => {:medium => "150x150#", :thumb => "50x50#"},
@@ -39,7 +39,7 @@ class User < Watchable
     :message => "must be an image",
     :unless => lambda { |user| !user.headshot.nil? }	
 
-  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrew_id
+  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
 
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
@@ -66,7 +66,7 @@ class User < Watchable
   end
   
   def to_param
-    andrew_id
+    andrewid
   end
   
   def <=>(other)
@@ -77,20 +77,20 @@ class User < Watchable
 # TABLE OVERRIDES #
 ###################
 
-  def andrew_id=(a)
-    unless @andrew_id.nil?
-      logger.debug "Someone tried to set #{self.name}'s andrew id, but it's not nil so we're going to warn and ignore that"
+  def andrewid=(a)
+    unless self.andrewid.nil?
+      logger.warn "Someone tried to set #{self.name}'s andrew id, but it's not nil"
       return
     end
     super
-    self.email="#{andrew_id}@andrew.cmu.edu"
-    self.andrew_id
+    self.email="#{andrewid}@andrew.cmu.edu"
+    self.andrewid
   end
   
   def email=(e)
     super
-    if self.andrew_id.nil? and e.include? "@andrew.cmu.edu"
-      self.andrew_id = e[0...e.index("@andrew.cmu.edu")]
+    if self.andrewid.nil? and e.include? "@andrew.cmu.edu"
+      self.andrewid = e[0...e.index("@andrew.cmu.edu")]
     end
     self.email
   end
