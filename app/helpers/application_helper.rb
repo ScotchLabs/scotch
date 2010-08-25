@@ -32,14 +32,7 @@ module ApplicationHelper
     # The first flavortext in this list is the only one used until the person
     # logs in, then it cycles pseudo-randomly
     flav = [
-      "Scotch'n'Soda's Online Informatory",
-      "Breaking Legs and Taking Names Since 1938",
-      "Have you seen the new Dungeon?",
-      "Unofficially sponsored by Jolt Cola",
-      "It seemed like a good idea at the time",
-      "Enabling Dangerous Acts Since 1938",
-      "No, we will *not* implement an S'n'Cest feature!",
-      "Where good decisions go to die"
+      "If you aren't on academic probation, you aren't trying hard enough"
     ]
     if current_user
       flav[rand(flav.length)]
