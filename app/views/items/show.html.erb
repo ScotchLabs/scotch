@@ -1,32 +1,9 @@
 <div class='grid'>
-  <%= link_to item_categories_path do %>
-    <span class='three-grid'>
-      <h1>&lt;&lt; Beginning</h1>
-      <h2><%= pluralize ItemCategory.parent_categories.count, "Category" %></h2>
-    </span>
-  <% end %>
+  <%= render "shared/as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
   
-  <%= link_to @item.item_category do %>
-    <span class='three-grid'>
-      <h1>&lt; <%= @item.item_category.slug or @item.item_category.prefix %> <%= @item.item_category %></h1>
-      <h2><%= pluralize @item.item_category.num_items, "Item" %></h2>
-    </span>
-  <% end %>
+  <%= render "shared/as_grid_item", :link => true, :object => @item.item_category, :h1 => "&lt; #{@item.item_category}" %>
   
-  <span>
-    <span class='three-grid-no-link grid-last'>
-      <h1><%= @item %></h1>
-      <h2><%= @item.location %></h2>
-      <%= link_to "More Info", '#', :onClick => "$('#more').show()" %><br>
-      <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
-        <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
-      <% elsif @item.available?
-      #TODO user needs to ask someone to check out item to her.
-      else %>
-        Unavailable for Checkout
-      <% end %>
-    </span>
-  </span>
+  <%= render "shared/as_grid_item", :link => false, :object => @item %>
   
 </div>
 

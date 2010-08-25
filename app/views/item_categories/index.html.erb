@@ -1,5 +1,5 @@
 <div class='grid'>
   <% for item_category in @item_categories %>
-    <%= render "as_grid_link", :object => item_category %>
+    <%= render "shared/as_grid_item", :object => item_category, :link => true %>
   <% end %>
 </div>

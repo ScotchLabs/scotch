@@ -42,5 +42,8 @@ class Item < Watchable
   
   def to_s
     "#{catalog_number} #{name}"
-  end 
+  end
+  def get_subtext
+    location
+  end
 end

@@ -69,7 +69,10 @@ class ItemCategory < ActiveRecord::Base
   end
   
   def to_s
-    name
+    "#{(slug or prefix)} #{name}"
+  end
+  def get_subtext
+    "#{num_items} Item#{(num_items != 1)? ("s"):("")}"
   end
   
 protected
