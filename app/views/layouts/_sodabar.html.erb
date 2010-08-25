@@ -1,4 +1,4 @@
 <div id='sodabar'>
-  Recent Users:
+  <span>Recent Users:</span>
   <%= raw User.recent.collect{|u| link_to u, u}.join(", ") %>
 </div>

@@ -525,7 +525,7 @@ body > div > section {
   border-width: 1px 0 0;
   color: #fff;             /* white */
 }
-#sodabar a {
+#sodabar * {
   color: #fff;  /* white */
   line-height: 24px;
 }
