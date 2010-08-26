@@ -110,7 +110,8 @@ doc.find("//users").each do |s|
   residence = s.find("residence").first.content
   home_college = s.find("homecoll").first.content
   graduation_year = s.find("gradyear").first.content
-  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+  gender = "Male" if s.find("ismale").first.content == "1"
+  gender = "Female" if s.find("ismale").first.content == "0"
 
   smc = nil if smc == "0"
   graduation_year = nil if graduation_year == "0"
