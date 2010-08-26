@@ -1,20 +1,12 @@
 <%
-object = object # keep this in here to not throw NameError
-
+#defaults
+object = object
+href = url_for(object) unless object.nil? or href
+link = link
+image = image
 h1 = "#{object.to_s}" unless h1
 
-unless object.nil?
-  
-  if object.respond_to? "get_subtext" and object.get_subtext
-    h2 = "#{object.get_subtext}" unless h2
-  end
-  
-  p = p
-  if object.respond_to? "get_text" and object.get_text
-    p = object.get_text unless p
-  end
-end
-
+#structure
 spanclass = 'three-grid-no-link'
 spanclass = 'three-grid' if link
 grid = "<h1>#{h1}</h1><h2>#{h2}</h2>#{p}"

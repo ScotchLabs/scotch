@@ -1,10 +1,11 @@
 <%
-# if user doesn't specify these, we don't want to error
+#defaults
 object = object
 href = href
 link = link
 image = image
 
+#model-specific
 unless object.nil?
   
   h1 = "#{object.to_s}" unless h1
