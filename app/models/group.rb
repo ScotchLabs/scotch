@@ -23,6 +23,9 @@ class Group < Shared::Watchable
   validates_uniqueness_of :short_name
   validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/
 
+  scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
+  scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
+
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
   # extraordinary users that enable them to access admin/ and do other

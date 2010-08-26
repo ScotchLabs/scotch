@@ -1,5 +1,5 @@
 class User < Shared::Watchable
-	# Coerce Paperclip into using custom storage
+  # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
@@ -23,6 +23,19 @@ class User < Shared::Watchable
   has_many :checkout_events, :dependent => :destroy
   
   has_many :watchees, :class_name => "Watcher"
+
+  #FIXME use :source_type instead of :conditions
+  has_many :watched_items, :through => :watchees, :source => :watched_item, 
+    :conditions => "watchers.item_type = 'Item'"
+  has_many :watched_users, :through => :watchees, :source => :watched_user, 
+    :conditions => "watchers.item_type = 'User'"
+  has_many :watched_groups, :through => :watchees, :source => :watched_group, 
+    :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
+
+  #FIXME these don't work
+  #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts
+  #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
+  #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
 
 	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrewid end
 
@@ -226,10 +239,23 @@ class User < Shared::Watchable
       return true
     end
   end
+
   def watcher_for (object)
     return if object.nil?
     watchees.select {|w| w.item_type == object.class.to_s and w.item_id == object.id }
     return watchees.first
+  end
+
+  def recent_feed_entries
+    groups = self.watched_groups
+    items = self.watched_items
+    users = self.watched_users
+
+    group_posts = Feedpost.recent.where(:parent_type => "Group").where(:parent_id => groups.collect{|g|g.id}).all
+    item_posts = Feedpost.recent.where(:parent_type => "Item").where(:parent_id => items.collect{|i|g.id}).all
+    user_posts = Feedpost.recent.where(:parent_type => "User").where(:parent_id => users.collect{|u|g.id}).all
+
+    (group_posts + item_posts + user_posts).sort
   end
 
   protected
