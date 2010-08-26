@@ -1,4 +1,4 @@
-class User < Watchable
+class User < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
   # Use User for authentication

@@ -5,10 +5,7 @@
       <h1>Wall</h1>
       <ul>
         <% for post in object.feedposts.recent %>
-          <li>
-            <%= link_to post.headline, post %><br>
-            Posted by <%= link_to post.user, post.user %> on <%= format_date post.created_at %>
-          </li>
+          <%= render "feedposts/" + post.post_type, :post => post %>
         <% end %>
       </ul>
       <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>

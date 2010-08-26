@@ -1,4 +1,4 @@
-class Group < Watchable
+class Group < Shared::Watchable
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy

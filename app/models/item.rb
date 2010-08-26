@@ -1,4 +1,4 @@
-class Item < Watchable
+class Item < Shared::Watchable
   has_many :checkouts
 
   belongs_to :item_category # foreign key item_category_id
