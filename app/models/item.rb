@@ -43,7 +43,4 @@ class Item < Shared::Watchable
   def to_s
     "#{catalog_number} #{name}"
   end
-  def get_subtext
-    location
-  end
 end

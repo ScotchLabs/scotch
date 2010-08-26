@@ -3,10 +3,10 @@
   %>
   <div class='grid'>
   
-    <%= render "shared/as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
   
     <% for item_category in @item_category.item_subcategories %>
-      <%= render "shared/as_grid_item", :object => item_category, :link => true %>
+      <%= render "as_grid_item", :object => item_category, :link => true %>
     <% end %>
   
   </div>
@@ -17,11 +17,11 @@
   
   <div class='grid'>
   
-    <%= render "shared/as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
     
-    <%= render "shared/as_grid_item", :link => true, :object => @item_category.parent_category, :h1 => "&lt; #{@item_category.parent_category}" %>
+    <%= render "as_grid_item", :link => true, :object => @item_category.parent_category, :h1 => "&lt; #{@item_category.parent_category}" %>
   
-    <%= render "shared/as_grid_item", :link => false, :object => @item_category %>
+    <%= render "as_grid_item", :link => false, :object => @item_category %>
   
   </div>
   

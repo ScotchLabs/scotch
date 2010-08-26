@@ -1,0 +1,29 @@
+<%
+# if user doesn't specify these, we don't want to error
+object = object
+href = href
+link = link
+image = image
+
+unless object.nil?
+  
+  h1 = "#{object.to_s}" unless h1
+  h2 = "#{object.location}" unless h2
+  
+  p = ""
+  #FIXME this refers to something in another view. is that bad practice?
+  p << link_to("More Info", '#', :onClick => "$('#more').show()")
+  p << "<br>"
+  if object.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")
+    p << link_to('Check Out', new_item_checkout_path(@item))
+  elsif object.available?
+    #TODO user needs to ask someone to check out item to her.
+  else
+    p << "Unavailable for Checkout"
+  end
+  
+  href = url_for(object) unless href
+end
+%>
+
+<%= render "shared/as_grid_item", :link => link, :href => href, :h1 => h1, :h2 => h2, :p => p, :image => image %>

@@ -1,0 +1,18 @@
+<%
+# if user doesn't specify these, we don't want to error
+object = object
+href = href
+link = link
+image = image
+
+unless object.nil?
+  
+  h1 = "#{object.to_s}" unless h1
+  h2 = pluralize(object.num_items, "Item") unless h2
+  p = "" unless p
+  href= url_for(object) unless href
+  
+end
+%>
+
+<%= render "shared/as_grid_item", :link => link, :href => href, :h1 => h1, :h2 => h2, :p => p, :image => image %>

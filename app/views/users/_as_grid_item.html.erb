@@ -1,0 +1,19 @@
+<%
+# if user doesn't specify these, we don't want to error
+object = object
+href = href
+link = link
+image = image
+
+unless object.nil?
+  
+  h1 = "#{object.to_s}" unless h1 or p
+  h2 = "" unless h2 or p
+  p = "" unless p
+  image = image_tag object.headshot(:thumb)
+  href= url_for(object) unless href
+  
+end
+%>
+
+<%= render "shared/as_grid_item", :link => link, :href => href, :h1 => h1, :h2 => h2, :p => p, :image => image %>

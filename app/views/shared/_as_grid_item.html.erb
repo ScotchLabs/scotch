@@ -1,8 +1,6 @@
 <%
 object = object # keep this in here to not throw NameError
 
-#FIXME if object is a User or Group there should be an image in the grid item
-
 h1 = "#{object.to_s}" unless h1
 
 unless object.nil?
@@ -10,36 +8,25 @@ unless object.nil?
   if object.respond_to? "get_subtext" and object.get_subtext
     h2 = "#{object.get_subtext}" unless h2
   end
-  p = ""
   
+  p = p
   if object.respond_to? "get_text" and object.get_text
     p = object.get_text unless p
-  end  
-    
-  #FIXME this is bad practice. we shouldn't have model-specific
-  # things in a shared view. the alternative is to make get_text
-  # and get_subtext into helper methods for each model
-  if object.class.to_s == "Item"
-    p << link_to("More Info", '#', :onClick => "$('#more').show()")
-    p << "<br>"
-    if object.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")
-      p << link_to('Check Out', new_item_checkout_path(@item))
-    elsif object.available?
-    #TODO user needs to ask someone to check out item to her.
-    else
-      p << "Unavailable for Checkout"
-    end
   end
 end
 
 spanclass = 'three-grid-no-link'
 spanclass = 'three-grid' if link
-grid = "<span class='#{spanclass}'><h1>#{h1}</h1><h2>#{h2}</h2>#{p}</span>"
+grid = "<h1>#{h1}</h1><h2>#{h2}</h2>#{p}"
+if image
+  grid = "<span class='fleft'>#{raw(image)}</span><span class='fleft'>#{raw(grid)}</span>"
+end
+grid = "<span class='#{spanclass}'>#{raw(grid)}</span>"
 href = url_for(object) unless href
 %>
 
 <% if link %>
-<%= link_to raw(grid), href %>
+  <%= link_to raw(grid), href %>
 <% else %>
-<span><%= raw(grid) %></span>
+  <span><%= raw(grid) %></span>
 <% end %>
