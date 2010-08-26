@@ -17,15 +17,15 @@ doc = parser.parse
 
 #create magical groups
 Group.transaction do
-  sys = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
+  g = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
                      :description => "System group for site wide privileges")
-  sys.save!
+  g.save!
 
   g = Board.create(:name => "Board of Directors", :short_name => "Board",
                    :description => "Scotch'n'Soda Board of Directors")
   g.save!
 
-  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => sys.id,
+  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => g.id,
                    :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
   g.save!
 end

@@ -3,13 +3,6 @@
   <div class='halves-split'>
     <div class='half fleft'>
       <h1>Wall</h1>
-      <h2>
-      <% unless current_user.following? object %>
-      <%= link_to "Follow this #{object.class}", new_watcher_path(:item_type => object.class, :item_id => object.id) %>
-      <% else %>
-      <%= link_to "Stop Following this #{object.class}", current_user.watcher_for(object), :confirm => "Are you sure?", :method => :delete %>
-      <% end %></h2>
-      <h2>Recent Posts</h2>
       <ul>
         <% for post in object.feedposts.recent %>
           <li>
@@ -18,7 +11,7 @@
           </li>
         <% end %>
       </ul>
-      <h2><%= link_to "All Posts", url_for([object, Feedpost])%></h2>
+      <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
     </div>
     <div class='half fright'>
       <h1>New Post</h1>
@@ -26,8 +19,8 @@
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
         <%= f.hidden_field :post_type, :value => "wall" %>
-        <%= f.label :headline %>: <%= f.text_field :headline %><br>
-        <%= f.label :body %>:<br><%= f.text_area :body %>
+        <%= f.text_field :headline, :placeholder => "Headline" %><br>
+        <%= f.text_area :body, :rows => "10", :placeholder => "Your Posts Goes Here!" %>
         <%= f.submit %>
       <% end %>
     </div>

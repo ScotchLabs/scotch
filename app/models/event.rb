@@ -1,4 +1,4 @@
-class Event < Watchable
+class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user
   

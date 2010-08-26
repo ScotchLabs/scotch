@@ -1,4 +1,4 @@
-class Checkout < Watchable
+class Checkout < ActiveRecord::Base
   has_many :checkout_events, :dependent => :destroy
   
   # the person the item was checked out BY

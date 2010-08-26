@@ -8,6 +8,7 @@
 </div>
 
 <article id='more' class='hidden'>
+  <%= render "shared/follow_me", :object => @item %>
   <h2>Description</h2>
   <%= @item.description %>
   <h2>Actions</h2>

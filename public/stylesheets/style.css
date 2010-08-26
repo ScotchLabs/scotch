@@ -284,7 +284,7 @@ div.grid > :nth-child(3n+0) > span {
 .three-grid a {
   color: #333;
 }
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select {
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select, textarea {
   border: 1px solid #333;              /* black */
   color: #333;                         /* black */
   margin: 2px;

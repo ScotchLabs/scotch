@@ -1,4 +1,4 @@
-class Feedpost < Watchable
+class Feedpost < ActiveRecord::Base
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   

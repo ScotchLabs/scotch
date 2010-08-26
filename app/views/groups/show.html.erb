@@ -1,9 +1,9 @@
 <article>
+<%= render "shared/follow_me", :object => @group %>
+
 <% if has_permission? "adminGroup" %>
   <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_group_path(@group) %></div>
 <% end %>
-
-<%= render "shared/follow_me", :object => @group %>
 
 <h1><%= @group %></h1>
 <% if @group.parent %><p style="font-size: 8px;">Child of <%= @group.parent %></p><% end %>
@@ -15,6 +15,7 @@
 </p>
 </article>
 
+<!-- FIXME Is this what we really want? -->
 <% if @group.class.to_s == "Board" %>
 <div class='grid'>
 <% for position in @group.positions %>

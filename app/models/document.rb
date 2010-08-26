@@ -1,4 +1,4 @@
-class Document < Watchable
+class Document < ActiveRecord::Base
   has_many :document_tags
   
   belongs_to :group
