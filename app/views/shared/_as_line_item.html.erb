@@ -1,0 +1,22 @@
+<%
+#defaults
+object = object
+href = url_for(object) unless object.nil? or href
+link = link
+image = image
+line_1 = "#{object.to_s}" unless line_1
+line_2 = line_2
+
+#structure
+line = "<h2>#{line_1}</h2>#{line_2}"
+if image
+  line = "<span class='fleft'>#{image}</span><span class='fleft'>#{line}</span>" 
+end
+href = url_for(object) unless href
+if link
+  line = link_to raw(line), href
+end
+line = "<div>#{raw(line)}<div class='clearfix'></div></div>"
+%>
+
+<%= raw(line) %>

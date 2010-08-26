@@ -3,10 +3,7 @@
 
 <%= will_paginate @users %>
 
-<% @users.each do |user| %>
-  <div class="user">
-    <%= link_to user, user %>
-    &lt;<%= user.email %>&gt;
-  </div>
+<% for user in @users %>
+  <%= render "as_line_item", :object => user %>
 <% end %>
 </article>

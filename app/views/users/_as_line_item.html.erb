@@ -1,0 +1,14 @@
+<%
+#defaults
+object = object
+href = url_for(object) unless href
+link = true unless link
+
+#model-specific
+line_1 = "#{object.to_s}" unless line_1
+line_2 = line_2
+image = image_tag(object.headshot(:thumb)) unless image
+
+%>
+
+<%= render "shared/as_line_item", :link => link, :href => href, :line_1 => line_1, :line_2 => line_2, :image => image %>
