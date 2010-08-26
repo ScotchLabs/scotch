@@ -32,7 +32,7 @@ class User < Shared::Watchable
   has_many :watched_groups, :through => :watchees, :source => :watched_group, 
     :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
 
-  #FIXME these don't work
+  #FIXME these don't work STUPID RAILS
   #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts
   #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
   #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
@@ -167,14 +167,14 @@ class User < Shared::Watchable
   # All events which should appear on the user's calendar
   def user_events
     es = events.all
-    groups.each do |g|
-      es += g.events.select { |e| e.event_attendees.count == 0 }
-    end
+    es += Event.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
     return es
   end
 
   def future_events
-    user_events.select{|e| e.future?}
+    es = events.future.all 
+    es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
+    return es
   end
 
 ####################

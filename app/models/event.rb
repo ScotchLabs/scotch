@@ -11,6 +11,8 @@ class Event < ActiveRecord::Base
   validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
 
+  scope :future, where("end_time > NOW()")
+
   def self.create_audition(group,count,length,signups,params)
     time = nil
     es = []
