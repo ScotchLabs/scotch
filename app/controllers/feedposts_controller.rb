@@ -1,4 +1,19 @@
 class FeedpostsController < ApplicationController
+
+  after_filter :send_user_notification, :only => :create
+  after_filter :send_group_notification, :only => :create
+
+  # FIXME:  specifically for shows, lets people with email permission force
+  # emails out to relevant roles without regard to email permission
+  # after_filter :send_show_notification, :only => :create
+
+  # FIXME:  specifically for boards, notifies all with notify bit turned on
+  # without regard to poster
+  # after_filter :send_board_notification, :only => :create
+  
+  # FIXME:  send notification to those who want it and watch the item
+  # after_filter :send_item_notification, :only => :create 
+  
   # GET /feedposts
   # GET /feedposts.xml
   def index
@@ -86,6 +101,36 @@ class FeedpostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(@parent) }
       format.xml  { head :ok }
+    end
+  end
+
+  protected
+
+  # emails the user whose wall was written on
+  def send_user_notification
+    return true if @feedpost.new_record? ||
+      params[:feedpost][:parent_type] != "User" ||
+      @feedpost.parent.email_notifications == false ||
+      params[:feedpost][:post_type] != "wall" ||
+      @feedpost.parent == current_user
+
+    FeedpostMailer.user_notification(@feedpost,@feedpost.parent).deliver
+  end
+
+  # specifically for groups, poster must have email permission, then
+  # it goes to people who watch and want notification.
+  def send_group_notification
+    group = @feedpost.parent
+
+    return true if @feedpost.new_record? ||
+      params[:feedpost][:post_type] != "wall" ||
+      group.class.name != "Group" ||
+      not group.user_has_permission?(current_user, Permission.fetch("email"))
+
+    group.watchers.each do |u|
+      if u.email_notifications && u != current_user then
+        FeedpostMailer.group_notification(@feedpost,u).deliver
+      end
     end
   end
 end

@@ -60,6 +60,7 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
+  #FIXME This performs poorly.  Has N+1 query problem
   def num_items
     c=items.count
     for ic in item_subcategories

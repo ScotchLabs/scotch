@@ -45,6 +45,7 @@ Permission.transaction do
 
   Permission.create(:name => "checkoutSelf", :description => "User may check out items to self and group or groups self is in")
   Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
+  Permission.create(:name => "email", :description => "User can email group members")
 
   #Global Permissions
   Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
@@ -69,6 +70,8 @@ Role.transaction do
   p = Permission.fetch("adminCrew")
   RolePermission.create(:permission_id => p.id, :role_id => r.id)
   p = Permission.fetch("adminEvents")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+  p = Permission.fetch("email")
   RolePermission.create(:permission_id => p.id, :role_id => r.id);
 
   Role.create(:name => "Crew", :group_type => "Show")
