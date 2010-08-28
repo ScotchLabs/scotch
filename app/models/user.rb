@@ -93,7 +93,11 @@ class User < Shared::Watchable
 
   def andrewid=(a)
     unless self.andrewid.nil?
-      logger.warn "Someone tried to set #{self.name}'s andrew id, but it's not nil"
+      begin
+        logger.warn "Someone tried to set #{self.name}'s andrew id, but it's not nil"
+      rescue NoMethodError
+        logger.warn "Someone tried to set an andrew id for #{self.inspect}."
+      end
       return
     end
     super
