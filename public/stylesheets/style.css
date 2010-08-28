@@ -490,6 +490,9 @@ body > div > section {
   color: #333;       /* black */
   background: #ddd;  /* grey */
 }
+#subnav img {
+  height: 9px;
+}
 #loginerror {
   float: left;
   text-transform: none;
