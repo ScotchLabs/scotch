@@ -1,6 +1,6 @@
 <div class="feedpost">
   <h2><%= post.headline %></h2>
-  <% if current_page? :controller => :dashboard, :action => :index %>
+  <% if current_page? (:controller => :dashboard, :action => :index) or current_page? (root_url) %>
     <p>posted on <%= link_to post.parent, post.parent %></p>
   <% end %>
   <blockquote>
