@@ -45,7 +45,6 @@ module ApplicationHelper
       "SSTH FTW",
       "<Show Name Here> BITES",
       "We took Facebook and changed the Stylesheet",
-      "Because social networking is one of big brother's favorite things",
       "Conscripting Baggers Since 1938",
       "Loving Every Minute Of It Since 1938",
       "Too close for missiles, switching to guns", # if you remember facebook in 2005 you will keep this one
@@ -57,9 +56,7 @@ module ApplicationHelper
       "Who are we kidding, it's really \"Scotchbook\"",
       "Like Facebook, but not for losers",
       "Better Than 7 Hours of Sex and Bacon",
-      "And Now Back To Our Regularly Scheduled Lecture...kiddinggg!",
-      "Because Academics Come First",
-      "If you aren't on academic probation, you aren't trying hard enough"
+      "Because Academics Come First"
     ]
     if current_user
       flav[rand(flav.length)]
