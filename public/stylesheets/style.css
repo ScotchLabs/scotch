@@ -461,11 +461,11 @@ body > div > section {
   
 #subnav > ul {
   padding: 0;
+  margin-top: 5px;
   text-indent: 0
 }
 #subnav > ul > li {
-  display:inline-block;
-  margin: 5px 4px;
+  display:inline;
   margin-left: 0
 }
 /* tricky way of having the first li have no left margin */
