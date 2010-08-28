@@ -64,6 +64,9 @@ a {
 ul {
   list-style: none;
 }
+img {
+  border-width: 0px;
+}
 /* HTML5 fix for STUPID firefox */
 section, article, nav, aside, header, footer {
   display: block;
