@@ -75,7 +75,7 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
-  resources :feedposts, :except => [:index, :new, :edit, :update] do
+  resources :feedposts, :except => [:index, :new, :show, :edit, :update] do
     resources :feedposts, :only => [:new]
   end
 

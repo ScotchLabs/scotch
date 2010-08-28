@@ -8,11 +8,11 @@ class FeedpostMailer < ActionMailer::Base
          :subject => "[Scotch] new post on your wall: #{feedpost.headline}")
   end
 
-  def group_notification(feedpost, user)
-    @user = user
+  def group_notification(feedpost, emails)
     @feedpost = feedpost
-    mail(:to => user.email,
-         :subject => "[Scotch] new on the wall for #{feedpost.parent.short_name}")
+    mail(:To => "#{feedpost.parent.name}",
+         :bcc => emails,
+         :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
   end
 
 end

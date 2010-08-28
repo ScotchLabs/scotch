@@ -2,17 +2,8 @@ class FeedpostsController < ApplicationController
 
   after_filter :send_user_notification, :only => :create
   after_filter :send_group_notification, :only => :create
-
-  # FIXME:  specifically for shows, lets people with email permission force
-  # emails out to relevant roles without regard to email permission
-  # after_filter :send_show_notification, :only => :create
-
-  # FIXME:  specifically for boards, notifies all with notify bit turned on
-  # without regard to poster
-  # after_filter :send_board_notification, :only => :create
-  
-  # FIXME:  send notification to those who want it and watch the item
-  # after_filter :send_item_notification, :only => :create 
+  after_filter :send_board_notification, :only => :create
+  after_filter :send_show_notification, :only => :create
   
   # GET /feedposts
   # GET /feedposts.xml
@@ -108,7 +99,7 @@ class FeedpostsController < ApplicationController
 
   # emails the user whose wall was written on
   def send_user_notification
-    return true if @feedpost.new_record? ||
+    return true if @feedpost.new_record? || params[:email] != "emali" ||
       params[:feedpost][:parent_type] != "User" ||
       @feedpost.parent.email_notifications == false ||
       params[:feedpost][:post_type] != "wall" ||
@@ -117,20 +108,53 @@ class FeedpostsController < ApplicationController
     FeedpostMailer.user_notification(@feedpost,@feedpost.parent).deliver
   end
 
+  # FIXME DRY group and board notifications, since they are so similar.
+  # Really, this notification code could all stand a refactor
+
   # specifically for groups, poster must have email permission, then
   # it goes to people who watch and want notification.
   def send_group_notification
     group = @feedpost.parent
 
-    return true if @feedpost.new_record? ||
+    return true if @feedpost.new_record? || params[:email] != "email" ||
       params[:feedpost][:post_type] != "wall" ||
       group.class.name != "Group" ||
-      not group.user_has_permission?(current_user, Permission.fetch("email"))
+      (! has_permission?("email"))
 
-    group.watchers.each do |u|
-      if u.email_notifications && u != current_user then
-        FeedpostMailer.group_notification(@feedpost,u).deliver
-      end
-    end
+    emails = group.watchers.collect{|w| w.user}.select{|u| u.email_notification}.collect{|u| u.email}
+
+    FeedpostMailer.group_notification(@feedpost,emails).deliver
+  end
+
+  # specifically for boards, notifies all with notify bit turned on
+  # when poster is in board
+  def send_board_notification
+    group = @feedpost.parent
+
+    return true if @feedpost.new_record? || params[:email] != "email" ||
+      params[:feedpost][:post_type] != "wall" ||
+      group.class.name != "Board" ||
+      (! group.users.include? current_user)
+
+    emails = group.watchers.collect{|w| w.user}.select{|u| u.email_notifications}.collect{|u| u.email}
+
+    FeedpostMailer.group_notification(@feedpost,emails).deliver
+  end
+
+  # FIXME:  specifically for shows, lets people with email permission force
+  # emails out to relevant roles without regard to email permission
+  def send_show_notification
+    group = @feedpost.parent
+
+    return true if @feedpost.new_record? ||
+      params[:feedpost][:post_type] != "wall" ||
+      group.class.name != "Show" ||
+      (! has_permission?("email"))
+
+    emails = group.positions.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
+
+    logger.info "sending show notification to #{emails.inspect}"
+
+    FeedpostMailer.group_notification(@feedpost,emails).deliver
   end
 end

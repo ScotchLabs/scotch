@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_permission (permName)
+  def has_permission? (permName)
     permission = Permission.fetch(permName)
 
     if current_user.has_global_permission? permission then
@@ -25,8 +25,12 @@ class ApplicationController < ActionController::Base
     if @group.user_has_permission? current_user,permission
       return true
     end
+  end
 
-    logger.warn "#{current_user} denied access due to lack of permission #{permission} for group #{@group || "-"}"
+  def require_permission (permName)
+    return true if has_permission?(permName)
+
+    logger.warn "#{current_user} denied access due to lack of permission #{permName} for group #{@group || "-"}"
 
     flash[:notice] = "You are not authorized to do that!"
 

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     if params[:q]
       @users = User.all.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
     else
-      @users = User.order("last_name ASC, first_name ASC").paginate(:per_page => 30, :page => params[:page])
+      @users = User.paginate(:per_page => 20, :page => params[:page])
     end
 
     respond_to do |format|

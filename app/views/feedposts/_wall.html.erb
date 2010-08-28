@@ -1,5 +1,8 @@
 <div class="feedpost">
-  <h2><%= link_to post.headline, post %></h2>
+  <h2><%= post.headline %></h2>
+  <% if current_page? :controller => :dashboard, :action => :index %>
+    <p>posted on <%= link_to post.parent, post.parent %></p>
+  <% end %>
   <blockquote>
     <%= raw textilize post.body %>
   <small>Posted by <%= link_to post.user, post.user %> on <%= format_date post.created_at %></small>

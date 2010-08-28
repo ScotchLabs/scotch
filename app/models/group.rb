@@ -2,7 +2,7 @@ class Group < Shared::Watchable
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy
-  has_many :positions
+  has_many :positions, :include => :user
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
@@ -48,21 +48,23 @@ class Group < Shared::Watchable
     return Role.where :group_type => self.name
   end
 
-  # Return all permissions that a user has for this group.  This is calculated
-  # by climbing up the tree of groups that are parent to this one.  This isn't
-  # a cheep operation :(.  For this reason TODO CACHE THIS FUNCTION.  At least
-  # I didn't decide to make roles have parents too!
+  # Return all permissions that a user has for this group.
+  # FIXME: we use custom finder sql because i can't get rails to string the
+  # joins together the way I want... Also, this won't climb all the way up the
+  # tree of group, just to the first parent.
   def permissions_for(user)
-    perms = []
-
-    positions.where(:user_id => user.id).each do |p|
-      perms += p.role.permissions
+    sql = "SELECT `permissions`.* FROM `permissions` 
+      INNER JOIN `role_permissions` ON `permissions`.`id` = `role_permissions`.`permission_id` 
+      INNER JOIN `roles` ON `role_permissions`.`role_id` = `roles`.`id` 
+      INNER JOIN `positions` ON `roles`.`id` = `positions`.`role_id` 
+      WHERE (`positions`.`user_id` = #{user.id})"
+    if self.parent.nil?
+      sql += " AND (`positions`.`group_id` = #{self.id});"
+    else
+      sql += " AND (`positions`.`group_id` IN (#{self.id},#{self.parent.id}));"
     end
 
-    perms = (perms += parent.permissions_for(user)) if (parent)
-    perms.uniq!
-
-    return perms
+    return Permission.find_by_sql(sql)
   end
 
   def user_has_permission?(user,permission)

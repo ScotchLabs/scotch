@@ -8,6 +8,8 @@ class Watcher < ActiveRecord::Base
   
   validates_presence_of :user, :item
 
+  #FIXME ensure that each user/item pair is unique
+
   # from ActiveRecord:Associations:ClassMethods documentation.  Needed because
   # Groups uses STI.
   def item_type=(sType)

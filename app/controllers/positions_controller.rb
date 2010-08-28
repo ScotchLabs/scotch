@@ -32,7 +32,7 @@ class PositionsController < ApplicationController
   # GET /groups/1/positions
   # GET /groups/1/positions.xml
   def index
-    @positions = Position.where(:group_id => @group.id).all
+    @positions = Position.where(:group_id => @group.id).joins(:user).order("users.last_name, users.first_name ASC").paginate(:per_page => 30, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

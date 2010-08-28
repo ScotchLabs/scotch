@@ -68,6 +68,7 @@ class User < Shared::Watchable
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
 
+  default_scope order("last_name, first_name ASC")
   scope :recent, where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
 
 ####################
@@ -255,7 +256,7 @@ class User < Shared::Watchable
     item_posts = Feedpost.recent.where(:parent_type => "Item").where(:parent_id => items.collect{|i|i.id}).all
     user_posts = Feedpost.recent.where(:parent_type => "User").where(:parent_id => users.collect{|u|u.id}).all
 
-    (group_posts + item_posts + user_posts).sort
+    (group_posts + item_posts + user_posts).sort.reverse
   end
 
   protected

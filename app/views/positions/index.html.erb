@@ -7,7 +7,9 @@
     <%= link_to image_tag("add_icon.png", :size => "12x12") + 'Add a member', new_group_position_path(@group) %>
   </div>
   <% end %>
+
   <h1><%= @group %> Members</h1>
+  <%= will_paginate @positions %>
 
   <% if @positions.count == 0 %>
     <p>This group does not have any members!?</p>

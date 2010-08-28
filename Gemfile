@@ -19,3 +19,7 @@ gem 'smurf', '1.0.4'
 gem 'paperclip', '2.3.3'
 
 gem 'digest-whirlpool', '1.0.0'
+
+group :development do
+  gem 'ruby-debug'
+end

@@ -10,7 +10,7 @@ class Feedpost < ActiveRecord::Base
     ['wall',"Wallpost"]
   ]
   
-  validates_presence_of :parent, :user
+  validates_presence_of :parent, :user, :headline
   validates_length_of :headline, :maximum => 140, 
     :message => "may not be more than 140 characters."
   validates_inclusion_of :post_type, :in => POST_TYPES.map{|e| e[0]}, 
@@ -24,5 +24,9 @@ class Feedpost < ActiveRecord::Base
   # Groups uses STI.
   def parent_type=(sType)
     super(sType.to_s.classify.constantize.base_class.to_s)
+  end
+
+  def <=>(other)
+    self.created_at <=> other.created_at
   end
 end
