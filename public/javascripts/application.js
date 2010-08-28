@@ -1,3 +1,3 @@
 $(function(){
-  $('input, textarea').placeholder();
+  $('.placeholder-shim').placeholder();
 })
