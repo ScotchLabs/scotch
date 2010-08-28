@@ -24,8 +24,8 @@
           <%= check_box_tag "email", "email" %>
           <%= label_tag "email", "Send an email notification to all users who follow this group and have notifications turned on." %>
         <% elsif object.class.name == "Show" && has_permission?("email") then %>
-          <%= label_tag :email_names, "Notify these positions via email" %> (leave blank for all)<br>
-          <%= select_tag :email_names, options_for_select(@group.positions.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %>
+          <%= label_tag :email_names, "Notify these positions via email" %><br>
+	  <%= select_tag :email_names, options_for_select(@group.positions.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
         <% end %>
 
         <%= f.submit %>
