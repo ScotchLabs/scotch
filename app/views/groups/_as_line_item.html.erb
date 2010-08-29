@@ -12,6 +12,7 @@
 #render "shared/as_line_item", :link => link, :href => href, :line_1 => line_1, :line_2 => line_2, :image => image
 %>
 
+<!-- FIXME: Horrable hack with <br>s at the end of this -->
 <div class="groupListing">
   <%= link_to object do %>
     <span class="fleft"><%= image_tag(object.image(:thumb)) %></span>
@@ -20,4 +21,4 @@
   <% if object.archived? %><span style="text-transform: uppercase; color: #CAA;">archived</span><% end %>
   <span style="text-transform: uppercase; color: #AAA;"><%= object.type %></span>
   <span class="groupDescription"><%= raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…") %></span>
-</div>
+</div><br><br>
