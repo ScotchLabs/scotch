@@ -195,10 +195,10 @@ User.transaction do
 end
 
 HelpItem.transaction do
-    HelpItem.create(:name => "SMC", :anchor => "why-smc", :display_text => "why do you want this?",
-      :message => "We'd like your smc because...well I don't know. We're the mafia.")
-    HelpItem.create(:name => "Phone Number", :anchor => "why-phone", :display_text => "why do you want this?",
-      :message => "-Sometimes- At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number public.")
+    HelpItem.create(:name => "SMC", :anchor => "why-smc", :display_text => "why?",
+      :message => "Occasionally, we'll have our members make purchases for Scotch'N'Soda themselves and reimburse them.  When we do this, we need to know the member's SMC to deliver the reimbursement check.")
+    HelpItem.create(:name => "Phone Number", :anchor => "why-phone", :display_text => "why?",
+      :message => "-Sometimes- At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number available.")
     HelpItem.create(:name => "Textile", :anchor => "textile", :display_text => "Textile",
       :message => "[\"RedCloth\":http://redcloth.org/]  enables us to use the [\"Textile markup language\":http://en.wikipedia.org/wiki/Textile_(markup_language)]. Here are some examples of how to format certain things ([\"full manual\":http://redcloth.org/textile/]):
 

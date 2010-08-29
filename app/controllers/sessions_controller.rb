@@ -1,4 +1,4 @@
-class Users::SessionsController < Devise::SessionsController
+class SessionsController < Devise::SessionsController
   prepend_before_filter :lookup_email
   
   def lookup_email
