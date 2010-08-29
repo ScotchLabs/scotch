@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   prepend_before_filter :find_user
 
-  before_filter :only => [:create, :destroy, :new] do
+  before_filter :only => [:create, :destroy] do
     require_global_permission "adminUsers"
   end
 
@@ -35,17 +35,6 @@ class UsersController < ApplicationController
       format.html # show.html.erb
 
       # FIXME: this leaks information
-      format.xml  { render :xml => @user }
-    end
-  end
-
-  # GET /users/new
-  # GET /users/new.xml
-  def new
-    @user = User.new
-
-    respond_to do |format|
-      format.html # new.html.erb
       format.xml  { render :xml => @user }
     end
   end
