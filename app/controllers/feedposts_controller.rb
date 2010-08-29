@@ -155,6 +155,6 @@ class FeedpostsController < ApplicationController
 
     logger.info "sending show notification to #{emails.inspect}"
 
-    FeedpostMailer.group_notification(@feedpost,emails).deliver
+    FeedpostMailer.group_notification(@feedpost,emails).deliver unless emails.empty?
   end
 end
