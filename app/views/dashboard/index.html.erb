@@ -28,10 +28,10 @@
     <% end %>
     </div>
     <div class="dashboard-item">
-    <h1>Your Groups</h1>
+    <h1>Your Active Groups</h1>
     <ul>
       <% current_user.groups.active.each do |g| %>
-        <li><%= link_to g, g %></li>
+        <%= render "groups/as_line_item", :object => g %>
       <% end %>
     </ul>
     </div>

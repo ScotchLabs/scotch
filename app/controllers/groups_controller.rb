@@ -26,9 +26,17 @@ class GroupsController < ApplicationController
       @groups = Show.all
     elsif params[:group_type] == "Board" then
       @groups = Board.all
-    else
+    elsif params[:group_type] == "Group" then
+      @groups = Group.where(:group_type => "Group").all
+    elsif params[:group_type] == "all" then
       @groups = Group.all
+    else
+      @groups = Group.active
     end
+
+    # FIXME This is a bad idea from a performance perspective, but until I have
+    # figured out how do to group sorting in the DB, it will have to stay
+    @groups = @groups.sort.paginate(:per_page => 20, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,0 +1,23 @@
+<%
+#defaults
+#object = object
+#href = url_for(object) unless href
+#link = true unless link
+
+#model-specific
+#line_1 = "#{object.to_s}" unless line_1
+#line_2 = line_2
+#image = image_tag(object.image(:thumb)) unless image
+
+#render "shared/as_line_item", :link => link, :href => href, :line_1 => line_1, :line_2 => line_2, :image => image
+%>
+
+<div class="groupListing">
+  <%= link_to object do %>
+    <span class="fleft"><%= image_tag(object.image(:thumb)) %></span>
+    <h2><%= object %></h2> 
+  <% end %>
+  <% if object.archived? %><span style="text-transform: uppercase; color: #CAA;">archived</span><% end %>
+  <span style="text-transform: uppercase; color: #AAA;"><%= object.type %></span>
+  <span class="groupDescription"><%= raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…") %></span>
+</div>
