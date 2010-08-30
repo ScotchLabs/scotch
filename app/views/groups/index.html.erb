@@ -4,7 +4,7 @@
 <% elsif params[:group_type] == "Board" %>
   <h1>Boards</h1>
 <% elsif params[:group_type] == "Group" %>
-  <h1>Boards</h1>
+  <h1>Interest Groups</h1>
 <% elsif params[:group_type] == "all" %>
   <h1>All Groups</h1>
 <% else %>
@@ -18,8 +18,8 @@
 <% end %>
 
 <p>
-See: <%= link_to "shows", groups_url(:group_type => "Show") %> | 
-     <%= link_to "boards", groups_url(:group_type => "Board") %> | 
+See: <%= link_to "shows", shows_url %> | 
+     <%= link_to "boards", boards_url %> | 
      <%= link_to "interest groups", groups_url(:group_type => "Group") %> | 
      <%= link_to "all", groups_url(:group_type => "all") %> 
 </p>

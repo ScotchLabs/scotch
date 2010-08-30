@@ -44,12 +44,6 @@ Scotch::Application.routes.draw do |map|
     resources :events, :only => [:index, :new]
     resources :documents, :only => [:index, :new]
     resources :checkouts, :only => [:index, :new]
-
-    # FIXME: do we use this? should we?
-    collection do
-     get :shows
-     get :boards
-    end
     member do
       post :join
       post :leave
