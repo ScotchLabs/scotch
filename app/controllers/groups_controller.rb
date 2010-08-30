@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
     elsif params[:group_type] == "Board" then
       @groups = Board.all
     elsif params[:group_type] == "Group" then
-      @groups = Group.where(:group_type => "Group").all
+      @groups = Group.where(:type => "Group").all
     elsif params[:group_type] == "all" then
       @groups = Group.all
     else

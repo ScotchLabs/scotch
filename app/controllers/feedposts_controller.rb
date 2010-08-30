@@ -114,14 +114,14 @@ class FeedpostsController < ApplicationController
   # specifically for groups, poster must have email permission, then
   # it goes to people who watch and want notification.
   def send_group_notification
-    group = @feedpost.parent
+    @group = @feedpost.parent
 
     return true if @feedpost.new_record? || params[:email] != "email" ||
       params[:feedpost][:post_type] != "wall" ||
-      group.class.name != "Group" ||
+      @group.class.name != "Group" ||
       (! has_permission?("email"))
 
-    emails = group.watchers.collect{|w| w.user}.select{|u| u.email_notification}.collect{|u| u.email}
+    emails = @group.watchers.collect{|w| w.user}.select{|u| u.email_notification}.collect{|u| u.email}
 
     FeedpostMailer.group_notification(@feedpost,emails).deliver
   end
@@ -129,29 +129,29 @@ class FeedpostsController < ApplicationController
   # specifically for boards, notifies all with notify bit turned on
   # when poster is in board
   def send_board_notification
-    group = @feedpost.parent
+    @group = @feedpost.parent
 
     return true if @feedpost.new_record? || params[:email] != "email" ||
       params[:feedpost][:post_type] != "wall" ||
-      group.class.name != "Board" ||
+      @group.class.name != "Board" ||
       (! group.users.include? current_user)
 
-    emails = group.watchers.collect{|w| w.user}.select{|u| u.email_notifications}.collect{|u| u.email}
+    emails = @group.watchers.collect{|w| w.user}.select{|u| u.email_notifications}.collect{|u| u.email}
 
     FeedpostMailer.group_notification(@feedpost,emails).deliver
   end
 
-  # FIXME:  specifically for shows, lets people with email permission force
+  # specifically for shows, lets people with email permission force
   # emails out to relevant roles without regard to email permission
   def send_show_notification
-    group = @feedpost.parent
+    @group = @feedpost.parent
 
     return true if @feedpost.new_record? ||
       params[:feedpost][:post_type] != "wall" ||
-      group.class.name != "Show" ||
+      @group.class.name != "Show" ||
       (! has_permission?("email"))
 
-    emails = group.positions.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
+    emails = @group.positions.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
 
     logger.info "sending show notification to #{emails.inspect}"
 
