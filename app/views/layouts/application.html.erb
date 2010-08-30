@@ -38,8 +38,11 @@
       </noscript>
       <% if current_user and (!notice.nil? or !alert.nil?) %>
         <article>
-          <p class="notice"><%= notice %></p>
-          <p class="alert"><%= alert %></p>
+          <%= notice %>
+          <% if notice and alert %>
+          <br>
+          <%= alert %>
+          <% end %>
         </article>
       <% end %>
       <%= yield %>
