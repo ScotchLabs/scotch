@@ -45,7 +45,7 @@
       <tr><td>Age</td><td><%= @user.age %></td></tr>
       <tr style='height:1em'></tr>
       <tr><td><%= f.label :graduation_year %></td><td><%= f.text_field :graduation_year %></td></tr>
-      <tr><td><%= f.label :home_college %></td><td><%= f.select :home_college, User::HOME_COLLEGES %></td></tr>
+      <tr><td><%= f.label :home_college %></td><td><%= f.select :home_college, [""]+User::HOME_COLLEGES %></td></tr>
       <tr><td><%= f.label :majors %></td><td><%= f.text_field :majors %></td></tr>
       <tr><td><%= f.label :minors %></td><td><%= f.text_field :minors %></td></tr>
       <tr style='height:1em'></tr>
