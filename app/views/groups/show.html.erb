@@ -15,13 +15,4 @@
 </p>
 </article>
 
-<!-- FIXME Is this what we really want? -->
-<% if @group.class.to_s == "Board" %>
-<div class='grid'>
-<% for position in @group.positions %>
-  <%= render "users/as_grid_item", :link => true, :object => position.user, :h2 => position %>
-<% end %>
-</div>
-<% end %>
-
 <%= render "shared/feedposts", :object => @group %>
