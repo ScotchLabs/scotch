@@ -319,8 +319,8 @@ input[type="submit"], input[type="reset"], a.button {
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
-  padding: 8px 0;
-  width:220px;
+  padding: 8px;
+  min-width: 220px;
   font-weight: bold;
   text-align: center;
 }
@@ -505,7 +505,7 @@ body > div > section {
 }
 #loginform input[type="submit"], #loginform a.button {
   padding: 5px 10px;
-  width: auto;
+  min-width: inherit;
   text-transform: none
 }
 #footer {
