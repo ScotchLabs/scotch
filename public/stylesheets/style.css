@@ -494,7 +494,7 @@ body > div > section {
   height: 9px;
 }
 #loginerror {
-  float: left;
+  float: right;
   text-transform: none;
   padding: 8px;
   line-height: 23px;

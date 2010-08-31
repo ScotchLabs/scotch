@@ -1,6 +1,3 @@
-<% unless current_user %>
-<span id='loginerror'><%= notice %><%= alert %></span>
-<% end %>
 <span id='loginform'>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
     <%= f.text_field :andrewid, {:placeholder => "Andrew ID", :class => "placeholder-shim"} %>
@@ -15,4 +12,7 @@
     <% end -%>
   <% end %>
 </span>
+<% unless current_user %>
+<span id='loginerror'><%= notice %><%= alert %></span>
+<% end %>
 <div class='clearfix'></div>
