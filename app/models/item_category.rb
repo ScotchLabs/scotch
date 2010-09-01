@@ -60,8 +60,9 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
-  #FIXME This performs poorly.  Has N+1 query problem
+  #NOTE: DO NOT USE THIS ONE MORE THAN ONE CATEGORY PER PAGE
   def num_items
+    return item_count if attribute_present? :item_count
     c=items.count
     for ic in item_subcategories
       c += ic.num_items
@@ -71,6 +72,17 @@ class ItemCategory < ActiveRecord::Base
   
   def to_s
     "#{(slug or prefix)} #{name}"
+  end
+
+  def self.parent_categories_with_item_count
+    ItemCategory.find_by_sql(
+      "SELECT `item_categories`.*, count(*) as item_count 
+      FROM `item_categories` 
+      INNER JOIN `item_categories` `item_subcategories_item_categories` 
+        ON `item_subcategories_item_categories`.`parent_category_id` = `item_categories`.`id` 
+      INNER JOIN `items` ON `items`.`item_category_id` = `item_subcategories_item_categories`.`id` 
+      WHERE (`item_categories`.`parent_category_id` IS NULL) 
+      GROUP BY `item_categories`.`id` ORDER BY prefix ASC")
   end
   
 protected
