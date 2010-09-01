@@ -10,6 +10,10 @@ class GroupsController < ApplicationController
     end
   end
 
+  before_filter :only => [:edit, :update] do
+    require_permission "adminGroup"
+  end
+
   append_before_filter :only => [:signup, :leave] do
     if @group.class.name != "Group" then
       flash[:notice] = "You can not signup or leave a non-group"
@@ -111,17 +115,6 @@ class GroupsController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /groups/1
-  # DELETE /groups/1.xml
-  def destroy
-    @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(groups_url) }
-      format.xml  { head :ok }
     end
   end
 

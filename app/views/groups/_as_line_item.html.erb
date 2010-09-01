@@ -13,12 +13,13 @@
 %>
 
 <!-- FIXME: Horrable hack with <br>s at the end of this -->
-<div class="groupListing">
+<div class="groupListing" style="margin-bottom: 5px; margin-top: 5px" >
   <%= link_to object do %>
-    <span class="fleft"><%= image_tag(object.image(:thumb)) %></span>
+    <span class="fleft" style="padding: 3px 7px 3px 3px"><%= image_tag(object.image(:thumb)) %></span>
     <h2><%= object %></h2> 
   <% end %>
   <% if object.archived? %><span style="text-transform: uppercase; color: #CAA;">archived</span><% end %>
   <span style="text-transform: uppercase; color: #AAA;"><%= object.type %></span>
   <span class="groupDescription"><%= raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…") %></span>
-</div><br><br>
+  <div id="clearfix"></div>
+</div>

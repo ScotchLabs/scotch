@@ -1,11 +1,11 @@
-<% if @item_category.items.empty?
+<% if @item_subcategories
   # this is a category that contains other categories
   %>
   <div class='grid'>
   
     <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
   
-    <% for item_category in @item_category.item_subcategories %>
+    <% for item_category in @item_subcategories %>
       <%= render "as_grid_item", :object => item_category, :link => true %>
     <% end %>
   

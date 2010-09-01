@@ -1,4 +1,9 @@
 class ItemsController < ApplicationController
+
+  before_filter :only => [:new, :create, :update, :destroy, :edit] do
+    require_global_permission "adminItems"
+  end
+
   # GET /items
   # GET /items.xml
   def index

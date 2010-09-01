@@ -7,15 +7,18 @@
   
 </div>
 
-<article id='more' class='hidden'>
+<article id='more'>
   <%= render "shared/follow_me", :object => @item %>
+
+  <% if has_global_permission? "adminItems" %>
+    <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_item_path(@item) %></div>
+  <% end %>
+
   <h2>Description</h2>
   <%= @item.description %>
-  <h2>Actions</h2>
   <p>
-  <%= link_to 'Edit Item', edit_item_path(@item) %><br>
   <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
-    <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
+    <%= link_to 'Check out this item!', new_item_checkout_path(@item) -%>
   <% elsif @item.available? %>
     Sorry, you don't have permission to check this item out.
   <% else %>

@@ -19,6 +19,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories/1.xml
   def show
     @item_category = ItemCategory.find(params[:id])
+    @item_subcategories = @item_category.item_subcategories.select("item_categories.*, count(*) as item_count").joins(:items).group( "item_categories.id") if @item_category.items.count == 0
 
     respond_to do |format|
       format.html # show.html.erb

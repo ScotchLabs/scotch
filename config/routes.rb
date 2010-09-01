@@ -12,7 +12,7 @@ Scotch::Application.routes.draw do |map|
   # the future more things might be like this, but it would be better to have
   # such things exist as separate applications and simply consume the models
   # of Scotch via the REST API.
-  resources :items do
+  resources :items, :except => [:index] do
     resources :checkouts, :only => [:index, :new]
     resources :feedposts, :only => [:index, :new]
   end
@@ -27,16 +27,16 @@ Scotch::Application.routes.draw do |map|
 
   # This line is to help out rails RESTful route lookup.  Without it rails
   # gets confused in some places when trying to create links to Show objects
-  resources :shows, :controller => :groups, :group_type => "Show" do
+  resources :shows, :except => [:destroy], :controller => :groups, :group_type => "Show" do
     resources :feedposts, :only => [:index, :new]
   end
-  resources :boards, :controller => :groups, :group_type => "Board" do 
+  resources :boards, :except => [:destroy], :controller => :groups, :group_type => "Board" do 
     resources :feedposts, :only => [:index, :new]
   end
 
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
-  resources :groups, :shallow => true do
+  resources :groups, :except => [:destroy], :shallow => true do
     resources :feedposts, :only => [:index, :new]
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection

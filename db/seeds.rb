@@ -52,9 +52,10 @@ Permission.transaction do
   Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
   Permission.create(:name => "createShow", :description => "GLOBAL: User can create Shows")
   Permission.create(:name => "createBoard", :description => "GLOBAL: User can create Boards")
-  #TODO Permission.create(:name => "archiveGroup", :desciption => "User can archive a group")
+  Permission.create(:name => "archiveGroup", :description => "User can archive a group")
   Permission.create(:name => "adminHelpItems", :description => "GLOBAL: User can edit HelpItems")
   Permission.create(:name => "adminItemCategories", :description => "GLOBAL: User can edit ItemCategories")
+  Permission.create(:name => "adminItems", :description => "GLOBAL: User can edit items")
   Permission.create(:name => "adminRoles", :description => "GLOBAL: User can edit available roles")
   Permission.create(:name => "adminUsers", :description => "GLOBAL: User can edit all users in the system")
 end

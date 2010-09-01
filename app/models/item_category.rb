@@ -60,9 +60,9 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
-  #NOTE: DO NOT USE THIS ONE MORE THAN ONE CATEGORY PER PAGE
   def num_items
     return item_count if attribute_present? :item_count
+
     c=items.count
     for ic in item_subcategories
       c += ic.num_items

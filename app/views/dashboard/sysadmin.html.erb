@@ -50,9 +50,14 @@
   </article>
 <% end %>
 
-<% if has_global_permission? "adminItemCategories" %>
+<% if has_global_permission? "adminItems" %>
   <article>
-    <h3><%= link_to "Administer Item Categories", item_categories_path %></h3>
-    <p>Blurb about item categories</p>
+      <h3><%= link_to "Add an item", new_item_path %></h3>
+
+    <% if has_global_permission? "adminItemCategories" %>
+      <h3><%= link_to "Administer Item Categories", item_categories_path %></h3>
+    <% end %>
+
+    <p>Blurb about items and item categories</p>
   </article>
 <% end %>
