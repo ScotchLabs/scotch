@@ -6,6 +6,8 @@ class Position < ActiveRecord::Base
 
   validates_presence_of :user_id, :role_id, :group_id
 
+  default_scope order("created_at DESC")
+
   attr_protected :group_id
 
   validate :role_matches_group
