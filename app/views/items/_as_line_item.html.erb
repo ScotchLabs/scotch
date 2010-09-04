@@ -2,13 +2,12 @@
 #defaults
 object = object
 image = image
-p = p
 
 #model-specific
 link = url_for(object) unless link
-h2 = object.user unless h2
-h3 = "#{object.role} &emdash; #{object.display_name}" unless h3
+h2 = object.to_s unless h2
+h3 = object.location unless h3
 href = url_for(object) unless href
 %>
 
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>
+<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :image => image %>
