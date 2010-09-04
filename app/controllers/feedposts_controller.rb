@@ -8,7 +8,7 @@ class FeedpostsController < ApplicationController
   # GET /feedposts
   # GET /feedposts.xml
   def index
-    @parent = @group or @user or @item
+    @parent = (@group or @user or @item)
     
     if @parent.nil? or !@parent.respond_to? 'feedposts'
       @feedposts = Feedpost.all
