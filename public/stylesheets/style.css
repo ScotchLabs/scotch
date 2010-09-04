@@ -408,6 +408,7 @@ body {
 
 body > div > section {
   width: 900px;
+  position: relative;
   margin: 0 auto
 }
 #header {
@@ -426,6 +427,20 @@ body > div > section {
 }
 #header h2 {
   font-size: 13pt
+}
+#search {
+  position: absolute;
+  right: 0;
+  top: 25px;
+}
+#search input[type='text'] {
+  width: 300px;
+  margin-right: 60px;
+}
+#search input[type="submit"] {
+  padding: 5px 10px;
+  min-width: inherit;
+  text-transform: none
 }
 #nav {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
