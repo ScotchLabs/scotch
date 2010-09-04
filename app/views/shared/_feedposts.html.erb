@@ -28,7 +28,7 @@
 	  <%= select_tag :email_names, options_for_select(@group.positions.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
         <% end %>
 
-        <%= f.submit %>
+        <%= f.submit "Post!" %>
       <% end %>
     </div>
     <div class='clearfix'></div>
