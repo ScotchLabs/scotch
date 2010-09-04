@@ -64,7 +64,7 @@ Scotch::Application.routes.draw do |map|
   # more business logic will move to being set on pages like these in the
   # future.
   resources :roles
-  resources :item_categories
+  resources :item_categories, :except => [:destroy]
   resources :help_items, :only => [:show, :edit, :index, :update]
 
   resources :feedbacks, :only => [:create, :new]

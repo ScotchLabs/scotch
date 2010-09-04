@@ -33,7 +33,7 @@ module ApplicationHelper
     # logs in, then it cycles pseudo-randomly
     flav = [
       "Scotch'n'Soda's Online Informatory",
-      "Is Informatory Even A Word?"
+      "Is Informatory Even A Word?",
       "Breaking Legs and Taking Names Since 1938",
       "Enabling Dangerous Acts Since 1938",
       "Loving Every Minute Of It Since 1938",
@@ -50,14 +50,13 @@ module ApplicationHelper
       "Anyone want to steal the fence?",
       "Powered By Kitten Sneezes",
       "Better Than 6 Hours of Sex and Bacon",
-      "Because Academics Come First"
+      "Because Academics Come First",
       "This message brought to you by Spackle For President",
       "Have you finished your budget yet?",
       "Who are we kidding, it's really \"Scotchbook\"",
       "Like Facebook, but not for losers",
       "We took Facebook and changed the Stylesheet",
-      "Too close for missiles, switching to guns", # if you remember facebook in 2005 you will keep this one
-
+      "Too close for missiles, switching to guns" # if you remember facebook in 2005 you will keep this one
     ]
     if current_user
       flav[rand(flav.length)]
