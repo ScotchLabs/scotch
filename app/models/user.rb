@@ -37,12 +37,15 @@ class User < Shared::Watchable
   #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
   #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
 
+	Paperclip.interpolates :aid_initial do |attachment,style| 
+		attachment.instance.andrewid.first
+	end
 	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrewid end
 
   has_attachment :headshot, 
     :styles => {:medium => "150x150#", :thumb => "50x50#"},
     :default_url => '/images/missing/:class_:style.png',
-		:file_name => 'headshots/:andrew_:style.:extension'
+		:file_name => 'headshots/:aid_initial/:andrew_:style.:extension'
 
   validates_attachment_size :headshot, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
