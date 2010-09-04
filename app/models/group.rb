@@ -1,4 +1,7 @@
 class Group < Shared::Watchable
+	# Coerce Paperclip into using custom storage
+	include Shared::AttachmentHelper
+
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy
@@ -7,9 +10,12 @@ class Group < Shared::Watchable
 
   belongs_to :parent, :class_name => "Group"
 
-  has_attached_file :image, :styles => 
+	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
+
+  has_attachment :image, :styles => 
     { :medium => "150x150#", :thumb => "50x50#" },
-    :default_url => '/images/missing/:class_:style.png'
+    :default_url => '/images/missing/:class_:style.png',
+		:file_name => ':class/:groupname_:style.png'
 
   validates_attachment_size :image, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
