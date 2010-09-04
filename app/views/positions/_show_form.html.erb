@@ -16,7 +16,7 @@
   <%= f.hidden_field :group_id %>
   <div class="field">
     <%= f.label :user_id %>: 
-    <%= f.collection_select :user_id, User.all, :id, :name %>
+    <%= text_field_tag "user_identifier", (@position.user ? "#{@position.user.name} #{@position.user.email}" : ""), :class => "user_identifier" %>
   </div>
   <div class="field">
     <%= f.label :role_id, "Role Type" %>: 

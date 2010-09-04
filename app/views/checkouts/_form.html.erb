@@ -24,7 +24,7 @@
   <% if has_permission? "checkoutOther" %>
     <div class="field">
       <%= f.label :user_name, "Check out to:" %><br>
-      <%= text_field "custom", "user_identifier", :value => ("#{@checkout.user.name} #{@checkout.user.email}" or "#{current_user.name} #{current_user.email}") %>
+      <%= text_field_tag "user_identifier", ("#{@checkout.user.name} #{@checkout.user.email}" or "#{current_user.name} #{current_user.email}") %>
     </div>
   <% end %>
   

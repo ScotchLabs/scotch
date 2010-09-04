@@ -61,7 +61,7 @@ class CheckoutsController < ApplicationController
     @checkout.group = nil unless has_permission?("checkoutSelf") or has_permission?("checkoutOther")
 
     if has_permission? "checkoutOther"
-      @checkout.user = User.autocomplete_retreive_user(params[:custom][:user_identifier])
+      @checkout.user = User.autocomplete_retreive_user(params[:user_identifier])
     else
       @checkout.user = current_user
     end

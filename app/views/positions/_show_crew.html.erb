@@ -10,7 +10,7 @@
   <div class="field">
   <%= label_tag "users", "Crew Members" %>
   <% 10.times do %> <!-- # FIXME: this should really use JavaScript to add/remove form elements at will -->
-    <%= select_tag "users[]", raw("<option></option>" + options_from_collection_for_select(User.all,:id,:name)) %>    
+    <%= text_field_tag "user_identifiers[]", (@position.user ? "#{@position.user.name} #{@position.user.email}" : ""), :id => "", :class => "user_identifier" %>
   <% end %>
   </div>
 
