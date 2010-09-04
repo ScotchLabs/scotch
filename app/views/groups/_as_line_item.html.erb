@@ -3,18 +3,21 @@
 object = object
 href = url_for(object) unless href
 link = true unless link
+h3 = h3
+p = p
 
 #model-specific
-line_1 = "#{object.to_s}" unless line_1
-line_2 = line_2
-unless line_2
-  line_2 = ""
+h2 = object.to_s unless h2
+unless h3
+  h3 = ""
   if object.archived?
-    line_2 = "<h3>archived</h3> "
+    h3 = "archived"
   end
-  line_2 << "<h3>#{object.type}</h3> <span style='font-weight:normal;color:#333'>#{raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…")}</span>"
+  h3 << " " if h3
+  h3 << object.type.to_s
 end
+p = raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…")
 image = image_tag(object.image(:thumb)) unless image
-%><%=
-render "shared/as_line_item", :link => link, :href => href, :line_1 => line_1, :line_2 => line_2, :image => image
 %>
+
+<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>

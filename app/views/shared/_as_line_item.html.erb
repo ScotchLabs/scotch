@@ -7,11 +7,12 @@ object = object
 href = url_for(object) unless object.nil? or href
 link = link
 image = image
-line_1 = "#{object.to_s}" unless line_1
-line_2 = line_2
+h2 = "#{object.to_s}" unless h2
+h3 = h3
+p = p
 
 #structure
-line = "<h2>#{line_1}</h2>#{line_2}"
+line = "<h2>#{h2}</h2><h3>#{h3}</h3>#{(h3)? (' '):('')}<span style='color:#333;font-weight:normal;'>#{p}</span>"
 href = url_for(object) unless href
 if image
   if link
@@ -22,7 +23,6 @@ end
 if link
   line = link_to raw(line), href
 end
-line = "<div class='inline'>#{line}</div>"
 line = "<div class='line-item'>#{image}#{line}<div class='clearfix'></div></div>"
 %>
 
