@@ -14,8 +14,10 @@ class ItemCategory < ActiveRecord::Base
   validate :unique_prefix
   validate :unique_slug
   
+  default_scope order(:name)
+  
   # this scope selects categories that don't have parents. they are the top-level categories
-  scope :parent_categories, where(:parent_category_id => nil).order("prefix ASC")
+  scope :parent_categories, where(:parent_category_id => nil).order(name)
   # this scope select categories that have parents. they are the bottom-level categories
   scope :child_categories, where("parent_category_id IS NOT NULL")
   
@@ -71,7 +73,7 @@ class ItemCategory < ActiveRecord::Base
   end
   
   def to_s
-    "#{(slug or prefix)} #{name}"
+    name
   end
 
   def self.parent_categories_with_item_count
@@ -82,7 +84,7 @@ class ItemCategory < ActiveRecord::Base
         ON `item_subcategories_item_categories`.`parent_category_id` = `item_categories`.`id` 
       INNER JOIN `items` ON `items`.`item_category_id` = `item_subcategories_item_categories`.`id` 
       WHERE (`item_categories`.`parent_category_id` IS NULL) 
-      GROUP BY `item_categories`.`id` ORDER BY prefix ASC")
+      GROUP BY `item_categories`.`id` ORDER BY name ASC")
   end
   
 protected
