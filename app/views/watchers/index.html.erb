@@ -2,6 +2,6 @@
   <h1>Things you follow</h1>
 
   <% @watchers.each do |watcher| %>
-    <%= render "#{watcher.item.class.base_class.name.downcase.pluralize}/as_line_item", :object => watcher.item %>
+    <%= render "#{watcher.item.class.base_class.name.tableize}/as_line_item", :object => watcher.item %>
   <% end %>
 </article>
