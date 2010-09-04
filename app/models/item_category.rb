@@ -17,9 +17,9 @@ class ItemCategory < ActiveRecord::Base
   default_scope order(:name)
   
   # this scope selects categories that don't have parents. they are the top-level categories
-  scope :parent_categories, where(:parent_category_id => nil).order(name)
+  scope :parent_categories, where(:parent_category_id => nil).order(:name)
   # this scope select categories that have parents. they are the bottom-level categories
-  scope :child_categories, where("parent_category_id IS NOT NULL")
+  scope :child_categories, where("parent_category_id IS NOT NULL").order(:name)
   
   def <=>(other)
     # compare two top-level
