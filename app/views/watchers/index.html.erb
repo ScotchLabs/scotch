@@ -1,19 +1,7 @@
 <article>
-  <h1>Listing watchers</h1>
-
-  <table>
-    <tr>
-      <th>User</th>
-      <th>Item</th>
-      <th></th>
-    </tr>
+  <h1>Things you watch</h1>
 
   <% @watchers.each do |watcher| %>
-    <tr>
-      <td><%= link_to watcher.user, watcher.user %></td>
-      <td><%= link_to watcher.item, watcher.item %></td>
-      <td><%= link_to 'Destroy', watcher, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
+    <%= render "#{watcher.item.class.base_class.name.downcase.pluralize}/as_line_item", :object => watcher.item %>
   <% end %>
-  </table>
 </article>
