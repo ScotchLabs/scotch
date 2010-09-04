@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   prepend_before_filter :locate_group
   prepend_before_filter :locate_user
+  prepend_before_filter :locate_item
+
   prepend_before_filter :authenticate_user!
 
   protected
@@ -13,6 +15,12 @@ class ApplicationController < ActionController::Base
     if params.has_key? :group_id then
       @group = Group.find(params[:group_id].to_i)
       params[:group_type] = @group.class.name unless params.has_key? :group_type
+    end
+  end
+
+  def locate_item
+    if params.has_key? :item_id then
+      @item = Item.find(params[:item_id].to_i)
     end
   end
 

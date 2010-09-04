@@ -8,15 +8,7 @@ class FeedpostsController < ApplicationController
   # GET /feedposts
   # GET /feedposts.xml
   def index
-    #FIXME I don't know there's a polymorphic way to do this.
-    if params[:group_id]
-      @parent = @group
-    elsif params[:item_id]
-      # FIXME create a locate_item in the application controlle?
-      @parent = Item.find(params[:item_id])
-    elsif params[:user_id]
-      @parent = @user
-    end
+    @parent = @group or @user or @item
     
     if @parent.nil? or !@parent.respond_to? 'feedposts'
       @feedposts = Feedpost.all

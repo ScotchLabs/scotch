@@ -17,7 +17,7 @@
       <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
       <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
       <!-- <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li> -->
-      <!-- <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li> -->
+      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
       <% if @group.class.name == "Group" then %>
         <li>
         <% if @group.users.include? current_user then %>

@@ -13,6 +13,13 @@ class Checkout < ActiveRecord::Base
   after_create :create_open_event
 
   validates_presence_of :group, :user, :item, :opener
+
+  # FIXME the user to whom the item is checked out should have a position in
+  # the group at the time the checkout is created, please add a validation
+  
+  # FIXME Currently, there is nothing preventing multiple outstanding checkouts
+  # on the same item at the same time.  We need to validate on creation that
+  # the item is actually available.
   
   def checkout_time
     return nil unless has_event? "opened"
@@ -86,6 +93,14 @@ class Checkout < ActiveRecord::Base
   def to_s
     "#{user} checked out #{item} for #{group}"
   end
+
+  def item_catalog_number
+    item.catalog_number if item
+  end
+
+  def item_catalog_number= (num)
+    self.item = Item.find_by_catalog_number(num)
+  end
   
 private
   
@@ -93,7 +108,6 @@ private
     c = CheckoutEvent.new({:checkout_id => id, :event => 'opened'})
     c.user_id = opener_id
     unless c.save
-      puts c.errors
       raise "Couldn't save a new '#{CheckoutEvent.event_name('opened')}' CheckoutEvent."
     end
   end

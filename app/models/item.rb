@@ -3,12 +3,12 @@ class Item < Shared::Watchable
 
   belongs_to :item_category # foreign key item_category_id
 
-  validates_presence_of :name, :item_category_id, :suffix
-  validates_uniqueness_of :suffix, :scope => :item_category_id
-  
-  def catalog_number
-    "%03d\-%03d" % [item_category.slug.to_i, suffix]
-  end
+  validates_presence_of :name, :item_category_id, :catalog_number
+  validates_uniqueness_of :catalog_number
+
+  before_validation :generate_catalog_number, :on => :create
+
+  attr_accessor :suffix
   
   #TODO FIXME using these in lieu of scopes until I figure out how TODO that
   def self.available_items
@@ -42,5 +42,11 @@ class Item < Shared::Watchable
   
   def to_s
     "#{catalog_number} #{name}"
+  end
+
+  protected 
+
+  def generate_catalog_number
+    self.catalog_number = "%03d\-%03d" % [self.item_category.slug.to_i, self.suffix]
   end
 end
