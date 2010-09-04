@@ -240,17 +240,12 @@ class User < Shared::Watchable
 
   def following? (object)
     return false if object.nil?
-    if watchees.select {|w| w.item_type == object.class.to_s and w.item_id == object.id }.empty?
-      return false
-    else
-      return true
-    end
+    return watchees.where(:item_type => object.class.to_s).where(:item_id => object.id).count > 0
   end
 
   def watcher_for (object)
-    return if object.nil?
-    watchees.select {|w| w.item_type == object.class.to_s and w.item_id == object.id }
-    return watchees.first
+    return nil if object.nil?
+    return watchees.where(:item_type => object.class.to_s).where(:item_id => object.id).first
   end
 
   def recent_feed_entries
