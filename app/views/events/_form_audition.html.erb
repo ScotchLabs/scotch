@@ -13,19 +13,20 @@
     <%= datetime_select "event", "start_time"  %>
   </div>
   <div class="field">
-    <%= label_tag :slot_length, "Slot Length" %>
+    <%= label_tag :slot_length, "Slot Length" %><br>
     <%= number_field_tag :slot_length, 30, :min => 5, :step => 5 %>
   </div>
   <div class="field">
-    <%= label_tag :slot_count, "Number of Slots" %>
+    <%= label_tag :slot_count, "Number of Slots" %><br>
     <%= number_field_tag :slot_count, 5, :min => 1 %>
   </div>
   <div class="field">
-    <%= label_tag :signups %>
+    <%= label_tag :signups %><br>
     <%= number_field_tag :signups, 1, :min => 1 %>
+  </div>
   <div class="field">
     <%= label_tag :location %><br />
-    <%= text_field_tag "event[location]", "", :placeholder => "Where should people show up?", :class => "placeholder-shim" %>
+    <%= text_field_tag "event[location]", "", :placeholder => "over the rainbow", :class => "placeholder-shim" %>
   </div>
   <div class="field">
     <%= label_tag :description %>(You may use <%= raw(HelpItem.get("textile").full) %>.)<br />
