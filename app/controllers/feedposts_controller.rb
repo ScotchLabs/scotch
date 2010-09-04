@@ -9,20 +9,13 @@ class FeedpostsController < ApplicationController
   # GET /feedposts.xml
   def index
     #FIXME I don't know there's a polymorphic way to do this.
-    if params[:checkout_id]
-      @parent = Checkout.find(params[:checkout_id])
-    elsif params[:document_id]
-      @parent = Document.find(params[:document_id])
-    elsif params[:event_id]
-      @parent = Event.find(params[:event_id])
-    elsif params[:feedpost_id]
-      @parent = Feedpost.find(params[:feedpost_id])
-    elsif params[:group_id]
-      @parent = Group.find(params[:group_id])
+    if params[:group_id]
+      @parent = @group
     elsif params[:item_id]
+      # FIXME create a locate_item in the application controlle?
       @parent = Item.find(params[:item_id])
     elsif params[:user_id]
-      @parent = User.find_by_andrewid(params[:user_id])
+      @parent = @user
     end
     
     if @parent.nil? or !@parent.respond_to? 'feedposts'
@@ -30,6 +23,8 @@ class FeedpostsController < ApplicationController
     else
       @feedposts = @parent.feedposts
     end
+    
+    @feedposts = @feedposts.paginate(:per_page => 30, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
