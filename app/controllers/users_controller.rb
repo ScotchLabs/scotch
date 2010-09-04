@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     else
       # @users = User.paginate(:per_page => 20, :page => params[:page])
       @users = []
-      @new_users = User.new
+      @new_users = User.newest
       @most_watched_users = User.most_watched
     end
 
@@ -92,9 +92,13 @@ class UsersController < ApplicationController
   protected
 
   def find_user
-    unless params.nil? or params[:id].nil? or params[:id].to_i > 0
-      @user = User.find_by_andrewid(params[:id])
-      raise ActiveRecord::RecordNotFound unless @user
+   if params.has_key? :id
+      if params[:id].to_i > 0
+        @user = User.find(params[:id])
+      else
+        @user = User.find_by_andrewid!(params[:id])
+      end
     end
   end
+
 end

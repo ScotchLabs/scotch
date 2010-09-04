@@ -1,13 +1,17 @@
 class WatchersController < ApplicationController
+
+  append_before_filter :only => [:index] do
+    require_permission "adminUsers" unless @user == current_user 
+  end
+
   # GET /watchers
   # GET /watchers.xml
   def index
-    u = User.find_by_andrewid(params[:user_id])
-    if u.nil?
+    if @user.nil?
       flash[:notice] = "Invalid andrew id"
       redirect_to current_user
     else
-      @watchers = Watcher.where(:user_id => u.id)
+      @watchers = Watcher.where(:user_id => @user.id)
 
       respond_to do |format|
         format.html # index.html.erb
@@ -61,4 +65,5 @@ class WatchersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
 end

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   prepend_before_filter :locate_group
+  prepend_before_filter :locate_user
   prepend_before_filter :authenticate_user!
 
   protected
@@ -12,6 +13,16 @@ class ApplicationController < ActionController::Base
     if params.has_key? :group_id then
       @group = Group.find(params[:group_id].to_i)
       params[:group_type] = @group.class.name unless params.has_key? :group_type
+    end
+  end
+
+  def locate_user
+   if params.has_key? :user_id
+      if params[:user_id].to_i > 0
+        @user = User.find(params[:user_id])
+      else
+        @user = User.find_by_andrewid!(params[:user_id])
+      end
     end
   end
 
