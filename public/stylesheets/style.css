@@ -431,7 +431,7 @@ body > div > section {
 #search {
   position: absolute;
   right: 0;
-  top: 25px;
+  top: 50px;
 }
 #search input[type='text'] {
   width: 300px;
