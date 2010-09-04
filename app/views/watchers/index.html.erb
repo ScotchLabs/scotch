@@ -1,5 +1,5 @@
 <article>
-  <h1>Things you follow</h1>
+  <h1>My Followed Things</h1>
 
   <% @watchers.each do |watcher| %>
     <%= render "#{watcher.item.class.base_class.name.tableize}/as_line_item", :object => watcher.item %>
