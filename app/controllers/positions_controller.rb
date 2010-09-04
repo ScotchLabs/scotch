@@ -74,6 +74,7 @@ class PositionsController < ApplicationController
     @position = Position.new(params[:position])
     @group = Group.find(params[:position][:group_id])
 
+    @position.user = User.autocomplete_retreive_user(params[:custom][:user_identifier])
     @position.group = @group
 
     respond_to do |format|

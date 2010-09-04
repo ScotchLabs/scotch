@@ -13,8 +13,8 @@
 
   <%= f.hidden_field :group_id %>
   <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.collection_select :user_id, User.all, :id, :name %>
+    <%= f.label :user_name, "User" %><br>
+    <%= text_field "custom", "user_identifier", :value => (@position.user ? "#{@position.user.name} #{@position.user.email}" : "#{current_user.name} #{current_user.email}") %>
   </div>
   <div class="field">
     <%= f.label :role_id %><br />

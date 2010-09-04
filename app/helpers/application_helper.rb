@@ -79,16 +79,6 @@ module ApplicationHelper
     u
   end
   
-  # This is for use with the user's autocomplete view
-  # It finds the user that corresponds to the identifier
-  # currently the identifier we use is
-  # FIRST LAST EMAIL
-  def retreive_user(identifier)
-    return nil if identifier.nil? or identifier.blank?
-    return nil if identifier.split(" ").length != 3
-    email = identifier.split(" ")[2]
-    User.find_by_email(email)
-  end
   
   def filter_referrals(text)
     return if text.nil? or text.blank?

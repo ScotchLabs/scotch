@@ -260,6 +260,17 @@ class User < Shared::Watchable
     (group_posts + item_posts + user_posts).sort.reverse
   end
 
+  # This is for use with the user's autocomplete view
+  # It finds the user that corresponds to the identifier
+  # currently the identifier we use is
+  # FIRST LAST EMAIL
+  def self.autocomplete_retreive_user(identifier)
+    return nil if identifier.nil? or identifier.blank?
+    return nil if identifier.split(" ").length != 3
+    email = identifier.split(" ")[2]
+    User.find_by_email(email)
+  end
+
   protected
 
   def downcase_email

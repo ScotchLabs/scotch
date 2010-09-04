@@ -1,6 +1,3 @@
-# FIXME This seems wrong, aren't helpers supposed to help views?
-include ApplicationHelper
-
 class CheckoutsController < ApplicationController
   
   before_filter :only => [:new, :create] do
@@ -64,7 +61,7 @@ class CheckoutsController < ApplicationController
     @checkout.group = nil unless has_permission?("checkoutSelf") or has_permission?("checkoutOther")
 
     if has_permission? "checkoutOther"
-      @checkout.user = retreive_user(params[:custom][:user_identifier])
+      @checkout.user = User.autocomplete_retreive_user(params[:custom][:user_identifier])
     else
       @checkout.user = current_user
     end
