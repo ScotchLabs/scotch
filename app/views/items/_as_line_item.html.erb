@@ -1,20 +1,13 @@
 <%
 #defaults
 object = object
-href = href
-link = link
 image = image
 
 #model-specific
-unless object.nil?
-  
-  h1 = "#{object.to_s}" unless h1
-  h2 = "#{object.location}" unless h2
-  
-  p = ""
-  
-  href = url_for(object) unless href
-end
+link = url_for(object) unless link
+line_1 = "#{object.to_s}" unless line_1
+line_2 = "<h3>#{object.location}</h3>" unless line_2
+href = url_for(object) unless href
 %>
 
-<%= render "shared/as_line_item", :link => link, :href => href, :line_1 => h1, :line_2 => h2, :image => image %>
+<%= render "shared/as_line_item", :link => link, :href => href, :line_1 => line_1, :line_2 => line_2, :image => image %>

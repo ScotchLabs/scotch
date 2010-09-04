@@ -27,29 +27,9 @@
   
   <% unless @item_category.items.empty? %>
   <article>
-    <h1>Items in this Category</h1>
-    <table>
-      <tr>
-        <th>Catalog #</th>
-        <th>Name</th>
-        <th>Location</th>
-        <th></th>
-      </tr>
-
-    <% @item_category.items.each do |item| %>
-      <tr>
-        <td><%= item.catalog_number %></td>
-        <td><%= item.shortname %></td>
-        <td><%= item.location %></td>
-        <td><%= link_to 'View Item', item %> |
-        <% if item.available? %>
-        <%= link_to 'Check Out', new_item_checkout_path(item) %>
-        <% else %>
-        Unavailable
-        <% end %></td>
-      </tr>
-    <% end %>
-    </table>
+  <% for item in @item_category.items %>
+    <%= render "items/as_line_item", :object => item %>
+  <% end %>
   </article>
   <% end %>
   
