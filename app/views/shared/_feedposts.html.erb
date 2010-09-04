@@ -16,8 +16,8 @@
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
         <%= f.hidden_field :post_type, :value => "wall" %>
-        <%= f.text_field :headline, :placeholder => "Headline", :class => "placeholder-shim" %><br>
-        <%= f.text_area :body, :rows => "10", :placeholder => "Your Posts Goes Here!", :class => "placeholder-shim" %><br>
+        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim" %><br>
+        <%= f.text_area :body, :rows => "10", :placeholder => "Message", :class => "placeholder-shim" %><br>
 
         <% if (object.class.name == "Group" && has_permission?("email")) ||
               (object.class.name == "Board" && object.users.include?(current_user)) then %>

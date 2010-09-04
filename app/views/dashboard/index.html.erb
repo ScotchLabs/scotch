@@ -9,7 +9,7 @@
 <div class='halves-split'>
   <div class='half fleft'>
     <div class="dashboard-item">
-    <h1>Upcoming Events</h1>
+    <h1>My Upcoming Events</h1>
     <% events = current_user.future_events.uniq.sort
     #TODO only show the NEXT 10
     #ASK should we implement some sort of User Settings where they override that?
@@ -28,7 +28,7 @@
     <% end %>
     </div>
     <div class="dashboard-item">
-    <h1>Your Active Groups</h1>
+    <h1>My Active Groups</h1>
     <% current_user.groups.active.each do |g| %>
       <%= render "groups/as_line_item", :object => g %>
     <% end %>

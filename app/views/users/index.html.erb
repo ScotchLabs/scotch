@@ -1,14 +1,14 @@
 <article>
 <div class='halves-split'>
   <div class='half fleft'>
-    <h1>New Users</h1>
+    <h1>Newest Users</h1>
     <br>
     <% for user in @new_users %>
       <%= render "as_line_item", :object => user %>
     <% end %>
   </div>
   <div class='half fright'>
-    <h1>Most Follow Users</h1>
+    <h1>Most Followed Users</h1>
     <br>
     <% for user in @most_watched_users %>
       <%= render "as_line_item", :object => user %>

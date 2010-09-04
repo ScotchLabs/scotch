@@ -3,7 +3,7 @@
     <%= post.headline %>
     <% if current_user == post.user %>
       <%= link_to image_tag("delete_icon.png"), post, :method => :delete,
-        :confirm => "Are you sure you want to delete this feedpost?" %>
+        :confirm => "Are you sure you want to delete this post?" %>
       <% end %>
   </h2>
   <% if current_page? (:controller => :dashboard, :action => :index) or current_page? (root_url) %>

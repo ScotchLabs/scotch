@@ -235,7 +235,7 @@ ul {
 ul li:before {
   content: "\00BB \0020";
   font-weight: bold;
-  color: #0dd  /* dkteal */
+  color: #333  /* black */
 }
 ul li, ol li {
   margin: 1em inherit;
