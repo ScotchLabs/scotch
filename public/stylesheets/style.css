@@ -106,6 +106,9 @@ body {
 .hidden {
   display: none
 }
+.inline {
+  display: inline;
+}
 .dkteal {
   color: #0dd
 }
@@ -249,6 +252,14 @@ h2 {
   letter-spacing: 2pt;
   line-height: 17pt
 }
+h3 {
+  text-transform: uppercase;
+  color: #aaa;
+  font-weight: normal;
+  display: inline;
+  font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+  font-size: 9pt
+}
 article {
   background: #fff;                     /* white */
   padding: 20px;
@@ -279,13 +290,16 @@ article {
   margin-right: 35px;
 }
 .three-grid:hover {
-  background: #ddd;
+  background-color: #ddd;
 }
 div.grid > :nth-child(3n+0) > span {
   margin-right: 0;
 }
 .three-grid a {
   color: #333;
+}
+.line-item {
+  min-height:50px;
 }
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select, textarea {
   border: 1px solid #333;              /* black */

@@ -29,11 +29,9 @@
     </div>
     <div class="dashboard-item">
     <h1>Your Active Groups</h1>
-    <ul>
-      <% current_user.groups.active.each do |g| %>
-        <%= render "groups/as_line_item", :object => g %>
-      <% end %>
-    </ul>
+    <% current_user.groups.active.each do |g| %>
+      <%= render "groups/as_line_item", :object => g %>
+    <% end %>
     </div>
     <div class="dashboard-item">
     <% unless current_user.current_checkouts_to.empty? %>

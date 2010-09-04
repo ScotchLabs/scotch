@@ -12,14 +12,18 @@ line_2 = line_2
 
 #structure
 line = "<h2>#{line_1}</h2>#{line_2}"
-if image
-  line = "<span class='fleft'>#{image}</span><span class='fleft'>#{line}</span>" 
-end
 href = url_for(object) unless href
+if image
+  if link
+    image = "#{link_to raw(image), href}"
+  end
+  image = "<div class='fleft'>#{image}</div>"
+end
 if link
   line = link_to raw(line), href
 end
-line = "<div>#{raw(line)}<div class='clearfix'></div></div>"
+line = "<div class='inline'>#{line}</div>"
+line = "<div class='line-item'>#{image}#{line}<div class='clearfix'></div></div>"
 %>
 
 <%= raw(line) %>
