@@ -70,6 +70,8 @@ class User < Shared::Watchable
 
   default_scope order("last_name, first_name ASC")
   scope :recent, where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
+  scope :most_watched, select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
+  scope :new, order("created_at DESC").limit(10)
 
 ####################
 # OBJECT OVERRIDES #

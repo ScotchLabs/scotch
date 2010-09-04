@@ -15,10 +15,14 @@ class UsersController < ApplicationController
   def index
     # Autocomplete uses the q param and the js format
     # FIXME this loads all users from the database, ouch!
+    # FIXME the non-HTML views don't work without q=
     if params[:q]
       @users = User.all.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
     else
-      @users = User.paginate(:per_page => 20, :page => params[:page])
+      # @users = User.paginate(:per_page => 20, :page => params[:page])
+      @users = []
+      @new_users = User.new
+      @most_watched_users = User.most_watched
     end
 
     respond_to do |format|
