@@ -26,6 +26,23 @@
   </article>
 <% end %>
 
+<% if has_global_permission? "adminItems" %>
+  <article>
+  <h3> Inventory Actions </h3><br>
+  <ul>
+    <li>
+    <%= image_tag "add_icon.png", :size => "12x12" %>
+    <%= link_to "Add an item", new_item_path %>
+    </li>
+    <% if has_global_permission? "adminItemCategories" %>
+      <li><%= link_to "Administer Item Categories", item_categories_path %></li>
+    <% end %>
+  </ul>
+
+    <p>Blurb about items and item categories</p>
+    </article>
+<% end %>
+
 <% if has_global_permission? "adminHelpItems" %>
   <article>
     <h3><%= link_to "Administer Help Items", help_items_path %></h3>
@@ -50,14 +67,3 @@
   </article>
 <% end %>
 
-<% if has_global_permission? "adminItems" %>
-  <article>
-      <h3><%= link_to "Add an item", new_item_path %></h3>
-
-    <% if has_global_permission? "adminItemCategories" %>
-      <h3><%= link_to "Administer Item Categories", item_categories_path %></h3>
-    <% end %>
-
-    <p>Blurb about items and item categories</p>
-  </article>
-<% end %>

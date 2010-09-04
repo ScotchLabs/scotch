@@ -1,6 +1,6 @@
 class HelpItemsController < ApplicationController
 
-  before_filter :only => [:new, :edit, :create, :update, :destroy] do 
+  before_filter :only => [:edit, :update, :destroy] do 
     require_global_permission "adminHelpItems"
   end
 
@@ -37,12 +37,6 @@ class HelpItemsController < ApplicationController
     @help_item = HelpItem.find(params[:id])
   end
 
-  # POST /help_items
-  # POST /help_items.xml
-  def create
-    redirect_to help_items_path, :notice => "Help items can not be added via the user interface.  Please contact a Scotch developer."
-  end
-
   # PUT /help_items/1
   # PUT /help_items/1.xml
   def update
@@ -57,11 +51,5 @@ class HelpItemsController < ApplicationController
         format.xml  { render :xml => @help_item.errors, :status => :unprocessable_entity }
       end
     end
-  end
-
-  # DELETE /help_items/1
-  # DELETE /help_items/1.xml
-  def destroy
-    redirect_to help_items_path, :notice => "Help items can not be deleted via the user interface.  Please contact a Scotch developer."
   end
 end

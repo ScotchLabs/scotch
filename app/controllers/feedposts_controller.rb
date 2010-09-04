@@ -83,6 +83,8 @@ class FeedpostsController < ApplicationController
   def destroy
     @feedpost = Feedpost.find(params[:id])
     @parent = @feedpost.parent
+
+    # FIXME this should be moved to a before_filter
     if @feedpost.user != current_user
       flash[:notice] = "You aren't allowed to destroy that post."
     else
