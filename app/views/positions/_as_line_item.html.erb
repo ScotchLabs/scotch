@@ -1,13 +1,19 @@
 <%
 #defaults
 object = object
-image = image
+h3 = h3
 p = p
 
 #model-specific
 link = url_for(object) unless link
 h2 = object.user unless h2
-h3 = "#{object.role} &emdash; #{object.display_name}" unless h3
+image = image_tag object.user.headshot(:thumb) unless image
+unless h3
+  h3 = object.role.to_s
+  if object.role.to_s != object.display_name.to_s
+    h3 += " &mdash; #{object.display_name}"
+  end
+end
 href = url_for(object) unless href
 %>
 
