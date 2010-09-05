@@ -1,27 +1,32 @@
 <%
-
-  #FIXME XSS LURKS HERE
-
 #defaults
 object = object
 href = url_for(object) unless object.nil? or href
 link = link
 image = image
 h1 = "#{object.to_s}" unless h1
-
-#structure
 spanclass = 'three-grid-no-link'
 spanclass = 'three-grid' if link
-grid = "<h1>#{h1}</h1><h2>#{h2}</h2>#{p}"
-if image
-  grid = "<span class='fleft'>#{raw(image)}</span><span class='fleft'>#{raw(grid)}</span>"
-end
-grid = "<span class='#{spanclass}'>#{raw(grid)}</span>"
 href = url_for(object) unless href
 %>
 
-<% if link %>
-  <%= link_to raw(grid), href %>
+<% #FIXME this is not DRY.
+if link %>
+  <%= link_to href do %>
+    <span class='<%= spanclass %>'>
+      <% if image %>
+        <span class='fleft'><%= image %></span>
+      <% end %>
+      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+    </span>
+  <% end %>
 <% else %>
-  <span><%= raw(grid) %></span>
+  <span>
+    <span class='<%= spanclass %>'>
+      <% if image %>
+        <span class='fleft'><%= image %></span>
+      <% end %>
+      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+    </span>
+  </span>
 <% end %>

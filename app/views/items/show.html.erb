@@ -1,7 +1,7 @@
 <div class='grid'>
-  <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+  <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
   
-  <%= render "item_categories/as_grid_item", :link => true, :object => @item.item_category, :h1 => "&lt; #{@item.item_category}" %>
+  <%= render "item_categories/as_grid_item", :link => true, :object => @item.item_category, :h1 => "< #{@item.item_category}" %>
   
   <%= render "as_grid_item", :link => false, :object => @item %>
   

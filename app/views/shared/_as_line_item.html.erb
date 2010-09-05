@@ -1,7 +1,4 @@
 <%
-
-  #FIXME XSS LURKS HERE!!!!
-
 #defaults
 object = object
 href = url_for(object) unless object.nil? or href
@@ -10,20 +7,28 @@ image = image
 h2 = "#{object.to_s}" unless h2
 h3 = h3
 p = p
-
-#structure
-line = "<h2>#{h2}</h2><h3>#{h3}</h3>#{(h3)? (' '):('')}<span style='color:#333;font-weight:normal;'>#{p}</span>"
 href = url_for(object) unless href
-if image
-  if link
-    image = "#{link_to raw(image), href}"
-  end
-  image = "<div class='fleft'>#{image}</div>"
-end
-if link
-  line = link_to raw(line), href
-end
-line = "<div class='line-item'>#{image}#{line}<div class='clearfix'></div></div>"
 %>
 
-<%= raw(line) %>
+<% #FIXME this is not DRY
+%>
+<div class='line-item'>
+<% if link %>
+  <% if image %>
+    <div class='fleft'>
+      <%= link_to image, href %>
+    </div>
+  <% end %>
+  <%= link_to href do %>
+    <h2><%= h2 %></h2><h3><%= h3 %></h3><%= (h3)? (' '):('') %><span style='color:#333;font-weight:normal;'><%= p %></span>
+  <% end %>
+<% else %>
+  <% if image %>
+     <div class='fleft'>
+       <%= image %>
+     </div>
+   <% end %>
+   <h2><%= h2 %></h2><h3><%= h3 %></h3><%= (h3)? (' '):('') %><span style='color:#333;font-weight:normal;'><%= p %></span>
+<% end %>
+<div class='clearfix'></div>
+</div>
