@@ -1,5 +1,15 @@
+<% unless @user.public_profile %>
+  <article>
+  <h1>Sorry, but this user has hidden their profile.</h1>
+  </article>
+<% end %>
+
+<% if @user.public_profile || has_permission? ("adminUser") %>
 <article>
-<%= render "shared/follow_me", :object => @user %>
+
+<% unless @user == current_user %>
+  <%= render "shared/follow_me", :object => @user %>
+<% end %>
 
 <div class='halves-split'>
 	<div class='half fleft'>
@@ -50,3 +60,4 @@
 </div>
 </article>
 <%= render "shared/feedposts", :object => @user %>
+<% end %>

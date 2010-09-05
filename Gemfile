@@ -20,6 +20,8 @@ gem 'paperclip', '2.3.3'
 
 gem 'digest-whirlpool', '1.0.0'
 
+gem 'acts_as_indexed', '0.6.6'
+
 group :development do
   gem 'ruby-debug'
 end

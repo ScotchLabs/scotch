@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      #format.xml  { render :xml => @users } # FIXME, leaks information
       format.js { render :text => @users.map{|u| "#{u.name} #{u.email}"}.join("\n") }
     end
   end
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
       format.html # show.html.erb
 
       # FIXME: this leaks information
-      format.xml  { render :xml => @user }
+      # format.xml  { render :xml => @user }
     end
   end
 

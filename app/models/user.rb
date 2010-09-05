@@ -67,6 +67,7 @@ class User < Shared::Watchable
   
   acts_as_phone_number :phone
   before_validation :downcase_email
+  after_create :create_watcher
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
@@ -275,6 +276,15 @@ class User < Shared::Watchable
   end
 
   protected
+
+  def create_watcher
+    if Watcher.where(:user_id => self.id).where(:item_id => self.id).where(:item_type => "User").count == 0
+      w = Watcher.new
+      w.user = self
+      w.item = self
+      w.save or logger.warn "Unable to save implicitly created watcher"
+    end
+  end
 
   def downcase_email
     self.email = self.email.downcase
