@@ -25,7 +25,7 @@
   </div>
   <div class='half fright'>
     <% if @user == current_user %>
-      <div class="edit_link"><small><%= link_to "Change email or password.", edit_registration_path(User) %></small></div>
+      <div class="edit_link"><small><%= link_to "Change account settings.", edit_registration_path(User) %></small></div>
     <% end %>
     <h1>Personal Information</h1>
     <% if @user == current_user %>
