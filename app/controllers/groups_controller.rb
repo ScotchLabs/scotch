@@ -10,6 +10,10 @@ class GroupsController < ApplicationController
     end
   end
 
+  before_filter :only => [:edit, :update] do
+    require_permission "adminGroup"
+  end
+
   append_before_filter :only => [:signup, :leave] do
     if @group.class.name != "Group" then
       flash[:notice] = "You can not signup or leave a non-group"
@@ -26,9 +30,17 @@ class GroupsController < ApplicationController
       @groups = Show.all
     elsif params[:group_type] == "Board" then
       @groups = Board.all
-    else
+    elsif params[:group_type] == "Group" then
+      @groups = Group.where(:type => nil).all
+    elsif params[:group_type] == "all" then
       @groups = Group.all
+    else
+      @groups = Group.active
     end
+
+    # FIXME This is a bad idea from a performance perspective, but until I have
+    # figured out how do to group sorting in the DB, it will have to stay
+    @groups = @groups.sort.paginate(:per_page => 20, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -68,9 +80,9 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     if params[:group_type] == "Show" then
-      @group = Show.new(params[:show])
+      @group = Show.new(params[:group])
     elsif params[:group_type] == "Board" then
-      @group = Board.new(params[:show])
+      @group = Board.new(params[:group])
     else
       @group = Group.new(params[:group])
     end
@@ -96,24 +108,13 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(params[params[:group_type].downcase])
         format.html { redirect_to(@group, :notice => 'Group was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /groups/1
-  # DELETE /groups/1.xml
-  def destroy
-    @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(groups_url) }
-      format.xml  { head :ok }
     end
   end
 

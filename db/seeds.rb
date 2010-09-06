@@ -15,6 +15,87 @@ gz.close
 parser, parser.string = XML::Parser.new, xml
 doc = parser.parse
 
+#create magical groups
+Group.transaction do
+  g = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
+                     :description => "System group for site wide privileges")
+  g.save!
+
+  g = Board.create(:name => "Board of Directors", :short_name => "Board",
+                   :description => "Scotch'n'Soda Board of Directors")
+  g.save!
+
+  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => g.id,
+                   :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
+  g.save!
+end
+
+#create permissions
+Permission.transaction do
+  Permission.create(:name => "adminPositions", 
+                    :description => "User may modify group membership at will.  Any role granted this permission should also be granted adminCrew.")
+  Permission.create(:name => "adminCrew",
+                    :description => "User may modify group membership with crew role at will")
+  Permission.create(:name => "adminEvents",
+                    :description => "User may create/modify/delete events and change event attendees")
+  Permission.create(:name => "adminGroup",
+                    :description => "User may change basic group information")
+  Permission.create(:name => "adminDocuments",
+                    :description => "User may modify documents at will")
+
+  Permission.create(:name => "checkoutSelf", :description => "User may check out items to self and group or groups self is in")
+  Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
+  Permission.create(:name => "email", :description => "User can email group members")
+
+  #Global Permissions
+  Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
+  Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
+  Permission.create(:name => "createShow", :description => "GLOBAL: User can create Shows")
+  Permission.create(:name => "createBoard", :description => "GLOBAL: User can create Boards")
+  Permission.create(:name => "archiveGroup", :description => "User can archive a group")
+  Permission.create(:name => "adminHelpItems", :description => "GLOBAL: User can edit HelpItems")
+  Permission.create(:name => "adminItemCategories", :description => "GLOBAL: User can edit ItemCategories")
+  Permission.create(:name => "adminItems", :description => "GLOBAL: User can edit items")
+  Permission.create(:name => "adminRoles", :description => "GLOBAL: User can edit available roles")
+  Permission.create(:name => "adminUsers", :description => "GLOBAL: User can edit all users in the system")
+end
+
+# create roles
+Role.transaction do
+  # Shows
+  r = Role.create(:name => "Production Staff", :group_type => "Show")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+
+  r = Role.create(:name => "Tech Head", :group_type => "Show")
+  p = Permission.fetch("adminCrew")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id)
+  p = Permission.fetch("adminEvents")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+  p = Permission.fetch("email")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id);
+
+  Role.create(:name => "Crew", :group_type => "Show")
+  Role.create(:name => "Cast", :group_type => "Show")
+
+  # Groups
+  adm = Role.create(:name => "Administrator", :group_type => "Group")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => adm.id)
+
+  Role.create(:name => "Member", :group_type => "Group")
+
+  # Boards
+  r = Role.create(:name => "Head", :group_type => "Board")
+  p = Permission.fetch("superuser")
+  RolePermission.create(:permission_id => p.id, :role_id => r.id)
+end
+
+member_role = Role.find_by_name("Member")
+head_role = Board.manager_role
+sns_group = Group.find_by_short_name("sns")
+board_group = Group.find_by_short_name("Board")
+
 #import users
 doc.find("//users").each do |s|
   email = s.find("email").first.content.downcase
@@ -25,12 +106,17 @@ doc.find("//users").each do |s|
   password_salt = password[0..31]
   encrypted_password = password[32..159]
 
+  #<boardpos>Vice President</boardpos>
+  board_position = s.find("boardpos").first.nil? ? nil : s.find("boardpos").first.content
+  board_position = nil if board_position == ""
+
   phone = s.find("phone").first.content
   smc = s.find("smc").first.content
   residence = s.find("residence").first.content
   home_college = s.find("homecoll").first.content
   graduation_year = s.find("gradyear").first.content
-  gender = s.find("ismale").first.content == "1" ? "Male" : "Female"
+  gender = "Male" if s.find("ismale").first.content == "1"
+  gender = "Female" if s.find("ismale").first.content == "0"
 
   smc = nil if smc == "0"
   graduation_year = nil if graduation_year == "0"
@@ -52,74 +138,25 @@ doc.find("//users").each do |s|
   unless u.save
     puts "Unable to save user #{email}:" 
     u.errors.each_full { |msg| puts " " + msg }
+  else
+    p = Position.new(:role_id => member_role.id, :display_name => "Member", :user_id => u.id)
+    p.group_id = sns_group.id
+    p.save!
+
+    if board_position
+      puts "creating board position \"#{board_position}\" for #{u}"
+      p = Position.new(:role_id => head_role.id, :user_id => u.id,
+                          :display_name => board_position)
+      p.group_id = board_group.id
+      p.save!
+    end
   end
-end
-
-#create permissions
-Permission.transaction do
-  Permission.create(:name => "adminPositions", 
-                    :description => "User may modify group membership at will.  Any role granted this permission should also be granted adminCrew.")
-  Permission.create(:name => "adminCrew",
-                    :description => "User may modify group membership with crew role at will")
-  Permission.create(:name => "adminEvents",
-                    :description => "User may create/modify/delete events and change event attendees")
-  Permission.create(:name => "adminGroup",
-                    :description => "User may change basic group information")
-  Permission.create(:name => "adminDocuments",
-                    :description => "User may modify documents at will")
-
-  Permission.create(:name => "checkoutSelf", :description => "User may check out items to self and group or groups self is in")
-  Permission.create(:name => "checkoutOther", :description => "User may check out item to group or any group and group users or any group's users")
-
-  #Global Permissions
-  Permission.create(:name => "superuser", :description => "User has ALL PRIVILEGES")
-  Permission.create(:name => "createGroup", :description => "GLOBAL: User can create generic Groups")
-  Permission.create(:name => "createShow", :description => "GLOBAL: User can create Shows")
-  Permission.create(:name => "createBoard", :description => "GLOBAL: User can create Boards")
-  #TODO Permission.create(:name => "archiveGroup", :desciption => "User can archive a group")
-  Permission.create(:name => "adminHelpItems", :description => "GLOBAL: User can edit HelpItems")
-  Permission.create(:name => "adminItemCategories", :description => "GLOBAL: User can edit ItemCategories")
-  Permission.create(:name => "adminRoles", :description => "GLOBAL: User can edit available roles")
-  Permission.create(:name => "adminUsers", :description => "GLOBAL: User can edit all users in the system")
-end
-
-# create roles
-Role.transaction do
-  # Shows
-  r = Role.create(:name => "Production Staff", :group_type => "Show")
-  p = Permission.fetch("superuser")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id);
-
-  r = Role.create(:name => "Tech Head", :group_type => "Show")
-  p = Permission.fetch("adminCrew")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id)
-  p = Permission.fetch("adminEvents")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id);
-
-  Role.create(:name => "Crew", :group_type => "Show")
-  Role.create(:name => "Cast", :group_type => "Show")
-
-  # Groups
-  adm = Role.create(:name => "Administrator", :group_type => "Group")
-  p = Permission.fetch("superuser")
-  RolePermission.create(:permission_id => p.id, :role_id => adm.id)
-
-  Role.create(:name => "Member", :group_type => "Group")
-
-  # Boards
-  r = Role.create(:name => "Head", :group_type => "Board")
-  p = Permission.fetch("superuser")
-  RolePermission.create(:permission_id => p.id, :role_id => r.id)
 end
 
 #create system group and system users
 User.transaction do
-  adm = Role.find_by_name("Head")
-
-  #Create system group
-  grp = Board.create(:name => "SYSTEM GROUP", :short_name => "SYSTEM",
-                     :description => "System group for site wide privileges")
-  grp.save!
+  adm = head_role
+  grp = Group.system_group
 
   #Create web team
   u = User.find_by_email("achivett@andrew.cmu.edu")
@@ -159,43 +196,11 @@ User.transaction do
   pos.save!
 end
 
-#Create Board
-Group.transaction do
-  r = Role.find_by_name("Head")
-  g = Board.create(:name => "Board of Directors", :short_name => "Board",
-                     :description => "Scotch'n'Soda Board of Directors")
-
-  u = User.where(:email => "amgross@andrew.cmu.edu").first
-  p = Position.create(:role_id => r.id, :user_id => u.id,
-                  :display_name => "President")
-  p.group_id = g.id
-  p.save!
-
-  u = User.where(:email => "achivett@andrew.cmu.edu").first
-  p = Position.create(:role_id => r.id, :user_id => u.id,
-                  :display_name => "Webmaster")
-  p.group_id = g.id
-  p.save!
-end
-
-#Create SNS group
-Group.transaction do
-  sys = Group.system_group
-  g = Group.create(:name => "Scotch'n'Soda", :short_name => "sns", :parent_id => sys.id,
-                   :description => "Scotch'n'Soda wide group.  Users are added to this group automatically when they join Scotch.  Stay a member of this group if you want to get Scotch'n'Soda-wide communications.")
-  r = Role.find_by_name("Member")
-  User.all.each do |u|
-    p = Position.create(:role_id => r.id, :group_id => g.id, :display_name => "Member", :user_id => u.id)
-    p.group_id = g.id
-    p.save!
-  end
-end
-
 HelpItem.transaction do
-    HelpItem.create(:name => "SMC", :anchor => "why-smc", :display_text => "why do you want this?",
-      :message => "We'd like your smc because...well I don't know. We're the mafia.")
-    HelpItem.create(:name => "Phone Number", :anchor => "why-phone", :display_text => "why do you want this?",
-      :message => "-Sometimes- At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number public.")
+    HelpItem.create(:name => "SMC", :anchor => "why-smc", :display_text => "why?",
+      :message => "Occasionally, we'll have our members make purchases for Scotch'N'Soda themselves and reimburse them.  When we do this, we need to know the member's SMC to deliver the reimbursement check.")
+    HelpItem.create(:name => "Phone Number", :anchor => "why-phone", :display_text => "why?",
+      :message => "-Sometimes- At least 2463 times a day during a show, someone important needs to call someone else important. So if you ever want to be important it's a good idea to make your phone number available.")
     HelpItem.create(:name => "Textile", :anchor => "textile", :display_text => "Textile",
       :message => "[\"RedCloth\":http://redcloth.org/]  enables us to use the [\"Textile markup language\":http://en.wikipedia.org/wiki/Textile_(markup_language)]. Here are some examples of how to format certain things ([\"full manual\":http://redcloth.org/textile/]):
 
@@ -224,7 +229,7 @@ doc.find("//subcategories").each do |s|
   number = s.find("number").first.content.to_i
   name = s.find("name").first.content
   parentid = s.find("broadid").first.content.to_i
-  parent = ItemCategory.find_by_prefix(parentid)
+  parent = ItemCategory.parent_categories.where(:prefix => parentid).first
   item = ItemCategory.new(:prefix => (number % 100), :name => name, :parent_category_id => parent.id)
   item.save!
 end

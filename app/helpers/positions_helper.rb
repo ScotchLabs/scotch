@@ -10,14 +10,7 @@ module PositionsHelper
       "Master Electrician", "Paint Charge", "Props Master", "Publicity Head",
       "Set Designer", "Sound Designer", "Sound Engineer"]
 
-    all_positions = []
-    # Now, we add in the assistants
-    primary_positions.each{|s| 
-      all_positions << s
-      all_positions << "Assistant " + s
-    }
-
-    return filter_unused(all_positions)
+    return filter_unused(primary_positions)
   end
 
   def unfilled_production_staff
@@ -26,14 +19,7 @@ module PositionsHelper
       "Production Liaison", "Production Manager", "Stage Manager", 
       "Technical Director"]
 
-    all_positions = []
-    # Now, we add in the assistants
-    primary_positions.each{|s| 
-      all_positions << s
-      all_positions << "Assistant " + s
-    }
-
-    return filter_unused(all_positions)
+    return filter_unused(primary_positions)
   end
 
   def crews
@@ -45,10 +31,17 @@ module PositionsHelper
   protected
 
   def filter_unused(positions)
-    # FIXME: this could be made much more efficient by finding the unique
-    # positions and subtracting from all_positions
-    return positions.select { |s|
-      @group.positions.where(:display_name => s).count == 0
-    }
+    current_positions = @group.positions.group(:display_name).collect{|p| p.display_name}
+    unused_positions = []
+
+    positions.each do |p|
+      if current_positions.include? p then
+        unused_positions << ("Assistant " + p) unless current_positions.include? "Assistant " + p 
+      else
+        unused_positions << p
+      end
+    end
+
+    return unused_positions
   end
 end

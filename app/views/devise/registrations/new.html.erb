@@ -27,7 +27,7 @@
       <div class='clearfix'></div>
       
       <div class='field'>
-      <%= f.label :andrew_id, "Andrew ID" %><span class='fright'><%= f.text_field :andrew_id %></span>
+      <%= f.label :andrewid, "Andrew ID" %><span class='fright'><%= f.text_field :andrewid %></span>
       </div>
       <div class='clearfix'></div>
       
@@ -37,7 +37,7 @@
       <div class='clearfix'></div>
       
       <div class='field'>
-      <%= f.label :password_confirmation, "Password again" %><span class='fright'><%= f.password_field :password_confirmation %></span>
+      <%= f.label :password_confirmation, "Again..." %><span class='fright'><%= f.password_field :password_confirmation %></span>
       </div>
       <div class='clearfix'></div>
       
@@ -69,8 +69,8 @@
       <div class='field'>
         <%= f.label :gender %>
         <span class='fright'>
-          <%= f.radio_button :gender, "male" %> Boy
-          <%= f.radio_button :gender, "female" %> Girl
+          <%= f.radio_button :gender, "male" %> Male
+          <%= f.radio_button :gender, "female" %> Female
         </span>
       </div>
       <div class='clearfix'></div>
@@ -93,8 +93,6 @@
     </div>
     <div class='clearfix'></div>
   </div>
-</article>
-<article>
   <h1>Everything In Order?</h1>
   <p>
     Please make sure the information you've entered is correct. Once you submit this form,
@@ -102,7 +100,7 @@
     Yes, I want to be added to the Scotch'n'Soda d-list, which will send out occasional e-mail
     updates on S'n'S shows and programs.--><br>
     <div style='width:100%;text-align:center'>
-      <%= f.submit "Create My Account!" %> <input type='reset' value='Reset This Form' />
+      <%= f.submit "Create My Account!" %>
     </div>
   </p>
 </article>

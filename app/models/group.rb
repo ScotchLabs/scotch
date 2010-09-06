@@ -1,16 +1,23 @@
-class Group < ActiveRecord::Base
+class Group < Shared::Watchable
+	# Coerce Paperclip into using custom storage
+	include Shared::AttachmentHelper
+
+  acts_as_indexed :fields => [:name, :description, :short_name]
 
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy
-  has_many :positions
+  has_many :positions, :include => :user
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
 
-  has_attached_file :image, :styles => 
+	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
+
+  has_attachment :image, :styles => 
     { :medium => "150x150#", :thumb => "50x50#" },
-    :default_url => '/images/missing/:class_:style.png'
+    :default_url => '/images/missing/:class_:style.png',
+		:file_name => ':class/:groupname_:style.png'
 
   validates_attachment_size :image, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
@@ -23,6 +30,9 @@ class Group < ActiveRecord::Base
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
   validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/
+
+  scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
+  scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
 
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
@@ -38,26 +48,31 @@ class Group < ActiveRecord::Base
     return g
   end
 
-  # Return all roles that are valid for this group.
   def roles
-    return Role.where :group_type => self.class.name
+    self.class.roles
+  end
+  # Return all roles that are valid for this group.
+  def self.roles
+    return Role.where :group_type => self.name
   end
 
-  # Return all permissions that a user has for this group.  This is calculated
-  # by climbing up the tree of groups that are parent to this one.  This isn't
-  # a cheep operation :(.  For this reason TODO CACHE THIS FUNCTION.  At least
-  # I didn't decide to make roles have parents too!
+  # Return all permissions that a user has for this group.
+  # FIXME: we use custom finder sql because i can't get rails to string the
+  # joins together the way I want... Also, this won't climb all the way up the
+  # tree of group, just to the first parent.
   def permissions_for(user)
-    perms = []
-
-    positions.where(:user_id => user.id).each do |p|
-      perms += p.role.permissions
+    sql = "SELECT `permissions`.* FROM `permissions` 
+      INNER JOIN `role_permissions` ON `permissions`.`id` = `role_permissions`.`permission_id` 
+      INNER JOIN `roles` ON `role_permissions`.`role_id` = `roles`.`id` 
+      INNER JOIN `positions` ON `roles`.`id` = `positions`.`role_id` 
+      WHERE (`positions`.`user_id` = #{user.id})"
+    if self.parent.nil?
+      sql += " AND (`positions`.`group_id` = #{self.id});"
+    else
+      sql += " AND (`positions`.`group_id` IN (#{self.id},#{self.parent.id}));"
     end
 
-    perms = (perms += parent.permissions_for(user)) if (parent)
-    perms.uniq!
-
-    return perms
+    return Permission.find_by_sql(sql)
   end
 
   def user_has_permission?(user,permission)
@@ -69,6 +84,9 @@ class Group < ActiveRecord::Base
     name
   end
 
+  def manager_role
+    self.class.manager_role
+  end
   def self.manager_role
     Role.where(:name => "Administrator").first
   end
@@ -76,6 +94,20 @@ class Group < ActiveRecord::Base
   def member_positions
     positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
   end
+
+	#TODO this isn't actually quite right for groups (I think)
+  # but it works for shows and boards, which are what matter
+	# for the moment.
+	def school_year
+		date = archive_date.nil? ? Date.today : archive_date
+
+		if date.month < 7
+			year = date.year - 1
+		else
+			year = date.year
+		end
+		Date.new(year,7,1)..Date.new(year+1,6,30)
+	end
 
   def <=>(other)
     other_date = (other.archive_date or Date.today)

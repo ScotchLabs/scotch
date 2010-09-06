@@ -10,34 +10,34 @@
   </div>
   <% end %>
 
-  <% if params[:group_id] %>
-  <%= f.hidden_field :group_id, :value => params[:group_id] %>
-  <% else %>
-  <div class="field">
-    <%= f.label :group_id %><br>
-    <%= f.select :group_id, @groups.map { |g| [g.name, g.id] } %>
-  </div>
+   <% if @checkout.group_id %>
+     <%= f.hidden_field :group_id %>
+   <% else %>
+     <div class="field">
+       <%= f.label :group_id %><br>
+       <% if has_global_permission?("checkoutSelf") or has_global_permission?("checkoutOther") then %>
+         <%= f.collection_select :group_id, Group.active.all, :id, :name %>
+       <% else %>
+         <%= f.collection_select :group_id, current_user.groups.active.select{|g| g.user_has_permission?(current_user,Permission.fetch("checkoutSelf")) || g.user_has_permission?(current_user,Permission.fetch("checkoutOther"))}, :id, :name %>
+       <% end %>
+     </div>
+   <% end %>
+  
+  <% if has_permission? "checkoutOther" %>
+    <div class="field">
+      <%= f.label :user_name, "Check out to:" %><br>
+      <%= text_field_tag "user_identifier", ("#{@checkout.user.name} #{@checkout.user.email}" or "#{current_user.name} #{current_user.email}") %>
+    </div>
   <% end %>
   
-  <div class="field">
-    <%= f.label :user_name, "Check out to:" %><br>
-    <% #ASK should I be able to select a user to check the item out to?
-    # maybe only if I can CheckoutOther?
-    %>
-    <%= text_field "custom", "user_identifier", :value => ("#{@checkout.user.name} #{@checkout.user.email}" or "#{current_user.name} #{current_user.email}") %>
-  </div>
-  
-  <% if params[:item_id] %>
-  <%= f.hidden_field :item_id, :value => params[:item_id] %>
+  <% if @checkout.item_id %>
+    <%= f.hidden_field :item_id, :value => params[:item_id] %>
   <% else %>
-  <div class="field">
-    <%= f.label :item_id %><br>
-    <% #TODO FIXME with autocomplete %>
-    <%= f.select :item_id, @items.map { |i| [i.shortname, i.id] } %>
-  </div>
+    <div class="field">
+      <%= f.label :item_catalog_number %><br>
+      <%= f.text_field :item_catalog_number %>
+    </div>
   <% end %>
-  
-  <%= f.hidden_field :opener_id, :value => current_user.id %>
   
   <div class="actions">
     <%= f.submit %>

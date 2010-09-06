@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   prepend_before_filter :locate_group
+  prepend_before_filter :locate_user
+  prepend_before_filter :locate_item
+
   prepend_before_filter :authenticate_user!
 
   protected
@@ -15,7 +18,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_permission (permName)
+  def locate_item
+    if params.has_key? :item_id then
+      @item = Item.find(params[:item_id].to_i)
+    end
+  end
+
+  def locate_user
+   if params.has_key? :user_id
+      if params[:user_id].to_i > 0
+        @user = User.find(params[:user_id])
+      else
+        @user = User.find_by_andrewid!(params[:user_id])
+      end
+    end
+  end
+
+  def has_permission? (permName)
     permission = Permission.fetch(permName)
 
     if current_user.has_global_permission? permission then
@@ -25,8 +44,12 @@ class ApplicationController < ActionController::Base
     if @group.user_has_permission? current_user,permission
       return true
     end
+  end
 
-    logger.warn "#{current_user} denied access due to lack of permission #{permission} for group #{@group || "-"}"
+  def require_permission (permName)
+    return true if has_permission?(permName)
+
+    logger.warn "#{current_user} denied access due to lack of permission #{permName} for group #{@group || "-"}"
 
     flash[:notice] = "You are not authorized to do that!"
 

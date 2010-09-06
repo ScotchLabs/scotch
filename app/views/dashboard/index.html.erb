@@ -1,57 +1,62 @@
+<% if current_user.incomplete_record? %>
+  <article> <%= current_user.first_name %>, 
+  it looks like your profile is incomplete.  Please take some time to
+  <%= link_to "tell us more about yourself", edit_user_path(current_user) %>!<br>
+  </article>
+<% end %>
+
 <article>
-  <div class='halves-split'>
-    <div class='half fleft'>
-      <h1><%= current_user.name %></h1>
-      <% if current_user.incomplete_record? %>
-      It looks like your profile is incomplete.<br>
-      <%= link_to "Tell us more about yourself!", edit_user_path(current_user) %><br>
-      <% end %>
-      <h1>Positions</h1>
+<div class='halves-split'>
+  <div class='half fleft'>
+    <div class="dashboard-item">
+    <h1>My Upcoming Events</h1>
+    <% events = current_user.future_events.uniq.sort
+    #TODO only show the NEXT 10
+    #ASK should we implement some sort of User Settings where they override that?
+    %>
+    <% unless events.length == 0 %>
       <ul>
-        <% current_user.active_positions.sort.uniq.each do |p| %>
-          <li><%= link_to p, p %> in <%= link_to p.group, p.group %></li> <!-- #TODO show positions -->
+        <% events.each do |event| %>
+          <li>
+          <%= format_time event.start_time %>
+          <%= link_to event.group, event.group %>: <%= link_to event, event %>
+          </li>
         <% end %>
       </ul>
-      <h1>Checkouts</h1>
-      <h3>Items checked out to you</h3>
-      <% unless current_user.current_checkouts_to.empty? %>
+    <% else %>
+      You don't have any upcoming events. Join <%= link_to "more groups", groups_path %>!
+    <% end %>
+    </div>
+    <div class="dashboard-item">
+    <h1>My Active Groups</h1>
+    <% current_user.groups.active.each do |g| %>
+      <%= render "groups/as_line_item", :object => g %>
+    <% end %>
+    </div>
+    <div class="dashboard-item">
+    <% unless current_user.current_checkouts_to.empty? %>
+      <h1>Your Checkouts</h1>
       <ul>
         <% current_user.current_checkouts_to.each do |checkout| %>
-        <li><%= link_to checkout.item, checkout.item %> for <%= link_to checkout.group, checkout.group %>. Checked out by <%= link_to checkout.opener, checkout.opener %>. <%= link_to "View Checkout", checkout %>. <%= link_to "Check In", new_checkout_checkout_event_path(checkout, :event => 'closed') %>.</li> <!-- #TODO FIXME there must be a prettier way to do this -->
-        <% end %>
-      </ul>
-      <% else %>
-      Nothing checked out to you!
-      <% end %>
-      <h3>Items checked out by you</h3>
-      <% unless current_user.current_checkouts_by.empty? %>
-      <ul>
-        <% current_user.current_checkouts_by.each do |checkout| %>
-        <li><%= link_to checkout.item, checkout.item %> for <%= link_to checkout.group, checkout.group %>. Checked out to <%= link_to checkout.user, checkout.user %>. <%= link_to "View Checkout", checkout %>.</li> <!-- #TODO FIXME there must be a prettier way to do this -->
-        <% end %>
-      </ul>
-      <% else %>
-      Nothing checked out by you!
-      <% end %>
-    </div>
-    <div class='half fright'>
-      <h1>Upcoming Events</h1>
-      <% events = current_user.future_events.uniq.sort
-      #TODO only show the NEXT 10
-      #ASK should we implement some sort of User Settings where they override that?
-      %>
-      <% unless events.length == 0 %>
-        <ul>
-          <% events.each do |event| %>
-            <li>
-              <%= format_time event.start_time %>
-              <%= link_to event.group, event.group %>: <%= link_to event, event %>
-            </li>
+          <li><%= link_to checkout.item, checkout.item %> 
+          for <%= link_to checkout.group, checkout.group %>. 
+          <% if checkout.opener != current_user %>
+            Checked out by <%= link_to checkout.opener, checkout.opener %>. 
           <% end %>
-        </ul>
-      <% end %>
+          <%= link_to "View Checkout", checkout %>.
+        <% end %>
+      </ul>
+    <% end %>
     </div>
-    <div class='clearfix'></div>
   </div>
+  <div class='half fright'>
+    <h1>Recent Activity</h1>
+    <small>See the list of <%= link_to "things I follow", user_watchers_path(current_user) %></small>
+        <% for post in current_user.recent_feed_entries %>
+          <%= render "feedposts/" + post.post_type, :post => post %>
+        <% end %>
+  </div>
+  <div class='clearfix'></div>
+</div>
 </article>
 

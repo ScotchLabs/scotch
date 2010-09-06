@@ -1,10 +1,19 @@
 <article>
-<h1>Scotch Users</h1>
-
-<% @users.each do |user| %>
-  <div class="user">
-    <%= link_to user, user %>
-    &lt;<%= user.email %>&gt;
+<div class='halves-split'>
+  <div class='half fleft'>
+    <h1>Newest Users</h1>
+    <br>
+    <% for user in @new_users %>
+      <%= render "as_line_item", :object => user %>
+    <% end %>
   </div>
-<% end %>
+  <div class='half fright'>
+    <h1>Most Followed Users</h1>
+    <br>
+    <% for user in @most_watched_users %>
+      <%= render "as_line_item", :object => user %>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+</div>
 </article>

@@ -1,36 +1,29 @@
-<article>
-  <h1><%= @item %></h1>
-  <p>
-    <b>Catalog Number:</b>
-    <%= @item.catalog_number %>
-  </p>
+<div class='grid'>
+  <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+  
+  <%= render "item_categories/as_grid_item", :link => true, :object => @item.item_category, :h1 => "< #{@item.item_category}" %>
+  
+  <%= render "as_grid_item", :link => false, :object => @item %>
+  
+</div>
 
-  <p>
-    <b>Location:</b>
-    <%= @item.location %>
-  </p>
+<article id='more'>
+  <%= render "shared/follow_me", :object => @item %>
 
-  <p>
-    <b>Item category:</b>
-    <%= link_to @item.item_category.parent_category, @item.item_category.parent_category %> &mdash; <%= link_to @item.item_category, @item.item_category %><!-- #TODO FIXME there must be a prettier way to do this -->
-  </p>
+  <% if has_global_permission? "adminItems" %>
+    <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_item_path(@item) %></div>
+  <% end %>
 
+  <h2>Description</h2>
+  <%= @item.description %>
   <p>
-    <b>Description:</b>
-    <%= @item.description %>
-  </p>
-
-  <h2>Actions</h2>
-  <p>
-  <%= link_to 'Edit', edit_item_path(@item) %> |
-  <%= link_to 'Back', items_path %><br>
   <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
-    <%= link_to 'Check Out', new_item_checkout_path(@item) -%>
+    <%= link_to 'Check out this item!', new_item_checkout_path(@item) -%>
   <% elsif @item.available? %>
     Sorry, you don't have permission to check this item out.
   <% else %>
     This item is currently checked out to <%= link_to @item.current_checkout.user, @item.current_checkout.user %> for <%= link_to @item.current_checkout.group, @item.current_checkout.group %>. <!-- #TODO FIXME there must be a prettier way to do this -->
-    <% if @item.current_checkout.has_deadline? %>Due back on <%= @item.current_checkout.deadline %>.<% end %>
+    <% if @item.current_checkout.has_deadline? %>Due back on <%= format_date @item.current_checkout.deadline %>.<% end %>
     <%= link_to "View Checkout", @item.current_checkout %>
   <% end %>
   </p>
@@ -42,8 +35,10 @@
   No checkouts here!
   <% else %>
   <% @checkouts.each do |checkout| %>
-  <%= link_to checkout.opener, checkout.opener %> checked it out to 
-  <%= link_to checkout.user, checkout.user %> for
+  <%= link_to checkout.opener, checkout.opener %> checked it out
+  <% if checkout.opener != checkout.user %>
+    to <%= link_to checkout.user, checkout.user %> 
+  <% end %>for
   <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
   <%= format_time checkout.created_at %>. <%= link_to "View Checkout", @item.current_checkout %><br>
   <% end %>
@@ -51,3 +46,4 @@
   <% end %>
   </p>
 </article>
+<%= render "shared/feedposts", :object => @item %>

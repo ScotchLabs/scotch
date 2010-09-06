@@ -1,0 +1,36 @@
+<a name='wall'></a>
+<article>
+  <div class='halves-split'>
+    <div class='half fleft'>
+      <h1>Wall</h1>
+      <ul>
+        <% for post in object.feedposts.recent %>
+          <%= render "feedposts/" + post.post_type, :post => post %>
+        <% end %>
+      </ul>
+      <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
+    </div>
+    <div class='half fright'>
+      <h1>New Post</h1>
+      <%= form_for(Feedpost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
+        <%= f.hidden_field :parent_type, :value => object.class.to_s %>
+        <%= f.hidden_field :parent_id, :value => object.id.to_s %>
+        <%= f.hidden_field :post_type, :value => "wall" %>
+        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim" %><br>
+        <%= f.text_area :body, :rows => "10", :placeholder => "Message", :class => "placeholder-shim" %><br>
+
+        <% if (object.class.name == "Group" && has_permission?("email")) ||
+              (object.class.name == "Board" && object.users.include?(current_user)) then %>
+          <%= check_box_tag "email", "email" %>
+	  <%= label_tag "email", "Send an email notification to all users who follow this group and have notifications turned on." %><br>
+        <% elsif object.class.name == "Show" && has_permission?("email") then %>
+          <%= label_tag :email_names, "Notify these positions via email" %><br>
+	  <%= select_tag :email_names, options_for_select(@group.positions.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
+        <% end %>
+
+        <%= f.submit "Post!" %>
+      <% end %>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+</article>

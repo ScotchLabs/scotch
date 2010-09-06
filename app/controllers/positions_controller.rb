@@ -32,7 +32,8 @@ class PositionsController < ApplicationController
   # GET /groups/1/positions
   # GET /groups/1/positions.xml
   def index
-    @positions = Position.where(:group_id => @group.id).all
+    @positions = Position.where(:group_id => @group.id).joins(:user).order("users.last_name, users.first_name ASC")
+    @positions = @positions.paginate(:per_page => 30, :page => params[:page]) unless @group.type == "Show"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -74,6 +75,7 @@ class PositionsController < ApplicationController
     @position = Position.new(params[:position])
     @group = Group.find(params[:position][:group_id])
 
+    @position.user = User.autocomplete_retreive_user(params[:user_identifier]) unless @position.user
     @position.group = @group
 
     respond_to do |format|
@@ -92,19 +94,27 @@ class PositionsController < ApplicationController
   # FIXME: validate privilages
   def bulk_create
     role = Role.find(params[:role_id])
+    
+    users = []
 
+    # FIXME this whole thing is ugly, too many nil? or empty?
     Position.transaction do
       params[:users].each do |user_id_s|
-        unless user_id_s.empty? or # don't create duplicate crew entries
-            @group.positions.where(:user_id => user_id_s.to_i).where(:display_name => params[:position_name]).count > 0 then
-          user = User.find(user_id_s.to_i)
+        users << User.find(user_id_s.to_i) unless user_id_s.nil? or user_id_s.empty?
+      end if params.has_key?(:users)
+
+      params[:user_identifiers].each do |user_identifier|
+        users << User.autocomplete_retreive_user(user_identifier) unless user_identifier.nil? or user_identifier.empty?
+      end if params.has_key?(:user_identifiers)
+
+      users.each do |user|
+        unless @group.positions.where(:user_id => user.id).where(:display_name => params[:position_name]).count > 0 then
           p = Position.new(:user => user, :role => role, :display_name => params[:position_name])
           p.group = @group
           p.save!
         end
       end
     end
-
 
     respond_to do |format|
         format.html { redirect_to(group_positions_path(@group), :notice => 'Position was successfully created.') }

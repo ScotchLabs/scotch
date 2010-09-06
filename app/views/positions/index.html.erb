@@ -7,22 +7,16 @@
     <%= link_to image_tag("add_icon.png", :size => "12x12") + 'Add a member', new_group_position_path(@group) %>
   </div>
   <% end %>
+
   <h1><%= @group %> Members</h1>
+  <%= will_paginate @positions %>
 
   <% if @positions.count == 0 %>
     <p>This group does not have any members!?</p>
   <% else %>
-    <ul>
-      <% @positions.each do |p| %>
-        <li><%= link_to p.user, p.user %> 
-          (<% if has_permission? "adminPositions" %><%= link_to p.role, edit_position_path(p) %>: <% end %><%= p %>)
-          <% if has_permission? "adminPositions" %>
-            <%= link_to image_tag("delete_icon.png", :size => "12x12"), p, :method => :delete, 
-              :confirm => "Are you sure you want to remove #{p.user} from the role of #{p}?" %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+    <% @positions.each do |p| %>
+      <%= render "as_line_item", :object => p %>
+    <% end %>
   <% end %>
 <% end %>
 </article>

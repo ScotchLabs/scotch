@@ -1,64 +1,36 @@
-<article>
-  <h1>Showing Category "<%= @item_category %>"</h1>
-
-  <p>
-    <b>Prefix:</b>
-    <%= @item_category.slug or @item_category.prefix %>
-  </p>
-
-  <p>
-    <b>Name:</b>
-    <%= @item_category %>
-  </p>
-
-  <p>
-    <b>Parent Category:</b>
-    <%= link_to(@item_category.parent_category, @item_category.parent_category) unless @item_category.parent_category.nil? %><!-- #TODO FIXME there must be a prettier way to do this -->
-  </p>
-
-
-  <%= link_to 'Edit', edit_item_category_path(@item_category) %> |
-  <%= link_to 'Back', item_categories_path %>
-</article>
-<% unless @item_category.items.empty? %>
-<article>
-  <h1>Items in this Category</h1>
-  <table>
-    <tr>
-      <th>Catalog #</th>
-      <th>Name</th>
-      <th>Location</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-
-  <% @item_category.items.each do |item| %>
-    <tr>
-      <td><%= item.catalog_number %></td>
-      <td><%= item.shortname %></td>
-      <td><%= item.location %></td>
-      <td><%= link_to 'Show', item %></td>
-      <td><%= link_to 'Edit', edit_item_path(item) %></td>
-      <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
-  </table>
-</article>
-<% end %>
-<% unless @item_category.item_subcategories.empty? %>
-<article>
-  <h1>Subcategories</h1>
-  <p>
-  <% # take subcategories, sort them, map them to links
-  subcats = @item_category.item_subcategories.sort.map {|subcat| link_to("#{subcat.slug} #{subcat}", subcat)}
-  # put 'and' between the last two subcategories
-  if subcats.length > 1
-    subcats = subcats-subcats[-2..-1]<<("#{subcats[-2]} and #{subcats[-1]}")
-  end %>
-  <%= # join the rest with ", " 
-  raw(subcats.join ", ")
+<% if @item_subcategories
+  # this is a category that contains other categories
   %>
-  </p>
-</article>
+  <div class='grid'>
+  
+    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+  
+    <% for item_category in @item_subcategories %>
+      <%= render "as_grid_item", :object => item_category, :link => true %>
+    <% end %>
+  
+  </div>
+
+<% else
+  # this is a category that contains items
+  %>
+  
+  <div class='grid'>
+  
+    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+    
+    <%= render "as_grid_item", :link => true, :object => @item_category.parent_category, :h1 => "< #{@item_category.parent_category}" %>
+  
+    <%= render "as_grid_item", :link => false, :object => @item_category %>
+  
+  </div>
+  
+  <% unless @item_category.items.empty? %>
+  <article>
+  <% for item in @item_category.items %>
+    <%= render "items/as_line_item", :object => item %>
+  <% end %>
+  </article>
+  <% end %>
+  
 <% end %>

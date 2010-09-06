@@ -14,10 +14,12 @@ class ItemCategory < ActiveRecord::Base
   validate :unique_prefix
   validate :unique_slug
   
+  default_scope order(:name)
+  
   # this scope selects categories that don't have parents. they are the top-level categories
-  scope :parent_categories, where(:parent_category_id => nil).order("prefix ASC")
+  scope :parent_categories, where(:parent_category_id => nil).order(:name)
   # this scope select categories that have parents. they are the bottom-level categories
-  scope :child_categories, where("parent_category_id IS NOT NULL")
+  scope :child_categories, where("parent_category_id IS NOT NULL").order(:name)
   
   def <=>(other)
     # compare two top-level
@@ -60,8 +62,29 @@ class ItemCategory < ActiveRecord::Base
     "#{parent_category.prefix.to_s}%02d" % prefix.to_s
   end
   
+  def num_items
+    return item_count if attribute_present? :item_count
+
+    c=items.count
+    for ic in item_subcategories
+      c += ic.num_items
+    end
+    c
+  end
+  
   def to_s
     name
+  end
+
+  def self.parent_categories_with_item_count
+    ItemCategory.find_by_sql(
+      "SELECT `item_categories`.*, count(*) as item_count 
+      FROM `item_categories` 
+      INNER JOIN `item_categories` `item_subcategories_item_categories` 
+        ON `item_subcategories_item_categories`.`parent_category_id` = `item_categories`.`id` 
+      INNER JOIN `items` ON `items`.`item_category_id` = `item_subcategories_item_categories`.`id` 
+      WHERE (`item_categories`.`parent_category_id` IS NULL) 
+      GROUP BY `item_categories`.`id` ORDER BY name ASC")
   end
   
 protected

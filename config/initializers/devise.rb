@@ -39,7 +39,7 @@ Devise.setup do |config|
   # ==> Configuration for :confirmable
   # The time you want give to your user to confirm his account. During this time
   # he will be able to access your application without confirming. Default is nil.
-  config.confirm_within = 2.days
+  config.confirm_within = 0.minutes
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -95,7 +95,7 @@ Devise.setup do |config|
   # accessing "/users/sign_in", it knows you are accessing an User. This makes
   # routes as "/sign_in" not possible, unless you tell Devise to use the default
   # scope, setting true below.
-  config.use_default_scope = true
+  # config.use_default_scope = true
 
   # Configure the default scope used by Devise. By default it's the first devise
   # role declared in your routes.

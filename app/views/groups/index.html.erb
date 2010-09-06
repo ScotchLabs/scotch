@@ -1,13 +1,27 @@
 <article>
-<h1>Listing groups</h1>
+<% if params[:group_type] == "Show" %>
+  <h1>Shows</h1>
+<% elsif params[:group_type] == "Board" %>
+  <h1>Boards</h1>
+<% elsif params[:group_type] == "Group" %>
+  <h1>Interest Groups</h1>
+<% elsif params[:group_type] == "all" %>
+  <h1>All Groups</h1>
+<% else %>
+  <h1>Active Groups</h1>
+<% end %>
+
+<%= will_paginate @groups %>
 
 <% @groups.sort.each do |group| %>
-	<div class="groupListing">
-          <h2><%= link_to group, group %></h2> 
-          <% if group.archived? %><span style="text-transform: uppercase; color: #CAA;">archived</span><% end %>
-          <span style="text-transform: uppercase; color: #AAA;"><%= group.type %></span>
-          <span class="groupDescription"><%= raw truncate(textilize_without_paragraph(group.description), :length => 250, :omission => "…") %></span>
-        </div>
+  <%= render "as_line_item", :object => group %>
 <% end %>
+
+<p>
+See: <%= link_to "shows", shows_url %> | 
+     <%= link_to "boards", boards_url %> | 
+     <%= link_to "interest groups", groups_url(:group_type => "Group") %> | 
+     <%= link_to "all", groups_url(:group_type => "all") %> 
+</p>
 </article>
 

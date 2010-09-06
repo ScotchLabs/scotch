@@ -1,18 +1,18 @@
-<% unless current_user %>
-<span id='loginerror'><%= notice %><%= alert %></span>
-<% end %>
 <span id='loginform'>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <%= f.text_field :andrew_id, {:placeholder => "Andrew ID"} %>
-    <%= f.password_field :password, {:placeholder => "Password"} %>
-
-    <% if devise_mapping.rememberable? -%>
-      <%= f.check_box :remember_me, { :checked => true, :style => "display:none;" } %> <% f.label :remember_me %>
-    <% end -%>
+    <%= f.text_field :andrewid, {:placeholder => "Andrew ID", :class => "placeholder-shim"} %>
+    <%= f.password_field :password, {:placeholder => "Password", :class => "placeholder-shim"} %>
 
     <%= f.submit "Log In" %>
 
     <%= link_to "Forgot", new_password_path(resource_name), :class => "button" %>
+    <% if devise_mapping.rememberable? -%>
+      <br>
+      <%= f.check_box :remember_me, { :checked => true } %> <%= f.label :remember_me %>
+    <% end -%>
   <% end %>
 </span>
+<% unless current_user %>
+<span id='loginerror'><%= notice %><%= alert %></span>
+<% end %>
 <div class='clearfix'></div>

@@ -14,14 +14,21 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :item_category_id %><br>
-    <%= f.select :item_category_id, grouped_options_for_select(ItemCategory.groupedOptionsForSelect,(@item.item_category_id or nil),"None") %>
-  </div>
-  <div class="field">
-    <%= f.label :suffix %><br>
-    <%= f.text_field :suffix %>
-  </div>
+  <% if @item.catalog_number and (not @item.new_record?) then %>
+    <div class="field">
+      <%= f.label :catalog_number %><br>
+      <%= text_field_tag "catalog_number", @item.catalog_number, :disabled => true %>
+    </div>
+  <% else %>
+    <div class="field">
+      <%= f.label :item_category_id %><br>
+      <%= f.select :item_category_id, grouped_options_for_select(ItemCategory.groupedOptionsForSelect,(@item.item_category_id or nil),"None") %>
+    </div>
+    <div class="field">
+      <%= f.label :suffix %><br>
+      <%= f.text_field :suffix %>
+    </div>
+  <% end %>
   <div class="field">
     <%= f.label :location %><br>
     <%= f.text_field :location %>

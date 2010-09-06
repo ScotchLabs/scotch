@@ -1,0 +1,32 @@
+<%
+#defaults
+object = object
+href = url_for(object) unless object.nil? or href
+link = link
+image = image
+h1 = "#{object.to_s}" unless h1
+spanclass = 'three-grid-no-link'
+spanclass = 'three-grid' if link
+href = url_for(object) unless href
+%>
+
+<% #FIXME this is not DRY.
+if link %>
+  <%= link_to href do %>
+    <span class='<%= spanclass %>'>
+      <% if image %>
+        <span class='fleft'><%= image %></span>
+      <% end %>
+      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+    </span>
+  <% end %>
+<% else %>
+  <span>
+    <span class='<%= spanclass %>'>
+      <% if image %>
+        <span class='fleft'><%= image %></span>
+      <% end %>
+      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+    </span>
+  </span>
+<% end %>

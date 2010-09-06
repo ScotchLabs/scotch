@@ -1,7 +1,8 @@
 class Event < ActiveRecord::Base
-  belongs_to :group
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user
+  
+  belongs_to :group
 
   attr_protected :group_id
 
@@ -9,6 +10,8 @@ class Event < ActiveRecord::Base
   #TODO: validate on creation that event is in the future
   validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
+
+  scope :future, where("end_time > NOW()")
 
   def self.create_audition(group,count,length,signups,params)
     time = nil

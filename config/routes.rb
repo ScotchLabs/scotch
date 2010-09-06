@@ -1,15 +1,20 @@
 Scotch::Application.routes.draw do |map|
 
   # Users. Yay.
-  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "users/sessions"}
-  resources :users
+  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
+  resources :users, :except => [:new, :destroy] do
+    resources :watchers, :only => [:index] #show items a user is following
+    resources :feedposts, :only => [:index, :new]
+  end
+  resources :watchers, :only => [:new, :create, :destroy]
 
   # Items stand by themselves since we have an inventory that is global.  In
   # the future more things might be like this, but it would be better to have
   # such things exist as separate applications and simply consume the models
   # of Scotch via the REST API.
-  resources :items do
+  resources :items, :except => [:index] do
     resources :checkouts, :only => [:index, :new]
+    resources :feedposts, :only => [:index, :new]
   end
 
   # FIXME: DAMMIT RAILS TEAM
@@ -22,24 +27,23 @@ Scotch::Application.routes.draw do |map|
 
   # This line is to help out rails RESTful route lookup.  Without it rails
   # gets confused in some places when trying to create links to Show objects
-  resources :shows, :controller => :groups, :group_type => "Show"
-  resources :boards, :controller => :groups, :group_type => "Board"
+  resources :shows, :except => [:destroy], :controller => :groups, :group_type => "Show" do
+    resources :feedposts, :only => [:index, :new]
+  end
+  resources :boards, :except => [:destroy], :controller => :groups, :group_type => "Board" do 
+    resources :feedposts, :only => [:index, :new]
+  end
 
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
-  resources :groups, :shallow => true do
+  resources :groups, :except => [:destroy], :shallow => true do
+    resources :feedposts, :only => [:index, :new]
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection
     end
     resources :events, :only => [:index, :new]
     resources :documents, :only => [:index, :new]
     resources :checkouts, :only => [:index, :new]
-
-    # FIXME: do we use this? should we?
-    collection do
-     get :shows
-     get :boards
-    end
     member do
       post :join
       post :leave
@@ -50,25 +54,27 @@ Scotch::Application.routes.draw do |map|
   end
   resources :positions, :only => [:show, :edit, :update, :destroy, :create]
   resources :documents, :only => [:show, :edit, :update, :destroy, :create]
-  resources :checkouts, :only => [:show, :destroy, :create] do
-    resources :checkout_events, :only => [:new]
-  end
-  resources :checkout_events, :except => [:new, :index, :show]
+  resources :checkouts, :except => [:edit, :destroy]
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,
   # more business logic will move to being set on pages like these in the
   # future.
   resources :roles
-  resources :item_categories
-  resources :help_items
+  resources :item_categories, :except => [:destroy]
+  resources :help_items, :only => [:show, :edit, :index, :update]
 
   resources :feedbacks, :only => [:create, :new]
+
+  resources :feedposts, :except => [:index, :new, :show, :edit, :update] do
+    resources :feedposts, :only => [:new]
+  end
 
   get "dashboard/index"
   get "dashboard/calendar"
   get "dashboard/sysadmin"
   get "dashboard/terms"
+  get "dashboard/search"
 
   root :to => "dashboard#index"
 end

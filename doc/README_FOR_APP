@@ -1,2 +1,44 @@
 Use this README file to introduce your application and point to useful places in the API for learning more.
 Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+
+ABOUT LINE ITEMS AND GRID ITEMS PARTIALS
+We like objects to be displayed in some consistent way across the app. Views were generated for this purpose. It basically works like this:
+You have an object, say an Item. In order to display it as a grid item, all you have to do in the view is
+<%= render "as_grid_item", :object => @item %>
+Or, if the view you're working on is not a child of the ItemsController,
+<%= render "items/as_grid_item", :object => @item %>
+There are a bunch of other options you can pass as well, but we'll get to those later.
+The Items view partial items/_as_grid_item.html.erb sets up the variables and passes them all to shared/_as_grid_item.html.erb, which sets up the structure of the grid items.
+
+Things to Keep In Mind:
+1) if an object does not have a grid/line item partial in its views folder you can still call
+  <%= render "shared/as_grid_item", :object => obj %>
+  and it will make a grid item for the object.
+2) You can substitute "line" for "grid" and make a line item.
+
+Options You Can Pass:
+Options are passed in the render line, thusly:
+<%= render "as_grid_item", :object => @item, :link => false, :image => @item.headshot(:thumb), :line_1 => "foo" %>
+
+OPTION  TYPE    DEFAULT*         DESCRIPTION
+GRID OR LINE ITEM OPTIONS        
+link    boolean false            Tells the partial whether or not to make the rendered item a link
+href    string  url_for(object)  Tells the partial what the item should link to
+image   string  ""               Sets up an image to show on the left side of the item
+LINE ITEM OPTIONS
+line_1  string  ""               the first line of the item
+line_2  string  ""               the second line of the item
+GRID ITEM OPTIONS
+h1      string  ""               the h1 line of the item
+h2      string  ""               the h2 line of the item
+p       string  ""               the text below the h2 line
+*Options default to the given value in the shared partial, but
+default to something else in the model-specific partial
+
+EXAMPLES:
+in views/item_catgories/index.html.erb
+<%= render "as_grid_item", :object => item_category %>
+in views/items/show.html.erb
+<%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "&lt;&lt; Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
+in views/groups/show.html.erb
+<%= render "users/as_grid_item", :link => true, :object => position.user, :h2 => position %>

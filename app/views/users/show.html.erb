@@ -1,12 +1,27 @@
+<% unless @user.public_profile %>
+  <article>
+  <h1>Sorry, but this user has hidden their profile.</h1>
+  </article>
+<% end %>
+
+<% if @user.public_profile || has_permission? ("adminUser") %>
 <article>
+
+<% unless @user == current_user %>
+  <%= render "shared/follow_me", :object => @user %>
+<% end %>
+
 <div class='halves-split'>
 	<div class='half fleft'>
 		<div style='padding: 15px; background: #333; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
-			<div class='fleft' style='margin-right: 20px'><%= image_tag @user.headshot.url(:medium) %></div>
+			<div class='fleft' style='margin-right: 20px'>
+				<%= image_tag @user.headshot.url(:medium), :style => 'border: 1px solid white' %>
+			</div>
 			<h1 style='color:#fff'><%= @user %></h1>
 			<a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
 			<div class='clearfix'></div>
 		</div>
+		<% history_table %>
 	</div>
 	<div class='half fright'>
 		<% if @user == current_user or has_global_permission? "adminUsers" %>
@@ -14,26 +29,30 @@
 				<%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_user_path(@user) %>
 			</div>
 		<% end %>
-		<h1>Personal Information</h1>
+		<h1 style='margin-bottom: 10px'>Personal Information</h1>
 		<table>
-			<tr><td style='width:150px'>Phone</td><td><%= @user.phone %></td></tr>
-			<tr><td>Email</td><td><%= @user.email %></td></tr>
-			<tr><td>Andrew ID</td><td><%= @user.andrew_id %></td></tr>
-			<tr><td>SMC</td><td><%= @user.smc %></td></tr>
+			<tr><td style='width:150px; text-transform:uppercase; font-weight:bold'>Phone</td><td><%= @user.phone %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Email</td><td><%= @user.email %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Andrew ID</td><td><%= @user.andrewid %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>SMC</td><td><%= @user.smc %></td></tr>
 			<tr style='height:1em'></tr>
-			<tr><td>Residence</td><td><%= @user.residence %></td></tr>
-			<tr><td>Sex</td><td><%= @user.gender %></td></tr>
-			<tr><td>Birthday</td><td><%= @user.birthday %></td></tr>
-			<tr><td>Age</td><td><%= @user.age %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Residence</td><td><%= @user.residence %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Sex</td><td><%= @user.gender %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Birthday</td><td><%= @user.birthday %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Age</td><td><%= @user.age %></td></tr>
 			<tr style='height:1em'></tr>
-			<tr><td>Graduation Year</td><td><%= @user.graduation_year %></td></tr>
-			<tr><td>School</td><td><%= @user.home_college %></td></tr>
-			<tr><td>Major(s)</td><td><%= @user.majors %></td></tr>
-			<tr><td>Minor(s)</td><td><%= @user.minors %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Graduation Year</td><td><%= @user.graduation_year %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>School</td><td><%= @user.home_college %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Major(s)</td><td><%= @user.majors %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Minor(s)</td><td><%= @user.minors %></td></tr>
 			<tr style='height:1em'></tr>
-			<tr><td>Other Activities</td><td><%= @user.other_activities %></td></tr>
+			<tr><td style='text-transform:uppercase; font-weight:bold'>Other Activities</td><td><%= @user.other_activities %></td></tr>
 		</table>
+		<h1 style='margin-top: 25px; margin-bottom: 10px'>About</h1>
+		<%= simple_format(@user.about) %>
 	</div>
 	<div class='clearfix'></div>
 </div>
 </article>
+<%= render "shared/feedposts", :object => @user %>
+<% end %>

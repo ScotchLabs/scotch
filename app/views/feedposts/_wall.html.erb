@@ -1,0 +1,15 @@
+<div class="feedpost">
+  <h2>
+    <%= post.headline %>
+    <% if current_user == post.user %>
+      <%= link_to image_tag("delete_icon.png"), post, :method => :delete,
+        :confirm => "Are you sure you want to delete this post?" %>
+      <% end %>
+  </h2>
+  <% if current_page? (:controller => :dashboard, :action => :index) or current_page? (root_url) %>
+    <p>posted on <%= link_to post.parent, post.parent %></p>
+  <% end %>
+  <blockquote>
+    <%= raw textilize post.body %>
+  <small>Posted by <%= link_to post.user, post.user %> on <%= format_date post.created_at %></small>
+</div>

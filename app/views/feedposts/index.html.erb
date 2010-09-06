@@ -1,0 +1,10 @@
+<article>
+  <h1>Feed for <%= link_to @parent, @parent %></h1>
+
+  <%= will_paginate @feedposts %>
+
+  <% @feedposts.each do |feedpost| %>
+    <%= render "feedposts/#{feedpost.post_type}", :post => feedpost %>
+  <% end %>
+
+</article>

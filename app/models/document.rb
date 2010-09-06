@@ -1,6 +1,7 @@
 class Document < ActiveRecord::Base
-  belongs_to :group
   has_many :document_tags
+  
+  belongs_to :group
 
   attr_protected :group_id
 

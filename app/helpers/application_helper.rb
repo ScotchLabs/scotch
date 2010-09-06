@@ -22,10 +22,18 @@ module ApplicationHelper
   #how far in the future or past something is.  (e.g. if it is next week, just
   #print "May 20", but if it was last year print "May 20, 2010")
   def format_time(time)
-    time.strftime("%Y-%m-%d %H:%M")
+		if time.nil?
+			"-"
+		else
+    	time.strftime("%Y-%m-%d %H:%M")
+		end
   end
   def format_date(date)
-    date.strftime("%Y-%m-%d")
+		if date.nil?
+			"-"
+		else
+    	date.strftime("%Y-%m-%d")
+		end
   end
   
   def flavortext
@@ -33,13 +41,30 @@ module ApplicationHelper
     # logs in, then it cycles pseudo-randomly
     flav = [
       "Scotch'n'Soda's Online Informatory",
+      "Is Informatory Even A Word?",
       "Breaking Legs and Taking Names Since 1938",
+      "Enabling Dangerous Acts Since 1938",
+      "Loving Every Minute Of It Since 1938",
+      "Conscripting Baggers Since 1938",
+      "Pretentious since 1938",
       "Have you seen the new Dungeon?",
       "Unofficially sponsored by Jolt Cola",
       "It seemed like a good idea at the time",
-      "Enabling Dangerous Acts Since 1938",
       "No, we will *not* implement an S'n'Cest feature!",
-      "Where good decisions go to die"
+      "The Mafia of Theatre",
+      "Proud to be Fierce!",
+      "SSTH FTW",
+      "<Show Name Here> BITES",
+      "Anyone want to steal the fence?",
+      "Powered By Kitten Sneezes",
+      "Better Than 6 Hours of Sex and Bacon",
+      "Because Academics Come First",
+      "This message brought to you by Spackle For President",
+      "Have you finished your budget yet?",
+      "Who are we kidding, it's really \"Scotchbook\"",
+      "Like Facebook, but not for losers",
+      "We took Facebook and changed the Stylesheet",
+      "Too close for missiles, switching to guns" # if you remember facebook in 2005 you will keep this one
     ]
     if current_user
       flav[rand(flav.length)]
@@ -62,16 +87,6 @@ module ApplicationHelper
     u
   end
   
-  # This is for use with the user's autocomplete view
-  # It finds the user that corresponds to the identifier
-  # currently the identifier we use is
-  # FIRST LAST EMAIL
-  def retreive_user(identifier)
-    return nil if identifier.nil? or identifier.blank?
-    return nil if identifier.split(" ").length != 3
-    email = identifier.split(" ")[2]
-    User.find_by_email(email)
-  end
   
   def filter_referrals(text)
     return if text.nil? or text.blank?

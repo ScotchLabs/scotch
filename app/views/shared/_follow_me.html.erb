@@ -1,0 +1,14 @@
+<div id="follow" style="position: relative">
+  <% unless current_user.following? object %>
+    <%= link_to(new_watcher_path(:item_type => object.class, :item_id => object.id), :style => "display: block; height 98px; padding: 3px 3px 3px 3px; position: absolute; top: 20px; width:75px; right: -20px; z-index: 1000; background-color: #BEB; text-align: right; font-size: 10px") do %>
+      <%= image_tag("add_icon.png", :size => "8x8") %>
+      Follow Me!
+    <% end %>
+  <% else %>
+    <%= link_to current_user.watcher_for(object), :method => :delete, :style => "display: block; height 98px; padding: 3px 3px 3px 3px; position: absolute; top: 20px; width:75px; right: -20px; z-index: 1000; background-color: #BEB; text-align: right; font-size: 10px" do %>
+      <%= image_tag("delete_icon.png", :size => "8x8") %>
+      Unfollow!
+    <% end %>
+  <% end %>
+  </a>
+</div>

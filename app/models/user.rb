@@ -1,6 +1,9 @@
-class User < ActiveRecord::Base
-	# Coerce Paperclip into using custom storage
+class User < Shared::Watchable
+  # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
+
+  acts_as_indexed :fields => [:email, :name, :phone, :residence, :andrewid, :majors, :minors, :other_activities, :about], :if => Proc.new {|u| u.public_profile }
+
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -9,8 +12,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
-    :gender, :residence, :birthday, :andrew_id, :headshot, :majors, :minors,
-    :other_activities
+    :gender, :residence, :birthday, :headshot, :majors, :minors,
+    :other_activities, :about, :andrewid
 
   has_many :positions
   has_many :groups, :through => :positions
@@ -21,13 +24,31 @@ class User < ActiveRecord::Base
   has_many :checkouts_to, :dependent => :destroy, :class_name => "Checkout", :foreign_key => :user_id
   has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
   has_many :checkout_events, :dependent => :destroy
+  
+  has_many :watchees, :class_name => "Watcher"
 
-	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrew_id end
+  #FIXME use :source_type instead of :conditions
+  has_many :watched_items, :through => :watchees, :source => :watched_item, 
+    :conditions => "watchers.item_type = 'Item'"
+  has_many :watched_users, :through => :watchees, :source => :watched_user, 
+    :conditions => "watchers.item_type = 'User'"
+  has_many :watched_groups, :through => :watchees, :source => :watched_group, 
+    :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
+
+  #FIXME these don't work STUPID RAILS
+  #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts
+  #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
+  #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
+
+	Paperclip.interpolates :aid_initial do |attachment,style| 
+		attachment.instance.andrewid.first
+	end
+	Paperclip.interpolates :andrew do |attachment,style| attachment.instance.andrewid end
 
   has_attachment :headshot, 
     :styles => {:medium => "150x150#", :thumb => "50x50#"},
     :default_url => '/images/missing/:class_:style.png',
-		:file_name => 'headshots/:andrew_:style.:extension'
+		:file_name => 'headshots/:aid_initial/:andrew_:style.:extension'
 
   validates_attachment_size :headshot, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
@@ -35,12 +56,10 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :headshot,
     :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
     :message => "must be an image",
-    :unless => lambda { |user| !user.headshot.nil? }	
+    :unless => lambda { |user| !user.headshot.nil? }  
 
-  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt
+  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
 
-  # FIXME we should lowercase the email provided by the user 
-  # FIXME we should use Devise's built-in email validation
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
 
@@ -49,14 +68,17 @@ class User < ActiveRecord::Base
   validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
-  before_validation :set_random_password
-
   acts_as_phone_number :phone
+  before_validation :downcase_email
+  after_create :create_watcher
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
 
-  scope :recent, where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC")
+  default_scope order("last_name, first_name ASC")
+  scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
+  scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
+  scope :newest, unscoped.order("created_at DESC").limit(10)
 
 ####################
 # OBJECT OVERRIDES #
@@ -67,7 +89,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    andrew_id
+    andrewid
   end
   
   def <=>(other)
@@ -78,20 +100,24 @@ class User < ActiveRecord::Base
 # TABLE OVERRIDES #
 ###################
 
-  def andrew_id=(a)
-    unless @andrew_id.nil?
-      logger.debug "Someone tried to set #{self.name}'s andrew id, but it's not nil so we're going to warn and ignore that"
+  def andrewid=(a)
+    unless self.andrewid.nil?
+      begin
+        logger.warn "Someone tried to set #{self.name}'s andrew id, but it's not nil"
+      rescue NoMethodError
+        logger.warn "Someone tried to set an andrew id for #{self.inspect}."
+      end
       return
     end
     super
-    self.email="#{andrew_id}@andrew.cmu.edu"
-    self.andrew_id
+    self.email="#{andrewid}@andrew.cmu.edu"
+    self.andrewid
   end
   
   def email=(e)
     super
-    if self.andrew_id.nil? and e.include? "@andrew.cmu.edu"
-      self.andrew_id = e[0...e.index("@andrew.cmu.edu")]
+    if self.andrewid.nil? and e.include? "@andrew.cmu.edu"
+      self.andrewid = e[0...e.index("@andrew.cmu.edu")]
     end
     self.email
   end
@@ -107,14 +133,28 @@ class User < ActiveRecord::Base
     # being in a position for a show within the past year
     #TODO
   end
-  
+
+  # Get school years (actually Date ranges) in which the user
+  # was active -- optionally takes a parameter only to count
+  # positions in a specific type of group 
+  def active_years(type = ["Show", "Board"])
+    years = []
+    groups.where(:type => type).each do |g|
+      current = g.school_year
+      years <<= current unless years.include? current
+    end
+    years.sort { |a,b| a.first <=> b.first }
+  end
+
   def incomplete_record?
-    #TODO
-    true
+    return true unless self.phone and self.home_college and self.graduation_year \
+      and self.smc and self.gender and self.residence and self.birthday and self.headshot \
+      and self.majors and self.about
+    false
   end
   
   def age
-    ((Time.now - DateTime.parse(birthday.to_s))/(60*60*24)/365.2422).to_i
+    ((Date.today - birthday)/365.2422).to_i unless birthday.nil?
   end
 
   def name
@@ -131,7 +171,13 @@ class User < ActiveRecord::Base
   def active_positions
     positions.select{ |p| p.group.active? }
   end
-  
+ 
+  def positions_during(timespan, type = nil)
+    conditions = {"groups.archive_date" => timespan}
+    conditions["groups.type"] = type unless type.nil?
+    positions.joins(:group).where(conditions)
+  end 
+ 
 #######################
 # PERMISSIONS METHODS #
 #######################
@@ -153,14 +199,14 @@ class User < ActiveRecord::Base
   # All events which should appear on the user's calendar
   def user_events
     es = events.all
-    groups.each do |g|
-      es += g.events.select { |e| e.event_attendees.count == 0 }
-    end
+    es += Event.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
     return es
   end
 
   def future_events
-    user_events.select{|e| e.future?}
+    es = events.future.all 
+    es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
+    return es
   end
 
 ####################
@@ -205,6 +251,7 @@ class User < ActiveRecord::Base
     return false
   end
   
+  # FIXME performance
   def current_checkouts_to
     checkouts_to.select{|ch| ch.open?}
   end
@@ -213,13 +260,57 @@ class User < ActiveRecord::Base
     checkouts_by.select{|ch| ch.open?}
   end
 
-private
+###################
+# WATCHER METHODS #
+###################
 
-  # FIXME: this doesn't seem to work
-  # use @password
-  def set_random_password
-    if password.nil? then
-      password = ActiveSupport::SecureRandom.hex(16)
+  def following? (object)
+    return false if object.nil?
+    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).count >= 1
+  end
+
+  def watcher_for (object)
+    return nil if object.nil?
+    # FIXME this is ugly, and there are a bunch of places where we have to do
+    # it...
+    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).first
+  end
+
+  def recent_feed_entries
+    groups = self.watched_groups
+    items = self.watched_items
+    users = self.watched_users
+
+    group_posts = Feedpost.recent.where(:parent_type => "Group").where(:parent_id => groups.collect{|g|g.id}).all
+    item_posts = Feedpost.recent.where(:parent_type => "Item").where(:parent_id => items.collect{|i|i.id}).all
+    user_posts = Feedpost.recent.where(:parent_type => "User").where(:parent_id => users.collect{|u|u.id}).all
+
+    (group_posts + item_posts + user_posts).sort.reverse
+  end
+
+  # This is for use with the user's autocomplete view
+  # It finds the user that corresponds to the identifier
+  # currently the identifier we use is
+  # FIRST LAST EMAIL
+  def self.autocomplete_retreive_user(identifier)
+    return nil if identifier.nil? or identifier.blank?
+    return nil if identifier.split(" ").length != 3
+    email = identifier.split(" ")[2]
+    User.find_by_email(email)
+  end
+
+  protected
+
+  def create_watcher
+    if Watcher.where(:user_id => self.id).where(:item_id => self.id).where(:item_type => "User").count == 0
+      w = Watcher.new
+      w.user = self
+      w.item = self
+      w.save or logger.warn "Unable to save implicitly created watcher"
     end
+  end
+
+  def downcase_email
+    self.email = self.email.downcase
   end
 end

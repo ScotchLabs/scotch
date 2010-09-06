@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   prepend_before_filter :find_user
 
-  before_filter :only => [:create, :destroy, :new] do
+  before_filter :only => [:create, :destroy] do
     require_global_permission "adminUsers"
   end
 
@@ -13,16 +13,21 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.all
-    
     # Autocomplete uses the q param and the js format
+    # FIXME this loads all users from the database, ouch!
+    # FIXME the non-HTML views don't work without q=
     if params[:q]
-      @users = @users.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+      @users = User.all.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+    else
+      # @users = User.paginate(:per_page => 20, :page => params[:page])
+      @users = []
+      @new_users = User.newest
+      @most_watched_users = User.most_watched
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      #format.xml  { render :xml => @users } # FIXME, leaks information
       format.js { render :text => @users.map{|u| "#{u.name} #{u.email}"}.join("\n") }
     end
   end
@@ -34,18 +39,7 @@ class UsersController < ApplicationController
       format.html # show.html.erb
 
       # FIXME: this leaks information
-      format.xml  { render :xml => @user }
-    end
-  end
-
-  # GET /users/new
-  # GET /users/new.xml
-  def new
-    @user = User.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @user }
+      # format.xml  { render :xml => @user }
     end
   end
 
@@ -98,9 +92,13 @@ class UsersController < ApplicationController
   protected
 
   def find_user
-    unless params.nil? or params[:id].nil?
-      @user = User.find_by_andrew_id(params[:id])
-      raise ActiveRecord::RecordNotFound unless @user
+   if params.has_key? :id
+      if params[:id].to_i > 0
+        @user = User.find(params[:id])
+      else
+        @user = User.find_by_andrewid!(params[:id])
+      end
     end
   end
+
 end

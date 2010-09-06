@@ -7,13 +7,13 @@ en:
 
   devise:
     failure:
-      unauthenticated: 'You need to sign in or sign up before continuing.'
-      unconfirmed: 'You have to confirm your account before continuing.'
+      unauthenticated: 'Please sign in.'
+      unconfirmed: 'You have to confirm your account.'
       locked: 'Your account is locked.'
       invalid: 'Invalid andrew id or password.'
       invalid_token: 'Invalid authentication token.'
-      timeout: 'Your session expired, please sign in again to continue.'
-      inactive: 'Your account was not activated yet.'
+      timeout: 'Your session expired, please sign in again.'
+      inactive: 'Your account is not activated yet.'
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'

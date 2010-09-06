@@ -5,7 +5,7 @@
       <p>
         <b>What is Scotch on the Web?</b><br>
         Scotch on the Web is Scotch'n'Soda Theatre's online information system.
-        It keeps track of out inventory, history, members, calendars and more!
+        It keeps track of our inventory, history, members, calendars and more!
       </p>
       <p>
         <b>Why should I create an account?</b><br>
@@ -18,8 +18,7 @@
         Yes! This is a huge undertaking and a great opportunity to contribute to
         a complex and frequently-used project. Send an email to
         <%= mail_to current_webmaster.email, current_webmaster.name %> if you're interested
-        in helping out.<br>
-        We'd love to have you on the team!
+        in helping out. We'd love to have you on the team!
       </p>
       <p>
         <b>Wait, I just wanted to learn about S'n'S!</b><br>
@@ -28,31 +27,29 @@
     </div>
     <div class='right-two-thirds'>
       <h1>Making Scotch'n'Soda Better Since 2008</h1>
-      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-      <p>
-        <b>Scotch on the Web</b> is an important tool that facilitates a host
-        of tasks for all members of Scotch'n'Soda Theatre. <b>Signup is free
-        and easy!</b> Whether you're already a part of Sn'nS or you're brand
-        new, sign up to...
-      </p>
+      <p><b>Scotch on the Web</b> is an important tool that facilitates a host
+      of tasks for all members of Scotch'n'Soda Theatre. <b>Signup is free
+        and easy!</b> Whether you're already a part of S'n'S or you're brand
+      new, sign up to...</p>
       <ul>
         <li>Immediately hear about auditions and tech opportunities and how
-          to get involved at any point in the year.</li>
+        to get involved at any point in the year.</li>
         <li>Peruse our inventory, technical guides, script library, and
-          show archive.</li>
+        show archive.</li>
         <li>Contact any member of Scotch'n'Soda quickly and easily.</li>
         <li>See what the No Parking Players Improv Troupe, the Workshopping
-          Committee and our other associated acts are up to.</li>
+        Committee and our other associated acts are up to.</li>
       </ul>
       <%= image_tag "seal.png", {:class => "fright", :style => "margin-top:-10px;margin-right:10px"} %>
-      <p>
-        So get your Andrew ID in hand and
-        <%= link_to "create an account", new_registration_path(resource_name) %>!
-      </p>
+      <p>So get your Andrew ID in hand and
+      <%= link_to "create an account", new_registration_path(resource_name) %>!</p>
       <div style='width:100%; text-align:center; margin-top:2em'>
-        <%= link_to "Register", new_registration_path(resource_name), :class => "button" %>
+        <%= link_to "Register", new_registration_path(resource_name), :class => "button" -%>
+        <% if devise_mapping.confirmable?  -%>
+          <br>
+          <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), :class => "button", :style => "margin-right:5px;" %>
+        <% end -%>
       </div>
-      <% end %>
     </div>
     <div class='clearfix'></div>
   </div>
