@@ -230,6 +230,7 @@ class User < Shared::Watchable
     return false
   end
   
+  # FIXME performance
   def current_checkouts_to
     checkouts_to.select{|ch| ch.open?}
   end

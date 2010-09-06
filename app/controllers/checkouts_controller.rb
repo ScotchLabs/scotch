@@ -10,11 +10,16 @@ class CheckoutsController < ApplicationController
   # GET /group/1/checkouts
   # GET /group/1/checkouts.xml
   def index
-    #FIXME this shouldn't display all.  Instead, it should only display
-    # outstanding checkouts.  This may mean adding a boolean "outstanding"
-    # field to the checkouts object so that we can quickly query for it, or
-    # some fancy sql magic involving multiple joins of the same table.
-    @checkouts = Checkout.all
+    @checkouts = Checkout.scoped
+
+    if @group
+      @checkouts = @checkouts.where(:group_id => @group.id) 
+    elsif @item
+      @checkouts = @checkouts.where(:item_id => @item.id)
+    else
+      @checkouts = @checkouts.where(:checkin_date => nil)
+    end
+
 
     respond_to do |format|
       format.html # index.html.erb

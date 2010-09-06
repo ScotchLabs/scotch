@@ -38,7 +38,12 @@
       <h1>Your Checkouts</h1>
       <ul>
         <% current_user.current_checkouts_to.each do |checkout| %>
-          <li><%= link_to checkout.item, checkout.item %> for <%= link_to checkout.group, checkout.group %>. Checked out by <%= link_to checkout.opener, checkout.opener %>. <%= link_to "View Checkout", checkout %>. <%= link_to "Check In", new_checkout_checkout_event_path(checkout, :event => 'closed') %>.</li> <!-- #TODO FIXME there must be a prettier way to do this -->
+          <li><%= link_to checkout.item, checkout.item %> 
+          for <%= link_to checkout.group, checkout.group %>. 
+          <% if checkout.opener != current_user %>
+            Checked out by <%= link_to checkout.opener, checkout.opener %>. 
+          <% end %>
+          <%= link_to "View Checkout", checkout %>.
         <% end %>
       </ul>
     <% end %>
