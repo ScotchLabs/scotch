@@ -266,7 +266,7 @@ class User < Shared::Watchable
 
   def following? (object)
     return false if object.nil?
-    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).count > 1
+    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).count >= 1
   end
 
   def watcher_for (object)
