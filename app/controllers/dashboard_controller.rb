@@ -13,6 +13,6 @@ class DashboardController < ApplicationController
       Item.with_query(params[:q]).limit(20) +
       Feedpost.with_query(params[:q]).limit(20)
 
-    @results = @results.sort_by{|i| i.updated_at}
+    @results = @results.sort_by{|i| i.updated_at}.reverse
   end
 end
