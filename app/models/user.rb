@@ -266,12 +266,14 @@ class User < Shared::Watchable
 
   def following? (object)
     return false if object.nil?
-    return watchees.where(:item_type => object.class.to_s).where(:item_id => object.id).count > 0
+    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).count > 1
   end
 
   def watcher_for (object)
     return nil if object.nil?
-    return watchees.where(:item_type => object.class.to_s).where(:item_id => object.id).first
+    # FIXME this is ugly, and there are a bunch of places where we have to do
+    # it...
+    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).first
   end
 
   def recent_feed_entries
