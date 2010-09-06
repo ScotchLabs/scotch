@@ -2,6 +2,8 @@ class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
 
+  acts_as_indexed :fields => [:name, :description, :short_name]
+
   has_many :checkouts, :dependent => :destroy
   has_many :documents
   has_many :events, :dependent => :destroy

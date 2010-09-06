@@ -1,6 +1,9 @@
 class User < Shared::Watchable
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
+
+  acts_as_indexed :fields => [:email, :name, :phone, :residence, :andrewid, :majors, :minors, :other_activities, :about], :if => Proc.new {|u| u.public_profile }
+
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,

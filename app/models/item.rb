@@ -1,4 +1,7 @@
 class Item < Shared::Watchable
+
+  acts_as_indexed :fields => [:name, :location, :description, :catalog_number]
+
   has_many :checkouts
 
   belongs_to :item_category # foreign key item_category_id

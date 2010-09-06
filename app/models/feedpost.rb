@@ -1,4 +1,6 @@
 class Feedpost < ActiveRecord::Base
+  acts_as_indexed :fields => [:headline, :body]
+
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   

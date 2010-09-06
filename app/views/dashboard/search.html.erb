@@ -1,3 +1,6 @@
 <article>
-<h1>Coming soon...</h1>
+<h1>Results for <%= params[:q] %></h1>
+  <% @results.each do |result| %>
+    <%= render "#{result.class.base_class.name.tableize}/as_line_item", :object => result %>
+  <% end %>
 </article>

@@ -7,5 +7,12 @@ class DashboardController < ApplicationController
   end
 
   def search
+    @results = 
+      User.with_query(params[:q]).limit(20) +
+      Group.with_query(params[:q]).limit(20) +
+      Item.with_query(params[:q]).limit(20) +
+      Feedpost.with_query(params[:q]).limit(20)
+
+    @results = @results.sort_by{|i| i.updated_at}
   end
 end
