@@ -228,7 +228,7 @@ doc.find("//subcategories").each do |s|
   number = s.find("number").first.content.to_i
   name = s.find("name").first.content
   parentid = s.find("broadid").first.content.to_i
-  parent = ItemCategory.find_by_prefix(parentid)
+  parent = ItemCategory.parent_categories.where(:prefix => parentid).first
   item = ItemCategory.new(:prefix => (number % 100), :name => name, :parent_category_id => parent.id)
   item.save!
 end
