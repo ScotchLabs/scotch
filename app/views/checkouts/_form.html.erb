@@ -10,16 +10,18 @@
   </div>
   <% end %>
 
-  <% if @checkout.group_id %>
-    <%= f.hidden_field :group_id %>
-  <% else %>
-  <div class="field">
-    <!-- FIXME this should specifically show groups that the user has the
-    authority to checkout as instead of all their active groups -->
-    <%= f.label :group_id %><br>
-    <%= f.select :group_id, current_user.groups.active.map { |g| [g.name, g.id] } %>
-  </div>
-  <% end %>
+   <% if @checkout.group_id %>
+     <%= f.hidden_field :group_id %>
+   <% else %>
+     <div class="field">
+       <%= f.label :group_id %><br>
+       <% if has_global_permission?("checkoutSelf") or has_global_permission?("checkoutOther") then %>
+         <%= f.collection_select :group_id, Group.active.all, :id, :name %>
+       <% else %>
+         <%= f.collection_select :group_id, current_user.groups.active.select{|g| g.user_has_permission?(current_user,Permission.fetch("checkoutSelf")) || g.user_has_permission?(current_user,Permission.fetch("checkoutOther"))}, :id, :name %>
+       <% end %>
+     </div>
+   <% end %>
   
   <% if has_permission? "checkoutOther" %>
     <div class="field">
@@ -28,13 +30,13 @@
     </div>
   <% end %>
   
-  <% if params[:item_id] %>
-  <%= f.hidden_field :item_id, :value => params[:item_id] %>
+  <% if @checkout.item_id %>
+    <%= f.hidden_field :item_id, :value => params[:item_id] %>
   <% else %>
-  <div class="field">
-    <%= f.label :item_catalog_number %><br>
-    <%= f.text_field :item_catalog_number %>
-  </div>
+    <div class="field">
+      <%= f.label :item_catalog_number %><br>
+      <%= f.text_field :item_catalog_number %>
+    </div>
   <% end %>
   
   <div class="actions">

@@ -10,16 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100904073108) do
-
-  create_table "checkout_events", :force => true do |t|
-    t.string   "event"
-    t.integer  "user_id"
-    t.integer  "checkout_id"
-    t.string   "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20100906074618) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -28,6 +19,10 @@ ActiveRecord::Schema.define(:version => 20100904073108) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opener_id"
+    t.date     "checkout_date"
+    t.date     "checkin_date"
+    t.date     "due_date"
+    t.text     "notes"
   end
 
   create_table "document_tags", :force => true do |t|

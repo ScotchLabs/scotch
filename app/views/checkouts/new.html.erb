@@ -4,6 +4,5 @@
 <%= render 'form' %>
 
 <br>
-<% if @group %><%= link_to "Back to #{@group}", group_checkouts_path(@group) %>
-<% elsif @item %><%= link_to "Back to #{@item}", item_checkouts_path(@item) %><% end %>
+<% if @item %><%= link_to "Back to #{@item}", item_checkouts_path(@item) %><% end %>
 </article>

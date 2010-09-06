@@ -4,84 +4,22 @@
     <%= link_to @checkout.item, @checkout.item %> is checked out to <%= link_to @checkout.user, @checkout.user %> for <%= link_to @checkout.group, @checkout.group %>. <!-- #TODO FIXME there must be a prettier way to do this --><br>
     <br>
     <b>Checked out by:</b> <%= link_to @checkout.opener, @checkout.opener %><br>
-    <b>Checked out on:</b> <%= format_time @checkout.checkout_time %><br>
-    <b>Checked in on:</b> <% unless @checkout.open? %><%= format_time @checkout.checkin_time %><% else %>Not checked in yet.<% end %><br>
-    <b>Due back:</b> <% if @checkout.has_deadline? %><%= format_time(@checkout.deadline) %><% else %>no duedate set<% end %><br>
-    <b>Payment required:</b> $<%= @checkout.paymentRequired %><br>
-    <b>Payment received:</b> $<%= @checkout.paymentReceived %><br>
-    <% note_events = @checkout.events("noted")
-    unless note_events.empty? %>
+    <b>Checked out on:</b> <%= format_time @checkout.checkout_date %><br>
+    <b>Checked in on:</b> <% unless @checkout.open? %><%= format_date @checkout.checkin_date %><% else %>Not checked in yet.<% end %><br>
+    <b>Due back:</b> <% if @checkout.has_deadline? %><%= format_date(@checkout.due_date) %><% else %>no duedate set<% end %><br>
     <b>Notes:</b><br>
-    <% for note_event in note_events %>
-    <%= link_to note_event.user, note_event.user %>: <%= note_event.notes %><br>
-    <% end
-    end %>
+    <p><%= textilize @checkout.notes %></p>
   </p>
 
-  <% if @checkout.open? %>
-  <h2>Actions</h2>
-  <ul>
-    <%
-    # for each event in the list of possible events,
-    # show links for those events that the current_user
-    # is allowed to cause on the checkout.
-    for event in CheckoutEvent.events
-      #puts "checking #{event[0]} event"
-      # format of event (array):
-      #   0 EVENT KEY,
-      #   1 human-readable future tense,
-      #   2 human-readable past tense,
-      #   3 many allowed?,
-      #   4 causer needs permission?,
-      #   5 causer needs to be opener?
-      #   6 Note display text
-      
-      # check if multiple of these events are allowed
-      next if @checkout.has_event? event[0] and !event[3]
-      #puts "1/3 multiple allowed or has none"
-      
-      # check if causer is on the list of allowed causers
-      next unless current_user.allowedToCauseEvent?(event, @checkout)
-      #puts '2/3 user is on the list'
-      
-      # check if causer needs/has permission
-      next if event[4] and !current_user.can_check_out_items_to? @checkout.user, @checkout.group
-      #puts '3/3 user has the key'
-      %>
-      <li><%= link_to event[1], new_checkout_checkout_event_path(@checkout, :event => event[0]) %></li>
+  <% if @checkout.open? && (has_permission? "checkoutOther" or (has_permission? "checkoutSelf" and @checkout.user == current_user))%>
+    <h2>Actions</h2>
+    <%= form_for @checkout do |f| %>
+      <%= f.submit "Set Due Date" %>
+      <%= f.date_select :due_date %><br>
     <% end %>
-  </ul>
-  <% end %>
-</article>
-<article>
-  <h1>History of this Checkout</h1>
-  <p>
-  <% if @checkout.checkout_events.empty? %>
-  No checkout events here!
-  <% else %>
-  
-  <table>
-    <tr>
-      <th>Who?</th>
-      <th>What?</th>
-      <th>When?</th>
-    </tr>
-    
-  <% @checkout.checkout_events.each do |checkout_event| %>
-    <tr>
-      <td><%= link_to checkout_event.user, checkout_event.user %></td> <!-- #TODO FIXME there must be a prettier way to do this -->
-      <td><%= CheckoutEvent.event(checkout_event.event)[2] %></td>
-      <td><%= format_time checkout_event.created_at %></td>
-    
-    <% if checkout_event.notes %>
-    </tr>
-    <tr>
-      <td colspan='3'>&nbsp;&nbsp;<%= CheckoutEvent.event(checkout_event.event)[6] %>: <%= checkout_event.notes %></td>
+    <%= form_for @checkout do |f| %>
+      <%= f.hidden_field :checkin_date, :value => DateTime.now.strftime %><br>
+      <%= f.submit "Checkin" %>
     <% end %>
-    </tr>
   <% end %>
-  </table>
-  
-  <% end %>
-  </p>
 </article>

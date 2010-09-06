@@ -1,8 +1,6 @@
 <article>
-<h1>Editing item</h1>
+<h1>Editing <%= link_to @item, @item %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @item %> |
-<%= link_to 'Back', items_path %>
 </article>

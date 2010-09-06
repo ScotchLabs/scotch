@@ -54,10 +54,7 @@ Scotch::Application.routes.draw do |map|
   end
   resources :positions, :only => [:show, :edit, :update, :destroy, :create]
   resources :documents, :only => [:show, :edit, :update, :destroy, :create]
-  resources :checkouts, :only => [:show, :create] do
-    resources :checkout_events, :only => [:new]
-  end
-  resources :checkout_events, :except => [:new, :index, :show, :delete, :edit, :update]
+  resources :checkouts, :except => [:edit, :destroy]
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,

@@ -4,6 +4,9 @@ class CheckoutsController < ApplicationController
     require_permission "checkoutSelf" unless has_permission? "checkoutOther"
   end
 
+  # FIXME make sure that users don't try to checkout a not-available item....
+  # before_filter :ensure_available, :only => [:new]
+
   # GET /group/1/checkouts
   # GET /group/1/checkouts.xml
   def index
@@ -38,6 +41,8 @@ class CheckoutsController < ApplicationController
     @checkout.user = current_user
     @checkout.group = @group if @group
     @checkout.item = @item if @item
+
+    logger.info "@checkout = #{@checkout.inspect}"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -77,15 +82,28 @@ class CheckoutsController < ApplicationController
     end
   end
 
-  # DELETE /checkouts/1
-  # DELETE /checkouts/1.xml
-  def destroy
+  # PUT /checkouts/1
+  # PUT /checkouts/1.xml
+  def update
     @checkout = Checkout.find(params[:id])
-    @checkout.destroy
+    @group = @checkout.group
 
+    unless @checkout.open? and (has_permission? "checkoutOther" or (has_permission? "checkoutSelf" and @checkout.user == current_user))
+      redirect_to(@checkout, :notice => "You do not have permission to update this checkout")
+      return false
+    end
+
+    # FIXME we don't do any input validation here, so we are trusting that
+    # authorized users can update this however they want...
     respond_to do |format|
-      format.html { redirect_to(checkouts_url) }
-      format.xml  { head :ok }
+      if @checkout.update_attributes(params[:checkout])
+        format.html { redirect_to(@checkout, :notice => 'Checkout was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @checkout.errors, :status => :unprocessable_entity }
+      end
     end
   end
+
 end
