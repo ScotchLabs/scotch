@@ -1,8 +1,8 @@
-# This file is auto-generated from the current state of the database. Instead 
+# This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your 
+# Note that this schema.rb definition is the authoritative source for your
 # database schema. If you need to create the application database on another
 # system, you should be using db:schema:load, not running all the migrations
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100906074618) do
+ActiveRecord::Schema.define(:version => 20100906214846) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -24,6 +24,10 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.date     "due_date"
     t.text     "notes"
   end
+
+  add_index "checkouts", ["group_id"], :name => "index_checkouts_on_group_id"
+  add_index "checkouts", ["item_id"], :name => "index_checkouts_on_item_id"
+  add_index "checkouts", ["user_id"], :name => "index_checkouts_on_user_id"
 
   create_table "document_tags", :force => true do |t|
     t.string   "name"
@@ -49,6 +53,9 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
   end
 
+  add_index "event_attendees", ["event_id"], :name => "index_event_attendees_on_event_id"
+  add_index "event_attendees", ["user_id"], :name => "index_event_attendees_on_user_id"
+
   create_table "events", :force => true do |t|
     t.string   "title"
     t.integer  "group_id"
@@ -60,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.text     "description"
   end
 
+  add_index "events", ["group_id"], :name => "index_events_on_group_id"
+
   create_table "feedposts", :force => true do |t|
     t.integer  "parent_id"
     t.integer  "user_id"
@@ -70,6 +79,8 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
     t.string   "parent_type"
   end
+
+  add_index "feedposts", ["parent_id", "parent_type"], :name => "index_feedposts_on_parent_id_and_parent_type"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -95,6 +106,8 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
   end
 
+  add_index "help_items", ["anchor"], :name => "index_help_items_on_anchor", :unique => true
+
   create_table "item_categories", :force => true do |t|
     t.integer  "prefix"
     t.string   "name"
@@ -102,6 +115,8 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
     t.integer  "parent_category_id"
   end
+
+  add_index "item_categories", ["parent_category_id"], :name => "index_item_categories_on_parent_category_id"
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -112,6 +127,9 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
     t.string   "catalog_number"
   end
+
+  add_index "items", ["catalog_number"], :name => "index_items_on_catalog_number"
+  add_index "items", ["item_category_id"], :name => "index_items_on_item_category_id"
 
   create_table "permissions", :force => true do |t|
     t.string   "name"
@@ -129,12 +147,17 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.string   "display_name"
   end
 
+  add_index "positions", ["group_id", "user_id"], :name => "index_positions_on_group_id_and_user_id"
+
   create_table "role_permissions", :force => true do |t|
     t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "permission_id"
   end
+
+  add_index "role_permissions", ["permission_id"], :name => "index_role_permissions_on_permission_id"
+  add_index "role_permissions", ["role_id"], :name => "index_role_permissions_on_role_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -184,6 +207,7 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.boolean  "email_notifications",                  :default => true, :null => false
   end
 
+  add_index "users", ["andrewid"], :name => "index_users_on_andrewid", :unique => true
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
@@ -195,5 +219,8 @@ ActiveRecord::Schema.define(:version => 20100906074618) do
     t.datetime "updated_at"
     t.string   "item_type"
   end
+
+  add_index "watchers", ["item_id", "item_type"], :name => "index_watchers_on_item_id_and_item_type"
+  add_index "watchers", ["user_id"], :name => "index_watchers_on_user_id"
 
 end
