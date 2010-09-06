@@ -47,7 +47,15 @@ module UsersHelper
 
 				odd = "#eee"
 				(grid.sort_by { |k,v| k.archive_date }).each { |show,pos|
-					positions = pos.map { |p| if p.role.to_s == "Cast" then "<em>as " << p.to_s << "</em>" elsif p.role.to_s == "Tech Head" then "<strong>" << p.to_s << "</strong>" else p.to_s end }
+					positions = pos.map { |p| 
+						if p.role.to_s == "Cast" 
+							"<em>as " << p.to_s << "</em>"
+						elsif p.role.to_s == "Tech Head" or p.role.to_s == "Production Staff"
+							"<strong>" << p.to_s << "</strong>" 
+						else 
+							p.to_s 
+						end 
+					}
 					positions = positions.join "<br/>"
 					c "<tr style='background: #{odd}'><td style='padding:3px'>#{ link_to show.to_s, show_path(show) }</em></td><td style='padding:3px'>#{positions}</td></tr>"
 					odd = odd == "#eee" ? "white" : "#eee"
