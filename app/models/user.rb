@@ -56,7 +56,7 @@ class User < Shared::Watchable
   validates_attachment_content_type :headshot,
     :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
     :message => "must be an image",
-    :unless => lambda { |user| !user.headshot.nil? }	
+    :unless => lambda { |user| !user.headshot.nil? }  
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
 
@@ -133,7 +133,19 @@ class User < Shared::Watchable
     # being in a position for a show within the past year
     #TODO
   end
-  
+
+  # Get school years (actually Date ranges) in which the user
+  # was active -- optionally takes a parameter only to count
+  # positions in a specific type of group 
+  def active_years(type = ["Show", "Board"])
+    years = []
+    groups.where(:type => type).each do |g|
+      current = g.school_year
+      years <<= current unless years.include? current
+    end
+    years.sort { |a,b| a.first <=> b.first }
+  end
+
   def incomplete_record?
     return true unless self.phone and self.home_college and self.graduation_year \
       and self.smc and self.gender and self.residence and self.birthday and self.headshot \
@@ -159,7 +171,13 @@ class User < Shared::Watchable
   def active_positions
     positions.select{ |p| p.group.active? }
   end
-  
+ 
+  def positions_during(timespan, type = nil)
+    conditions = {"groups.archive_date" => timespan}
+    conditions["groups.type"] = type unless type.nil?
+    positions.joins(:group).where(conditions)
+  end 
+ 
 #######################
 # PERMISSIONS METHODS #
 #######################

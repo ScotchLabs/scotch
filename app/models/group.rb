@@ -95,6 +95,20 @@ class Group < Shared::Watchable
     positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
   end
 
+	#TODO this isn't actually quite right for groups (I think)
+  # but it works for shows and boards, which are what matter
+	# for the moment.
+	def school_year
+		date = archive_date.nil? ? Date.today : archive_date
+
+		if date.month < 7
+			year = date.year - 1
+		else
+			year = date.year
+		end
+		Date.new(year,7,1)..Date.new(year+1,6,30)
+	end
+
   def <=>(other)
     other_date = (other.archive_date or Date.today)
     me_date = (archive_date or Date.today)

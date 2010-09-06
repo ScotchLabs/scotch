@@ -22,10 +22,18 @@ module ApplicationHelper
   #how far in the future or past something is.  (e.g. if it is next week, just
   #print "May 20", but if it was last year print "May 20, 2010")
   def format_time(time)
-    time.strftime("%Y-%m-%d %H:%M")
+		if time.nil?
+			"-"
+		else
+    	time.strftime("%Y-%m-%d %H:%M")
+		end
   end
   def format_date(date)
-    date.strftime("%Y-%m-%d")
+		if date.nil?
+			"-"
+		else
+    	date.strftime("%Y-%m-%d")
+		end
   end
   
   def flavortext
