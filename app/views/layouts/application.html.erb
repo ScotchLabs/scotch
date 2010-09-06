@@ -21,7 +21,7 @@
         <h2><%= flavortext %></h2>
         <% if current_user %>
         <span id='search'>
-          <% form_tag 'dashboard/search', :method => 'get' do %>
+          <% form_tag '/dashboard/search', :method => 'get' do %>
             <%= search_field_tag "q", nil, :placeholder => "Search", :class => "placeholder-shim" %>
           <% end %>
         </span>
