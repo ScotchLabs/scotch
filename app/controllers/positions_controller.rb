@@ -33,7 +33,7 @@ class PositionsController < ApplicationController
   # GET /groups/1/positions.xml
   def index
     @positions = Position.where(:group_id => @group.id).joins(:user).order("users.last_name, users.first_name ASC")
-    @positions = @positions.paginate(:per_page => 30, :page => params[:page]) if @group.type == "Group"
+    @positions = @positions.paginate(:per_page => 30, :page => params[:page]) unless @group.type == "Show"
 
     respond_to do |format|
       format.html # index.html.erb
