@@ -108,6 +108,7 @@ doc.find("//users").each do |s|
 
   #<boardpos>Vice President</boardpos>
   board_position = s.find("boardpos").first.nil? ? nil : s.find("boardpos").first.content
+  board_position = nil if board_position == ""
 
   phone = s.find("phone").first.content
   smc = s.find("smc").first.content
@@ -143,7 +144,7 @@ doc.find("//users").each do |s|
     p.save!
 
     if board_position
-      puts "creating board position #{board_position} for #{u}"
+      puts "creating board position \"#{board_position}\" for #{u}"
       p = Position.new(:role_id => head_role.id, :user_id => u.id,
                           :display_name => board_position)
       p.group_id = board_group.id
