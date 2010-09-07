@@ -1,4 +1,6 @@
 module ApplicationHelper
+  extend ActiveSupport::Memoizable
+
   def has_permission?(permName)
     perm = Permission.fetch(permName)
     current_user.has_global_permission?(perm) ||
@@ -8,6 +10,9 @@ module ApplicationHelper
     perm = Permission.fetch(permName)
     current_user.has_global_permission?(perm)
   end
+
+  memoize :has_permission?
+  memoize :has_global_permission?
 
   #TODO FIXME this is too specific. I'll deal with it later.
   def nav_class(link)
@@ -86,7 +91,6 @@ module ApplicationHelper
     end
     u
   end
-  
   
   def filter_referrals(text)
     return if text.nil? or text.blank?
