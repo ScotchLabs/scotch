@@ -153,6 +153,10 @@ class PositionsController < ApplicationController
   def locate_position
     @position = Position.find(params[:id]) if params[:id]
     @group = @position.group if @group.nil?
+
+    if @group.nil? and params.has_key? :position and params[:position].has_key? :group_id then
+      @group = Group.find(params[:position][:group_id])
+    end
   end
 
   def prevent_show_editing
