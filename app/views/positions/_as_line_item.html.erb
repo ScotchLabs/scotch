@@ -11,7 +11,7 @@ image = image_tag object.user.headshot(:thumb) unless image
 unless h3
   h3 = object.role.to_s
   if object.role.to_s != object.display_name.to_s
-    h3 += " &mdash; #{object.display_name}"
+    h3 += " - #{object.display_name}"
   end
 end
 href = url_for(object) unless href
