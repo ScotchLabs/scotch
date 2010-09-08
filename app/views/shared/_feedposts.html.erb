@@ -1,23 +1,22 @@
 <a name='wall'></a>
 <article>
-  <div class='halves-split'>
-    <div class='half fleft'>
       <h1>Wall</h1>
-      <ul>
-        <% for post in object.feedposts.recent %>
-          <%= render "feedposts/" + post.post_type, :post => post %>
-        <% end %>
-      </ul>
-      <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
-    </div>
-    <div class='half fright'>
-      <h1>New Post</h1>
+			<script>
+				function newPost(button) {
+					$(button).hide();
+					$('#postform').show({speed:"slow"});
+				}
+			</script>
+      <a class='button' onclick='return newPost(this);'>New Post</a>
+			<div id='postform' style='display:none'>
+			<h2>New Post</h2>
       <%= form_for(Feedpost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
         <%= f.hidden_field :post_type, :value => "wall" %>
         <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim" %><br>
         <%= f.text_area :body, :rows => "10", :placeholder => "Message", :class => "placeholder-shim" %><br>
+        <small>You can use <%= raw(HelpItem.get("textile").full) %> in your message!</small><br>
 
         <% if (object.class.name == "Group" && has_permission?("email")) ||
               (object.class.name == "Board" && object.users.include?(current_user)) then %>
@@ -30,7 +29,15 @@
 
         <%= f.submit "Post!" %>
       <% end %>
-    </div>
+			</div>
+
+      <h2>Recent Posts</h2>
+      <ul>
+        <% for post in object.feedposts.recent %>
+          <%= render "feedposts/" + post.post_type, :post => post %>
+        <% end %>
+      </ul>
+      <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
     <div class='clearfix'></div>
   </div>
 </article>

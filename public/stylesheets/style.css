@@ -260,6 +260,12 @@ h3 {
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
   font-size: 9pt
 }
+blockquote {
+  margin: 1em 0em;
+  color: #333;
+  border-left: 2px solid #DDD;
+  padding-left: 2em; 
+}
 article {
   background: #fff;                     /* white */
   padding: 20px;
@@ -571,4 +577,10 @@ body > div > section {
 }
 .edit_link {
   float: right;
+}
+.feedpost {
+  border-bottom: 2px solid #dff; margin-bottom: 1em; margin-top: 1em;
+}
+.headline {
+  font-family: sans-serif; font-size: 12pt;
 }
