@@ -1,7 +1,15 @@
 <a name='wall'></a>
 <article>
       <h1>Wall</h1>
-      <h2>New Post</h2>
+			<script>
+				function newPost(button) {
+					$(button).hide();
+					$('#postform').show({speed:"slow"});
+				}
+			</script>
+      <a class='button' onclick='return newPost(this);'>New Post</a>
+			<div id='postform' style='display:none'>
+			<h2>New Post</h2>
       <%= form_for(Feedpost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
@@ -21,6 +29,7 @@
 
         <%= f.submit "Post!" %>
       <% end %>
+			</div>
 
       <h2>Recent Posts</h2>
       <ul>
