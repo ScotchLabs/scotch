@@ -23,10 +23,10 @@ module UsersHelper
 		}
 		c "</div>"
 
-		c "<script>setBold($('.historyYear')[0])</script>"
+		c "<script>var current = $('.historyYear'); setBold(current[current.length-1])</script>"
 
 		c "<div style='width:100%; overflow:hidden; position:relative'>"
-		c "<div style='position:relative; width: #{410*years.length}px' id='history'>"
+		c "<div style='position:relative; width: #{410*years.length}px; right: #{410*(years.length-1)}px' id='history'>"
 		years.each { |year|
 
 			show_positions = @user.positions_during(year, "Show")
