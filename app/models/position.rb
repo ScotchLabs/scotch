@@ -21,7 +21,9 @@ class Position < ActiveRecord::Base
   def <=>(other)
     gsort = group<=>other.group
     if gsort == 0
-      role <=> other.role || display_name <=> other.display_name
+      return role <=> other.role || 
+        display_name.gsub("Assistant ","") <=> other.display_name.gsub("Assistant ","") ||
+        other.display_name  <=> display_name
     else
       return gsort
     end

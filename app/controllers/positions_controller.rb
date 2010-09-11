@@ -1,13 +1,13 @@
 class PositionsController < ApplicationController
   # populate @position
-  prepend_before_filter :locate_position, :only => [:edit, :update, :show, :destroy]
+  prepend_before_filter :locate_position, :only => [:edit, :update, :show, :destroy, :create]
 
   # Make sure that you can't edit positions for show users, they should only
   # be created or deleted since that's all the UI really supports
   append_before_filter :prevent_show_editing, :only => [:edit, :update]
 
   before_filter :only => [:edit, :new, :update, :create] do
-    require_permission "adminPositions"
+    require_permission "adminCrew"
   end
 
   before_filter :only => [:destroy] do
@@ -73,6 +73,8 @@ class PositionsController < ApplicationController
   # POST /positions.xml
   def create
     @position = Position.new(params[:position])
+    
+    # FIXME this is redundent
     @group = Group.find(params[:position][:group_id])
 
     @position.user = User.autocomplete_retreive_user(params[:user_identifier]) unless @position.user
@@ -80,7 +82,13 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.save
-        format.html { redirect_to(@position, :notice => 'Position was successfully created.') }
+        format.html { 
+          if @group.type == "Show" then
+            redirect_to(@group, :notice => 'Position was successfully created.') 
+          else
+            redirect_to(@position, :notice => 'Position was successfully created.') 
+          end
+        }
         format.xml  { render :xml => @position, :status => :created, :location => @position }
       else
         format.html { render :action => "new" }
@@ -152,8 +160,11 @@ class PositionsController < ApplicationController
 
   def locate_position
     @position = Position.find(params[:id]) if params[:id]
-    @group = @position.group if @group.nil?
+    @group = @position.group if @position and @group.nil?
 
+    # FIXME this is ugly Perhaps this and the simmilar line for documents and
+    # events can be put in the application controller? or, perhaps those
+    # routes should just be scoped to the group
     if @group.nil? and params.has_key? :position and params[:position].has_key? :group_id then
       @group = Group.find(params[:position][:group_id])
     end

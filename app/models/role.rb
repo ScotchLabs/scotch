@@ -7,7 +7,7 @@ class Role < ActiveRecord::Base
 
   # Sort based on the number of permissions
   def <=>(other)
-    permissions.id <=> other.permissions.id
+    permissions.count <=> other.permissions.count
   end
 
   def to_s

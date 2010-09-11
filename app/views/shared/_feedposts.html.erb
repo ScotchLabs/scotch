@@ -31,7 +31,6 @@
       <% end %>
 			</div>
 
-      <h2>Recent Posts</h2>
       <ul>
         <% for post in object.feedposts.recent %>
           <%= render "feedposts/" + post.post_type, :post => post %>

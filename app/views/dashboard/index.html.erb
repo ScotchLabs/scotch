@@ -48,6 +48,16 @@
       </ul>
     <% end %>
     </div>
+    <div class="dashboard-item">
+      <h1>Today's Birthdays</h1>
+      <% unless User.birthday.all.count > 0 %>
+        No one has a birthday today. You should celebrate someone's half-birthday instead.
+      <% else %>
+        <% User.birthday.all.each do |u| %>
+          <%= render "users/as_line_item", :object => u %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
   <div class='half fright'>
     <h1>Recent Activity</h1>
