@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     # FIXME this loads all users from the database, ouch!
     # FIXME the non-HTML views don't work without q=
     if params[:q]
-      @users = User.all.select {|u| u.name.downcase.include?(params[:q].downcase) or u.email.downcase.include?(params[:q].downcase)}
+      @users = User.with_query("^\"#{params[:q]}\"")
     else
       # @users = User.paginate(:per_page => 20, :page => params[:page])
       @users = []
