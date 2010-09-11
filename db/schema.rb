@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100911044422) do
+ActiveRecord::Schema.define(:version => 20100911045724) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
