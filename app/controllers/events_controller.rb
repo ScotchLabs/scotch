@@ -124,5 +124,10 @@ class EventsController < ApplicationController
   def locate_event
     @event = Event.find(params[:id]) if params[:id]
     @group = @event.group if @group.nil?
+
+    # FIXME this is ugly
+    if @group.nil? and params.has_key? :event and params[:event].has_key? :group_id then
+      @group = Group.find(params[:event][:group_id])
+    end
   end
 end

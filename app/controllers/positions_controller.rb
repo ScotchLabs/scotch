@@ -7,7 +7,7 @@ class PositionsController < ApplicationController
   append_before_filter :prevent_show_editing, :only => [:edit, :update]
 
   before_filter :only => [:edit, :new, :update, :create] do
-    require_permission "adminPositions"
+    require_permission "adminCrew"
   end
 
   before_filter :only => [:destroy] do
@@ -154,6 +154,7 @@ class PositionsController < ApplicationController
     @position = Position.find(params[:id]) if params[:id]
     @group = @position.group if @group.nil?
 
+    # FIXME this is ugly
     if @group.nil? and params.has_key? :position and params[:position].has_key? :group_id then
       @group = Group.find(params[:position][:group_id])
     end
