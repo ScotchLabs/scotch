@@ -4,10 +4,10 @@
   <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Crew Members", new_group_position_path(@group) %></div>
 <% end %>
 
-<% @positions.group_by {|p| p.role.name}.sort.each do |name,positions| %>
-  <h3><%= name %></h3>
+<% @positions.group_by {|p| p.role}.sort.each do |role,positions| %>
+  <h3><%= role.name %></h3>
   <ul>
-    <% positions.sort.group_by{|p| p.display_name}.each do |title,ps| %>
+    <% positions.group_by{|p| p.display_name}.sort_by{|dn,x| dn.gsub("Assistant ","")}.each do |title,ps| %>
       <li><strong><%= ps.first %></strong>
         <% for i in (0...ps.length)
         p = ps[i]
