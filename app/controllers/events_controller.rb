@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup]
+  prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
@@ -123,7 +123,7 @@ class EventsController < ApplicationController
 
   def locate_event
     @event = Event.find(params[:id]) if params[:id]
-    @group = @event.group if @group.nil?
+    @group = @event.group if @event and @group.nil?
 
     # FIXME this is ugly
     if @group.nil? and params.has_key? :event and params[:event].has_key? :group_id then
