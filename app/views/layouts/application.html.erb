@@ -70,10 +70,10 @@
         </div>
       </div>
       <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
-      <% end %> 
-      <li><%= link_to "Feedback", new_feedback_path %></li>
+      <% end %>
     </ul>
   <% end %>
+  <span id='right-menu'><%= link_to "Feedback", new_feedback_path %></span>
   <footer id='footer'>
     <b>Scotch on the Web</b> is designed and developed by the <%= link_to "Scotch'n'Soda Web Team", Group.system_group %><br>
     &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
