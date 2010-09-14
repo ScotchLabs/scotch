@@ -395,19 +395,19 @@ body {
   background: #eeb url("/images/layout/header.png") repeat-x scroll left top;  /* beige */
 }
 
-#logout {
+#logout-menu {
   position: fixed;
   top: 0;
   right: 0;
 }
-#logout > li {
+#logout-menu > li {
   display: inline;
   margin: 0 5px;
 }
-#logout > li:before {
+#logout-menu > li:before {
   content: ""
 }
-#logout > li > a {
+#logout-menu > li > a {
   color: #fff;  /* white */
   background: #333;  /* black */
   -webkit-border-bottom-left-radius: 8px;
@@ -438,6 +438,11 @@ body > div > section {
 }
 #header h2 {
   font-size: 13pt
+}
+#logout {
+  position: absolute;
+  right: 0;
+  top: 31px;
 }
 #search {
   position: absolute;

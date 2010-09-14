@@ -20,6 +20,9 @@
         <h1><a href='/'>Scotch on the Web</a></h1>
         <h2><%= flavortext %></h2>
         <% if current_user %>
+        <span id='logout' style='color:white;'>
+          Logged in as <%= link_to current_user, current_user, :style => 'color:white' %> | <%= link_to "Log Out", destroy_user_session_path, :style => 'color:white' %><br>
+        </span>
         <span id='search'>
           <% form_tag '/dashboard/search', :method => 'get' do %>
             <%= search_field_tag "q", nil, :placeholder => "Search", :class => "placeholder-shim" %>
@@ -57,7 +60,7 @@
     </section>
   </div>
   <% if current_user %>
-    <ul id='logout'>
+    <ul id='logout-menu'>
       <% if request.domain == "localhost" %>
       <li><a href='#' id='debuglink'>Show Debug</a></li>
       <div class='hidden'>
@@ -69,7 +72,6 @@
       <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
       <% end %> 
       <li><%= link_to "Feedback", new_feedback_path %></li>
-      <li><%= link_to "Log Out", destroy_user_session_path %></li>
     </ul>
   <% end %>
   <footer id='footer'>
