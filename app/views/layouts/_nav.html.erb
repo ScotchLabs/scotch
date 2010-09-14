@@ -3,10 +3,7 @@
   <li><%= link_to "Calendar", dashboard_calendar_path, :class => nav_class(dashboard_calendar_path) %></li>
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", item_categories_path, :class => nav_class(item_categories_path) %></li>
-  <!-- <li><a href='#'>Resources</a></li> FIXME what is this for? -->
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
-  <!-- TODO move this up next to the logout button -->
-  <li><%= link_to "Account", current_user, :class => nav_class(current_user) %></li> 
   <% if Group.system_group.users.include? current_user %>
     <li style="background-color: #FAA"><%= link_to "SysAdmin", dashboard_sysadmin_path %></li>
   <% end %>
@@ -16,7 +13,6 @@
       <li><b><%= link_to @group, @group %></b></li>
       <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
       <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
-      <!-- <li><%= link_to "Docs", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li> -->
       <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
       <% if @group.class.name == "Group" then %>
         <li>
