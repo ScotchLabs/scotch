@@ -601,7 +601,7 @@ body > div > section {
   -moz-border-radius-topright: 8px;
   padding: 3px 11px;
   text-transform: uppercase;
-  position: absolute;
+  position: fixed;
   right: -33px;
   top: 50%;
   -webkit-transform: rotate(-90deg);
