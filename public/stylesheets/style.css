@@ -73,25 +73,21 @@ section, article, nav, aside, header, footer {
 }
 
 
-/* 420
- * These styles allow the footer to be placed at the bottom of content,
- * and if there's any gap between content and window bottom it'll hug
- * the window-bottom. rawr.
- * Make sure that #wrapper margin-bottom and #push height correspond to
- * the box height of the #sodabar + height of the body > footer
- */
-html,
-body {
+/* 420 Sticky Footer by Ryan Fait http://ryanfait.com/sticky-footer */
+* {
+  margin: 0;
+}
+html, body {
   height: 100%
 }
 #wrapper {
   min-height: 100%;
   height: auto !important;
   height: 100%; /* IE */
-  margin-bottom: -94px
+  margin: 0 auto -94px; /* negative height of the push height */
 }
 #push {
-  height: 94px
+  height: 94px; /* same height as the footer stuff */
 }
 
 
@@ -563,6 +559,7 @@ body > div > section {
   text-transform: none
 }
 #footer {
+  position: relative;
   height: 43px;
   width: 100%;
   margin: 0 auto;
