@@ -13,6 +13,9 @@
   <% end %>
 </head>
 <body>
+  <% if current_user and controller_name != 'feedbacks' %>
+    <%= render :partial => "layouts/feedback" %>
+  <% end %>
   <div id='wrapper'>
     <a name='top'></a>
     <section>
@@ -24,7 +27,7 @@
           Logged in as <%= link_to current_user, current_user, :style => 'color:white' %> | <%= link_to "Log Out", destroy_user_session_path, :style => 'color:white' %><br>
         </span>
         <span id='search'>
-          <% form_tag '/dashboard/search', :method => 'get' do %>
+          <%= form_tag '/dashboard/search', :method => 'get' do %>
             <%= search_field_tag "q", nil, :placeholder => "Search", :class => "placeholder-shim" %>
           <% end %>
         </span>
@@ -59,21 +62,6 @@
       <div id='push'></div>
     </section>
   </div>
-  <% if current_user %>
-    <ul id='logout-menu'>
-      <% if request.domain == "localhost" %>
-      <li><a href='#' id='debuglink'>Show Debug</a></li>
-      <div class='hidden'>
-        <div id='debugblock'>
-          <h2>Params</h2>
-          <%= debug params %>
-        </div>
-      </div>
-      <script>$(document).ready(function(){$("#debuglink").colorbox({inline:true,href:"#debugblock",opacity:0.25,transition:'none',width:'50%'})})</script>
-      <% end %>
-    </ul>
-  <% end %>
-  <span id='right-menu'><%= link_to "Feedback", new_feedback_path %></span>
   <footer id='footer'>
     <b>Scotch on the Web</b> is designed and developed by the <%= link_to "Scotch'n'Soda Web Team", Group.system_group %><br>
     &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
