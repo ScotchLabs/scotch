@@ -11,6 +11,7 @@ class FeedpostMailer < ActionMailer::Base
   def group_notification(feedpost, emails)
     @feedpost = feedpost
     mail(:bcc => emails,
+         :from => feedpost.user.email,
          :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
   end
 
