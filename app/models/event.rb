@@ -48,12 +48,6 @@ class Event < ActiveRecord::Base
   def to_s
     title
   end
-  def to_json
-		# WTF Ruby is broken.
-		# string.gsub("'", "\\'") duplicates all following non-whitespace
-		def f(string) string.gsub("'") { |c| "\\'" } end
-    "{title : '[#{f group.short_name}] #{f title}', start : '#{start_time.strftime("%Y-%m-%d")}', end : '#{end_time.strftime("%Y-%m-%d")}'}"
-  end
   def to_ical_event
     ievent = Icalendar::Event.new
     ievent.start = start_time.to_datetime

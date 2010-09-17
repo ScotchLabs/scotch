@@ -10,7 +10,7 @@
 $(document).ready(function() {
     $('#calendar').fullCalendar({
     events: [
-<%= raw @events.collect { |e| e.to_json }.join(", ") %>
+<%= raw @events.collect { |e| event_to_json(e) }.join(", ") %>
     ]
     })
 });
