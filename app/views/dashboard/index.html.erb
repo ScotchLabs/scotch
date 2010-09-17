@@ -9,6 +9,14 @@
 <div class='halves-split'>
   <div class='half fleft'>
     <div class="dashboard-item">
+    <h1>My Active Groups</h1>
+    <% current_user.groups.active.uniq.each do |g| %>
+      <%= render "groups/as_line_item", :object => g %>
+    <% end %>
+    </div>
+  </div>
+  <div class='half fright'>
+    <div class="dashboard-item">
     <h1>My Upcoming Events</h1>
     <% events = current_user.future_events.uniq.sort
     #TODO only show the NEXT 10
@@ -25,12 +33,6 @@
       </ul>
     <% else %>
       You don't have any upcoming events. Join <%= link_to "more groups", groups_path %>!
-    <% end %>
-    </div>
-    <div class="dashboard-item">
-    <h1>My Active Groups</h1>
-    <% current_user.groups.active.uniq.each do |g| %>
-      <%= render "groups/as_line_item", :object => g %>
     <% end %>
     </div>
     <div class="dashboard-item">
@@ -59,14 +61,15 @@
       <% end %>
     </div>
   </div>
-  <div class='half fright'>
-    <h1>Recent Activity</h1>
-    <small>See the list of <%= link_to "things I follow", user_watchers_path(current_user) %></small>
-        <% for post in current_user.recent_feed_entries %>
-          <%= render "feedposts/" + post.post_type, :post => post %>
-        <% end %>
-  </div>
-  <div class='clearfix'></div>
+  <div class="clearfix"></div>
 </div>
+</article>
+<article>
+  <h1>Recent Activity</h1>
+  <small>See the list of <%= link_to "things I follow", user_watchers_path(current_user) %></small>
+  <% for post in current_user.recent_feed_entries %>
+    <%= render "feedposts/" + post.post_type, :post => post %>
+  <% end %>
+  <div class='clearfix'></div>
 </article>
 
