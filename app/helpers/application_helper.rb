@@ -69,6 +69,7 @@ module ApplicationHelper
       "Who are we kidding, it's really \"Scotchbook\"",
       "Like Facebook, but not for losers",
       "We took Facebook and changed the Stylesheet",
+      "Don't stick it in the crazy",
       "YOU ARE BEAUTIFUL",
       "YOU ARE LOVED AND APPRECIATED",
       "YOU DON'T SUCK",
