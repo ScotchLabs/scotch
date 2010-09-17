@@ -69,6 +69,12 @@ module ApplicationHelper
       "Who are we kidding, it's really \"Scotchbook\"",
       "Like Facebook, but not for losers",
       "We took Facebook and changed the Stylesheet",
+      "YOU ARE BEAUTIFUL",
+      "YOU ARE LOVED AND APPRECIATED",
+      "YOU DON'T SUCK",
+      "SUNSHINE, PUPPIES, AND FRESH BAKED COOKIES",
+      "10 POINTS FOR BRUSHING YOUR TEETH EVERY DAY",
+      "CAITLIN THINKS YOU'RE ATTRACTIVE",
       "Too close for missiles, switching to guns" # if you remember facebook in 2005 you will keep this one
     ]
     if current_user
