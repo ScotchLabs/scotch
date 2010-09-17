@@ -4,7 +4,7 @@
   <%= hidden_field_tag :role_id, Role.crew.id %>
   <div class="field">
     <%= label_tag "position_name",  "Crew Name" %>
-    <%= select_tag "position_name", options_for_select(crews) %>
+    <%= select_tag "position_name", options_for_select([""] + crews) %>
   </div>
 
   <div class="field">
