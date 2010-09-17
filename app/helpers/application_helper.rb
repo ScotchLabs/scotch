@@ -30,7 +30,7 @@ module ApplicationHelper
 		if time.nil?
 			"-"
 		else
-    	time.strftime("%Y-%m-%d %H:%M")
+    	time.strftime("%Y-%m-%d %I:%M %P")
 		end
   end
   def format_date(date)
