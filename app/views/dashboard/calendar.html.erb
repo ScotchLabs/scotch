@@ -1,11 +1,16 @@
 <article>
 <h1>My Calendar</h1>
+
+<%= link_to "http://www.google.com/calendar/render?cid=" + h(dashboard_calendar_url(:format => :ics, :authentication_token => current_user.authentication_token)), :target => "_blank" do %>
+  <%= image_tag "http://www.google.com/calendar/images/ext/gc_button6.gif", :border => 0 %>
+<% end %>
+
 <!-- TODO load the events via AJAX instead of serializing them all out now -->
 <script>
 $(document).ready(function() {
     $('#calendar').fullCalendar({
     events: [
-<%= raw current_user.user_events.collect { |e| e.to_json }.join(", ") %>
+<%= raw @events.collect { |e| e.to_json }.join(", ") %>
     ]
     })
 });

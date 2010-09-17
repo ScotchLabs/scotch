@@ -54,6 +54,16 @@ class Event < ActiveRecord::Base
 		def f(string) string.gsub("'") { |c| "\\'" } end
     "{title : '[#{f group.short_name}] #{f title}', start : '#{start_time.strftime("%Y-%m-%d")}', end : '#{end_time.strftime("%Y-%m-%d")}'}"
   end
+  def to_ical_event
+    ievent = Icalendar::Event.new
+    ievent.start = start_time.to_datetime
+    ievent.end = end_time.to_datetime
+    ievent.dtstamp = created_at.to_datetime
+    ievent.summary = title
+    ievent.description = (description or "")
+    ievent.uid = "event-#{id}"
+    return ievent
+  end
   def <=>(other)
     start_time <=> other.start_time
   end
