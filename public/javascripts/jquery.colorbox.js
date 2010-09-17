@@ -80,7 +80,7 @@
 		href: FALSE,
 		title: FALSE,
 		rel: FALSE,
-		opacity: 0.9,
+		opacity: 0.25,
 		preloading: TRUE,
 		current: "image {current} of {total}",
 		previous: "previous",

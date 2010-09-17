@@ -11,7 +11,6 @@ module HelpItemsHelper
     p = Hash.new
     p[:inline] = true
     p[:href] = "\"##{anchor}\""
-    p[:opacity] = 0.25
     p[:transition] = '"none"'
     p[:width] = '"25%"'
     

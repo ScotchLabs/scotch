@@ -5,7 +5,7 @@
 $(document).ready(function() {
     $('#calendar').fullCalendar({
     events: [
-<%= current_user.user_events.collect { |e| e.to_json }.join(", ") %>
+<%= raw current_user.user_events.collect { |e| e.to_json }.join(", ") %>
     ]
     })
 });
