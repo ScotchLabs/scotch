@@ -123,7 +123,7 @@ class FeedpostsController < ApplicationController
     return true if @feedpost.new_record? || params[:email] != "email" ||
       params[:feedpost][:post_type] != "wall" ||
       @group.class.name != "Board" ||
-      (! group.users.include? current_user)
+      (! @group.users.include? current_user)
 
     emails = @group.watchers.collect{|w| w.user}.select{|u| u.email_notifications}.collect{|u| u.email}
 

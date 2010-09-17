@@ -29,7 +29,7 @@
     </div>
     <div class="dashboard-item">
     <h1>My Active Groups</h1>
-    <% current_user.groups.active.each do |g| %>
+    <% current_user.groups.active.uniq.each do |g| %>
       <%= render "groups/as_line_item", :object => g %>
     <% end %>
     </div>

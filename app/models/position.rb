@@ -4,7 +4,7 @@ class Position < ActiveRecord::Base
   belongs_to :role
   belongs_to :group
 
-  validates_presence_of :user_id, :role_id, :group_id
+  validates_presence_of :user_id, :role_id, :group_id, :display_name
 
   default_scope order("created_at DESC")
 

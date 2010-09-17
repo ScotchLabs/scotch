@@ -22,6 +22,8 @@ gem 'digest-whirlpool', '1.0.0'
 
 gem 'acts_as_indexed', '0.6.6'
 
+gem 'icalendar', '1.1.5'
+
 group :development do
   gem 'ruby-debug'
 end

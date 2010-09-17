@@ -99,7 +99,7 @@ class PositionsController < ApplicationController
 
   # POST /positions/bulk_create
   # POST /positions/bulk_create.xml
-  # FIXME: validate privilages
+  # FIXME: validate privileges
   def bulk_create
     role = Role.find(params[:role_id])
     
@@ -115,11 +115,13 @@ class PositionsController < ApplicationController
         users << User.autocomplete_retreive_user(user_identifier) unless user_identifier.nil? or user_identifier.empty?
       end if params.has_key?(:user_identifiers)
 
+      users.compact! #remove any nils
+
       users.each do |user|
         unless @group.positions.where(:user_id => user.id).where(:display_name => params[:position_name]).count > 0 then
           p = Position.new(:user => user, :role => role, :display_name => params[:position_name])
           p.group = @group
-          p.save!
+          p.save or redirect_to(group_positions_path(@group), :alert => "There was an error creating the positions") and return nil
         end
       end
     end

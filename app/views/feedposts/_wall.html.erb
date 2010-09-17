@@ -9,7 +9,7 @@
 
   <small>Posted 
     at <%= format_time post.created_at %>
-  <% if current_page? (:controller => :dashboard, :action => :index) or current_page?(root_url) %>
+  <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
     on <%= link_to post.parent, post.parent %>
   <% end %>
   </small>
