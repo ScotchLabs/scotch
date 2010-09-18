@@ -70,12 +70,12 @@ module ApplicationHelper
       "Like Facebook, but not for losers",
       "We took Facebook and changed the Stylesheet",
       "Don't stick it in the crazy",
-      "YOU ARE BEAUTIFUL",
-      "YOU ARE LOVED AND APPRECIATED",
-      "YOU DON'T SUCK",
-      "SUNSHINE, PUPPIES, AND FRESH BAKED COOKIES",
-      "10 POINTS FOR BRUSHING YOUR TEETH EVERY DAY",
-      "CAITLIN THINKS YOU'RE ATTRACTIVE",
+      "You are beautiful",
+      "You are loved and appreciated",
+      "You don't suck",
+      "Sunshine, puppies, and fresh-baked cookies",
+      "10 points for brushing your teeth every day",
+      "Caitlin thinks you're attractive",
       "Too close for missiles, switching to guns" # if you remember facebook in 2005 you will keep this one
     ]
     if current_user
