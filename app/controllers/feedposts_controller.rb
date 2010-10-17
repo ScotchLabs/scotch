@@ -140,7 +140,7 @@ class FeedpostsController < ApplicationController
       @group.class.name != "Show" ||
       (! has_permission?("email"))
 
-    emails = @group.positions.unscoped.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
+    emails = @group.positions.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
 
     logger.info "sending show notification to #{emails.inspect}"
 
