@@ -9,7 +9,7 @@
       <h3><%= es[0].title %></h3>
       <ul>
         <% es.each do |e| %>
-          <li><%= link_to e.start_time, e %>:
+          <li><%= link_to format_time(e.start_time), e %>:
           <% e.event_attendees.sort.each do |ea| %>
             <% if e.future? && ea.user.nil? then %>
               <%= link_to "Signup!", signup_event_url(e), :method => :put %>
