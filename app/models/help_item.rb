@@ -3,7 +3,6 @@ class HelpItem < ActiveRecord::Base
   validates :display_text, :presence => true
   validates :name, :presence => true, :uniqueness => true
   validates :anchor, :presence => true, :uniqueness => true, :format => {:with => /^[a-zA-Z\-]*$/, :message => "may consist only of letters and hyphens"}
-  validates :message, :presence => true
   
   # call this method from a view to retrieve a HelpItem
   # if the thing you're looking for doesn't exist it will error, so we don't

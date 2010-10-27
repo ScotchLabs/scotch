@@ -1,3 +1,10 @@
+<% sitewide_notice = HelpItem.get("sitewide-notice") %>
+<% if (not sitewide_notice.message.nil?) and (not sitewide_notice.message.empty?) then %>
+  <article style="text-align: center">
+  <%= raw textilize sitewide_notice.message  %>
+  </article>
+<% end %>
+
 <% if current_user.incomplete_record? %>
   <article> <%= current_user.first_name %>, 
   it looks like your profile is incomplete.  Please take some time to
