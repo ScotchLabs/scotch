@@ -56,6 +56,7 @@ class EventsController < ApplicationController
     else
       @event = Event.new(params[:event])
       @event.group = @group
+      @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
 
       respond_to do |format|
         if @event.save
