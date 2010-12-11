@@ -3,14 +3,64 @@
 <head>
   <title>Scotch'n'Soda Theatre</title>
   <meta charset='utf-8'>
-  <style type='text/css'>* {margin:0;padding:0} body {background:#eeb;color: #333;font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;font-size: 9pt} p {margin: 1em 0;} a {color:#f90;font-weight:bold;text-decoration:none;} #box {background:#fff;padding:20px;-webkit-box-shadow: 0 5px 20px #333;-moz-box-shadow: 0 5px 20px #333;-moz-border-radius: 8px;-webkit-border-radius: 8px;width:300px;margin:100px auto 0;} h1 {font: normal normal normal 17pt/17pt Georgia, "Times New Roman", Times, serif}</style>
+  <link href="/stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" /> 
+  <link href="/stylesheets/colorbox.css" media="screen" rel="stylesheet" type="text/css" /> 
+  <link href="/stylesheets/jquery.autocomplete.css" media="screen" rel="stylesheet" type="text/css" /> 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script> 
+  <script src="/javascripts/rails.js" type="text/javascript"></script> 
+  <script src="/javascripts/html5.js" type="text/javascript"></script> 
+  <script src="/javascripts/jquery.colorbox.js" type="text/javascript"></script> 
+  <script src="/javascripts/jquery.autocomplete.js" type="text/javascript"></script> 
+  <script src="/javascripts/jquery.placeholder.js" type="text/javascript"></script> 
+  <script src="/javascripts/application.js" type="text/javascript"></script>
 </head>
 <body>
-  <div id='box'>
-    <h1>We Tried Real Hard...</h1>
-    <p>But we still couldn't find the Thing you wanted.<br>
-    <a href='/'>Go home.</a></p>
-    <!-- this page lives in public/404.html -->
+  <div id='wrapper'>
+    <a name='top'></a>
+    <section>
+      <header id='header'>
+        <h1><a href='/'>Scotch on the Web</a></h1>
+        <h2>Oh Noes!</h2>
+      </header>
+      <nav id='nav'> 
+        <ul> 
+          <li><a href="/dashboard/index" class="">Dashboard</a></li> 
+          <li><a href="/dashboard/calendar" class="">Calendar</a></li> 
+          <li><a href="/groups" class="">Groups</a></li> 
+          <li><a href="/item_categories" class="">Inventory</a></li> 
+          <li><a href="/users" class="">Members</a></li> 
+          <li style="background-color: #FAA"><a href="/dashboard/sysadmin">SysAdmin</a></li> 
+        </ul>
+      </nav>
+      <noscript>
+        <article>
+          <p>Hey there! It looks like you've got JavaScript turned off.
+            Unfortunately, the Powers of the Internet don't work so well without it.
+            We've tried to accommodate people in your boat, but the truth is there
+            are some landlocked lakes, if you follow the way I've been drifting.
+            No guarantees.</p>
+        </article>
+      </noscript>
+      <article>
+        <h1>We Tried Real Hard...</h1>
+        <p>But we still couldn't find the Thing you wanted.<br>
+        <a href='/'>Go home.</a></p>
+        <!-- this page lives in public/404.html -->
+      </article>
+      <div id='push'></div>
+    </section>
   </div>
+  <footer id='footer'> 
+      <b>Scotch on the Web</b> is designed and developed by the <a href="/boards/1">Scotch'n'Soda Web Team</a><br> 
+      &copy; 2008-2010 <a href="http://snstheatre.org">Scotch'n'Soda Theatre</a> at <b>Carnegie Mellon University</b><br> 
+      Current Version 687M
+
+   | <a href="mailto:achivett@andrew.cmu.edu">Help build Scotch on the Web!</a><br> 
+      <a href="http://localhost:3000/dashboard/terms">Terms of Use &amp; Privacy Policy</a> | <a href="#top">Back to Top</a> 
+    </footer>
+    <div id='sodabar'> 
+      <span>Recent Users:</span> 
+      <a href="/users/sewillia">Spencer Williams</a> 
+    </div>
 </body>
 </html>
