@@ -1,20 +1,27 @@
 <div class="feedpost">
-  <div class="headline">
-    <%= link_to post.user, post.user %> <strong><%= post.headline %></strong>
-    <% if current_user == post.user %>
-      <%= link_to image_tag("delete_icon.png", :size => "8x8"), post, :method => :delete,
-        :confirm => "Are you sure you want to delete this post?" %>
-      <% end %>
+  <div class='feedpost-image'>
+    <%= link_to image_tag(post.user.headshot(:thumb)), post.user%>
   </div>
-
-  <small>Posted 
-    at <%= format_time post.created_at %>
-  <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
-    on <%= link_to post.parent, post.parent %>
-  <% end %>
-  </small>
-
-  <blockquote>
+  <div class='feedpost-text'>
+    <div class="headline">
+      <%= link_to post.user, post.user %> <strong><%= post.headline %></strong>
+      <% if current_user == post.user %>
+        <%= link_to image_tag("delete_icon.png", :size => "8x8"), post, :method => :delete,
+          :confirm => "Are you sure you want to delete this post?" %>
+        <% end %>
+    </div>
+    
     <%= raw textilize post.body %>
-  </blockquote>
+    <br>
+    <small>Posted 
+      at <%= format_time post.created_at %>
+    <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
+      on <%= link_to post.parent, post.parent %>
+    <% end %>
+    </small>
+
+    <hr>
+    
+  </div>
+  <div class='clearfix'></div>
 </div>

@@ -171,31 +171,19 @@ html, body {
   display: inline-block;
   width: 534px;
 }
-.thirds-split-right {
-  /* wrap this around div.left-two-thirds and div.right-third and put a clearfix before the close */
-  background: transparent url('/images/layout/thirds-border.png') repeat-y 554px top;
+.dashboard-split {
+  /* wrap this around div.dashboard-left and div.dashboard-right and put a clearfix before the close */
+  background: transparent url('/images/layout/thirds-border.png') repeat-y 277px top;
 }
-.left-two-thirds {
+.dashboard-left {
   float: left;
   display: inline-block;
-  width: 534px;
+  width: 257px;
 }
-.right-third {
+.dashboard-right {
   float: right;
   display: inline-block;
-  width: 283px;
-}
-.thirds-split {
-  /* wrap this around div.third + div.third + div.third and put a clearfix before the close */
-  background: transparent url('/images/layout/two-thirds-borders.png') repeat-y 278px top;
-}
-.third {
-  display: inline-block;
-  width: 258px;
-  float: left;
-}
-.third + .third {
-  margin-left: 43px;
+  width: 540px;
 }
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
@@ -262,6 +250,12 @@ blockquote {
   border-left: 2px solid #DDD;
   padding-left: 2em; 
 }
+hr {
+  border: 0px none;
+  background-color: #ddd;
+  height: 1px;
+  margin: 10px 0px;
+}
 article {
   background: #fff;                     /* white */
   padding: 20px;
@@ -302,6 +296,18 @@ div.grid > :nth-child(3n+0) > span {
 }
 .line-item {
   min-height:50px;
+}
+.icon {
+  width: 56px;
+  margin: 2px;
+  font-size: 6pt;
+  display: inline-block;
+  float: left;
+}
+.icon img {
+  padding: 1px;
+  border: 1px solid #333;
+  margin: 1px;
 }
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select, textarea {
   border: 1px solid #333;              /* black */
@@ -385,8 +391,16 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
 .edit_link {
   float: right;
 }
-.feedpost {
-  border-bottom: 2px solid #dff; margin-bottom: 1em; margin-top: 1em;
+.feedpost-image {
+  width: 60px;
+  float: left;
+}
+.feedpost-image img {
+  padding: 1px;
+  border: 1px solid #333;
+}
+.feedpost-text {
+  float: left;
 }
 .headline {
   font-family: sans-serif; font-size: 12pt;
