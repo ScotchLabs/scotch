@@ -295,8 +295,8 @@ class User < Shared::Watchable
   # FIRST LAST EMAIL
   def self.autocomplete_retreive_user(identifier)
     return nil if identifier.nil? or identifier.blank?
-    return nil if identifier.split(" ").length != 3
-    email = identifier.split(" ")[2]
+    return nil if identifier.split(" ").length < 3
+    email = identifier.split(" ").last
     User.find_by_email(email)
   end
 
