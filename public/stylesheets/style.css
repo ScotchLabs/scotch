@@ -183,7 +183,7 @@ html, body {
 .dashboard-right {
   float: right;
   display: inline-block;
-  width: 540px;
+  width: 560px;
 }
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
@@ -391,19 +391,17 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
 .edit_link {
   float: right;
 }
-.feedpost-image {
-  width: 60px;
-  float: left;
-}
 .feedpost-image img {
   padding: 1px;
+  position: absolute;
   border: 1px solid #333;
 }
 .feedpost-text {
-  float: left;
+  margin-left: 60px;
 }
 .headline {
-  font-family: sans-serif; font-size: 12pt;
+  font-family: "Lucida Grande",Tahoma,Verdana,sans-serif;
+  font-size: 12pt;
 }
 
 
