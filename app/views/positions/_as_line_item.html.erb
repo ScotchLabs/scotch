@@ -14,7 +14,7 @@ unless h3
     h3 += " - #{object.display_name}"
   end
 end
-href = url_for(object) unless href
+href = url_for(object.user) unless href
 %>
 
 <%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>
