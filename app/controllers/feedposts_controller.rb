@@ -35,17 +35,6 @@ class FeedpostsController < ApplicationController
     end
   end
 
-  # GET /feedposts/new
-  # GET /feedposts/new.xml
-  def new
-    @feedpost = Feedpost.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @feedpost }
-    end
-  end
-
   # POST /feedposts
   # POST /feedposts.xml
   def create
