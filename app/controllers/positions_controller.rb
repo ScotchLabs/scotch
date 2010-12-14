@@ -104,6 +104,8 @@ class PositionsController < ApplicationController
     role = Role.find(params[:role_id])
     
     users = []
+    
+    ok = true
 
     # FIXME this whole thing is ugly, too many nil? or empty?
     Position.transaction do
@@ -116,19 +118,24 @@ class PositionsController < ApplicationController
       end if params.has_key?(:user_identifiers)
 
       users.compact! #remove any nils
-
+      
       users.each do |user|
         unless @group.positions.where(:user_id => user.id).where(:display_name => params[:position_name]).count > 0 then
           p = Position.new(:user => user, :role => role, :display_name => params[:position_name])
           p.group = @group
-          p.save or redirect_to(group_positions_path(@group), :alert => "There was an error creating the positions") and return nil
+          ok = false unless p.save
         end
       end
     end
 
-    respond_to do |format|
-        format.html { redirect_to(group_positions_path(@group), :notice => 'Position was successfully created.') }
-        format.xml  { render :xml => @position, :status => :created, :location => @position } # FIXME broken
+    if ok
+      respond_to do |format|
+          format.html { redirect_to(group_positions_path(@group), :notice => 'Position was successfully created.') }
+          format.xml  { render :xml => @position, :status => :created, :location => @position } # FIXME broken
+      end
+    else
+      redirect_to(group_positions_path(@group), :alert => "There was an error creating the positions")
+      return nil
     end
   end
 
