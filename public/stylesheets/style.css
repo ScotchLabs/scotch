@@ -140,21 +140,27 @@ html, body {
   -webkit-border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
   -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px
+  -moz-border-radius-topright: 8px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
 }
 .bottomcorner {
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px
+  -moz-border-radius-bottomright: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 .bottomleftcorner {
   -webkit-border-bottom-left-radius: 8px;
-  -moz-border-radius-bottomleft: 8px
+  -moz-border-radius-bottomleft: 8px;
+  border-bottom-left-radius: 8px;
 }
 .bottomrightcorner {
   -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomright: 8px
+  -moz-border-radius-bottomright: 8px;
+  border-bottom-right-radius: 8px;
 }
 /* use these classes on divs inside an article */
 .thirds-split-left {
@@ -269,7 +275,8 @@ article {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   -moz-border-radius: 8px;
-  -webkit-border-radius: 8px
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
 }
 /* In order to create a three-grid, wrap your grid items
  *   in <div class='grid'>...</div>.
@@ -289,6 +296,7 @@ article {
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
+  border-radius: 8px;
   margin-right: 35px;
 }
 .three-grid:hover {
@@ -321,6 +329,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     rgb(221,221,221) 100%);            /* grey */
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
+  border-radius: 0;
 }
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
@@ -332,6 +341,7 @@ input[type="submit"], input[type="reset"], a.button {
   margin: 2px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
+  border-radius: 4px;
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
@@ -419,6 +429,8 @@ body {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
   padding: 3px 11px;
 }
 
@@ -471,6 +483,8 @@ body > div > section {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
   margin-bottom: 35px;
 }
 #nav > ul {
@@ -498,6 +512,8 @@ body > div > section {
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 .navselected, #nav > ul > li > a:hover {
   background: #ddd !important;  /* grey */
@@ -532,6 +548,7 @@ body > div > section {
   line-height: 9px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
+  border-radius: 8px;
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
   padding: 8px 18px;
@@ -594,6 +611,8 @@ body > div > section {
   -webkit-border-top-right-radius: 8px;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright: 8px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
   padding: 3px 11px;
   text-transform: uppercase;
   position: fixed;
