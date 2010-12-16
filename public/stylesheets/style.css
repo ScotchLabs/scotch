@@ -565,10 +565,10 @@ body > div > section {
   height: 9px;
 }
 #loginerror {
-  float: right;
   text-transform: none;
-  padding: 8px;
+  padding: 5px;
   line-height: 23px;
+  width: 284px;
 }
 #loginform {
   float: right;
