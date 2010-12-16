@@ -331,6 +331,10 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
   -webkit-border-radius: 0;
   border-radius: 0;
 }
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea {
+  width: 210px;
+  max-width: 210px;
+}
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
 }
