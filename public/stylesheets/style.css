@@ -642,9 +642,9 @@ body > div > section {
   right: -33px;
   top: 50%;
   
-  -moz-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
-  -webkit-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
-  -o-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
-  -ms-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
-  transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
