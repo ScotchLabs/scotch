@@ -313,6 +313,11 @@ div.grid > :nth-child(3n+0) > span {
 .line-item {
   min-height:50px;
 }
+.line-item-image img {
+  padding: 1px;
+  border: 1px solid #333;
+  margin: 3px;
+}
 .icon {
   width: 56px;
   margin: 2px;

@@ -8,14 +8,20 @@ h2 = "#{object.to_s}" unless h2
 h3 = h3
 p = p
 href = url_for(object) unless href
+styleText = ""
+style = style
+style = {} unless style
+style.each {|k, v|
+  styleText ="#{styleText}#{k}:#{v};"
+}
 %>
 
 <% #FIXME this is not DRY
 %>
-<div class='line-item'>
+<div class='line-item' style='<%= styleText %>'>
 <% if link %>
   <% if image %>
-    <div class='fleft'>
+    <div class='fleft line-item-image'>
       <%= link_to image, href %>
     </div>
   <% end %>
@@ -24,7 +30,7 @@ href = url_for(object) unless href
   <% end %>
 <% else %>
   <% if image %>
-     <div class='fleft'>
+     <div class='fleft line-item-image'>
        <%= image %>
      </div>
    <% end %>
