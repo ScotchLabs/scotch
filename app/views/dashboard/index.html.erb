@@ -36,10 +36,19 @@
       <h1>My Active Groups</h1>
       <% groups = current_user.groups.active.uniq %>
       <% if groups.count > 0 %>
+      <table style='vertical-align: top'>
+        <% c = 0 %>
         <% groups.each do |g| %>
-          <%= render "groups/as_icon", :object => g, :link => true %>
+          <% if c%4==0 %>
+          <tr>
+          <% end %>
+          <td style='vertical-align:top'><%= render "groups/as_icon", :object => g, :link => true %></td>
+          <% if c%4==3 %>
+          </tr>
+          <% end %>
+          <% c=c+1 %>
         <% end %>
-        <div class='clearfix'></div>
+      </table>
       <% else %>
         You aren't part of any groups. Join <%= link_to "more groups", groups_path %>!
       <% end %>
@@ -51,12 +60,11 @@
       <% if checkouts.count > 0 %>
         <ul>
           <% checkouts.each do |checkout| %>
-            <li><%= link_to checkout.item, checkout.item %> 
-            for <%= link_to checkout.group, checkout.group %>. 
-            <% if checkout.opener != current_user %>
-              Checked out by <%= link_to checkout.opener, checkout.opener %>. 
+            <li><%= link_to checkout.item, checkout.item %>.<br>
+            <% if checkout.has_deadline? %>
+            Due <%= format_date checkout.due_date %>.
             <% end %>
-            <%= link_to "View Checkout", checkout %>.
+            <%= link_to "View Checkout", checkout %>.</li>
           <% end %>
         </ul>
       <% else %>
@@ -68,10 +76,19 @@
       <h1>Today's Birthdays</h1>
       <% bday = User.birthday.all %>
       <% if bday.count > 0 %>
+      <table>
+        <% c = 0 %>
         <% bday.each do |u| %>
-          <%= render "users/as_icon", :object => u, :link => true %>
+          <% if c%4==0 %>
+          <tr>
+          <% end %>
+          <td style='vertical-align:top'><%= render "users/as_icon", :object => u, :link => true %></td>
+          <% if c%4==3 %>
+          </tr>
+          <% end %>
+          <% c = c+1 %>
         <% end %>
-        <div class='clearfix'></div>
+      </table>
       <% else %>
         No one has a birthday today. You should celebrate someone's half-birthday instead.
       <% end %>
