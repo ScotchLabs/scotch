@@ -1,0 +1,18 @@
+<%
+#defaults
+object = object
+href = href
+link = link
+image = image
+
+#model-specific
+unless object.nil?
+  
+  text = "#{object.to_s}" unless text
+  image = image_tag object.image(:thumb)
+  href= url_for(object) unless href
+  
+end
+%>
+
+<%= render "shared/as_icon", :link => link, :href => href, :text => text, :image => image %>
