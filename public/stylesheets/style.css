@@ -134,7 +134,8 @@ html, body {
 /* box-shadow and rounded borders */
 .shadow {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333      /* black */
+  -moz-box-shadow: 0 5px 20px #333;     /* black */
+  box-shadow: 0 5px 20px #333;          /* black */
 }
 .topcorner {
   -webkit-border-top-left-radius: 8px;
@@ -272,8 +273,11 @@ article {
   background: #fff;                     /* white */
   padding: 20px;
   margin-bottom: 35px;
+  
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
+  box-shadow: 0 5px 20px #333;          /* black */
+  
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
@@ -292,11 +296,15 @@ article {
   color: #333;                          /* black */
   padding: 20px;
   margin-bottom: 35px;
+  
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
+  box-shadow: 0 5px 20px #333;          /* black */
+  
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
+  
   margin-right: 35px;
 }
 .three-grid:hover {
@@ -317,16 +325,12 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
   margin: 2px;
   font-weight: bold;
   padding: 5px;
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, rgb(255,255,255)),   /* white */
-    color-stop(1, rgb(221,221,221)));  /* grey */
-  background-image: -moz-linear-gradient(
-    center bottom,
-    rgb(255,255,255) 0%,               /* white */
-    rgb(221,221,221) 100%);            /* grey */
+  
+  background: #DDDDDD; /* old browsers */
+  background: -moz-linear-gradient(top, #DDDDDD 0%, #FFFFFF 100%); /* firefox */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDDDDD), color-stop(100%,#FFFFFF)); /* webkit */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DDDDDD', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+  
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
@@ -343,9 +347,11 @@ input[type="submit"], input[type="reset"], a.button {
   font-family: inherit;
   font-size: 12px;
   margin: 2px;
+  
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
+  
   background: #f90;  /* ltorange */
   color: #fff;       /* white */
   border: 0px;
@@ -429,12 +435,14 @@ body {
 #logout-menu > li > a {
   color: #fff;  /* white */
   background: #333;  /* black */
+  
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
+  
   padding: 3px 11px;
 }
 
@@ -482,13 +490,17 @@ body > div > section {
 #nav {
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
+  box-shadow: 0 5px 20px #333;          /* black */
+  
   background: #fff;                     /* white */
+  
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
+  
   margin-bottom: 35px;
 }
 #nav > ul {
@@ -512,10 +524,11 @@ body > div > section {
   color: #333;  /* black */
   width: 93px;
   padding: 16px 0 6px;
+  
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px
+  -moz-border-radius-bottomright: 8px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
 }
@@ -550,11 +563,15 @@ body > div > section {
   background: #fff;                     /* white */
   color: #333;                          /* black */
   line-height: 9px;
+  
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
+  
   -webkit-box-shadow: 0 5px 20px #333;  /* black */
   -moz-box-shadow: 0 5px 20px #333;     /* black */
+  box-shadow: 0 5px 20px #333;          /* black */
+  
   padding: 8px 18px;
 }
 #subnav > ul > li > a:hover {
@@ -611,17 +628,23 @@ body > div > section {
   display: block;
   color: #fff;
   background: #333;
+  
   -webkit-border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright: 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
+  
   padding: 3px 11px;
   text-transform: uppercase;
   position: fixed;
   right: -33px;
   top: 50%;
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
+  
+  -moz-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
+  -webkit-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
+  -o-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
+  -ms-transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
+  transform: scale() rotate(-90deg) translate(px, px) skew(deg, deg);
 }
