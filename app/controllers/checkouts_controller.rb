@@ -4,9 +4,6 @@ class CheckoutsController < ApplicationController
     require_permission "checkoutSelf" unless has_permission? "checkoutOther"
   end
 
-  # FIXME make sure that users don't try to checkout a not-available item....
-  # before_filter :ensure_available, :only => [:new]
-
   # GET /group/1/checkouts
   # GET /group/1/checkouts.xml
   def index
