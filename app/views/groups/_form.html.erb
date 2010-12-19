@@ -10,7 +10,7 @@
   </div>
   <% end %>
 
-  <%= hidden_field_tag :group_type, params[:group_type] %>
+  <%= hidden_field_tag :group_type, (params[:group_type] or "Group") %>
 
   <div class="field">
     <%= f.label :name %>

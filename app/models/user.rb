@@ -54,8 +54,8 @@ class User < Shared::Watchable
     :message => "must be less than 10 megabytes",
     :unless => lambda { |user| !user.headshot.nil? }
   validates_attachment_content_type :headshot,
-    :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
-    :message => "must be an image",
+    :content_type => ["image/jpeg", "image/gif", "image/png"],
+    :message => "must be an image (JPEG, GIF or PNG)",
     :unless => lambda { |user| !user.headshot.nil? }  
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
