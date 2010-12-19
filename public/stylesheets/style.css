@@ -657,7 +657,6 @@ body > div > section {
   padding: 3px 11px;
   text-transform: uppercase;
   position: fixed;
-  right: -33px;
   top: 50%;
   
   -moz-transform: rotate(-90deg);
@@ -666,3 +665,13 @@ body > div > section {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
+
+#right-menu.feedback a {
+	right: -33px;
+}
+
+#right-menu.admin a {
+	right: -22px;
+}
+
+

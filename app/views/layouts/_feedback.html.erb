@@ -1,4 +1,7 @@
-<span id='right-menu'><%= link_to "Feedback", new_feedback_path, :id => 'feedback-form-link' %></span>
+<% if Group.system_group.users.include? current_user %>
+<span id='right-menu' class='admin'><%= link_to "Admin", dashboard_sysadmin_path %></span>
+<% else %>
+<span id='right-menu' class='feedback'><%= link_to "Feedback", new_feedback_path, :id => 'feedback-form-link' %></span>
 <div class='hidden'>
   <div id='feedback-form'>
     <h1>Feedback</h1>
@@ -27,3 +30,4 @@
     $('#feedback-form-link').colorbox({inline:true,href:"#feedback-form",transition:"none"});
   })
 </script>
+<% end %>
