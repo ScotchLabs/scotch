@@ -4,9 +4,6 @@
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", item_categories_path, :class => nav_class(item_categories_path) %></li>
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
-  <% if Group.system_group.users.include? current_user %>
-    <li style="background-color: #FAA"><%= link_to "SysAdmin", dashboard_sysadmin_path %></li>
-  <% end %>
   <% if @group && ! @group.new_record? %>
   <div id='subnav'>
     <ul>
