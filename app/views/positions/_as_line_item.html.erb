@@ -17,4 +17,12 @@ end
 href = url_for(object.user) unless href
 %>
 
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>
+<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image, :style => {"display" => 'inline-block', 'white-space' => 'nowrap', 'float' => 'left'} %>
+<div style='display: inline-block; float: left; margin-left: 60px; margin-top: 3px;'>
+<% if has_permission?("adminPositions") || (object.role.crew? && has_permission?("adminCrew")) %>
+  <%= link_to image_tag("delete_icon.png", :size => "8x8"), p, :method => :delete, 
+    :confirm => "Are you sure you want to remove #{object.user} from the role of #{object}?" %>
+<% end %>
+</div>
+<div class='clearfix'></div>
+<br>

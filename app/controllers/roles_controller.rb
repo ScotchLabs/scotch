@@ -96,7 +96,7 @@ class RolesController < ApplicationController
   private
 
   def params_permissions
-    return nil unless params.has_key? "permission"
+    return [] unless params.has_key? "permission"
 
     perms = []
     params["permission"].each do |k,v|
