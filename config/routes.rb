@@ -32,6 +32,9 @@ Scotch::Application.routes.draw do |map|
   end
   resources :boards, :except => [:destroy], :controller => :groups, :group_type => "Board" do 
     resources :feedposts, :only => [:index]
+    member do
+      post :archive
+    end
   end
 
   # These don't really make sense outside of a group, so we make them
