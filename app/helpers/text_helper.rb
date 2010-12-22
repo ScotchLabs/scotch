@@ -10,8 +10,22 @@ module TextHelper
   end
   
   def filter_referrals(text)
-    return if text.nil? or text.blank?
+    return nil if text.nil?
+    return '' if text.blank?
     
+    text = basic_referrals(text)
+    text = user_referrals(text)
+    raw(text)
+  end
+  def user_referrals(text)
+    matches = text.scan(/\@([a-z]+)/)
+    matches.each do |match|
+      user = User.find_by_andrewid(match)
+      text.gsub!("@#{match}", link_to(user.to_s, user)) unless user.nil?
+    end
+    raw(text)
+  end
+  def basic_referrals(text)
     # the first/most prevalent syntax should be
     # "#{obj.class.to_s}##{obj.id}"
     # we don't want to use object_id since it's not findable
