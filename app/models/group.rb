@@ -5,9 +5,9 @@ class Group < Shared::Watchable
   acts_as_indexed :fields => [:name, :description, :short_name]
 
   has_many :checkouts, :dependent => :destroy
-  has_many :documents
+  has_many :documents, :dependent => :destroy
   has_many :events, :dependent => :destroy
-  has_many :positions, :include => :user
+  has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
@@ -43,6 +43,16 @@ class Group < Shared::Watchable
 
     unless g.name == "SYSTEM GROUP"
       raise "Did the system group change?"
+    end
+    
+    return g
+  end
+
+  def self.sns_group
+    g = Group.find(3)
+
+    unless g and g.name == "Scotch'n'Soda"
+      logger.warn "Did the SNS group change?"
     end
     
     return g

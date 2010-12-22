@@ -15,7 +15,7 @@ class User < Shared::Watchable
     :gender, :residence, :birthday, :headshot, :majors, :minors,
     :other_activities, :about, :andrewid
 
-  has_many :positions
+  has_many :positions, :dependent => :destroy
   has_many :groups, :through => :positions
 
   has_many :event_attendees, :dependent => :destroy
@@ -23,9 +23,9 @@ class User < Shared::Watchable
 
   has_many :checkouts_to, :dependent => :destroy, :class_name => "Checkout", :foreign_key => :user_id
   has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
-  has_many :checkout_events, :dependent => :destroy
+  #has_many :checkout_events, :dependent => :destroy #FIXME
   
-  has_many :watchees, :class_name => "Watcher"
+  has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
   #FIXME use :source_type instead of :conditions
   has_many :watched_items, :through => :watchees, :source => :watched_item, 
@@ -71,6 +71,7 @@ class User < Shared::Watchable
   acts_as_phone_number :phone
   before_validation :downcase_email
   after_create :create_watcher
+  after_create :create_sns_membership
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
@@ -159,7 +160,7 @@ class User < Shared::Watchable
   end
 
   def name
-    first_name + " " + last_name
+    (first_name or "") + " " + (last_name or "")
   end
 
 #################################
@@ -303,12 +304,17 @@ class User < Shared::Watchable
   protected
 
   def create_watcher
-    if Watcher.where(:user_id => self.id).where(:item_id => self.id).where(:item_type => "User").count == 0
-      w = Watcher.new
-      w.user = self
-      w.item = self
-      w.save or logger.warn "Unable to save implicitly created watcher"
-    end
+    w = Watcher.new
+    w.user = self
+    w.item = self
+    w.save or logger.warn "Unable to save implicitly created watcher"
+  end
+
+  def create_sns_membership
+    member_role = Role.member
+    p = Position.new(:role_id => member_role.id, :display_name => "Member", :user_id => self.id)
+    p.group_id = Group.sns_group.id
+    p.save or logger.warn "Unable to save implicitly created position"
   end
 
   def downcase_email
