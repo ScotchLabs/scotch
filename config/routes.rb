@@ -32,9 +32,6 @@ Scotch::Application.routes.draw do |map|
   end
   resources :boards, :except => [:destroy], :controller => :groups, :group_type => "Board" do 
     resources :feedposts, :only => [:index]
-    member do
-      post :archive
-    end
   end
 
   # These don't really make sense outside of a group, so we make them
@@ -50,13 +47,12 @@ Scotch::Application.routes.draw do |map|
     member do
       post :join
       post :leave
-      post :archive
     end
   end
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
     put :signup, :on => :member
   end
-  resources :positions, :only => [:destroy, :create]
+  resources :positions, :only => [:show, :edit, :update, :destroy, :create]
   resources :documents, :only => [:show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy]
 
@@ -70,7 +66,7 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
-  resources :feedposts, :except => [:index, :edit, :update]
+  resources :feedposts, :except => [:index, :show, :edit, :update]
 
   get "dashboard/index"
   get "dashboard/calendar"

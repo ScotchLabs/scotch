@@ -23,8 +23,4 @@ class Role < ActiveRecord::Base
   def self.crew
     self.find_by_name("Crew")
   end
-
-  def self.member
-    self.find_by_name("Member")
-  end
 end

@@ -38,12 +38,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
 
-      if @user.public_profile? then
-        format.xml  { render :xml => @user, :only => [:home_college, :gender,
-          :id, :about, :majors, :other_activities, :andrewid, :minors,
-          :birthday, :last_name, :first_name, :phone, :graduation_year, :smc,
-          :email] }
-      end
+      # FIXME: this leaks information
+      # format.xml  { render :xml => @user }
     end
   end
 

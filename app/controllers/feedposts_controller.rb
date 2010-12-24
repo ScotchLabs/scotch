@@ -45,14 +45,10 @@ class FeedpostsController < ApplicationController
 
     respond_to do |format|
       if @feedpost.save
-        parent = @feedpost.parent
-        #FIXME this will change when comment creation is AJAXed
-        parent = parent.parent if parent.class.to_s == "Feedpost"
-       
-        format.html { redirect_to(url_for(parent), :notice => 'Post was successfully created.') }
+        format.html { redirect_to(url_for(@feedpost.parent), :notice => 'Feed post was successfully created.') }
         format.xml  { render :xml => @feedpost, :status => :created, :location => @feedpost }
       else
-        format.html { redirect_to(url_for(parent), :notice => 'Post was NOT successfully created.') }
+        format.html { redirect_to(url_for(@feedpost.parent), :notice => 'Feed post was NOT successfully created.') }
         format.xml  { render :xml => @feedpost.errors, :status => :unprocessable_entity }
       end
     end
@@ -63,8 +59,6 @@ class FeedpostsController < ApplicationController
   def destroy
     @feedpost = Feedpost.find(params[:id])
     @parent = @feedpost.parent
-    #FIXME this will change when comment creation is AJAXed
-    @parent = @parent.parent if @parent.class.to_s == "Feedpost"
 
     # FIXME this should be moved to a before_filter
     if @feedpost.user != current_user

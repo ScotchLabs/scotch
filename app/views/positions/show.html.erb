@@ -1,0 +1,25 @@
+<article>
+<p>
+  <b>Group:</b>
+  <%= @position.group %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%= @position.role %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @position.user %>
+</p>
+
+<p>
+  <b>Display Name:</b>
+  <%= @position.display_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_position_path(@position) %> |
+<%= link_to 'All Group Members', group_positions_path(@position.group) %>
+</article>

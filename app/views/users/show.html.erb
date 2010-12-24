@@ -4,7 +4,7 @@
   </article>
 <% end %>
 
-<% if @user.public_profile || has_permission?("adminUser") %>
+<% if @user.public_profile || has_permission? ("adminUser") %>
 <article>
 
 <% unless @user == current_user %>

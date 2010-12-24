@@ -27,16 +27,15 @@
 	  <%= select_tag :email_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
         <% end %>
 
-        <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
-        <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
-        <span class='hidden' id='error_submitting'>Error. Try again?</span>
+        <%= f.submit "Post!" %>
       <% end %>
 			</div>
-      <div id='feedposts'>
-      <% for post in object.feedposts.recent %>
-        <%= render "feedposts/" + post.post_type, :post => post %>
-      <% end %>
-      </div>
+
+      <ul>
+        <% for post in object.feedposts.recent %>
+          <%= render "feedposts/" + post.post_type, :post => post %>
+        <% end %>
+      </ul>
       <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
     <div class='clearfix'></div>
 </article>

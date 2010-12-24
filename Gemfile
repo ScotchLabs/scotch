@@ -20,7 +20,7 @@ gem 'paperclip', '2.3.3'
 
 gem 'digest-whirlpool', '1.0.0'
 
-gem 'thinking-sphinx', '2.0.0', :require => 'thinking_sphinx'
+gem 'acts_as_indexed', '0.6.6'
 
 gem 'icalendar', '1.1.5'
 
