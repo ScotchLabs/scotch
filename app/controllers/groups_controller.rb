@@ -146,8 +146,16 @@ class GroupsController < ApplicationController
   end
 
   def archive
+    unless @group.archived? then
+      flash[:notice] = "This group is already archived."
+      redirect_to group_path(@group)
+      return
+    end
+
+
     if @group.class.name != "Board"
-      flash[:notice] = "Unable to archive a #{@group.class.name}."
+      @group.archive_date = 1.day.ago
+      @group.save!
       redirect_to group_path(@group)
       return
     end

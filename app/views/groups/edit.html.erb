@@ -4,8 +4,12 @@
 <%= render 'form' %>
 </article>
 
-<% if @group && @group.class.name == "Board" %>
+<% if @group and not @group.archived? then %>
   <article>
-  <%= render 'archive_board' %>
+    <% if @group.class.name == "Board" then %>
+      <%= render 'archive_board' %>
+    <% else %>
+      <%= render 'archive_group' %>
+    <% end %> 
   </article>
 <% end %>

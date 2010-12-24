@@ -50,6 +50,7 @@ Scotch::Application.routes.draw do |map|
     member do
       post :join
       post :leave
+      post :archive
     end
   end
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
