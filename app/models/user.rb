@@ -2,8 +2,6 @@ class User < Shared::Watchable
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
 
-  acts_as_indexed :fields => [:email, :name, :phone, :residence, :andrewid, :majors, :minors, :other_activities, :about], :if => Proc.new {|u| u.public_profile }
-
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -34,6 +32,21 @@ class User < Shared::Watchable
     :conditions => "watchers.item_type = 'User'"
   has_many :watched_groups, :through => :watchees, :source => :watched_group, 
     :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
+
+  define_index do
+    indexes :email
+    indexes :first_name
+    indexes :last_name
+    indexes :phone
+    indexes :residence
+    indexes :andrewid
+    indexes :majors
+    indexes :minors
+    indexes :other_activities
+    indexes :about
+
+    where 'public_profile = 1'
+  end
 
   #FIXME these don't work STUPID RAILS
   #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts

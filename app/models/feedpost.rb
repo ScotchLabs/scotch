@@ -1,10 +1,14 @@
 class Feedpost < ActiveRecord::Base
-  acts_as_indexed :fields => [:headline, :body]
-
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   
   has_many :feedposts, :as => :parent, :dependent => :destroy, :include => :user
+
+  # FIXME implement a feedpost _as_line_item and then uncomment this
+  #define_index do
+  #  indexes :headline
+  #  indexes :body
+  #end
   
   attr_protected :user_id, :parent_id, :parent_type
   

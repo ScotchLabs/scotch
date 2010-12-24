@@ -2,8 +2,6 @@ class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
 
-  acts_as_indexed :fields => [:name, :description, :short_name]
-
   has_many :checkouts, :dependent => :destroy
   has_many :documents, :dependent => :destroy
   has_many :events, :dependent => :destroy
@@ -11,6 +9,12 @@ class Group < Shared::Watchable
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
+
+  define_index do
+    indexes :name
+    indexes :description
+    indexes :short_name
+  end
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
