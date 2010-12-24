@@ -1,5 +1,15 @@
 <article>
-<h1>Editing group</h1>
+<h1>Editing Group</h1>
 
 <%= render 'form' %>
 </article>
+
+<% if @group and not @group.archived? then %>
+  <article>
+    <% if @group.class.name == "Board" then %>
+      <%= render 'archive_board' %>
+    <% else %>
+      <%= render 'archive_group' %>
+    <% end %> 
+  </article>
+<% end %>
