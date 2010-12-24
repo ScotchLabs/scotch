@@ -83,7 +83,7 @@ class FeedpostsController < ApplicationController
 
   # emails the user whose wall was written on
   def send_user_notification
-    return true if @feedpost.new_record? || params[:email] != "emali" ||
+    return true if @feedpost.new_record? ||
       params[:feedpost][:parent_type] != "User" ||
       @feedpost.parent.email_notifications == false ||
       params[:feedpost][:post_type] != "wall" ||
