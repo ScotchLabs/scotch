@@ -1,12 +1,18 @@
 <%
 post = post or Feedpost.new
 complete = complete
+comment_count = post.feedposts.count
+if complete then
+  comments = post.feedposts.all
+else
+  comments = post.feedposts.limit(2)
+end
 %>
 
 <div id='post_<%= post.id %>' class="feedpost">
   <a name='feedpost_<%= post.id %>'></a>
   <div class='feedpost-image'>
-    <%= render "users/as_icon", :object => post.user, :text => '', :link => true %>
+    <%= raw as_icon(post.user) %>
   </div>
   <div class='feedpost-text'>
     <div class="headline">
@@ -28,26 +34,24 @@ complete = complete
     </small>
     
     <hr>
-    <% if post.feedposts.count > 2 and !complete %>
-    <div id='view_all_<%= post.id %>' style='margin-left: 60px'>
-    <small id='view_link_<%= post.id %>'><a href='#none' onclick='expand_comments(<%= post.id %>)'>View all <span id='post_<%= post.id %>_count'><%= post.feedposts.count %></span> comments</a></small>
-    <%= image_tag 'indicator.gif', :id => "loading_#{post.id}", :class => "hidden" %>
-    <span id='view_error_<%= post.id %>' class='hidden'>There was an error retrieving the comments. <a id='retry_<%= post.id %>' href='#feedpost_<%= post.id %>' onclick='expand_comments(<%= post.id %>)'>Retry</a></span>
-    <hr>
-    </div>
+    <% if comment_count > 2 and !complete %>
+      <div id='view_all_<%= post.id %>' style='margin-left: 60px'>
+        <small id='view_link_<%= post.id %>'><a href='#none' onclick='expand_comments(<%= post.id %>)'>View all <span id='post_<%= post.id %>_count'><%= comment_count %></span> comments</a></small>
+        <%= image_tag 'indicator.gif', :id => "loading_#{post.id}", :class => "hidden" %>
+        <span id='view_error_<%= post.id %>' class='hidden'>There was an error retrieving the comments. <a id='retry_<%= post.id %>' href='#feedpost_<%= post.id %>' onclick='expand_comments(<%= post.id %>)'>Retry</a></span>
+        <hr>
+      </div>
     <% end %>
     <div id='post_<%= post.id %>_comments'>
       <div id='expanded_comments_<%= post.id %>'></div>
       <div id='recent_comments_<%= post.id %>'>
-      <% comments = Array.new.push(post.feedposts[1]).push(post.feedposts[0]).compact
-      comments = post.feedposts.reverse if complete
-      comments.each do |comment| %>
+        <% comments.each do |comment| %>
         <%= render "feedposts/comment", :post => post, :comment => comment %>
       <% end %>
       </div>
     </div>
     <div id='new_feedpost_form_<%= post.id %>' class='new_feedpost_form'>
-    <%= form_for(Feedpost.new({:parent_type => Feedpost, :parent_id => post.id})) do |f| %>
+    <%= form_for(Feedpost.new({})) do |f| %>
       <%= f.hidden_field :parent_type, :value => "Feedpost" %>
       <%= f.hidden_field :parent_id, :value => post.id.to_s %>
       <%= f.hidden_field :post_type, :value => "comment" %>

@@ -2,7 +2,7 @@ class Feedpost < ActiveRecord::Base
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   
-  has_many :feedposts, :as => :parent, :dependent => :destroy, :include => :user
+  has_many :feedposts, :as => :parent, :dependent => :destroy
 
   # FIXME implement a feedpost _as_line_item and then uncomment this
   #define_index do
