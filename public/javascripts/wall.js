@@ -5,7 +5,7 @@ function expand_comments(post_id) {
   jQuery('#view_error_'+post_id).hide()
   jQuery('#view_link_'+post_id).hide()
   jQuery('#loading_'+post_id).show()
-  jQuery.ajax({type: 'get', url: '/feedposts/'+post_id, success: function(data, status, xhr){expand_success(post_id, data)}, error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}})
+  jQuery.ajax({type: 'get', url: '/feedposts/'+post_id+'.text', success: function(data, status, xhr){expand_success(post_id, data)}, error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}})
 }
 function expand_success(post_id, data) {
   jQuery('#loading_'+post_id).hide()
@@ -46,7 +46,7 @@ function submit_comment(post_id) {
     'headline':'comment',
     'body':jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')
     }
-  jQuery.ajax({type: 'post', url: '/feedposts', data: {feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_success(data, post_id)}, error: function(xhr, status, thrown){submit_error(post_id)}})
+  jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_success(data, post_id)}, error: function(xhr, status, thrown){submit_error(post_id)}})
   
   return false
 }
@@ -75,15 +75,9 @@ function delete_post(post_id) {
   if (sure) {
     $("#post_"+post_id).hide('fast')
     var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
-    $.ajax({type: 'DELETE', url: '/feedposts/'+post_id, data: {authenticity_token: auth, id: post_id}, success: function(data, status, xhr){delete_success(post_id, data)}, error: function(xhr, status, thrown){delete_error(post_id, data)}})
+    //TODO decrement View All N Comments
+    $.ajax({type: 'DELETE', url: '/feedposts/'+post_id+'.xml', data: {authenticity_token: auth, id: post_id}})
   }
-}
-function delete_success(post_id, data) {
-  alert("Your post has been successfully deleted.")
-}
-function delete_error(post_id, data) {
-  alert("There was a problem deleting your post. Try again later or conatact the system administrator.")
-  $("#post_"+post_id).show('fast')
 }
 
 /**********************
@@ -103,7 +97,7 @@ function submit_feedpost() {
     'headline':jQuery('#postform #feedpost_headline').attr('value'),
     'body':jQuery('#postform textarea').attr('value')
     }
-  jQuery.ajax({type: 'post', url: '/feedposts', data: {feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
+  jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
   
   return false
 }
@@ -112,9 +106,7 @@ function submit_feedpost_success(data) {
   jQuery("#submitting").hide()
   jQuery('#postform #feedpost_headline').attr('value','')
   jQuery('#postform textarea').attr('value','')
-  newPost = $(data).find("#feedposts").children().first()
-  newPostId = newPost.attr('id')
-  newPostHtml = "<div id='post_"+newPostId+"' class='feedpost'>"+newPost.html()+"</div>"
+  newPostHtml = "<div id='"+$(data).attr('id')+"' class='feedpost'>"+$(data).html()+"</div>"
   $(newPostHtml).hide().prependTo('#feedposts').show('fast')
 }
 function submit_feedpost_error() {
@@ -130,6 +122,8 @@ $(document).ready(function(){
   $(".comment").each(function(i,s){trim(s)})
 })
 function trim(s) {
+  if (s.id == undefined)
+    return
   //console.log("trimming "+s.id)
   text = $(s).find('p').html()
   var less = ''

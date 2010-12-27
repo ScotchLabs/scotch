@@ -7,6 +7,7 @@ if complete then
 else
   comments = post.feedposts.limit(2)
 end
+comments.reverse!
 %>
 
 <div id='post_<%= post.id %>' class="feedpost">
@@ -30,7 +31,8 @@ end
       on <%= link_to post.parent, post.parent %>
     <% end %>
     </small>
-    
+  </div>
+  <div style='margin-left:60px;'>  
     <hr>
     <% if comment_count > 2 and !complete %>
       <div id='view_all_<%= post.id %>' style='margin-left: 60px'>
@@ -44,7 +46,7 @@ end
       <div id='expanded_comments_<%= post.id %>'></div>
       <div id='recent_comments_<%= post.id %>'>
         <% comments.each do |comment| %>
-        <%= render "feedposts/comment", :post => post, :comment => comment %>
+        <%= render "feedposts/comment.html", :post => post, :comment => comment %>
       <% end %>
       </div>
     </div>

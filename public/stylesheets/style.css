@@ -438,7 +438,7 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
   font-family: "Lucida Grande",Tahoma,Verdana,sans-serif;
   font-size: 12pt;
 }
-.headline:hover .delete_link {
+.feedpost-text:hover .delete_link {
   display: block;
 }
 
