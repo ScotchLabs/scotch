@@ -119,12 +119,48 @@ module ApplicationHelper
 end
 
   def user_as_icon(user, options)
-    text = ''
-    text = "<div>#{h user}</div>" if options.nil? or options[:text].nil? or options[:text]
-    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb)}#{text}</div></a>"
+    pass = Hash.new
+    if options.nil? or options[:text].nil?
+      pass[:text] = user
+    else
+      pass[:text] = options[:text]
+    end
+    pass[:image] = image_tag user.headshot(:thumb)
+    pass[:href] = url_for(user) if options.nil? or options[:link].nil? or options[:link] != false
+    object_as_icon(pass)
   end
 
   def group_as_icon(group, options)
-    "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb)}<div>#{h group}</div></div></a>"
+    pass = Hash.new
+    if options.nil? or options[:text].nil?
+      pass[:text] = group
+    else
+      pass[:text] = options[:text]
+    end
+    pass[:image] = image_tag group.image(:thumb)
+    pass[:href] = url_for(group) if options.nil? or options[:link].nil? or options[:link] != false
+    object_as_icon(pass)
+  end
+  
+  def object_as_icon(options)
+    href = ''
+    link = true
+    if options.nil? or options[:href].nil?
+      link = false
+    else
+      href = options[:href]
+    end
+    text = ''
+    text = options[:text] if options and options[:text]
+    image = ''
+    image = options[:image] if options and options[:image]
+    
+    c = ''
+    c = "#{c}<a href='#{href}'>" if link
+    c = "#{c}<div class='icon'>#{image}" if image
+    c = "#{c}<div>#{text}</div>" if text
+    c = "#{c}</div>" if image
+    c = "#{c}</a>" if link
+    c
   end
 end
