@@ -107,22 +107,24 @@ module ApplicationHelper
     return textiled
   end
 
-  def as_icon(object)
+  def as_icon(object, options)
     return nil if object.nil?
     return case object.class.name
-    when "User" then user_as_icon(object)
-    when "Group" then group_as_icon(object)
-    when "Show" then group_as_icon(object)
-    when "Board" then group_as_icon(object)
+    when "User" then user_as_icon(object, options)
+    when "Group" then group_as_icon(object, options)
+    when "Show" then group_as_icon(object, options)
+    when "Board" then group_as_icon(object, options)
     else ""
     end
 end
 
-  def user_as_icon(user)
-    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb)}<div>#{h user}</div></div></a>"
+  def user_as_icon(user, options)
+    text = ''
+    text = "<div>#{h user}</div>" if options.nil? or options[:text].nil? or options[:text]
+    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb)}#{text}</div></a>"
   end
 
-  def group_as_icon(group)
+  def group_as_icon(group, options)
     "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb)}<div>#{h group}</div></div></a>"
   end
 end

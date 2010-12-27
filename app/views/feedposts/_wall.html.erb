@@ -12,7 +12,7 @@ end
 <div id='post_<%= post.id %>' class="feedpost">
   <a name='feedpost_<%= post.id %>'></a>
   <div class='feedpost-image'>
-    <%= raw as_icon(post.user) %>
+    <%= raw as_icon(post.user, {:text => false}) %>
   </div>
   <div class='feedpost-text'>
     <div class="headline">
