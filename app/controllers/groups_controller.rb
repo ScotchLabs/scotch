@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
     end
   end
 
-  prepend_before_filter :locate_our_group, :only => [:show, :edit, :update, :destroy, :join, :leave]
+  prepend_before_filter :locate_our_group, :only => [:show, :edit, :update, :destroy, :join, :leave, :archive]
 
   # GET /groups
   # GET /groups.xml
@@ -140,6 +140,39 @@ class GroupsController < ApplicationController
       end
     else
       flash[:notice] = "You aren't a member of this group!"
+    end
+
+    redirect_to group_path(@group)
+  end
+
+  def archive
+    unless @group.archived? then
+      flash[:notice] = "This group is already archived."
+      redirect_to group_path(@group)
+      return
+    end
+
+
+    if @group.class.name != "Board"
+      @group.archive_date = 1.day.ago
+      @group.save!
+      redirect_to group_path(@group)
+      return
+    end
+
+    Board.transaction do
+      new_group = @group.clone
+      new_group.name = new_group.name + " (#{params[:title]})"
+      new_group.short_name = new_group.short_name + "_#{params[:title].gsub(/[^-_0-9a-zA-Z]/,'')}"
+      new_group.archive_date = 1.day.ago
+      new_group.save!
+
+      @group.positions.each do |p|
+        p.group_id = new_group.id
+        p.save!
+      end
+
+      @group = new_group
     end
 
     redirect_to group_path(@group)

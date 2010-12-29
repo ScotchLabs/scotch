@@ -1,0 +1,10 @@
+<h2>Archive Board</h2>
+<%= form_tag archive_board_path(@group) do %>
+  <div class="field">
+    <%= label_tag :title %><br />
+    <%= text_field_tag :title, "", :placeholder => "e.g. 2010-2011" %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Archive Group", :confirm => "Are you sure you want to archive this group? This cannot be undone!" %>
+  </div>
+<% end %>

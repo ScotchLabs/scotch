@@ -106,4 +106,61 @@ module ApplicationHelper
     if textiled[-4..-1] == "</p>" then textiled = textiled[0..-5] end
     return textiled
   end
+
+  def as_icon(object, options)
+    return nil if object.nil?
+    return case object.class.name
+    when "User" then user_as_icon(object, options)
+    when "Group" then group_as_icon(object, options)
+    when "Show" then group_as_icon(object, options)
+    when "Board" then group_as_icon(object, options)
+    else ""
+    end
+end
+
+  def user_as_icon(user, options)
+    pass = Hash.new
+    if options.nil? or options[:text].nil?
+      pass[:text] = user
+    else
+      pass[:text] = options[:text]
+    end
+    pass[:image] = image_tag user.headshot(:thumb)
+    pass[:href] = url_for(user) if options.nil? or options[:link].nil? or options[:link] != false
+    object_as_icon(pass)
+  end
+
+  def group_as_icon(group, options)
+    pass = Hash.new
+    if options.nil? or options[:text].nil?
+      pass[:text] = group
+    else
+      pass[:text] = options[:text]
+    end
+    pass[:image] = image_tag group.image(:thumb)
+    pass[:href] = url_for(group) if options.nil? or options[:link].nil? or options[:link] != false
+    object_as_icon(pass)
+  end
+  
+  def object_as_icon(options)
+    href = ''
+    link = true
+    if options.nil? or options[:href].nil?
+      link = false
+    else
+      href = options[:href]
+    end
+    text = ''
+    text = options[:text] if options and options[:text]
+    image = ''
+    image = options[:image] if options and options[:image]
+    
+    c = ''
+    c = "#{c}<a href='#{href}'>" if link
+    c = "#{c}<div class='icon'>#{image}" if image
+    c = "#{c}<div>#{text}</div>" if text
+    c = "#{c}</div>" if image
+    c = "#{c}</a>" if link
+    c
+  end
 end

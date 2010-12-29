@@ -2,30 +2,34 @@ class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
 
-  acts_as_indexed :fields => [:name, :description, :short_name]
-
   has_many :checkouts, :dependent => :destroy
-  has_many :documents
+  has_many :documents, :dependent => :destroy
   has_many :events, :dependent => :destroy
-  has_many :positions, :include => :user
+  has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
+
+  define_index do
+    indexes :name
+    indexes :description
+    indexes :short_name
+  end
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
   has_attachment :image, :styles => 
     { :medium => "150x150#", :thumb => "50x50#" },
     :default_url => '/images/missing/:class_:style.png',
-		:file_name => ':class/:groupname_:style.png'
+		:file_name => ':class/:groupname_:style.:extension'
 
   validates_attachment_size :image, :less_than => 10.megabytes,
     :message => "must be less than 10 megabytes",
-    :unless => lambda { |user| !user.image.nil? }
+    :unless => lambda { |group| !group.image.nil? }
   validates_attachment_content_type :image,
-    :content_type => ["image/jpeg", "image/gif", "image/png", "image/bmp"],
-    :message => "must be an image",
-		:unless => lambda { |user| !user.image.nil? }
+    :content_type => ["image/jpeg", "image/gif", "image/png"],
+    :message => "must be an image (JPEG, GIF or PNG)",
+		:unless => lambda { |group| !group.image.nil? }
 
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
@@ -43,6 +47,16 @@ class Group < Shared::Watchable
 
     unless g.name == "SYSTEM GROUP"
       raise "Did the system group change?"
+    end
+    
+    return g
+  end
+
+  def self.sns_group
+    g = Group.find(3)
+
+    unless g and g.name == "Scotch'n'Soda"
+      logger.warn "Did the SNS group change?"
     end
     
     return g
@@ -121,7 +135,7 @@ class Group < Shared::Watchable
   end
 
   def archived?
-    archive_date && archive_date < Date.today
+    archive_date && archive_date <= Date.today
   end
   def active?
     not self.archived?

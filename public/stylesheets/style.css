@@ -67,6 +67,9 @@ ul {
 img {
   border-width: 0px;
 }
+small {
+  font-size: 8pt;
+}
 /* HTML5 fix for STUPID firefox */
 section, article, nav, aside, header, footer {
   display: block;
@@ -375,7 +378,13 @@ input[type="submit"]:hover, input[type="reset"]:hover, a.button:hover {
   background: #0dd;  /* dkteal */
   cursor: pointer;
 }
+.smallbutton {
+  padding: 5px 10px !important;
+  min-width: inherit !important;
+  text-transform: none !important;
+}
 input[type="submit"][disabled], input[type="reset"][disabled]  {
+  cursor: default;
   background: #ddd;  /* grey */
 }
 .placeholder {
@@ -423,10 +432,14 @@ input[type="submit"][disabled], input[type="reset"][disabled]  {
 }
 .feedpost-text {
   margin-left: 60px;
+  min-height: 60px;
 }
 .headline {
   font-family: "Lucida Grande",Tahoma,Verdana,sans-serif;
   font-size: 12pt;
+}
+.feedpost-text:hover .delete_link {
+  display: block;
 }
 
 
@@ -608,11 +621,6 @@ body > div > section {
   float: right;
   padding: 5px
 }
-#loginform input[type="submit"], #loginform a.button {
-  padding: 5px 10px;
-  min-width: inherit;
-  text-transform: none
-}
 #footer {
   position: relative;
   height: 43px;
@@ -657,7 +665,6 @@ body > div > section {
   padding: 3px 11px;
   text-transform: uppercase;
   position: fixed;
-  right: -33px;
   top: 50%;
   
   -moz-transform: rotate(-90deg);
@@ -666,3 +673,13 @@ body > div > section {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
+
+#right-menu.feedback a {
+	right: -33px;
+}
+
+#right-menu.admin a {
+	right: -22px;
+}
+
+

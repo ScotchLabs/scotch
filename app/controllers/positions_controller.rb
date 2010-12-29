@@ -1,12 +1,8 @@
 class PositionsController < ApplicationController
   # populate @position
-  prepend_before_filter :locate_position, :only => [:edit, :update, :show, :destroy, :create]
+  prepend_before_filter :locate_position, :only => [:destroy, :create]
 
-  # Make sure that you can't edit positions for show users, they should only
-  # be created or deleted since that's all the UI really supports
-  append_before_filter :prevent_show_editing, :only => [:edit, :update]
-
-  before_filter :only => [:edit, :new, :update, :create] do
+  before_filter :only => [:new] do
     require_permission "adminCrew"
   end
 
@@ -16,6 +12,10 @@ class PositionsController < ApplicationController
     else
       require_permission "adminPositions"
     end
+  end
+
+  before_filter :only => [:create] do
+    require_permission "adminPositions"
   end
 
   # Users with adminCrew can only create crew members through the bulk_create
@@ -41,15 +41,6 @@ class PositionsController < ApplicationController
     end
   end
 
-  # GET /positions/1
-  # GET /positions/1.xml
-  def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @position }
-    end
-  end
-
   # GET /groups/1/positions/new
   # GET /groups/1/positions/new.xml
   def new
@@ -62,11 +53,6 @@ class PositionsController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @position }
     end
-  end
-
-  # GET /positions/1/edit
-  def edit
-    @group = @position.group
   end
 
   # POST /positions
@@ -139,20 +125,6 @@ class PositionsController < ApplicationController
     end
   end
 
-  # PUT /positions/1
-  # PUT /positions/1.xml
-  def update
-    respond_to do |format|
-      if @position.update_attributes(params[:position])
-        format.html { redirect_to(group_positions_url(@position.group), :notice => 'Position was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @position.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /positions/1
   # DELETE /positions/1.xml
   def destroy
@@ -179,7 +151,4 @@ class PositionsController < ApplicationController
     end
   end
 
-  def prevent_show_editing
-    redirect_to group_positions_url(@group) if @group.class.name == "Show"
-  end
 end
