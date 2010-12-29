@@ -34,20 +34,24 @@ function expand_error(post_id, status, thrown) {
 ***************************/
 function submit_comment(post_id) {
   jQuery("#error_submitting_"+post_id).hide()
-  jQuery("#new_feedpost_form_"+post_id+" input[type='submit']").attr('disabled','true')
-  jQuery("#submitting_"+post_id).show()
-  var commit = $("#new_feedpost_form_"+post_id+" [type='submit']").attr('value')
-  var utf8 = $("#new_feedpost_form_"+post_id+" [name='utf8']").attr('value')
-  var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
-  var feedpost = {
-    'parent_type':'Feedpost',
-    'parent_id':post_id,
-    'post_type':'comment',
-    'headline':'comment',
-    'body':jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')
-    }
-  jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_success(data, post_id)}, error: function(xhr, status, thrown){submit_error(post_id)}})
-  
+  jQuery("#post_invalid_"+post_id).hide()
+  if (!jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')) {
+    jQuery("#post_invalid_"+post_id).show()
+  } else {
+    jQuery("#new_feedpost_form_"+post_id+" input[type='submit']").attr('disabled','true')
+    jQuery("#submitting_"+post_id).show()
+    var commit = jQuery("#new_feedpost_form_"+post_id+" [type='submit']").attr('value')
+    var utf8 = jQuery("#new_feedpost_form_"+post_id+" [name='utf8']").attr('value')
+    var auth = jQuery("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
+    var feedpost = {
+      'parent_type':'Feedpost',
+      'parent_id':post_id,
+      'post_type':'comment',
+      'headline':'comment',
+      'body':jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')
+      }
+    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_success(data, post_id)}, error: function(xhr, status, thrown){submit_error(post_id)}})
+  }
   return false
 }
 function submit_success(data, post_id) {
@@ -85,20 +89,24 @@ function delete_post(post_id) {
 **********************/
 function submit_feedpost() {
   jQuery("#error_submitting").hide()
-  jQuery("#postform input[type='submit']").attr('disabled','true')
-  jQuery("#submitting").show()
-  var commit = $("#postform [type='submit']").attr('value')
-  var utf8 = $("#postform [name='utf8']").attr('value')
-  var auth = $("#postform [name='authenticity_token']").attr('value')
-  var feedpost = {
-    'parent_type':jQuery('#postform #feedpost_parent_type').attr('value'),
-    'parent_id':jQuery('#postform #feedpost_parent_id').attr('value'),
-    'post_type':'wall',
-    'headline':jQuery('#postform #feedpost_headline').attr('value'),
-    'body':jQuery('#postform textarea').attr('value')
-    }
-  jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
-  
+  jQuery("#post_invalid").hide()
+  if (!jQuery('#postform textarea').attr('value')) {
+    jQuery("#post_invalid").show()
+  } else {
+    jQuery("#postform input[type='submit']").attr('disabled','true')
+    jQuery("#submitting").show()
+    var commit = jQuery("#postform [type='submit']").attr('value')
+    var utf8 = jQuery("#postform [name='utf8']").attr('value')
+    var auth = jQuery("#postform [name='authenticity_token']").attr('value')
+    var feedpost = {
+      'parent_type':jQuery('#postform #feedpost_parent_type').attr('value'),
+      'parent_id':jQuery('#postform #feedpost_parent_id').attr('value'),
+      'post_type':'wall',
+      'headline':jQuery('#postform #feedpost_headline').attr('value'),
+      'body':jQuery('#postform textarea').attr('value')
+      }
+    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
+  }
   return false
 }
 function submit_feedpost_success(data) {

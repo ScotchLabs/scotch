@@ -30,6 +30,7 @@
         <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
         <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
         <span class='hidden' id='error_submitting'>Error. Try again?</span>
+        <span class='hidden' id='post_invalid'>You need to write something!</span>
       <% end %>
 			</div>
       <div id='feedposts'>

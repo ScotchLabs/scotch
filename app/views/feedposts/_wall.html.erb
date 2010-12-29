@@ -61,6 +61,7 @@ comments.reverse!
       <%= f.submit "Post!", :class => "smallbutton", :onclick => "return submit_comment(#{post.id})", :style => "display: none;" %>
       <%= image_tag 'indicator.gif', :id => "submitting_#{post.id}", :class => "hidden" %>
       <span class='hidden' id='error_submitting_<%= post.id %>'>Error. Try again?</span>
+      <span class='hidden' id='post_invalid_<%= post.id %>'>You need to write something!</span>
     <% end %>
     </div>
     <hr>
