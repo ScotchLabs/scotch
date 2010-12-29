@@ -10,6 +10,8 @@ class Feedpost < ActiveRecord::Base
   #  indexes :body
   #end
   
+  before_validation :check_headline
+  
   attr_protected :user_id, :parent_id, :parent_type
   
   POST_TYPES = [
@@ -35,5 +37,10 @@ class Feedpost < ActiveRecord::Base
 
   def <=>(other)
     self.created_at <=> other.created_at
+  end
+  
+private
+  def check_headline
+    self.headline = self.body.split(' ').slice(0,5).join(' ')+'...' if self.headline.blank? or self.headline.nil?
   end
 end
