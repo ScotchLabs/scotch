@@ -9,7 +9,7 @@
   <%= csrf_meta_tag %>
   <% if current_page? dashboard_calendar_path %>
     <%= stylesheet_link_tag "fullcalendar.css" %>
-    <%= javascript_include_tag "fullcalendar.min.js" %>
+    <%= javascript_include_tag "fullcalendar.min.js", 'cal' %>
   <% end %>
 </head>
 <body>

@@ -1,19 +1,35 @@
 <article>
-<h1>My Calendar</h1>
+<div id='calwrapper'>
+  <h1>My Calendar</h1>
+  <div class='fleft'>
+    <%= link_to "http://www.google.com/calendar/render?cid=" + h(dashboard_calendar_url(:format => :ics, :authentication_token => current_user.authentication_token)), :target => "_blank" do %>
+      <%= image_tag "http://www.google.com/calendar/images/ext/gc_button6.gif", :border => 0, :id => 'addGoogleImg' %>
+    <% end %>
+  
+    <div id='calside'>
+      <div id='mygroups'>
+        <h2>My Groups</h2>
+        <% @mygroups.each do |group| %>
+        <div id='<%= group.id %>' class='groupButton long' onclick='toggle(<%= group.id %>)' title='<%= group.name %>'><%= group.name %></div>
+        <% end %>
+        </div>
+      <div id='activeshows'>
+        <h2>Active Shows</h2>
+        <% @activeshows.each do |show| %>
+        <div id='<%= show.id %>' class='groupButton long' onclick='toggle(<%= show.id %>)' title='<%= show.name %>'><%= show.name %></div>
+        <% end %>
+        </div>
+      <div id='activegroups'>
+        <h2>Active Groups</h2>
+        <% @activegroups.each do |group| %>
+        <div id='<%= group.id %>' class='groupButton long' onclick='toggle(<%= group.id %>)' title='<%= group.name %>'><%= group.name %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div id='calendar'></div>
+  
+  <div class='clearfix'></div>
+</div>
 
-<%= link_to "http://www.google.com/calendar/render?cid=" + h(dashboard_calendar_url(:format => :ics, :authentication_token => current_user.authentication_token)), :target => "_blank" do %>
-  <%= image_tag "http://www.google.com/calendar/images/ext/gc_button6.gif", :border => 0 %>
-<% end %>
-
-<!-- TODO load the events via AJAX instead of serializing them all out now -->
-<script>
-$(document).ready(function() {
-    $('#calendar').fullCalendar({
-    events: [
-<%= raw @events.collect { |e| event_to_json(e) }.join(", ") %>
-    ]
-    })
-});
-</script>
-<div id='calendar'></div>
 </article>

@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-
+  include EventsHelper
+  
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
@@ -13,10 +14,22 @@ class EventsController < ApplicationController
     group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
     @events = group_events.where(["start_time > ?",Time.zone.now]).all
     @past_events = group_events.where(["start_time < ?",Time.zone.now]).all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @events }
+      format.json {
+        json_events = group_events.clone
+        # params sent by fullCalendar
+        json_events = json_events.select{|e| e.start_time >= Time.at(params[:start].to_i)} if params[:start]
+        json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
+        
+        json = json_events.collect { |e| event_to_json(e) }.join(",\n")
+        # we can't send blank back
+        json = '{}' if json.blank?
+        
+        render :json => json
+      }
     end
   end
 
