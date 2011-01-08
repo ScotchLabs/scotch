@@ -120,11 +120,11 @@ end
 
   def user_as_icon(user, text)
     text = user.name if text.nil?
-    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb)}<div>#{text}</div></div></a>"
+    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb), :size => "50x50"}<div>#{text}</div></div></a>"
   end
 
   def group_as_icon(group, text)
     text = group.name if text.nil?
-    "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb)}<div>#{group}</div></div></a>"
+    "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb), :size => "50x50"}<div>#{group}</div></div></a>"
   end
 end
