@@ -1,26 +1,24 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.3'
 
 gem 'mysql', '2.7'
 
-gem 'devise', '1.1.2'
+gem 'devise', '1.1.5'
 
 gem 'RedCloth', '4.2.3'
 
-gem 'will_paginate', '~> 3.0.pre2'
+gem 'will_paginate', '~> 3.0.pre3'
 
-gem 'libxml-ruby', '1.1.4'
+gem 'htmlentities', '4.2.3'
 
-gem 'htmlentities', '4.2.1'
+gem 'smurf', '1.0.5'
 
-gem 'smurf', '1.0.4'
-
-gem 'paperclip', '2.3.3'
+gem 'paperclip', '2.3.8'
 
 gem 'digest-whirlpool', '1.0.0'
 
-gem 'thinking-sphinx', '2.0.0', :require => 'thinking_sphinx'
+gem 'thinking-sphinx', '2.0.1', :require => 'thinking_sphinx'
 
 gem 'icalendar', '1.1.5'
 
