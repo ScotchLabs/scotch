@@ -32,6 +32,7 @@ class FeedpostsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @feedpost }
+      format.text # show.text.erb
     end
   end
 
@@ -45,11 +46,23 @@ class FeedpostsController < ApplicationController
 
     respond_to do |format|
       if @feedpost.save
-        format.html { redirect_to(url_for(@feedpost.parent), :notice => 'Feed post was successfully created.') }
-        format.xml  { render :xml => @feedpost, :status => :created, :location => @feedpost }
+        parent = @feedpost.parent
+        
+        unless params[:ajax]
+          format.html { redirect_to(url_for(parent), :notice => 'Post was successfully created.') }
+          format.xml  { render :xml => @feedpost, :status => :created, :location => @feedpost }
+        else
+          redirect = @feedpost
+          redirect = @feedpost.parent if @feedpost.parent_type == "Feedpost"          
+          format.html { redirect_to(url_for(:action => :show, :format => :text, :id => redirect.id)) }
+        end
       else
-        format.html { redirect_to(url_for(@feedpost.parent), :notice => 'Feed post was NOT successfully created.') }
-        format.xml  { render :xml => @feedpost.errors, :status => :unprocessable_entity }
+        unless params[:ajax]
+          format.html { redirect_to(url_for(parent), :notice => 'Post was NOT successfully created.') }
+          format.xml  { render :xml => @feedpost.errors, :status => :unprocessable_entity }
+        else
+          raise "Post not successfully created"
+        end
       end
     end
   end
@@ -77,7 +90,7 @@ class FeedpostsController < ApplicationController
 
   # emails the user whose wall was written on
   def send_user_notification
-    return true if @feedpost.new_record? || params[:email] != "emali" ||
+    return true if @feedpost.new_record? ||
       params[:feedpost][:parent_type] != "User" ||
       @feedpost.parent.email_notifications == false ||
       params[:feedpost][:post_type] != "wall" ||

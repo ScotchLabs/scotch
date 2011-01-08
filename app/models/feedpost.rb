@@ -1,15 +1,22 @@
 class Feedpost < ActiveRecord::Base
-  acts_as_indexed :fields => [:headline, :body]
-
   belongs_to :parent, :polymorphic => true
   belongs_to :user
   
+  has_many :feedposts, :as => :parent, :dependent => :destroy
+
+  # FIXME implement a feedpost _as_line_item and then uncomment this
+  #define_index do
+  #  indexes :headline
+  #  indexes :body
+  #end
+  
+  before_validation :check_headline
+  
   attr_protected :user_id, :parent_id, :parent_type
   
-  #FIXME what other types are there and
-  # what differentiates them?
   POST_TYPES = [
-    ['wall',"Wallpost"]
+    ['wall',"Wallpost"],
+    ['comment',"Comment"]
   ]
   
   validates_presence_of :parent, :user, :headline
@@ -30,5 +37,10 @@ class Feedpost < ActiveRecord::Base
 
   def <=>(other)
     self.created_at <=> other.created_at
+  end
+  
+private
+  def check_headline
+    self.headline = self.body.split(' ').slice(0,5).join(' ')+'...' if self.headline.blank? or self.headline.nil?
   end
 end

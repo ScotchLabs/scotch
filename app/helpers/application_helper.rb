@@ -106,4 +106,25 @@ module ApplicationHelper
     if textiled[-4..-1] == "</p>" then textiled = textiled[0..-5] end
     return textiled
   end
+
+  def as_icon(object, text)
+    return nil if object.nil?
+    return case object.class.name
+    when "User" then user_as_icon(object, text)
+    when "Group" then group_as_icon(object, text)
+    when "Show" then group_as_icon(object, text)
+    when "Board" then group_as_icon(object, text)
+    else ""
+    end
+end
+
+  def user_as_icon(user, text)
+    text = user.name if text.nil?
+    "<a href='#{url_for(user)}'><div class='icon'>#{image_tag user.headshot(:thumb)}<div>#{text}</div></div></a>"
+  end
+
+  def group_as_icon(group, text)
+    text = group.name if text.nil?
+    "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb)}<div>#{group}</div></div></a>"
+  end
 end

@@ -1,0 +1,17 @@
+<div id='post_<%= comment.id %>' class='comment'>
+  <div class='feedpost-image'>
+    <%= raw as_icon(comment.user, '') %>
+  </div>
+  <div class='feedpost-text'>
+    <span class='delete_link fright hidden'>
+    <% if current_user == comment.user %>
+      <%= link_to image_tag("delete_icon.png", :size => "8x8"), '#none', :onclick => "delete_post(#{comment.id})" %>
+    <% end %>
+    </span>
+    <p><%= link_to comment.user, comment.user %>: <%= raw textilize_without_paragraph comment.body %></p>
+    <small style='color:#ddd'>Posted at <%= format_time comment.created_at %></small>
+  </div>
+  <hr style='margin:0 -60px 10px 60px;'>
+  <div class='clearfix'></div>
+</div>
+

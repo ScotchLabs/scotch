@@ -1,25 +1,71 @@
-<div class="feedpost">
+<%
+post = post or Feedpost.new
+complete = complete
+comment_count = post.feedposts.count
+if complete then
+  comments = post.feedposts.all
+else
+  comments = post.feedposts.limit(2)
+end
+comments.reverse!
+%>
+
+<div id='post_<%= post.id %>' class="feedpost">
+  <a name='feedpost_<%= post.id %>'></a>
   <div class='feedpost-image'>
-    <%= link_to image_tag(post.user.headshot(:thumb)), post.user%>
+    <%= raw as_icon(post.user, '') %>
   </div>
   <div class='feedpost-text'>
     <div class="headline">
       <%= link_to post.user, post.user %>: <strong><%= post.headline %></strong>
+      <span class='delete_link fright hidden'>
       <% if current_user == post.user %>
-        <%= link_to image_tag("delete_icon.png", :size => "8x8"), post, :method => :delete,
-          :confirm => "Are you sure you want to delete this post?" %>
-        <% end %>
+        <%= link_to image_tag("delete_icon.png", :size => "8x8"), '#none', :onclick => "delete_post(#{post.id})" %>
+      <% end %>
+      </span>
     </div>
     
     <%= raw textilize post.body %>
     <br>
-    <small>Posted 
+    <small style='color:#ddd'>Posted 
       at <%= format_time post.created_at %>
     <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
       on <%= link_to post.parent, post.parent %>
     <% end %>
     </small>
-    
+  </div>
+  <div style='margin-left:60px;'>  
+    <hr>
+    <% if comment_count > 2 and !complete %>
+      <div id='view_all_<%= post.id %>' style='margin-left: 60px'>
+        <small id='view_link_<%= post.id %>'><a href='#none' onclick='expand_comments(<%= post.id %>)'>View all <span id='post_<%= post.id %>_count'><%= comment_count %></span> comments</a></small>
+        <%= image_tag 'indicator.gif', :id => "loading_#{post.id}", :class => "hidden" %>
+        <span id='view_error_<%= post.id %>' class='hidden'>There was an error retrieving the comments. <a id='retry_<%= post.id %>' href='#feedpost_<%= post.id %>' onclick='expand_comments(<%= post.id %>)'>Retry</a></span>
+        <hr>
+      </div>
+    <% end %>
+    <div id='post_<%= post.id %>_comments'>
+      <div id='expanded_comments_<%= post.id %>'></div>
+      <div id='recent_comments_<%= post.id %>'>
+        <% comments.each do |comment| %>
+        <%= render "feedposts/comment.html", :post => post, :comment => comment %>
+      <% end %>
+      </div>
+    </div>
+    <div id='new_feedpost_form_<%= post.id %>' class='new_feedpost_form'>
+    <%= form_for(Feedpost.new({})) do |f| %>
+      <%= f.hidden_field :parent_type, :value => "Feedpost" %>
+      <%= f.hidden_field :parent_id, :value => post.id.to_s %>
+      <%= f.hidden_field :post_type, :value => "comment" %>
+      <%= f.hidden_field :headline, :value => "comment" %>
+      <%= f.text_area :body, :rows => "2", :placeholder => "Write a comment...", :class => "placeholder-shim", :onfocus => "focus_comment(#{post.id})" %><br>
+
+      <%= f.submit "Post!", :class => "smallbutton", :onclick => "return submit_comment(#{post.id})", :style => "display: none;" %>
+      <%= image_tag 'indicator.gif', :id => "submitting_#{post.id}", :class => "hidden" %>
+      <span class='hidden' id='error_submitting_<%= post.id %>'>Error. Try again?</span>
+      <span class='hidden' id='post_invalid_<%= post.id %>'>You need to write something!</span>
+    <% end %>
+    </div>
     <hr>
     
   </div>

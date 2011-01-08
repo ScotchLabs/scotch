@@ -2,15 +2,19 @@ class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
 
-  acts_as_indexed :fields => [:name, :description, :short_name]
-
   has_many :checkouts, :dependent => :destroy
-  has_many :documents
+  has_many :documents, :dependent => :destroy
   has_many :events, :dependent => :destroy
-  has_many :positions, :include => :user
+  has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
+
+  define_index do
+    indexes :name
+    indexes :description
+    indexes :short_name
+  end
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
@@ -43,6 +47,16 @@ class Group < Shared::Watchable
 
     unless g.name == "SYSTEM GROUP"
       raise "Did the system group change?"
+    end
+    
+    return g
+  end
+
+  def self.sns_group
+    g = Group.find(3)
+
+    unless g and g.name == "Scotch'n'Soda"
+      logger.warn "Did the SNS group change?"
     end
     
     return g
@@ -121,7 +135,7 @@ class Group < Shared::Watchable
   end
 
   def archived?
-    archive_date && archive_date < Date.today
+    archive_date && archive_date <= Date.today
   end
   def active?
     not self.archived?
