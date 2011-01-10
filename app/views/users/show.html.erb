@@ -18,6 +18,11 @@
 				<%= image_tag @user.headshot.url(:medium), :style => 'border: 1px solid white' %>
 			</div>
 			<h1 style='color:#fff'><%= @user %></h1>
+			<% @user.recent_groups(6).each do |g| %>
+				<div class='fleft'>
+					<%= image_tag g.image.url(:thumb), :style => "margin: 13px 7px 0px 0px", :alt => g.name %>
+				</div>
+			<% end %>
 			<a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
 			<div class='clearfix'></div>
 		</div>

@@ -183,6 +183,7 @@ class User < Shared::Watchable
   def active_groups
     self.groups.all.select{|g| g.active?}
   end
+  
   def active_positions
     positions.select{ |p| p.group.active? }
   end
@@ -192,6 +193,13 @@ class User < Shared::Watchable
     conditions["groups.type"] = type unless type.nil?
     positions.joins(:group).where(conditions)
   end 
+  
+  def recent_groups(count)
+  	group_ids = self.positions.select("DISTINCT group_id").order("group_id DESC").map{ |p| p.group_id }
+	groups = Group.where(:id => group_ids).where("(archive_date IS NULL) OR (archive_date > NOW())").order("id DESC").limit(count)
+	groups.concat(Group.where(:id => group_ids).where("(archive_date IS NOT NULL) AND (archive_date < NOW())").order("id DESC").limit(count - groups.length))
+	return groups
+  end
  
 #######################
 # PERMISSIONS METHODS #
