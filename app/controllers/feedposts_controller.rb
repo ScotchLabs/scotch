@@ -11,7 +11,7 @@ class FeedpostsController < ApplicationController
     @parent = (@group or @user or @item)
     
     if @parent.nil? or !@parent.respond_to? 'feedposts'
-      @feedposts = Feedpost.all
+      @feedposts = []
     else
       @feedposts = @parent.feedposts
     end

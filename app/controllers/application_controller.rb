@@ -14,8 +14,12 @@ class ApplicationController < ActionController::Base
   def locate_group
     if params.has_key? :group_id then
       @group = Group.find(params[:group_id].to_i)
-      params[:group_type] = @group.class.name unless params.has_key? :group_type
+    elsif params.has_key? :show_id then
+      @group = Group.find(params[:show_id].to_i)
+    elsif params.has_key? :board_id then
+      @group = Group.find(params[:board_id].to_i)
     end
+    params[:group_type] = @group.class.name unless params.has_key? :group_type
   end
 
   def locate_item
