@@ -15,7 +15,7 @@ gem 'htmlentities', '4.2.3'
 # FIXME: UPGRADE WHEN UPGRADING RAILS VERSION
 gem 'smurf', '1.0.4'
 
-gem 'paperclip', '2.3.8'
+gem 'paperclip', '2.3.3'
 
 gem 'digest-whirlpool', '1.0.0'
 
