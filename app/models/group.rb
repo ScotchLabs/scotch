@@ -10,11 +10,6 @@ class Group < Shared::Watchable
 
   belongs_to :parent, :class_name => "Group"
 
-  define_index do
-    indexes :name
-    indexes :description
-    indexes :short_name
-  end
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
@@ -30,6 +25,12 @@ class Group < Shared::Watchable
     :content_type => ["image/jpeg", "image/gif", "image/png"],
     :message => "must be an image (JPEG, GIF or PNG)",
 		:unless => lambda { |group| !group.image.nil? }
+
+  define_index do
+    indexes :name
+    indexes :description
+    indexes :short_name
+  end
 
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name

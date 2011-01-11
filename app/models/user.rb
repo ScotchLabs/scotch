@@ -33,21 +33,6 @@ class User < Shared::Watchable
   has_many :watched_groups, :through => :watchees, :source => :watched_group, 
     :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
 
-  define_index do
-    indexes :email
-    indexes :first_name
-    indexes :last_name
-    indexes :phone
-    indexes :residence
-    indexes :andrewid
-    indexes :majors
-    indexes :minors
-    indexes :other_activities
-    indexes :about
-
-    where 'public_profile = 1'
-  end
-
   #FIXME these don't work STUPID RAILS
   #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts
   #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
@@ -70,6 +55,21 @@ class User < Shared::Watchable
     :content_type => ["image/jpeg", "image/gif", "image/png"],
     :message => "must be an image (JPEG, GIF or PNG)",
     :unless => lambda { |user| !user.headshot.nil? }  
+
+  define_index do
+    indexes :email
+    indexes :first_name
+    indexes :last_name
+    indexes :phone
+    indexes :residence
+    indexes :andrewid
+    indexes :majors
+    indexes :minors
+    indexes :other_activities
+    indexes :about
+
+    where 'public_profile = 1'
+  end
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
 
