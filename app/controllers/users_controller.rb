@@ -17,7 +17,8 @@ class UsersController < ApplicationController
     # FIXME this loads all users from the database, ouch!
     # FIXME the non-HTML views don't work without q=
     if params[:q]
-      @users = User.search("#{params[:q]}")
+      query = params[:q] + "%"
+      @users = User.where(["first_name LIKE ? OR last_name LIKE ? OR email LIKE ?",query,query,query])
     else
       # @users = User.paginate(:per_page => 20, :page => params[:page])
       @users = []
