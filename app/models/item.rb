@@ -3,19 +3,19 @@ class Item < Shared::Watchable
 
   belongs_to :item_category # foreign key item_category_id
 
-  define_index do
-    indexes :name
-    indexes :location
-    indexes :description
-    indexes :catalog_number
-  end
-
   validates_presence_of :name, :item_category_id, :catalog_number
   validates_uniqueness_of :catalog_number
 
   before_validation :generate_catalog_number, :on => :create
 
   attr_accessor :suffix
+
+  define_index do
+    indexes :name
+    indexes :location
+    indexes :description
+    indexes :catalog_number
+  end
   
   #TODO FIXME using these in lieu of scopes until I figure out how TODO that
   def self.available_items
