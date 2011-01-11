@@ -27,7 +27,7 @@
 	  <%= select_tag :email_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
         <% end %>
 
-        <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
+        <%= f.submit "Post!" %>
         <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
         <span class='hidden' id='error_submitting'>Error. Try again?</span>
         <span class='hidden' id='post_invalid'>You need to write something!</span>
