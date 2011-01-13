@@ -5,7 +5,7 @@ function expand_comments(post_id) {
   jQuery('#view_error_'+post_id).hide()
   jQuery('#view_link_'+post_id).hide()
   jQuery('#loading_'+post_id).show()
-  jQuery.ajax({type: 'get', url: '/feedposts/'+post_id+'.text', success: function(data, status, xhr){expand_success(post_id, data)}, error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}})
+  jQuery.ajax({type: 'get', url: '/feedposts/'+post_id, data: {ajax:true}, success: function(data, status, xhr){expand_success(post_id, data)}, error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}})
 }
 function expand_success(post_id, data) {
   jQuery('#loading_'+post_id).hide()
@@ -104,8 +104,16 @@ function submit_feedpost() {
       'post_type':'wall',
       'headline':jQuery('#postform #feedpost_headline').attr('value'),
       'body':jQuery('#postform textarea').attr('value')
-      }
-    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
+    }
+    var email = ""
+    if ($("#email") != undefined && $("#email").attr("checked"))
+      email = "email"
+    var email_names = []
+    if ($("#email_names")[0] != undefined)
+      for (i=0; i<$("#email_names")[0].options.length; i++)
+        if ($("#email_names")[0].options[i].selected)
+          email_names.push($("#email_names")[0].options[i].value)
+    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit, email: email, email_names: email_names}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
   }
   return false
 }
@@ -182,4 +190,9 @@ function blur_comment(post_id) {
     $('#'+post_id+" textarea").attr('rows','2')
     $('#'+post_id+" [type='submit']").hide()
   }
+}
+
+function clearEmailNames() {
+  for (i=0; i<$("#email_names")[0].options.length; i++)
+    $("#email_names")[0].options[i].selected = false
 }

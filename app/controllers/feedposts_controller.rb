@@ -30,9 +30,14 @@ class FeedpostsController < ApplicationController
     @feedpost = Feedpost.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+        if params[:ajax]
+          render :html => @feedpost, :layout => false
+        else
+          render :html => @feedpost
+        end
+      }# show.html.erb
       format.xml  { render :xml => @feedpost }
-      format.text # show.text.erb
     end
   end
 
@@ -54,7 +59,7 @@ class FeedpostsController < ApplicationController
         else
           redirect = @feedpost
           redirect = @feedpost.parent if @feedpost.parent_type == "Feedpost"          
-          format.html { redirect_to(url_for(:action => :show, :format => :text, :id => redirect.id)) }
+          format.html { redirect_to(url_for(:action => :show, :id => redirect.id, :ajax => true)) }
         end
       else
         unless params[:ajax]

@@ -21,13 +21,14 @@
         <% if (object.class.name == "Group" && has_permission?("email")) ||
               (object.class.name == "Board" && object.users.include?(current_user)) then %>
           <%= check_box_tag "email", "email" %>
-	  <%= label_tag "email", "Send an email notification to all users who follow this group and have notifications turned on." %><br>
+	        <%= label_tag "email", "Send an email notification to all users who follow this group and have notifications turned on." %><br>
         <% elsif object.class.name == "Show" && has_permission?("email") then %>
           <%= label_tag :email_names, "Notify these positions via email" %><br>
-	  <%= select_tag :email_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
+	        <%= select_tag :email_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
+	        <a href="#none" onclick="clearEmailNames()">Clear selection</a><br>
         <% end %>
 
-        <%= f.submit "Post!" %>
+        <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
         <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
         <span class='hidden' id='error_submitting'>Error. Try again?</span>
         <span class='hidden' id='post_invalid'>You need to write something!</span>
