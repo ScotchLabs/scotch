@@ -2,72 +2,105 @@
 ***  View All N Comments  ***
 ****************************/
 function expand_comments(post_id) {
-  jQuery('#view_error_'+post_id).hide()
-  jQuery('#view_link_'+post_id).hide()
-  jQuery('#loading_'+post_id).show()
-  jQuery.ajax({type: 'get', url: '/feedposts/'+post_id, data: {ajax:true}, success: function(data, status, xhr){expand_success(post_id, data)}, error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}})
+  // reset errors, set loading
+  $('#view_error_'+post_id).hide()
+  $('#view_link_'+post_id).hide()
+  $('#loading_'+post_id).show()
+  // request the page
+  $.ajax({
+    type: 'get',
+    url: '/feedposts/'+post_id, data: {ajax:true},
+    success: function(data, status, xhr){expand_success(post_id, data)},
+    error: function(xhr, status, thrown){expand_error(post_id, status, thrown)}
+  })
 }
 function expand_success(post_id, data) {
-  jQuery('#loading_'+post_id).hide()
-  jQuery('#view_all_'+post_id).hide()
+  // reset loading
+  $('#loading_'+post_id).hide()
+  $('#view_all_'+post_id).hide()
+  // process data
   html = ''
   recent_comments = [];
-  jQuery('#recent_comments_'+post_id).children().each(function(){recent_comments.push($(this).attr('id').toString())})
-  expanded_comments = jQuery('#expanded_comments_'+post_id)
+  $('#recent_comments_'+post_id).children().each(function(){recent_comments.push($(this).attr('id').toString())})
+  expanded_comments = $('#expanded_comments_'+post_id)
   expanded_comments.hide()
+  // trim comment and add to output
   $(data).find("#recent_comments_"+post_id).children().each(function(){
     if (recent_comments.indexOf(this.id) == -1) {
       trim(this)
-      html += "<div id='"+this.id+"' class='comment'>"+jQuery(this).html()+"</div>"
+      html += "<div id='"+this.id+"' class='comment'>"+$(this).html()+"</div>"
     }
   })
   expanded_comments.html(html)
   expanded_comments.show('fast')
 }
 function expand_error(post_id, status, thrown) {
-  jQuery('#loading_'+post_id).hide()
-  jQuery('#view_error_'+post_id).show()
+  // reset loading, set error
+  $('#loading_'+post_id).hide()
+  $('#view_error_'+post_id).show()
 }
 
 /***************************
 ***  Comment Submission  ***
 ***************************/
 function submit_comment(post_id) {
-  jQuery("#error_submitting_"+post_id).hide()
-  jQuery("#post_invalid_"+post_id).hide()
-  if (!jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')) {
-    jQuery("#post_invalid_"+post_id).show()
+  // reset errors
+  $("#error_submitting_"+post_id).hide()
+  $("#post_invalid_"+post_id).hide()
+  // validate data
+  if (!$('#new_feedpost_form_'+post_id+' textarea').attr('value')) {
+    // set error
+    $("#post_invalid_"+post_id).show()
   } else {
-    jQuery("#new_feedpost_form_"+post_id+" input[type='submit']").attr('disabled','true')
-    jQuery("#submitting_"+post_id).show()
-    var commit = jQuery("#new_feedpost_form_"+post_id+" [type='submit']").attr('value')
-    var utf8 = jQuery("#new_feedpost_form_"+post_id+" [name='utf8']").attr('value')
-    var auth = jQuery("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
+    // lock form, set loading
+    $("#new_feedpost_form_"+post_id+" input[type='submit']").attr('disabled','true')
+    $("#submitting_"+post_id).show()
+    // gather data
+    var commit = $("#new_feedpost_form_"+post_id+" [type='submit']").attr('value')
+    var utf8 = $("#new_feedpost_form_"+post_id+" [name='utf8']").attr('value')
+    var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
     var feedpost = {
       'parent_type':'Feedpost',
       'parent_id':post_id,
       'post_type':'comment',
       'headline':'comment',
-      'body':jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value')
+      'body':$('#new_feedpost_form_'+post_id+' textarea').attr('value')
       }
-    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit}, success: function(data, status, xhr){submit_success(data, post_id)}, error: function(xhr, status, thrown){submit_error(post_id)}})
+    // send request
+    $.ajax({
+      type: 'post',
+      url: '/feedposts',
+      data: {
+        ajax: true,
+        feedpost: feedpost,
+        utf8: utf8,
+        authenticity_token: auth,
+        commit: commit
+      },
+      success: function(data, status, xhr){submit_success(data, post_id)},
+      error: function(xhr, status, thrown){submit_error(post_id)}
+    })
   }
   return false
 }
 function submit_success(data, post_id) {
-  jQuery("#new_feedpost_form_"+post_id+" input[type='submit']").removeAttr('disabled')
-  jQuery("#submitting_"+post_id).hide()
-  jQuery('#new_feedpost_form_'+post_id+' textarea').attr('value','')
-  jQuery('#post_'+post_id+'_count').html(parseInt(jQuery('#post_'+post_id+'_count').html())+1)
+  // unlock form, reset loading
+  $("#new_feedpost_form_"+post_id+" input[type='submit']").removeAttr('disabled')
+  $("#submitting_"+post_id).hide()
+  // clear form
+  $('#new_feedpost_form_'+post_id+' textarea').attr('value','')
+  // display new view
+  $('#post_'+post_id+'_count').html(parseInt($('#post_'+post_id+'_count').html())+1)
   newComment = $(data).find("#recent_comments_"+post_id).children().last()
   trim(newComment)
   newCommentHtml = "<div id='"+newComment.attr('id')+"' class='comment'>"+newComment.html()+"</div>"
   $(newCommentHtml).hide().appendTo('#recent_comments_'+post_id).show('fast')
 }
 function submit_error(post_id) {
-  jQuery("#new_feedpost_form_"+post_id+" input[type='submit']").removeAttr('disabled')
-  jQuery("#submitting_"+post_id).hide()
-  jQuery("#error_submitting_"+post_id).show()
+  // unlock form, hide loading, set error
+  $("#new_feedpost_form_"+post_id+" input[type='submit']").removeAttr('disabled')
+  $("#submitting_"+post_id).hide()
+  $("#error_submitting_"+post_id).show()
 }
 
 /***************************
@@ -80,7 +113,14 @@ function delete_post(post_id) {
     $("#post_"+post_id).hide('fast')
     var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
     //TODO decrement View All N Comments
-    $.ajax({type: 'DELETE', url: '/feedposts/'+post_id+'.xml', data: {authenticity_token: auth, id: post_id}})
+    $.ajax({
+      type: 'DELETE',
+      url: '/feedposts/'+post_id+'.xml',
+      data: {
+        authenticity_token: auth,
+        id: post_id
+      }
+    })
   }
 }
 
@@ -88,22 +128,27 @@ function delete_post(post_id) {
 *** Post Submission ***
 **********************/
 function submit_feedpost() {
-  jQuery("#error_submitting").hide()
-  jQuery("#post_invalid").hide()
-  if (!jQuery('#postform textarea').attr('value')) {
-    jQuery("#post_invalid").show()
+  // reset errors
+  $("#error_submitting").hide()
+  $("#post_invalid").hide()
+  // validate data
+  if (!$('#postform textarea').attr('value')) {
+    // set error
+    $("#post_invalid").show()
   } else {
-    jQuery("#postform input[type='submit']").attr('disabled','true')
-    jQuery("#submitting").show()
-    var commit = jQuery("#postform [type='submit']").attr('value')
-    var utf8 = jQuery("#postform [name='utf8']").attr('value')
-    var auth = jQuery("#postform [name='authenticity_token']").attr('value')
+    // lock form, set loading
+    $("#postform input[type='submit']").attr('disabled','true')
+    $("#submitting").show()
+    // gather data
+    var commit = $("#postform [type='submit']").attr('value')
+    var utf8 = $("#postform [name='utf8']").attr('value')
+    var auth = $("#postform [name='authenticity_token']").attr('value')
     var feedpost = {
-      'parent_type':jQuery('#postform #feedpost_parent_type').attr('value'),
-      'parent_id':jQuery('#postform #feedpost_parent_id').attr('value'),
+      'parent_type':$('#postform #feedpost_parent_type').attr('value'),
+      'parent_id':$('#postform #feedpost_parent_id').attr('value'),
       'post_type':'wall',
-      'headline':jQuery('#postform #feedpost_headline').attr('value'),
-      'body':jQuery('#postform textarea').attr('value')
+      'headline':$('#postform #feedpost_headline').attr('value'),
+      'body':$('#postform textarea').attr('value')
     }
     var email = ""
     if ($("#email") != undefined && $("#email").attr("checked"))
@@ -113,22 +158,40 @@ function submit_feedpost() {
       for (i=0; i<$("#email_names")[0].options.length; i++)
         if ($("#email_names")[0].options[i].selected)
           email_names.push($("#email_names")[0].options[i].value)
-    jQuery.ajax({type: 'post', url: '/feedposts', data: {ajax: true, feedpost: feedpost, utf8: utf8, authenticity_token: auth, commit: commit, email: email, email_names: email_names}, success: function(data, status, xhr){submit_feedpost_success(data)}, error: function(xhr, status, thrown){submit_feedpost_error()}})
+    // request page
+    $.ajax({
+      type: 'post', 
+      url: '/feedposts', 
+      data: {
+        ajax: true, 
+        feedpost: feedpost, 
+        utf8: utf8, 
+        authenticity_token: auth, 
+        commit: commit, 
+        email: email, 
+        email_names: email_names
+      }, 
+      success: function(data, status, xhr){submit_feedpost_success(data)}, 
+      error: function(xhr, status, thrown){submit_feedpost_error()}
+    })
   }
   return false
 }
 function submit_feedpost_success(data) {
-  jQuery("#postform input[type='submit']").removeAttr('disabled')
-  jQuery("#submitting").hide()
-  jQuery('#postform #feedpost_headline').attr('value','')
-  jQuery('#postform textarea').attr('value','')
+  // unlock form, reset loading, clear form
+  $("#postform input[type='submit']").removeAttr('disabled')
+  $("#submitting").hide()
+  $('#postform #feedpost_headline').attr('value','')
+  $('#postform textarea').attr('value','')
+  // display new view
   newPostHtml = "<div id='"+$(data).attr('id')+"' class='feedpost'>"+$(data).html()+"</div>"
   $(newPostHtml).hide().prependTo('#feedposts').show('fast')
 }
 function submit_feedpost_error() {
-  jQuery("#postform input[type='submit']").removeAttr('disabled')
-  jQuery("#submitting").hide()
-  jQuery("#error_submitting").show()
+  // unlock form, reset loading, set error
+  $("#postform input[type='submit']").removeAttr('disabled')
+  $("#submitting").hide()
+  $("#error_submitting").show()
 }
 
 /***************
@@ -140,24 +203,19 @@ $(document).ready(function(){
 function trim(s) {
   if (s.id == undefined)
     return
-  //console.log("trimming "+s.id)
   text = $(s).find('p').html()
   var less = ''
   var more = ''
   if (text.split("<br>").length > 5) {
-    //console.log("case 1")
     less = text.split("<br>").slice(0,5).join("<br>")
     more = "<br>"+text.split("<br>").slice(5).join("<br>")
   } else if (text.split(". ").length > 5) {
-    //console.log("case 2")
     less = text.split(". ").slice(0,5).join(". ")+". "
     more = text.split(". ").slice(5).join(". ")
   } else if (text.split(" ").length > 50) {
-    //console.log("case 3")
     less = text.split(" ").slice(0,50).join(" ")
     more = " "+text.split(" ").slice(50).join(" ")
   } else {
-    //console.log("else")
     less = text
   }
   morelink = "<a id='more_link_"+s.id+"' href='#none' onclick=\"$(this).hide(); $('#comment_more_"+s.id+"').show('fast')\">more...</a>"
@@ -180,13 +238,9 @@ $(document).ready(function(){
   $('.new_feedpost_form').focusout(function(){blur_comment(this.id)})
 })
 function blur_comment(post_id) {
-  //console.log("blur called on "+post_id)
   value = $('#'+post_id+" textarea").attr('value')
   placeholder = $('#'+post_id+" textarea").attr('placeholder')
-  //console.log("value: "+value)
-  //console.log("placeholder: "+placeholder)
   if (value == '' ||value == placeholder) {
-    //console.log("do it")
     $('#'+post_id+" textarea").attr('rows','2')
     $('#'+post_id+" [type='submit']").hide()
   }
