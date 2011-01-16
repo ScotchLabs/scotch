@@ -117,7 +117,7 @@ class FeedpostsController < ApplicationController
       @group.class.name != "Group" ||
       (! has_permission?("email"))
 
-    emails = @group.watchers.collect{|w| w.user}.select{|u| u.email_notification}.collect{|u| u.email}
+    emails = @group.watchers.collect{|w| w.user}.select{|u| u.email_notifications}.collect{|u| u.email}
 
     FeedpostMailer.group_notification(@feedpost,emails).deliver
   end
