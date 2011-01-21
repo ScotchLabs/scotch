@@ -1,22 +1,42 @@
+var selectedGroups = []
+
 $(document).ready(function() {
+  // populate selectedGroups
+  $.each($(".groupButton[selected]"), function(i, item) { selectedGroups.push(parseInt($(item).attr('id'))) })
+  
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
-    defaultView: 'agendaWeek',
-    lazyFetching: true
+    lazyFetching: true,
+    events: function(start, end, callback) {
+      events = []
+      for (i in selectedGroups) {
+        url = '/groups/'+selectedGroups[i]+'/events.json'
+        $.ajax({
+          async: false,
+          url: url,
+          success: function(data) {
+            $.each(data, function(j) {
+              events.push(data[j])
+            })
+          }
+        })
+      }
+      
+      callback(events)
+    }
   })
-  
-  $("#mygroups .groupButton").each(function(){toggle($(this).attr('id'))})
 })
 
 function toggle(group_id) {
-  url = '/groups/'+group_id+'/events.json'
+  console.log('toggling '+group_id)
   if ($('#'+group_id).attr('selected')=='true') {
+    console.log('selected -> deselected')
     $('#'+group_id).attr('selected','false')
-    console.log('removing source '+url)
-    $('#calendar').fullCalendar('removeEventSource',url)
+    selectedGroups.splice(selectedGroups.indexOf(group_id),1)
   } else {
+    console.log('deselected -> selected')
     $('#'+group_id).attr('selected','true')
-    console.log('adding source '+url)
-    $('#calendar').fullCalendar('addEventSource',url)
+    selectedGroups.push(group_id)
   }
+  $("#calendar").fullCalendar('refetchEvents')
 }

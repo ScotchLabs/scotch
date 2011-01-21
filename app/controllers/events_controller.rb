@@ -25,8 +25,7 @@ class EventsController < ApplicationController
         json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
         
         json = json_events.collect { |e| event_to_json(e) }.join(",\n")
-        # we can't send blank back
-        json = '{}' if json.blank?
+        json = "[#{json}]"
         
         render :json => json
       }

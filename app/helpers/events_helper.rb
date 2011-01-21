@@ -23,9 +23,8 @@ module EventsHelper
 		def f(string) 
       string.gsub("'") { |c| "\\'" } 
     end
-    return "{title : '[#{f event.group.short_name}] #{f event.title}', 
-      start : '#{event.start_time.strftime("%Y-%m-%d")}', 
-      end : '#{event.end_time.strftime("%Y-%m-%d")}',
-      url : '#{event_url(event)}'}"
+    return "{\"title\" : \"[#{f event.group.short_name}] #{f event.title}\", 
+      \"start\" : \"#{event.start_time.strftime("%Y-%m-%d")}\", 
+      \"end\" : \"#{event.end_time.strftime("%Y-%m-%d")}\"}"
   end
 end

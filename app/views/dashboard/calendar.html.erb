@@ -10,19 +10,19 @@
       <div id='mygroups'>
         <h2>My Groups</h2>
         <% @mygroups.each do |group| %>
-        <div id='<%= group.id %>' class='groupButton long' onclick='toggle(<%= group.id %>)' title='<%= group.name %>'><%= group.name %></div>
+        <%= render "groups/as_calendar", :group => group, :selected => true %>
         <% end %>
         </div>
       <div id='activeshows'>
         <h2>Active Shows</h2>
-        <% @activeshows.each do |show| %>
-        <div id='<%= show.id %>' class='groupButton long' onclick='toggle(<%= show.id %>)' title='<%= show.name %>'><%= show.name %></div>
+        <% @activeshows.each do |group| %>
+        <%= render "groups/as_calendar", :group => group %>
         <% end %>
         </div>
       <div id='activegroups'>
         <h2>Active Groups</h2>
         <% @activegroups.each do |group| %>
-        <div id='<%= group.id %>' class='groupButton long' onclick='toggle(<%= group.id %>)' title='<%= group.name %>'><%= group.name %></div>
+        <%= render "groups/as_calendar", :group => group %>
         <% end %>
       </div>
     </div>
