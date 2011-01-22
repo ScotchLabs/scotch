@@ -7,7 +7,6 @@ $(document).ready(function() {
   
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
-    lazyFetching: true,
     events: function(start, end, callback) {
       events = []
       for (i in selectedGroups) {
