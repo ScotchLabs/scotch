@@ -1,9 +1,10 @@
 var selectedGroups = []
 var cachedEvents = []
+var calDebug = true
 
 $(document).ready(function() {
   // populate selectedGroups
-  $.each($(".groupButton[selected]"), function(i, item) { selectedGroups.push(parseInt($(item).attr('id'))) })
+  $.each($(".groupButton[selected=true]"), function(i, item) { selectedGroups.push(parseInt($(item).attr('id'))) })
   
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
@@ -11,7 +12,6 @@ $(document).ready(function() {
       events = []
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
-        url = '/groups/'+group_id+'/events.json'
         
         foundCache = false
         for (j in cachedEvents) {
@@ -20,20 +20,25 @@ $(document).ready(function() {
         }
         
         if (!foundCache) {
+          if (calDebug) console.log("pulling "+group_id+" events from ajax")
           $.ajax({
             async: false,
-            url: url,
+            url: '/groups/'+group_id+'/events.json',
             success: function(data) {
+              if (calDebug) console.log('success')
               $.each(data, function(j) {
                 events.push(data[j])
               })
-              cachedEvents.push({"id":selectedGroups[i],"json":data})
+              cachedEvents.push({"id":group_id,"json":data})
+            },
+            error: function() {
+              if (calDebug) console.log('error')
+              //TODO show error
             }
             
-            
           })
-        }
-        else {
+        } else {
+          if (calDebug) console.log('pulling '+group_id+' events from cache')
           for (j in cachedEvents) {
             item = cachedEvents[j]
             if (item["id"] != selectedGroups[i])
@@ -51,13 +56,13 @@ $(document).ready(function() {
 })
 
 function toggle(group_id) {
-  console.log('toggling '+group_id)
+  if (calDebug) console.log('toggling '+group_id)
   if ($('#'+group_id).attr('selected')=='true') {
-    console.log('selected -> deselected')
+    if (calDebug) console.log('selected -> deselected')
     $('#'+group_id).attr('selected','false')
     selectedGroups.splice(selectedGroups.indexOf(group_id),1)
   } else {
-    console.log('deselected -> selected')
+    if (calDebug) console.log('deselected -> selected')
     $('#'+group_id).attr('selected','true')
     selectedGroups.push(group_id)
   }
