@@ -1,4 +1,5 @@
 var selectedGroups = []
+var cachedEvents = []
 
 $(document).ready(function() {
   // populate selectedGroups
@@ -10,16 +11,39 @@ $(document).ready(function() {
     events: function(start, end, callback) {
       events = []
       for (i in selectedGroups) {
-        url = '/groups/'+selectedGroups[i]+'/events.json'
-        $.ajax({
-          async: false,
-          url: url,
-          success: function(data) {
-            $.each(data, function(j) {
-              events.push(data[j])
+        group_id = selectedGroups[i]
+        url = '/groups/'+group_id+'/events.json'
+        
+        foundCache = false
+        for (j in cachedEvents) {
+          if (cachedEvents[j]["id"] != group_id) continue
+          else foundCache = true
+        }
+        
+        if (!foundCache) {
+          $.ajax({
+            async: false,
+            url: url,
+            success: function(data) {
+              $.each(data, function(j) {
+                events.push(data[j])
+              })
+              cachedEvents.push({"id":selectedGroups[i],"json":data})
+            }
+            
+            
+          })
+        }
+        else {
+          for (j in cachedEvents) {
+            item = cachedEvents[j]
+            if (item["id"] != selectedGroups[i])
+              continue
+            $.each(item["json"], function(k) {
+              events.push(item["json"][k])
             })
           }
-        })
+        }
       }
       
       callback(events)
