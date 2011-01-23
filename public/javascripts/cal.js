@@ -17,6 +17,7 @@ $(document).ready(function() {
         if (calDebug) console.log('ajax complete')
         if (finishedGroups.length == selectedGroups.length) {
           if (calDebug) console.log('calling back')
+          $("#calendar").fullCalendar("removeEvents")
           callback(events)
         }
       })
@@ -70,6 +71,7 @@ $(document).ready(function() {
       
       if (allFromCache) {
         if (calDebug) console.log('calling back')
+        $("#calendar").fullCalendar("removeEvents")
         callback(events)
       }
     }
