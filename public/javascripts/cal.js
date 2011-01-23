@@ -10,16 +10,6 @@ $(document).ready(function() {
     header: {right: 'month,agendaWeek prev,today,next'},
     events: function(start, end, callback) {
       events = []
-      finishedGroups = []
-      
-      $("#calendar").ajaxComplete(function(){
-        if (calDebug) console.log('ajax complete')
-        if (finishedGroups.length == selectedGroups.length) {
-          if (calDebug) console.log("calling back")
-          callback(events)
-        }
-      })
-      
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
         
@@ -30,15 +20,16 @@ $(document).ready(function() {
         }
         
         if (!foundCache) {
+          $("#grouploading_"+group_id).show()
           if (calDebug) console.log("pulling "+group_id+" events from ajax")
           $.ajax({
+            async: false,
             url: '/groups/'+group_id+'/events.json',
             success: function(data) {
               if (calDebug) console.log('success')
-              $.each(data, function(j) {
-                events.push(data[j])
+              $.each(data, function(k) {
+                events.push(data[k])
               })
-              finishedGroups.push(group_id)
               cachedEvents.push({"id":group_id,"json":data})
             },
             error: function() {
@@ -49,16 +40,18 @@ $(document).ready(function() {
           })
         } else {
           if (calDebug) console.log('pulling '+group_id+' events from cache')
-          for (j in cachedEvents) {
-            item = cachedEvents[j]
-            if (item["id"] != selectedGroups[i])
+          for (l in cachedEvents) {
+            item = cachedEvents[l]
+            if (item["id"] != group_id)
               continue
-            $.each(item["json"], function(k) {
-              events.push(item["json"][k])
+            $.each(item["json"], function(m) {
+              events.push(item["json"][m])
             })
           }
         }
       }
+      
+      callback(events)
     }
   })
 })
