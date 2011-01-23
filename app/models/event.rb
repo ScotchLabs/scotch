@@ -61,7 +61,9 @@ class Event < ActiveRecord::Base
   def <=>(other)
     start_time <=> other.start_time
   end
-  
+  def className
+    group.className
+  end
 protected
 
   def times_are_sane

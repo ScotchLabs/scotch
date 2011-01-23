@@ -140,4 +140,8 @@ class Group < Shared::Watchable
   def active?
     not self.archived?
   end
+
+  def className
+    "event_color_#{short_name.hash % 42}"
+  end
 end

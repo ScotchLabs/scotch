@@ -20,7 +20,6 @@
    440 for convenience in views
    450 for views
    460 for layout
-   470 for calendar
  */
 
 /* 200 COLOR GUIDE   R    G    B
@@ -681,35 +680,4 @@ body > div > section {
 
 #right-menu.admin a {
 	right: -22px;
-}
-
-/* 470
- * Calendar */
-#addGoogleImg {
-  height: 34px;
-}
-#calwrapper {
-  position:relative;
-}
-#calside {
-  width: 157px;
-  height: 517px;
-  border: 1px solid #ddd;
-  margin-right: 1px;
-}
-.groupButton {
-  cursor: pointer;
-}
-#calside [type='button'] {
-  float:right;
-}
-.long {
-  max-width: 125px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-#calendar {
-  max-width: 700px;
-  float:left;
 }

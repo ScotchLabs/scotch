@@ -41,9 +41,8 @@ $(document).ready(function() {
             success: function(data) {
               $("#grouploading_"+data.group).hide()
               if (calDebug) console.log('success')
-              dataevents = data.events
-              $.each(dataevents, function(k) {
-                events.push(dataevents[k])
+              $.each(data.events, function(k) {
+                events.push(data.events[k])
               })
               finishedGroups.push(data.group)
               cachedEvents.push({"id":data.group,"json":data.events})
@@ -68,6 +67,8 @@ $(document).ready(function() {
           }  
         }
       }
+      
+      obj = events
       
       if (allFromCache) {
         if (calDebug) console.log('calling back')
