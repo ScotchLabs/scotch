@@ -10,6 +10,16 @@ $(document).ready(function() {
     header: {right: 'month,agendaWeek prev,today,next'},
     events: function(start, end, callback) {
       events = []
+      finishedGroups = []
+      
+      $("#calendar").ajaxComplete(function(){
+        if (calDebug) console.log('ajax complete')
+        if (finishedGroups.length == selectedGroups.length) {
+          if (calDebug) console.log("calling back")
+          callback(events)
+        }
+      })
+      
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
         
@@ -22,13 +32,13 @@ $(document).ready(function() {
         if (!foundCache) {
           if (calDebug) console.log("pulling "+group_id+" events from ajax")
           $.ajax({
-            async: false,
             url: '/groups/'+group_id+'/events.json',
             success: function(data) {
               if (calDebug) console.log('success')
               $.each(data, function(j) {
                 events.push(data[j])
               })
+              finishedGroups.push(group_id)
               cachedEvents.push({"id":group_id,"json":data})
             },
             error: function() {
@@ -49,8 +59,6 @@ $(document).ready(function() {
           }
         }
       }
-      
-      callback(events)
     }
   })
 })
