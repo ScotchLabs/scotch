@@ -32,11 +32,13 @@ $(document).ready(function() {
         
         if (!foundCache) {
           allFromCache = false
+          $("#grouploading_"+group_id).show()
           url = '/groups/'+group_id+'/events.json'
           if (calDebug) console.log("pulling "+group_id+" events from "+url)
           $.ajax({
             url: url,
             success: function(data) {
+              $("#grouploading_"+data.group).hide()
               if (calDebug) console.log('success')
               dataevents = data.events
               $.each(dataevents, function(k) {
@@ -46,6 +48,7 @@ $(document).ready(function() {
               cachedEvents.push({"id":data.group,"json":data.events})
             },
             error: function(xhr, status, thrown) {
+              //TODO hide loading
               if (calDebug) console.log('error. status: '+status+', thrown: '+thrown)
               //TODO show error
             }
