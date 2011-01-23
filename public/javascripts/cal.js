@@ -66,7 +66,11 @@ $(document).ready(function() {
             finishedGroups.push(group_id)
           }  
         }
-        if (allFromCache) callback(events)
+      }
+      
+      if (allFromCache) {
+        if (calDebug) console.log('calling back')
+        callback(events)
       }
     }
   })
