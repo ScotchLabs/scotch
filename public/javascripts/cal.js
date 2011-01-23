@@ -1,6 +1,7 @@
 var selectedGroups = []
 var cachedEvents = []
 var calDebug = true
+var obj
 
 $(document).ready(function() {
   // populate selectedGroups
@@ -22,7 +23,7 @@ $(document).ready(function() {
       
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
-        
+        allFromCache = true
         foundCache = false
         for (j in cachedEvents) {
           if (cachedEvents[j]["id"] != group_id) continue
@@ -30,20 +31,22 @@ $(document).ready(function() {
         }
         
         if (!foundCache) {
-          if (calDebug) console.log("pulling "+group_id+" events from ajax")
+          allFromCache = false
+          url = '/groups/'+group_id+'/events.json'
+          if (calDebug) console.log("pulling "+group_id+" events from "+url)
           $.ajax({
-            async: false,
-            url: '/groups/'+group_id+'/events.json',
+            url: url,
             success: function(data) {
               if (calDebug) console.log('success')
-              $.each(data, function(k) {
-                events.push(data[k])
+              dataevents = data.events
+              $.each(dataevents, function(k) {
+                events.push(dataevents[k])
               })
-              finishedGroups.push(group_id)
-              cachedEvents.push({"id":group_id,"json":data})
+              finishedGroups.push(data.group)
+              cachedEvents.push({"id":data.group,"json":data.events})
             },
-            error: function() {
-              if (calDebug) console.log('error')
+            error: function(xhr, status, thrown) {
+              if (calDebug) console.log('error. status: '+status+', thrown: '+thrown)
               //TODO show error
             }
             
@@ -58,8 +61,9 @@ $(document).ready(function() {
               events.push(item["json"][m])
             })  
             finishedGroups.push(group_id)
-          }
+          }  
         }
+        if (allFromCache) callback(events)
       }
     }
   })
