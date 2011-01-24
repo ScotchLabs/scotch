@@ -11,10 +11,14 @@ $(document).ready(function() {
     header: {right: 'month,agendaWeek prev,today,next'},
     allDayDefault: false,
     dayClick: function(date, allDay, jsEvent, view) {
-      
+      // http://arshaw.com/fullcalendar/docs/mouse/dayClick/
+      //TODO build or pull a form
+      $.colorbox({html:'new event form, no group',inline:false})
     },
     eventClick: function(event, jsEvent, view) {
-      
+      // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
+      //TODO build a view
+      $.colorbox({html:'event '+event,inline:false})
     },
     events: function(start, end, callback) {
       events = []
