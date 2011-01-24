@@ -9,6 +9,13 @@ $(document).ready(function() {
   
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
+    allDayDefault: false,
+    dayClick: function(date, allDay, jsEvent, view) {
+      
+    },
+    eventClick: function(event, jsEvent, view) {
+      
+    },
     events: function(start, end, callback) {
       events = []
       finishedGroups = []

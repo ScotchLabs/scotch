@@ -61,7 +61,7 @@
 	// ColorBox Default Settings.	
 	// See http://colorpowered.com/colorbox for details.
 	defaults = {
-		transition: "elastic",
+		transition: "none",
 		speed: 350,
 		width: FALSE,
 		height: FALSE,
@@ -73,7 +73,7 @@
 		maxHeight: FALSE,
 		scalePhotos: TRUE,
 		scrolling: TRUE,
-		inline: FALSE,
+		inline: true,
 		html: FALSE,
 		iframe: FALSE,
 		photo: FALSE,
