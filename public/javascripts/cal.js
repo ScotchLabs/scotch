@@ -12,8 +12,7 @@ $(document).ready(function() {
     allDayDefault: false,
     dayClick: function(date, allDay, jsEvent, view) {
       // http://arshaw.com/fullcalendar/docs/mouse/dayClick/
-      //TODO build or pull a form
-      $.colorbox({html:'new event form, no group',inline:false})
+      newEvent(null, date, allDay)
     },
     eventClick: function(event, jsEvent, view) {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
@@ -118,4 +117,11 @@ function toggle(group_id) {
     selectedGroups.push(group_id)
   }
   $("#calendar").fullCalendar('refetchEvents')
+}
+
+function newEvent(group_id, date, allDay) {
+  //TODO build or pull a form
+  if (group_id == null)
+    group_id = "no group"
+  $.colorbox({html:'new event form, '+group_id+', '+date+', '+allDay,inline:false})
 }
