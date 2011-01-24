@@ -81,13 +81,29 @@ $(document).ready(function() {
 
 function toggle(group_id) {
   if (calDebug) console.log('toggling '+group_id)
+  classes = $("#"+group_id).attr('class').split(' ')
+  needle=/event_color_([0-9]+)/
+  color = -1
+  $.each(classes, function(i) {
+    hay = classes[i]
+    m = needle.exec(hay)
+    if (m != null)
+      color = m[1]
+  })
+  if (calDebug && color == -1) console.log('color not specified')
   if ($('#'+group_id).attr('selected')=='true') {
     if (calDebug) console.log('selected -> deselected')
     $('#'+group_id).attr('selected','false')
+    $("#"+group_id).removeClass('event_color_'+color)
+    $("#"+group_id).addClass('event_color_'+color+'_')
+    $("#"+group_id).css("color","#333")
     selectedGroups.splice(selectedGroups.indexOf(group_id),1)
   } else {
     if (calDebug) console.log('deselected -> selected')
     $('#'+group_id).attr('selected','true')
+    $("#"+group_id).removeClass('event_color_'+color+'_')
+    $("#"+group_id).addClass('event_color_'+color)
+    $("#"+group_id).css("color","#fff")
     selectedGroups.push(group_id)
   }
   $("#calendar").fullCalendar('refetchEvents')
