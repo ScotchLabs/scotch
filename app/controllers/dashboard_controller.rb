@@ -7,6 +7,7 @@ class DashboardController < ApplicationController
   end
 
   def calendar
+    @event = Event.new
     @myevents = current_user.user_events
     @mygroups = current_user.groups.active.uniq
     @activeshows = Show.active - @mygroups
