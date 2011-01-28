@@ -33,19 +33,17 @@ $(document).ready(function() {
             obj = data
             $("#attendeesloading_"+data.event_id).hide()
             cachedEvents[data.event_id].attendees = data.attendees
-            $("#attendees_"+data.event_id).html(data.attendees.map(function(el){
-              el.name
-            }).join(", "))
+            $("#attendees_"+data.event_id).html(attendees_to_str(data.attendees))
           },
           error: function(xhr, status, thrown) {
             if (calDebug) console.log('attendees for event failed to load. status '+status+', thrown '+thrown)
           }
         })
       } else {
-        html += "Attendees: "+event.attendees.map(function(el){})
+        html += "Attendees: "+attendees_to_str(event.attendees)
       }
       
-      $.colorbox({html:html,inline:false})
+      $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
     },
     events: function(start, end, callback) {
       events = []
@@ -115,8 +113,6 @@ $(document).ready(function() {
         }
       }
       
-      obj = events
-      
       if (allFromCache) {
         if (calDebug) console.log('calling back')
         $("#calendar").fullCalendar("removeEvents")
@@ -161,4 +157,18 @@ function newEvent(group_id, date, allDay) {
   if (group_id == null)
     group_id = "no group"
   $.colorbox({html:'new event form, '+group_id+', '+date+', '+allDay,inline:false})
+}
+
+function attendees_to_str(attendees) {
+  a = ""
+  for (i in attendees) {
+    attendee = attendees[i]
+    if (i==attendees.length-1 && i!=0)
+      a += " and "
+    else if (i!=0)
+      a += ", "
+    a+= attendee.name
+  }
+  if (a == "") a = "none"
+  return a
 }
