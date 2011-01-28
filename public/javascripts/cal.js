@@ -16,31 +16,30 @@ $(document).ready(function() {
     },
     eventClick: function(event, jsEvent, view) {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
-      //TODO build a view
       html = "<h1>"+event.title+"</h1>"+
         "<h2>"+event.group+"</h2>"
       if (!event.allDay) {
-        html += "Starts: "+event.start+"<br>"+
-          "Ends: "+event.end+"<br>"
+        html += "<b>Starts</b>: "+event.start+"<br>"+
+          "<b>Ends</b>: "+event.end+"<br>"
       } else
         html += "All day "+event.start+"<br>"
-      html+= "Where: "+event.location+"<br>"
+      html+= "<b>Where</b>: "+event.location+"<br>"
       if (event.attendees == undefined) {
-        html+= "Attendees: <span id='attendees_"+event.id+"'></span><img alt=\"Indicator\" id=\"attendeesloading_"+event.id+"\" src=\"/images/indicator.gif\">"
+        html+= "<b>Attendees</b>: <span id='attendees_"+event.id+"'></span><img alt=\"Indicator\" id=\"attendeesloading_"+event.id+"\" src=\"/images/indicator.gif\">"
         $.ajax({
           url: '/events/'+event.id+'/event_attendees.json',
           success: function(data) {
-            obj = data
             $("#attendeesloading_"+data.event_id).hide()
-            cachedEvents[data.event_id].attendees = data.attendees
-            $("#attendees_"+data.event_id).html(attendees_to_str(data.attendees))
+            a = attendees_to_str(data.attendees)
+            cachedEvents[data.event_id].attendees = a
+            $("#attendees_"+data.event_id).html(a)
           },
           error: function(xhr, status, thrown) {
             if (calDebug) console.log('attendees for event failed to load. status '+status+', thrown '+thrown)
           }
         })
       } else {
-        html += "Attendees: "+attendees_to_str(event.attendees)
+        html += "<b>Attendees</b>: "+event.attendees
       }
       
       $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
