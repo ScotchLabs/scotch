@@ -45,6 +45,9 @@ Scotch::Application.routes.draw do |map|
       post :bulk_create, :on => :collection
     end
     resources :events, :only => [:index, :new]
+    resources :events, :only => [:show] do
+      resources :event_attendees, :only => [:index]
+    end
     resources :documents, :only => [:index, :new]
     resources :checkouts, :only => [:index, :new]
     member do

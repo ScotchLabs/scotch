@@ -38,6 +38,20 @@ class PositionsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @positions }
+      format.json {
+        p = {}
+        @positions.each do |position|
+          unless p.has_key? position.display_name
+            p[position.display_name] = []
+          end
+          pos = {}
+          pos["name"] = position.user.name
+          pos["andrewid"] = position.user.andrewid
+          p[position.display_name].push pos
+        end
+        p=p.map{|k, v| {"display_name" => k, "users" => v}}
+        render :json => p
+      }
     end
   end
 
