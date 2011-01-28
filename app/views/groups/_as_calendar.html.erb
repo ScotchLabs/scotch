@@ -5,4 +5,4 @@ className += "_" unless selected %>
   <%= group.name %>
 </div>
 <%= image_tag 'indicator.gif', :id => "grouploading_#{group.id}", :class => "grouploading hidden" %>
-<button class='smallbutton' href='#' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
+<button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>

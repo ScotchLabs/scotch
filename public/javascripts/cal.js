@@ -155,7 +155,7 @@ function newEvent(group_id, date, allDay) {
   //TODO build or pull a form
   if (group_id == null)
     group_id = "no group"
-  $.colorbox({html:'new event form, '+group_id+', '+date+', '+allDay,inline:false})
+  $.colorbox({href:"#newEventForm"})
 }
 
 function attendees_to_str(attendees) {

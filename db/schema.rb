@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101222104959) do
+ActiveRecord::Schema.define(:version => 20110128210511) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -65,6 +65,10 @@ ActiveRecord::Schema.define(:version => 20101222104959) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.integer  "repeat_id"
+    t.integer  "repeat_frequency"
+    t.string   "repeat_period"
+    t.boolean  "all_day"
   end
 
   add_index "events", ["group_id"], :name => "index_events_on_group_id"

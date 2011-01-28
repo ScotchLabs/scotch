@@ -356,6 +356,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
 }
+input[type="text"][size] {
+  width: inherit; !important
+}
 input[type="submit"], input[type="reset"], button, a.button {
   display: inline-block;
   font-family: inherit;
