@@ -25,7 +25,7 @@ class EventsController < ApplicationController
         json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
         
         json = json_events.collect { |e| event_to_json(e) }.join(",\n")
-        json = "{\"group\" : #{@group.id},\n\"events\" : [#{json}]}"
+        json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
         
         render :json => json
       }

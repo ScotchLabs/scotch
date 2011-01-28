@@ -1,5 +1,5 @@
 var selectedGroups = []
-var cachedEvents = []
+var cachedEvents = {}
 var calDebug = true
 var obj
 
@@ -25,6 +25,25 @@ $(document).ready(function() {
       } else
         html += "All day "+event.start+"<br>"
       html+= "Where: "+event.location+"<br>"
+      if (event.attendees == undefined) {
+        html+= "Attendees: <span id='attendees_"+event.id+"'></span><img alt=\"Indicator\" id=\"attendeesloading_"+event.id+"\" src=\"/images/indicator.gif\">"
+        $.ajax({
+          url: '/events/'+event.id+'/event_attendees.json',
+          success: function(data) {
+            obj = data
+            $("#attendeesloading_"+data.event_id).hide()
+            cachedEvents[data.event_id].attendees = data.attendees
+            $("#attendees_"+data.event_id).html(data.attendees.map(function(el){
+              el.name
+            }).join(", "))
+          },
+          error: function(xhr, status, thrown) {
+            if (calDebug) console.log('attendees for event failed to load. status '+status+', thrown '+thrown)
+          }
+        })
+      } else {
+        html += "Attendees: "+event.attendees.map(function(el){})
+      }
       
       $.colorbox({html:html,inline:false})
     },
@@ -46,8 +65,9 @@ $(document).ready(function() {
         group_id = selectedGroups[i]
         allFromCache = true
         foundCache = false
+        //FIXME traverse cache
         for (j in cachedEvents) {
-          if (cachedEvents[j]["id"] != group_id) continue
+          if (cachedEvents[j]["group_id"] != group_id) continue
           else foundCache = true
         }
         
@@ -65,10 +85,10 @@ $(document).ready(function() {
                   events.push(data.events[k])
                   eventIds.push(data.events[k].id)
                 }
+                cachedEvents[data.events[k].id] = data.events[k]
               })
-              finishedGroups.push(data.group)
-              $("#grouploading_"+data.group).hide()
-              cachedEvents.push({"id":data.group,"json":data.events})
+              finishedGroups.push(data.group_id)
+              $("#grouploading_"+data.group_id).hide()
             },
             error: function(xhr, status, thrown) {
               //TODO hide loading
@@ -79,18 +99,18 @@ $(document).ready(function() {
           })
         } else {
           if (calDebug) console.log('pulling '+group_id+' events from cache')
+          //FIXME traverse cache
           for (l in cachedEvents) {
             item = cachedEvents[l]
-            if (item["id"] != group_id)
+            if (item["group_id"] != group_id)
               continue
-            $.each(item["json"], function(m) {  
-              
-              if ($.inArray(item["json"][m].id, eventIds) == -1) {
-                events.push(item["json"][m])
-                eventIds.push(item["json"][m].id)
-              }
-            })  
-            finishedGroups.push(group_id)
+            if ($.inArray(item.id, eventIds) == -1) {
+              console.log('pushing event from cache')
+              events.push(item)
+              eventIds.push(item.id)
+            }
+            if ($.inArray(item.group_id, finishedGroups) == -1)
+              finishedGroups.push(item.group_id)
           }  
         }
       }
