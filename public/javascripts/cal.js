@@ -30,6 +30,7 @@ $(document).ready(function() {
     },
     events: function(start, end, callback) {
       events = []
+      eventIds = []
       finishedGroups = []
       
       $("#calendar").ajaxComplete(function() {
@@ -60,7 +61,10 @@ $(document).ready(function() {
             success: function(data) {
               if (calDebug) console.log('success')
               $.each(data.events, function(k) {
-                events.push(data.events[k])
+                if ($.inArray(data.events[k].id, eventIds) == -1) {
+                  events.push(data.events[k])
+                  eventIds.push(data.events[k].id)
+                }
               })
               finishedGroups.push(data.group)
               $("#grouploading_"+data.group).hide()
@@ -80,7 +84,11 @@ $(document).ready(function() {
             if (item["id"] != group_id)
               continue
             $.each(item["json"], function(m) {  
-              events.push(item["json"][m])
+              
+              if ($.inArray(item["json"][m].id, eventIds) == -1) {
+                events.push(item["json"][m])
+                eventIds.push(item["json"][m].id)
+              }
             })  
             finishedGroups.push(group_id)
           }  
