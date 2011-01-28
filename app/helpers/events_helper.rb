@@ -19,8 +19,10 @@ module EventsHelper
   
   def event_to_json(event)
     return "{\"title\" : \"[#{event.group.short_name}] #{event.title}\", 
-      \"start\" : \"#{event.start_time.strftime("%Y-%m-%d")}\", 
-      \"end\" : \"#{event.end_time.strftime("%Y-%m-%d")}\",
-      \"className\": \"#{event.className}\"}"
+      \"start\" : \"#{event.start_time}\", 
+      \"end\" : \"#{event.end_time}\",
+      \"className\": \"#{event.className}\",
+      \"group\": \"#{event.group.name}\",
+      \"location\":\"#{event.location}\"}"
   end
 end

@@ -17,7 +17,16 @@ $(document).ready(function() {
     eventClick: function(event, jsEvent, view) {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       //TODO build a view
-      $.colorbox({html:'event '+event,inline:false})
+      html = "<h1>"+event.title+"</h1>"+
+        "<h2>"+event.group+"</h2>"
+      if (!event.allDay) {
+        html += "Starts: "+event.start+"<br>"+
+          "Ends: "+event.end+"<br>"
+      } else
+        html += "All day "+event.start+"<br>"
+      html+= "Where: "+event.location+"<br>"
+      
+      $.colorbox({html:html,inline:false})
     },
     events: function(start, end, callback) {
       events = []
@@ -49,12 +58,12 @@ $(document).ready(function() {
           $.ajax({
             url: url,
             success: function(data) {
-              $("#grouploading_"+data.group).hide()
               if (calDebug) console.log('success')
               $.each(data.events, function(k) {
                 events.push(data.events[k])
               })
               finishedGroups.push(data.group)
+              $("#grouploading_"+data.group).hide()
               cachedEvents.push({"id":data.group,"json":data.events})
             },
             error: function(xhr, status, thrown) {
@@ -70,7 +79,7 @@ $(document).ready(function() {
             item = cachedEvents[l]
             if (item["id"] != group_id)
               continue
-            $.each(item["json"], function(m) {
+            $.each(item["json"], function(m) {  
               events.push(item["json"][m])
             })  
             finishedGroups.push(group_id)
