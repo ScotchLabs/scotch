@@ -37,7 +37,7 @@
           <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name %></div>
           
           <span style='display:inline-block; width: 192px'><%= f.radio_button :all_day, false %>Select Times</span><%= f.radio_button :all_day, true %>All day<br>
-          <%= f.text_field :start_time, {:class => 'datepicker placeholder-shim', :placeholder => "Start Time", :onChange => "$('#event_end_time').datepicker('option','minDate',$('#event_start_time').datepicker('getDate'))"} %>
+          <%= f.text_field :start_time, {:class => 'datepicker placeholder-shim', :placeholder => "Start Time"} %>
           <%= f.text_field :end_time,   {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %>
           
           <div class="field">
