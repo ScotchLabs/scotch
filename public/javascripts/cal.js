@@ -125,6 +125,10 @@ $(document).ready(function() {
     stepMinute: 5,
     minDate: 0
   })
+  //FIXME this should set the end time minimum date as the start date. doesn't work
+  $("#event_start_time_setdt").click(function(){
+    $("#event_end_time").datepicker('option','minDate',$("#event_start_time").datepicker('getDate'))
+  })
 })
 
 function toggle(group_id) {
