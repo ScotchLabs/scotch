@@ -120,7 +120,11 @@ $(document).ready(function() {
     }
   })
   
-  $(".datepicker").datetimepicker()
+  $(".datepicker").datetimepicker({
+    timeFormat: 'h:mmt',
+    stepMinute: 5,
+    minDate: 0
+  })
 })
 
 function toggle(group_id) {
@@ -164,6 +168,16 @@ function newEvent(group_id, date, allDay) {
     $("#event_group_id option[value='"+group_id+"']").attr('selected','selected')
   }
   
+  if (date) {
+    obj = date
+    $("#event_start_time").datetimepicker('setDate', date)
+    if (allDay)
+      date.setDate(date.getDate()+1)
+    else
+      date.setHours(date.getHours()+1)
+    $("#event_end_time").datetimepicker('setDate', date)
+  }
+  
   $.colorbox({href:"#newEventForm"})
 }
 
@@ -179,8 +193,4 @@ function attendees_to_str(attendees) {
   }
   if (a == "") a = "none"
   return a
-}
-
-function updateEventTimes(date, id) {
-  console.log(id)
 }
