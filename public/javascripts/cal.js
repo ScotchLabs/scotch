@@ -119,6 +119,8 @@ $(document).ready(function() {
       }
     }
   })
+  
+  $(".datepicker").datetimepicker()
 })
 
 function toggle(group_id) {
@@ -152,9 +154,16 @@ function toggle(group_id) {
 }
 
 function newEvent(group_id, date, allDay) {
-  //TODO build or pull a form
-  if (group_id == null)
-    group_id = "no group"
+  if (allDay)
+    $("#event_all_day_true").click()
+  else
+    $("#event_all_day_false").click()
+    
+  if (group_id != null) {
+    $("#event_group_id option").removeAttr('selected')
+    $("#event_group_id option[value='"+group_id+"']").attr('selected','selected')
+  }
+  
   $.colorbox({href:"#newEventForm"})
 }
 
@@ -170,4 +179,8 @@ function attendees_to_str(attendees) {
   }
   if (a == "") a = "none"
   return a
+}
+
+function updateEventTimes(date, id) {
+  console.log(id)
 }

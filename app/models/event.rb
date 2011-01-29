@@ -7,12 +7,12 @@ class Event < ActiveRecord::Base
   attr_protected :group_id
   
   PERIODS = [
-    ['Minute','m'],
-    ['Hour','h'],
-    ['Day','d'],
-    ['Week','w'],
-    ['Month','M'],
-    ['Year','y']
+    ['Minutes','m'],
+    ['Hours','h'],
+    ['Days','d'],
+    ['Weeks','w'],
+    ['Months','M'],
+    ['Years','y']
   ]
   
   validate :times_are_sane # rails3?
