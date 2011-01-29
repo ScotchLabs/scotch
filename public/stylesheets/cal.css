@@ -36,19 +36,16 @@
 }
 #newEventForm {
   width: 456px;
-  height: 289px;
   overflow: hidden;
   position: relative;
 }
 .newEventForm_page {
   width: 456px;
-  height: 289px;
   float: left;
   display: inline;
 }
 #pageContainer {
   position: relative;
-  overflow: hidden;
   width: 912px;
 }
 
