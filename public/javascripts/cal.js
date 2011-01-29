@@ -1,6 +1,6 @@
 var selectedGroups = []
 var cachedEvents = {}
-var calDebug = false
+var calDebug = true
 var obj
 
 $(document).ready(function() {

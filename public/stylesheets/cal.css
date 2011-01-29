@@ -27,6 +27,20 @@
   max-width: 700px;
   float:left;
 }
+#newEventForm {
+  width: 456px;
+  height: 289px;
+  overflow: hidden;
+}
+.newEventForm_page {
+  width: 456px;
+  height: 289px;
+  float: left;
+  display: inline;
+}
+.pageContainer {
+  overflow: hidden;
+}
 
 .event_color_0 {background-color: #d96666; border-color: #cc3333;}
 .event_color_1 {background-color: #e67399; border-color: #dd4477;}
