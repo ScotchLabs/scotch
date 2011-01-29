@@ -10,9 +10,16 @@
   border: 1px solid #ddd;
   margin-right: 1px;
 }
+#calside button {
+  height: 16px;
+  width: 16px;
+  padding: 0 !important;
+}
 .groupButton {
+  line-height: 16px;
   cursor: pointer;
   color: #ffffff;
+  display: inline-block;
 }
 #calside [type='button'] {
   float:right;
@@ -31,6 +38,7 @@
   width: 456px;
   height: 289px;
   overflow: hidden;
+  position: relative;
 }
 .newEventForm_page {
   width: 456px;
@@ -38,8 +46,10 @@
   float: left;
   display: inline;
 }
-.pageContainer {
+#pageContainer {
+  position: relative;
   overflow: hidden;
+  width: 912px;
 }
 
 .event_color_0 {background-color: #d96666; border-color: #cc3333;}

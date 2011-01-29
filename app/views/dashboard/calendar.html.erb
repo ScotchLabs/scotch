@@ -52,12 +52,14 @@
           <div style="width: 220px; float: left; display: inline-block">
             <%= f.radio_button :all_day, true %> All day<br>
             <%= f.text_field :end_time,   {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %><br>
-            <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %>
-            <%= f.label :description %><br>
-            <%= f.text_area :description, :style => "height: 71px;" %>
+            <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
+            <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim", :style => "height: 86px;" %>
           </div>
+          <%= f.submit "Create Event Now", :style => "min-width:210px; width: 214px" %> or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
         </div>
-        <div class='newEventForm_page'>foo</div>
+        <div class='newEventForm_page'>
+          <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Back</a>
+        </div>
         <div class='clearfix'></div>
       </div>
       <% end %>
