@@ -166,6 +166,7 @@ function newEvent(group_id, date, allDay) {
   if (group_id != null) {
     $("#event_group_id option").removeAttr('selected')
     $("#event_group_id option[value='"+group_id+"']").attr('selected','selected')
+    //TODO populate position_select
   }
   
   if (date) {

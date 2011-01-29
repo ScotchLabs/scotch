@@ -33,32 +33,46 @@
       <%= form_for(@event) do |f| %>
       <div id='pageContainer'>
         <div class='newEventForm_page'>
-          <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim", :style => "max-width: 453px; width: 440px; font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif"} %></div>
+          <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
           <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name %></div>
           
-          <div style='width: 230px; float: left; display: inline-block'>
+          <div class='fleft' style='width: 230px; display: inline-block'>
             <%= f.radio_button :all_day, false %> Select Times<br>
             <%= f.text_field :start_time, {:class => 'datepicker placeholder-shim', :placeholder => "Start Time"} %><br>
-            Repeats every <%= f.text_field :repeat_frequency, {:maxlength => 2, :style => "width: 30px"} %>
+            Repeats every <%= f.text_field :repeat_frequency, {:maxlength => 2} %>
             <%= f.select :repeat_period, options_for_select(Event.periods) %><br>
             Stops: <div style="display: inline-block">
               <%= radio_button_tag :stop_condition_type, 'occurrences' %>
-              after <%= text_field nil, :stop_condition_N, {:maxlength => 2, :style => "width: 30px"} %> occurrences<br>
+              after <%= text_field 'f', :stop_condition_N, {:maxlength => 2} %> occurrences<br>
               <%= radio_button_tag :stop_condition_type, 'periods' %>
-              after <%= text_field nil, :stop_condition_N, {:maxlength => 2, :style => "width: 30px"} %> <%= select nil, :stop_condition_period, options_for_select(Event.periods) %><br>
-              <%= radio_button_tag :stop_condition_type, 'date' %> on <%= text_field nil, :stop_date, {:class => 'datepicker placeholder-shim', :placeholder => "date", :style => "width: 175px"}%>
+              after <%= text_field 'f', :stop_condition_N, {:maxlength => 2} %> <%= select 'f', :stop_condition_period, options_for_select(Event.periods) %><br>
+              <%= radio_button_tag :stop_condition_type, 'date' %> on <%= text_field 'f', :stop_date, {:class => 'datepicker placeholder-shim', :placeholder => "date"} %>
             </div>
           </div>
-          <div style="width: 220px; float: left; display: inline-block">
+          <div class='fleft' style="width: 220px; display: inline-block">
             <%= f.radio_button :all_day, true %> All day<br>
             <%= f.text_field :end_time,   {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %><br>
             <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
-            <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim", :style => "height: 86px;" %>
+            <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim" %>
           </div>
-          <%= f.submit "Create Event Now", :style => "min-width:210px; width: 214px" %> or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
+          <%= f.submit "Create Event Now" %> or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
         </div>
         <div class='newEventForm_page'>
-          <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Back</a>
+          <div class='fleft' style='width: 230px; display: inline-block'>
+            Select from positions:<br>
+            <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
+            Or search for users:<br>
+            <%= text_field_tag "user_identifier" %><br>
+            <a href="#none" onclick="">Add selected &gt;</a>
+          </div>
+          <div class='fleft' style="width: 220px; display: inline-block">
+            <!-- options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq),  -->
+            <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
+            <a href="#none" onclick="">&lt; Remove selected</a>
+          </div>
+          <div class='clearfix'></div>
+          <%= f.submit "Create Event Now" %> or 
+          <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Go Back</a>
         </div>
         <div class='clearfix'></div>
       </div>

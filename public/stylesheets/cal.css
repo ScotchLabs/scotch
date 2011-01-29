@@ -48,6 +48,21 @@
   position: relative;
   width: 912px;
 }
+#event_title {
+  max-width: 453px; width: 440px; font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
+}
+#event_repeat_frequency, #f_stop_condition_N {
+  width: 30px
+}
+#f_stop_date {
+  width: 175px
+}
+#event_description {
+  height: 86px
+}
+#event_submit {
+  min-width:210px; width: 214px
+}
 
 .event_color_0 {background-color: #d96666; border-color: #cc3333;}
 .event_color_1 {background-color: #e67399; border-color: #dd4477;}
