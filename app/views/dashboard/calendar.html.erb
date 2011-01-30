@@ -34,7 +34,7 @@
       <div id='pageContainer'>
         <div class='newEventForm_page'>
           <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
-          <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name %></div>
+          <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name, :onchange => 'populateInvitees()' %></div>
           
           <div class='fleft' style='width: 230px; display: inline-block'>
             <%= f.radio_button :all_day, false %> Select Times<br>
@@ -57,18 +57,23 @@
           </div>
           <%= f.submit "Create Event Now" %> or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
         </div>
-        <div class='newEventForm_page'>
-          <div class='fleft' style='width: 230px; display: inline-block'>
+        <div class='newEventForm_page' id='invitees'>
+          <div class='fleft' style='width: 239px; display: inline-block'>
+            <div class='fleft' style='display: inline-block; width: 215px'>
             Select from positions:<br>
             <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
             Or search for users:<br>
-            <%= text_field_tag "user_identifier" %><br>
-            <a href="#none" onclick="">Add selected &gt;</a>
+            <%= text_field_tag "user_identifier" %>
+            </div>
+            <div class='fleft' style='display:inline-block;margin-top:40px'>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick="">&gt;</a><br>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick="">&lt;</a>
+            </div>
           </div>
-          <div class='fleft' style="width: 220px; display: inline-block">
+          <div class='fleft' style="display: inline-block; width: 215px">
             <!-- options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq),  -->
+            People you're inviting:<br>
             <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
-            <a href="#none" onclick="">&lt; Remove selected</a>
           </div>
           <div class='clearfix'></div>
           <%= f.submit "Create Event Now" %> or 

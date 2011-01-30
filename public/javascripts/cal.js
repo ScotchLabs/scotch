@@ -1,6 +1,7 @@
 var selectedGroups = []
+var group_positions = {}
 var cachedEvents = {}
-var calDebug = true
+var calDebug = false
 var obj
 
 $(document).ready(function() {
@@ -166,7 +167,7 @@ function newEvent(group_id, date, allDay) {
   if (group_id != null) {
     $("#event_group_id option").removeAttr('selected')
     $("#event_group_id option[value='"+group_id+"']").attr('selected','selected')
-    //TODO populate position_select
+    populateInvitees()
   }
   
   if (date) {
@@ -194,4 +195,7 @@ function attendees_to_str(attendees) {
   }
   if (a == "") a = "none"
   return a
+}
+function populateInvitees() {
+  
 }

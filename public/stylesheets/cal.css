@@ -63,6 +63,16 @@
 #event_submit {
   min-width:210px; width: 214px
 }
+#invitees select {
+  width: 211px;
+}
+#invitees input {
+  width: 200px;
+}
+.cal_invitee_button {
+  padding: 5px !important;
+}
+
 
 .event_color_0 {background-color: #d96666; border-color: #cc3333;}
 .event_color_1 {background-color: #e67399; border-color: #dd4477;}
