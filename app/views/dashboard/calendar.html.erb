@@ -30,7 +30,7 @@
   <div id='calendar'></div>
   <div class='hidden'>
     <div id='newEventForm'>
-      <%= form_for(@event) do |f| %>
+      <%= form_for(@event, :remote => true) do |f| %>
       <div id='pageContainer'>
         <div class='newEventForm_page'>
           <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
@@ -39,11 +39,11 @@
           <div class='fleft' style='width: 230px; display: inline-block'>
             <%= f.radio_button :all_day, false %> Select Times<br>
             <%= f.text_field :start_time, {:class => 'datepicker placeholder-shim', :placeholder => "Start Time"} %><br>
-            Repeats every <%= f.text_field :repeat_frequency, {:maxlength => 2} %>
+            Repeats every <%= f.number_field :repeat_frequency %>
             <%= f.select :repeat_period, options_for_select(Event.periods) %><br>
             Stops: <div style="display: inline-block">
               <%= radio_button_tag :stop_condition_type, 'occurrences' %>
-              after <%= f.text_field :stop_after_occurrences, {:maxlength => 2} %> occurrences<br>
+              after <%= f.number_field :stop_after_occurrences %> occurrences<br>
               <%= radio_button_tag :stop_condition_type, 'date' %> on <%= f.text_field :stop_on_date, {:class => 'datepicker placeholder-shim', :placeholder => "date"} %>
             </div>
           </div>
@@ -60,7 +60,7 @@
             <%= f.radio_button :privacy_type, "open", :checked => true, :onchange => "updatePrivacy()" %><label for="event_privacy_type_open">Open</label>
             <%= f.radio_button :privacy_type, "limited", :onchange => "updatePrivacy()" %><label for="event_privacy_type_limited">Limited</label>
             <%= f.radio_button :privacy_type, "closed", :onchange => "updatePrivacy()" %><label for="event_privacy_type_closed">Closed</label>
-          </span>Limit to <%= f.text_field :attendee_limit, {:maxlength => 2, :disabled => true} %> attendees<br>
+          </span>Limit to <%= f.number_field :attendee_limit, {:disabled => true} %> attendees<br>
           <div class='privacyMessage privacyMessage_open'>Anyone may attend.</div>
           <div class='privacyMessage privacyMessage_limited hidden'>People sign up until the event is full.</div>
           <div class='privacyMessage privacyMessage_closed hidden'>Only invited people are listed as attending.</div>

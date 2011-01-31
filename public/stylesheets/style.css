@@ -333,7 +333,7 @@ div.grid > :nth-child(3n+0) > span {
   border: 1px solid #333;
   margin: 1px;
 }
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select, textarea {
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
   border: 1px solid #333;              /* black */
   color: #333;                         /* black */
   margin: 2px;
@@ -353,7 +353,10 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
   width: 210px;
   max-width: 210px;
 }
-input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], select[disabled] {
+input[type="number"] {
+  width: 40px;
+}
+input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], input[type="number"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
 }
 input[type="submit"], input[type="reset"], button, a.button {
