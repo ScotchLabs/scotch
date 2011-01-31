@@ -103,7 +103,7 @@ $(document).ready(function() {
             if (item["group_id"] != group_id)
               continue
             if ($.inArray(item.id, eventIds) == -1) {
-              console.log('pushing event from cache')
+              if (calDebug) console.log('pushing event from cache')
               events.push(item)
               eventIds.push(item.id)
             }
@@ -201,6 +201,7 @@ function attendees_to_str(attendees) {
   return a
 }
 function populateInvitees() {
+  $("#position_names").empty()
   if (calDebug) console.log('populating invitees')
   positions = []
   html = ""
