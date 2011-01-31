@@ -177,7 +177,6 @@ function newEvent(group_id, date, allDay) {
   }
   
   if (date) {
-    obj = date
     $("#event_start_time").datetimepicker('setDate', date)
     if (allDay)
       date.setDate(date.getDate()+1)
@@ -185,6 +184,8 @@ function newEvent(group_id, date, allDay) {
       date.setHours(date.getHours()+1)
     $("#event_end_time").datetimepicker('setDate', date)
   }
+  
+  $("#new_event").attr('action','/events')
   
   $.colorbox({href:"#newEventForm"})
 }
