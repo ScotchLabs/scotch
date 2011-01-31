@@ -18,9 +18,9 @@ class Event < ActiveRecord::Base
   validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
   validates_numericality_of :repeat_frequency, :allow_nil => true, :allow_blank => true
-  validates_inclusion_of :repeat_period, :in => PERIODS.map{|p| p[1]}
+  validates_inclusion_of :repeat_period, :in => PERIODS.map{|p| p[1]}, :allow_nil => true, :allow_blank => true
   validate :repeat_id_is_sane
-  validates_inclusion_of :privacy_type, :in => ['open','limited','closed']
+  validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true, :allow_blank => true
   
   
   def self.periods

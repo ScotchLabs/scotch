@@ -190,17 +190,26 @@ function newEvent(group_id, date, allDay) {
   $.colorbox({href:"#newEventForm"})
 }
 
-function submit_new_event() {
+function submit_event_form() {
   $("#position_names option").attr("selected",true)
-  // disable the submit buttons, show loading
-  // get the form data, serialize
-  // send to url
-  // on success
-    // alert success by posting event in calendar
-  // on error
-    // highlight problem fields
-  // on complete
-    // enable submit buttons, hide loading
+  $("#new_event [type='submit']").attr('disabled',true)
+  // show loading
+  $.ajax({
+    url: $("#new_event").attr('action'),
+    type: "POST",
+    data: $("#new_event").serialize(),
+    success: function(data, status, xhr) {
+      // put event in calendar or
+      // highlight invalid fields
+    },
+    error: function(xhr, status, thrown) {
+      if (calDebug) console.log('error submitting new event form. status '+status+', thrown '+thrown)
+    },
+    complete: function(xhr, status) {
+      $("#new_event [type='submit']").removeAttr('disabled')
+      // hide loading
+    }
+  })
   return false
 }
 

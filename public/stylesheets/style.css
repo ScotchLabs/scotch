@@ -354,7 +354,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
   max-width: 210px;
 }
 input[type="number"] {
-  width: 40px;
+  width: 40px !important;
 }
 input[type="text"][disabled], input[type="password"][disabled], input[type="email"][disabled], input[type="tel"][disabled], input[type="number"][disabled], select[disabled] {
   border: 1px solid #ddd;  /* grey */
