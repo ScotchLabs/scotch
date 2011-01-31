@@ -190,6 +190,20 @@ function newEvent(group_id, date, allDay) {
   $.colorbox({href:"#newEventForm"})
 }
 
+function submit_new_event() {
+  $("#position_names option").attr("selected",true)
+  // disable the submit buttons, show loading
+  // get the form data, serialize
+  // send to url
+  // on success
+    // alert success by posting event in calendar
+  // on error
+    // highlight problem fields
+  // on complete
+    // enable submit buttons, hide loading
+  return false
+}
+
 function attendees_to_str(attendees) {
   a = ""
   for (i in attendees) {
