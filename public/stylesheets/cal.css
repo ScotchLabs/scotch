@@ -65,10 +65,14 @@
 }
 #invitees select {
   width: 211px;
-  height: 98px;
+  height: 142px;
 }
 #invitees input {
   width: 200px;
+}
+#invitee_buttons {
+  display: inline-block;
+  margin-top: 61px
 }
 .cal_invitee_button {
   padding: 5px !important;

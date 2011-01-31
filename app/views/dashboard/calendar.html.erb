@@ -69,16 +69,13 @@
             <div class='fleft' style='display: inline-block; width: 215px'>
             Select from positions:<br>
             <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
-            Or search for users:<br>
-            <%= text_field_tag "user_identifier" %>
             </div>
-            <div class='fleft' style='display:inline-block;margin-top:40px'>
-              <a class='cal_invitee_button button smallbutton' href="#none" onclick="">&gt;</a><br>
-              <a class='cal_invitee_button button smallbutton' href="#none" onclick="">&lt;</a>
+            <div id='invitee_buttons' class='fleft'>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected"))'>&gt;</a><br>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_select").append($("#position_names :selected"))'>&lt;</a>
             </div>
           </div>
           <div class='fleft' style="display: inline-block; width: 215px">
-            <!-- options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq),  -->
             People you're inviting:<br>
             <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
           </div>
