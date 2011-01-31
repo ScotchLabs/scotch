@@ -56,6 +56,7 @@ $(document).ready(function() {
           if (calDebug) console.log('calling back')
           $("#calendar").fullCalendar("removeEvents")
           callback(events)
+          $("#calendar").fullCalendar("render")
         }
       })
       
@@ -117,6 +118,7 @@ $(document).ready(function() {
         if (calDebug) console.log('calling back')
         $("#calendar").fullCalendar("removeEvents")
         callback(events)
+        $("#calendar").fullCalendar("render")
       }
     }
   })
@@ -197,7 +199,7 @@ function attendees_to_str(attendees) {
       a += ", "
     a+= attendee.name
   }
-  if (a == "") a = "none"
+  if (a == "") a = "none listed"
   return a
 }
 function populateInvitees() {
