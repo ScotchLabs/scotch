@@ -30,7 +30,7 @@
   <div id='calendar'></div>
   <div class='hidden'>
     <div id='newEventForm'>
-      <%= form_for(@event, :remote => true) do |f| %>
+      <%= form_for(@event) do |f| %>
       <div id='pageContainer'>
         <div class='newEventForm_page'>
           <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
