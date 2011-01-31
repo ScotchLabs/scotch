@@ -34,7 +34,7 @@
       <div id='pageContainer'>
         <div class='newEventForm_page'>
           <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
-          <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name, :onchange => 'populateInvitees()' %></div>
+          <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
           
           <div class='fleft' style='width: 230px; display: inline-block'>
             <%= f.radio_button :all_day, false %> Select Times<br>
@@ -43,10 +43,8 @@
             <%= f.select :repeat_period, options_for_select(Event.periods) %><br>
             Stops: <div style="display: inline-block">
               <%= radio_button_tag :stop_condition_type, 'occurrences' %>
-              after <%= text_field 'f', :stop_condition_N, {:maxlength => 2} %> occurrences<br>
-              <%= radio_button_tag :stop_condition_type, 'periods' %>
-              after <%= text_field 'f', :stop_condition_N, {:maxlength => 2} %> <%= select 'f', :stop_condition_period, options_for_select(Event.periods) %><br>
-              <%= radio_button_tag :stop_condition_type, 'date' %> on <%= text_field 'f', :stop_date, {:class => 'datepicker placeholder-shim', :placeholder => "date"} %>
+              after <%= f.text_field :stop_after_occurrences, {:maxlength => 2} %> occurrences<br>
+              <%= radio_button_tag :stop_condition_type, 'date' %> on <%= f.text_field :stop_on_date, {:class => 'datepicker placeholder-shim', :placeholder => "date"} %>
             </div>
           </div>
           <div class='fleft' style="width: 220px; display: inline-block">
@@ -58,6 +56,15 @@
           <%= f.submit "Create Event Now" %> or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
         </div>
         <div class='newEventForm_page' id='invitees'>
+          <span id="privacy_type">
+            <%= f.radio_button :privacy_type, "open", :checked => true, :onchange => "updatePrivacy()" %><label for="event_privacy_type_open">Open</label>
+            <%= f.radio_button :privacy_type, "limited", :onchange => "updatePrivacy()" %><label for="event_privacy_type_limited">Limited</label>
+            <%= f.radio_button :privacy_type, "closed", :onchange => "updatePrivacy()" %><label for="event_privacy_type_closed">Closed</label>
+          </span>Limit to <%= f.text_field :attendee_limit, {:maxlength => 2, :disabled => true} %> attendees<br>
+          <div class='privacyMessage privacyMessage_open'>Anyone may attend.</div>
+          <div class='privacyMessage privacyMessage_limited hidden'>People sign up until the event is full.</div>
+          <div class='privacyMessage privacyMessage_closed hidden'>Only invited people are listed as attending.</div>
+          <br>
           <div class='fleft' style='width: 239px; display: inline-block'>
             <div class='fleft' style='display: inline-block; width: 215px'>
             Select from positions:<br>

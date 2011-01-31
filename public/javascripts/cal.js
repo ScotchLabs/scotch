@@ -126,6 +126,10 @@ $(document).ready(function() {
     stepMinute: 5,
     minDate: 0
   })
+  
+  populateInvitees()
+  
+  $("#privacy_type").buttonset()
 })
 
 function toggle(group_id) {
@@ -197,5 +201,25 @@ function attendees_to_str(attendees) {
   return a
 }
 function populateInvitees() {
-  
+  if (calDebug) console.log('populating invitees')
+  positions = []
+  html = ""
+  group_id = parseInt($("#event_group_id").val())
+  $.each(group_positions[group_id], function(i) {
+    position = group_positions[group_id][i].position
+    if ($.inArray(position.display_name, positions) == -1) {
+      positions.push(position.display_name)
+      html += "<option value=\""+position.display_name+"\">"+position.display_name+"</option>"
+    }
+  })
+  $("#position_select").html(html)
+}
+function updatePrivacy() {
+  pt = $("[name='event[privacy_type]']:checked").val()
+  $(".privacyMessage").hide()
+  $(".privacyMessage_"+pt).show()
+  if (pt == 'limited')
+    $("#event_attendee_limit").removeAttr('disabled')
+  else
+    $("#event_attendee_limit").attr('disabled',true)
 }

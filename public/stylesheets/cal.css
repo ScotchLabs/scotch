@@ -51,20 +51,21 @@
 #event_title {
   max-width: 453px; width: 440px; font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
 }
-#event_repeat_frequency, #f_stop_condition_N {
-  width: 30px
+#event_repeat_frequency, #event_stop_after_occurrences, #event_attendee_limit {
+  width: 30px !important
 }
-#f_stop_date {
-  width: 175px
+#event_stop_on_date {
+  width: 175px !important
 }
 #event_description {
-  height: 86px
+  height: 57px
 }
 #event_submit {
   min-width:210px; width: 214px
 }
 #invitees select {
   width: 211px;
+  height: 98px;
 }
 #invitees input {
   width: 200px;
