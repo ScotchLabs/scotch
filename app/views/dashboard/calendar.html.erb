@@ -53,8 +53,9 @@
             <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
             <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim" %>
           </div>
+          <div class='clearfix'></div>
           <%= f.submit "Create Event Now", :onclick => 'return submit_event_form()' %>
-          or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People</a>
+          or <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Invite People &rarr;</a>
         </div>
         <div class='newEventForm_page' id='invitees'>
           <span id="privacy_type">
@@ -66,23 +67,23 @@
           <div class='privacyMessage privacyMessage_limited hidden'>People sign up until the event is full.</div>
           <div class='privacyMessage privacyMessage_closed hidden'>Only invited people are listed as attending.</div>
           <br>
-          <div class='fleft' style='width: 239px; display: inline-block'>
-            <div class='fleft' style='display: inline-block; width: 215px'>
+          <div class='fleft' style='width: 240px; display: inline-block'>
+            <div class='fleft' style='display: inline-block; width: 214px'>
             Select from positions:<br>
             <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
             </div>
             <div id='invitee_buttons' class='fleft'>
-              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected"))'>&gt;</a><br>
-              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_select").append($("#position_names :selected"))'>&lt;</a>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected"))'>&rarr;</a><br>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_select").append($("#position_names :selected"))'>&larr;</a>
             </div>
           </div>
-          <div class='fleft' style="display: inline-block; width: 215px">
+          <div class='fleft' style="display: inline-block; width: 214px">
             People you're inviting:<br>
             <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
           </div>
           <div class='clearfix'></div>
           <%= f.submit "Create Event Now", :onclick => 'return submit_event_form()' %> or 
-          <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Go Back</a>
+          <a class='button' href='#none' style="min-width: inherit; width: 197px !important;" onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>&larr; Go Back</a>
         </div>
         <div class='clearfix'></div>
       </div>

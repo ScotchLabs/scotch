@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   validates_numericality_of :repeat_frequency, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :repeat_period, :in => PERIODS.map{|p| p[1]}, :allow_nil => true, :allow_blank => true
   validate :repeat_id_is_sane
-  validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
   
   
   def self.periods

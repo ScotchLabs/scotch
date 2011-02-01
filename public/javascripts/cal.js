@@ -185,7 +185,7 @@ function newEvent(group_id, date, allDay) {
     $("#event_end_time").datetimepicker('setDate', date)
   }
   
-  $("#new_event").attr('action','/events')
+  $("#new_event").attr('action','/events.xml')
   
   $.colorbox({href:"#newEventForm"})
 }
@@ -201,6 +201,7 @@ function submit_event_form() {
     success: function(data, status, xhr) {
       // put event in calendar or
       // highlight invalid fields
+      obj = data
     },
     error: function(xhr, status, thrown) {
       if (calDebug) console.log('error submitting new event form. status '+status+', thrown '+thrown)
