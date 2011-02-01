@@ -52,7 +52,13 @@
   max-width: 453px; width: 440px; font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
 }
 #event_stop_on_date {
-  width: 175px !important
+  width: 159px !important
+}
+#event_start_time {
+  width: 194px !important
+}
+#event_end_time {
+  width: 192px !important
 }
 #event_description {
   height: 57px

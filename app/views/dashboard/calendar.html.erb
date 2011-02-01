@@ -47,9 +47,9 @@
               <%= radio_button_tag :stop_condition_type, 'date' %> on <%= f.text_field :stop_on_date, {:class => 'datepicker placeholder-shim', :placeholder => "date"} %>
             </div>
           </div>
-          <div class='fleft' style="width: 220px; display: inline-block">
+          <div class='fleft' style="width: 226px; display: inline-block">
             <%= f.radio_button :all_day, true %> All day<br>
-            <%= f.text_field :end_time,   {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %><br>
+            <%= f.text_field :end_time, {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %><br>
             <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
             <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim" %>
           </div>

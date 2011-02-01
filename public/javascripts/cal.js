@@ -123,10 +123,25 @@ $(document).ready(function() {
     }
   })
   
-  $(".datepicker").datetimepicker({
-    timeFormat: 'h:mmt',
-    stepMinute: 5,
-    minDate: 0
+  var dates = $("#event_start_time, #event_end_time").datetimepicker({
+    timeFormat: 'h:mm',
+    onSelect: function( selectedDate ) {
+    				var option = this.id == "event_start_time" ? "minDate" : "maxDate",
+    					instance = $( this ).data( "datepicker" );
+    					date = $.datepicker.parseDate(
+    						instance.settings.dateFormat ||
+    						$.datepicker._defaults.dateFormat,
+    						selectedDate, instance.settings );
+    				dates.not( this ).datepicker( "option", option, date );
+    },
+    showOn: "button",
+    buttonImage: "/images/cal.png",
+    buttonImageOnly: true
+  })
+  $("#event_stop_on_date").datetimepicker({
+    showOn: "button",
+    buttonImage: "/images/cal.png",
+    buttonImageOnly: true
   })
   
   populateInvitees()
