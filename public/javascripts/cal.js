@@ -309,7 +309,7 @@ function addRangesToCache(dates, gid) {
     add = dates[i]
     if (add[1] <= datesPulled[gid][0][1])
       datesPulled = add+datesPulled[gid]
-    else if (add[0] => datesPulled[gid][datesPulled[gid].length-1][1])
+    else if (add[0] >= datesPulled[gid][datesPulled[gid].length-1][1])
       datesPulled = datesPulled[gid]+add
     else {
       temp = []
