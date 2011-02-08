@@ -21,8 +21,8 @@ module EventsHelper
     return "{\"id\": #{event.id},
       \"group_id\": \"#{event.group.id}\",
       \"title\" : \"[#{event.group.short_name}] #{event.title}\", 
-      \"start\" : \"#{event.start_time}\", 
-      \"end\" : \"#{event.end_time}\",
+      \"start\" : \"#{event.start_time.to_datetime}\", 
+      \"end\" : \"#{event.end_time.to_datetime}\",
       \"className\": \"#{event.className}\",
       \"group\": \"#{event.group.name}\",
       \"location\":\"#{event.location}\"}"
