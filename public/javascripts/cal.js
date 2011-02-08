@@ -334,6 +334,7 @@ function dateSplit(dates, split) {
     } else
       temp.push(dates[i])
   }
+  return temp
 }
 function dateGlom(dates) {
   if (dates.length == undefined || dates.length < 2)
