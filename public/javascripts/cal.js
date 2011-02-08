@@ -1,6 +1,7 @@
 var selectedGroups = []
 var group_positions = {}
 var cachedEvents = {}
+var datesPulled = []
 var calDebug = false
 var obj
 
@@ -126,13 +127,13 @@ $(document).ready(function() {
   var dates = $("#event_start_time, #event_end_time").datetimepicker({
     timeFormat: 'h:mm',
     onSelect: function( selectedDate ) {
-    				var option = this.id == "event_start_time" ? "minDate" : "maxDate",
-    					instance = $( this ).data( "datepicker" );
-    					date = $.datepicker.parseDate(
-    						instance.settings.dateFormat ||
-    						$.datepicker._defaults.dateFormat,
-    						selectedDate, instance.settings );
-    				dates.not( this ).datepicker( "option", option, date );
+  		var option = this.id == "event_start_time" ? "minDate" : "maxDate",
+  			instance = $( this ).data( "datepicker" );
+  			date = $.datepicker.parseDate(
+  				instance.settings.dateFormat ||
+  				$.datepicker._defaults.dateFormat,
+  				selectedDate, instance.settings );
+  		dates.not( this ).datepicker( "option", option, date );
     },
     showOn: "button",
     buttonImage: "/images/cal.png",
@@ -265,4 +266,86 @@ function updatePrivacy() {
     $("#event_attendee_limit").removeAttr('disabled')
   else
     $("#event_attendee_limit").attr('disabled',true)
+}
+
+
+/* helper functions for date ranges */
+// datesPulled is of the following format:
+// {
+// gid: dateranges,
+// ...
+// }
+// where dateranges is of the following format:
+// [[start,end],...]
+
+// 
+// There are two tasks
+// 1: when given a request for a date range and a group, subtract all cached ranges
+// 2: when a request completes, add that range to the cache
+
+function subtractCachedRanges(start, end, gid) {
+  gd = datesPulled[gid] // the cached value
+  d = [[start, end]]    // the return value
+  if (gd.length == 0) return d
+  if (end < gd[0][0]) return d
+  if (start > gd[gd.length-1][2]) return d
+  // cut our given range on cached ranges
+  for (i=0; i<gd.length; i++) {
+    d = dateSplit(d,gd[i][0])
+    d = dateSplit(d,gd[i][1])
+  }
+  // ignore ranges that are cached
+  for (i=d.length-1; i>=0; i--) {
+    if ($.inArray(d[i],gd) != -1)
+      d = d.slice(0,i)+d.slice(i+1,d.length)
+  }
+  // combine adjacent ranges
+  return dateGlom(d)
+}
+function addRangesToCache(dates, gid) {
+  // assumes dates is the output of subtractCachedRanges
+  
+  for (i=0; i<dates.length; i++) {
+    add = dates[i]
+    if (add[1] <= datesPulled[gid][0][1])
+      datesPulled = add+datesPulled[gid]
+    else if (add[0] => datesPulled[gid][datesPulled[gid].length-1][1])
+      datesPulled = datesPulled[gid]+add
+    else {
+      temp = []
+      for (j=0; j<datesPulled[gid].length-1; j++) {
+        if (datesPulled[gid][j][1] <= add[0] && datesPulled[gid][j+1][0] >= add[1]) {
+          temp.push(datesPulled[gid][j])
+          temp.push(add)
+        } else
+          temp.push(datesPulled[gid][j])
+      }
+    }
+  }
+  
+  datesPulled[gid] = dateGlom(datesPulled[gid])
+}
+function dateSplit(dates, split) {
+  temp = []
+  for (i=0; i<dates.length; i++) {
+    if (split > dates[i][0] && split < dates[i][1]) {
+      temp.push([dates[i][0],split])
+      temp.push([split,dates[i][1]])
+    } else
+      temp.push(dates[i])
+  }
+}
+function dateGlom(dates) {
+  if (dates.length == undefined || dates.length < 2)
+    return dates
+  temp = []
+  start = dates[0][0]
+  for (j=0; j<dates.length-1; j++) {
+    if (dates[j][1] != dates[j+1][0]) {
+      start = dates[j+1][0]
+      temp.push([start,dates[j][1]])
+    }
+  }
+  temp.push([start,dates[dates.length-1][1]])
+  return temp
 }
