@@ -52,10 +52,11 @@ class Event < ActiveRecord::Base
     ievent = Icalendar::Event.new
     ievent.start = start_time.to_datetime
     ievent.end = end_time.to_datetime
-    ievent.dtstamp = created_at.to_datetime
+    ievent.dtstamp = updated_at.to_datetime
     ievent.summary = title
     ievent.description = (description or "")
-    ievent.uid = "event-#{id}"
+    ievent.location = location
+    ievent.uid = "event-#{id}-#{updated_at.strftime('%s')}"
     return ievent
   end
   def <=>(other)
