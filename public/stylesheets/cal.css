@@ -35,43 +35,59 @@
   width: 700px;
   float:left;
 }
+
+
 #newEventForm {
-  width: 456px;
+  width: 455px;
   overflow: hidden;
   position: relative;
 }
 .newEventForm_page {
-  width: 456px;
+  width: 455px;
   float: left;
   display: inline;
+  position: relative;
 }
 #pageContainer {
   position: relative;
-  width: 912px;
+  width: 910px;
 }
 #event_title {
-  max-width: 453px; width: 440px; font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
+  max-width: 452px;
+  width: 440px;
+  font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
 }
 #event_stop_on_date {
-  width: 159px !important
+  width: 140px !important
 }
 #event_start_time {
-  width: 194px !important
+  width: 197px !important
 }
 #event_end_time {
-  width: 192px !important
+  width: 197px !important
 }
 #event_description {
-  height: 57px
+  height: 59px
+}
+#event_repeat_period {
+  margin-left: -7px
 }
 #event_submit {
-  min-width:210px; width: 214px
+  min-width: 164px;
+  width: 164px;
+}
+.at {
+  font-size: 17pt
+}
+
+#privacy_type input[type="radio"] {
+  margin: 5px;
 }
 #invitees select {
   width: 211px;
   height: 142px;
 }
-#invitees input {
+#invitees textarea {
   width: 200px;
 }
 #invitee_buttons {

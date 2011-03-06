@@ -124,7 +124,7 @@ $(document).ready(function() {
     }
   })
   
-  var dates = $("#event_start_time, #event_end_time").datetimepicker({
+  var dates = $("#event_start_time, #event_end_time").datepicker({
     timeFormat: 'h:mm',
     onSelect: function( selectedDate ) {
   		var option = this.id == "event_start_time" ? "minDate" : "maxDate",
@@ -139,15 +139,13 @@ $(document).ready(function() {
     buttonImage: "/images/cal.png",
     buttonImageOnly: true
   })
-  $("#event_stop_on_date").datetimepicker({
+  $("#event_stop_on_date").datepicker({
     showOn: "button",
     buttonImage: "/images/cal.png",
     buttonImageOnly: true
   })
   
   populateInvitees()
-  
-  $("#privacy_type").buttonset()
 })
 
 function toggle(group_id) {
@@ -260,8 +258,6 @@ function populateInvitees() {
 }
 function updatePrivacy() {
   pt = $("[name='event[privacy_type]']:checked").val()
-  $(".privacyMessage").hide()
-  $(".privacyMessage_"+pt).show()
   if (pt == 'limited')
     $("#event_attendee_limit").removeAttr('disabled')
   else
