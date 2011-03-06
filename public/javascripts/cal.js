@@ -2,7 +2,7 @@ var selectedGroups = []
 var group_positions = {}
 var cachedEvents = {}
 var datesPulled = []
-var calDebug = false
+var calDebug = true
 var obj
 
 $(document).ready(function() {
@@ -49,21 +49,10 @@ $(document).ready(function() {
     events: function(start, end, callback) {
       events = []
       eventIds = []
-      finishedGroups = []
-      
-      $("#calendar").ajaxComplete(function() {
-        if (calDebug) console.log('ajax complete')
-        if (finishedGroups.length == selectedGroups.length) {
-          if (calDebug) console.log('calling back')
-          $("#calendar").fullCalendar("removeEvents")
-          callback(events)
-          $("#calendar").fullCalendar("render")
-        }
-      })
       
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
-        allFromCache = true
+        events[group_id] = []
         foundCache = false
         //FIXME traverse cache
         for (j in cachedEvents) {
@@ -72,7 +61,6 @@ $(document).ready(function() {
         }
         
         if (!foundCache) {
-          allFromCache = false
           $("#grouploading_"+group_id).show()
           url = '/groups/'+group_id+'/events.json'
           if (calDebug) console.log("pulling "+group_id+" events from "+url)
@@ -82,12 +70,13 @@ $(document).ready(function() {
               if (calDebug) console.log('success')
               $.each(data.events, function(k) {
                 if ($.inArray(data.events[k].id, eventIds) == -1) {
-                  events.push(data.events[k])
+                  events[data.group_id].push(data.events[k])
                   eventIds.push(data.events[k].id)
                 }
                 cachedEvents[data.events[k].id] = data.events[k]
               })
-              finishedGroups.push(data.group_id)
+              for (m in events[data.group_id])
+                $("#calendar").fullCalendar('renderEvent',events[data.group_id][m])
               $("#grouploading_"+data.group_id).hide()
             },
             error: function(xhr, status, thrown) {
@@ -98,6 +87,7 @@ $(document).ready(function() {
             
           })
         } else {
+          $("#grouploading_"+group_id).show()
           if (calDebug) console.log('pulling '+group_id+' events from cache')
           //FIXME traverse cache
           for (l in cachedEvents) {
@@ -106,20 +96,14 @@ $(document).ready(function() {
               continue
             if ($.inArray(item.id, eventIds) == -1) {
               if (calDebug) console.log('pushing event from cache')
-              events.push(item)
+              events[group_id].push(item)
               eventIds.push(item.id)
             }
-            if ($.inArray(item.group_id, finishedGroups) == -1)
-              finishedGroups.push(item.group_id)
-          }  
+          }
+          for (n in events[group_id])
+            $("#calendar").fullCalendar('renderEvent',events[group_id][n])
+          $("#grouploading_"+group_id).hide()
         }
-      }
-      
-      if (allFromCache) {
-        if (calDebug) console.log('calling back')
-        $("#calendar").fullCalendar("removeEvents")
-        callback(events)
-        $("#calendar").fullCalendar("render")
       }
     }
   })
