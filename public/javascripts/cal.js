@@ -179,10 +179,7 @@ function toggle(group_id) {
 }
 
 function newEvent(group_id, date, allDay) {
-  if (allDay)
-    $("#event_all_day_true").click()
-  else
-    $("#event_all_day_false").click()
+  updateEventTimes(allDay)
     
   if (group_id != null) {
     $("#event_group_id option").removeAttr('selected')
@@ -202,6 +199,63 @@ function newEvent(group_id, date, allDay) {
   $("#new_event").attr('action','/events.xml')
   
   $.colorbox({href:"#newEventForm"})
+}
+
+function updateEventTimes(allDay) {
+  if (allDay == null)
+    allDay = $("#event_all_day").attr('checked')
+  if (allDay) {
+    $("#event_all_day").attr('checked',true)
+    $("#event_start_time_4i").attr('disabled',true)
+    $("#event_start_time_5i").attr('disabled',true)
+    $("#event_end_time_4i").attr('disabled',true)
+    $("#event_end_time_5i").attr('disabled',true)
+    $("#event_times .at").css('color','#ddd')
+  } else {
+    $("#event_all_day").removeAttr('checked')
+    $("#event_start_time_4i").removeAttr('disabled')
+    $("#event_start_time_5i").removeAttr('disabled')
+    $("#event_end_time_4i").removeAttr('disabled')
+    $("#event_end_time_5i").removeAttr('disabled')
+    $("#event_times .at").css('color',"#333")
+  }
+}
+function updateRepeat() {
+  repeats = $("#_repeat").attr('checked')
+  if (repeats) {
+    $("#event_repeat_frequency").removeAttr('disabled')
+    $("#event_repeat_period").removeAttr('disabled')
+    $("#stop_condition_type_occurrences").removeAttr('disabled')
+    $("#stop_condition_type_date").removeAttr('disabled')
+  }
+  repeatStopOn = $("[name='stop_condition_type']:checked").val()
+  if (repeatStopOn == "occurrences")
+    $("#event_stop_after_occurrences").removeAttr('disabled')
+  else if (repeatStopOn == "date") {
+    $("#event_stop_on_date").removeAttr('disabled')
+    $("#_stop_on_time_4i").removeAttr('disabled')
+    $("#_stop_on_time_5i").removeAttr('disabled')
+    $("#repeat .at").css('color','#333')
+  }
+  if (repeatStopOn != "occurrences")
+    $("#event_stop_after_occurrences").attr('disabled',true)
+  if (repeatStopOn != "date") {
+    $("#event_stop_on_date").attr('disabled',true)
+    $("#_stop_on_time_4i").attr('disabled',true)
+    $("#_stop_on_time_5i").attr('disabled',true)
+    $("#repeat .at").css('color','#ddd')
+  }
+  if (!repeats) {
+    $("#event_repeat_frequency").attr('disabled',true)
+    $("#event_repeat_period").attr('disabled',true)
+    $("#stop_condition_type_occurrences").attr('disabled',true)
+    $("#stop_condition_type_date").attr('disabled',true)
+    $("#event_stop_after_occurrences").attr('disabled',true)
+    $("#event_stop_on_date").attr('disabled',true)
+    $("#repeat .at").css('color','#ddd')
+    $("#_stop_on_time_4i").attr('disabled',true)
+    $("#_stop_on_time_5i").attr('disabled',true)
+  }
 }
 
 function submit_event_form() {
