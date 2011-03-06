@@ -71,10 +71,8 @@
           </div>
           <div class='clearfix'></div>
           <br><br>
-          <div style="text-align:center">
-            <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
-          </div>
-          <div style="position:absolute;right:0;bottom:0">
+          <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
+          <div style="position:absolute;right:0;bottom:2px">
             <div style='display:inline-block;text-align:right'><a href='#none' onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Or Invite<br>People First</a></div>
             <div style='display:inline-block;bottom:7px;position:relative;'>&rarr;</div>
           </div>
@@ -103,9 +101,8 @@
           </div>
           <div class='clearfix'></div>
           
-          <div style='position:absolute;bottom:0;left:143.5px'>
-            <%= f.submit "Create Event Now", :onclick => 'return submit_event_form()' %>
-          </div>
+          <%= f.submit "Create Event Now", :onclick => 'return submit_event_form()' %>
+          
           <div style="position:absolute;left:0;bottom:9px">
             &larr; <a href='#none' onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Go Back</a>
           </div>

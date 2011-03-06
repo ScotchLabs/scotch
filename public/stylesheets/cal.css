@@ -71,6 +71,9 @@
   height: 59px
 }
 #event_submit {
+  position:absolute;
+  bottom:0;
+  left:143.5px;
   min-width: 164px;
   width: 164px;
 }
