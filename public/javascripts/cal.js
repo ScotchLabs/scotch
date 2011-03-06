@@ -47,12 +47,11 @@ $(document).ready(function() {
       $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
     },
     events: function(start, end, callback) {
-      events = []
       eventIds = []
       
       for (i in selectedGroups) {
+        events = []
         group_id = selectedGroups[i]
-        events[group_id] = []
         foundCache = false
         //FIXME traverse cache
         for (j in cachedEvents) {
@@ -70,13 +69,13 @@ $(document).ready(function() {
               if (calDebug) console.log('success')
               $.each(data.events, function(k) {
                 if ($.inArray(data.events[k].id, eventIds) == -1) {
-                  events[data.group_id].push(data.events[k])
+                  events.push(data.events[k])
                   eventIds.push(data.events[k].id)
                 }
                 cachedEvents[data.events[k].id] = data.events[k]
               })
-              for (m in events[data.group_id])
-                $("#calendar").fullCalendar('renderEvent',events[data.group_id][m])
+              for (m in events)
+                $("#calendar").fullCalendar('renderEvent',events[m])
               $("#grouploading_"+data.group_id).hide()
             },
             error: function(xhr, status, thrown) {
@@ -96,12 +95,12 @@ $(document).ready(function() {
               continue
             if ($.inArray(item.id, eventIds) == -1) {
               if (calDebug) console.log('pushing event from cache')
-              events[group_id].push(item)
+              events.push(item)
               eventIds.push(item.id)
             }
           }
-          for (n in events[group_id])
-            $("#calendar").fullCalendar('renderEvent',events[group_id][n])
+          for (n in events)
+            $("#calendar").fullCalendar('renderEvent',events[n])
           $("#grouploading_"+group_id).hide()
         }
       }
