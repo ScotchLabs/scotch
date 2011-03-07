@@ -3,6 +3,7 @@ var group_positions = {}
 var cachedEvents = {}
 var calDebug = true
 var obj
+var ajax = {}
 
 $(document).ready(function() {
   // populate selectedGroups
@@ -62,7 +63,7 @@ $(document).ready(function() {
           $("#grouploading_"+group_id).show()
           url = '/groups/'+group_id+'/events.json'
           if (calDebug) console.log("pulling "+group_id+" events from "+url)
-          $.ajax({
+          ajax[group_id] = $.ajax({
             url: url,
             success: function(data) {
               if (calDebug) console.log('success')
@@ -106,6 +107,11 @@ $(document).ready(function() {
     }
   })
   
+  $(".fc-button-prev a, .fc-button-next a, .fc-button-today:not(.fc-state-disabled) a").click(function(){
+    abortAllAjax()
+    super
+  })
+  
   var dates = $("#event_start_time, #event_end_time").datepicker({
     timeFormat: 'h:mm',
     onSelect: function( selectedDate ) {
@@ -129,6 +135,15 @@ $(document).ready(function() {
   
   populateInvitees()
 })
+function abortAllAjax(){
+  for (i in ajax) {
+    if (ajax[i] == undefined)
+      continue
+    ajax[i].abort()
+    if (calDebug) console.log('aborting request for '+i)
+  }
+  ajax = []
+}
 
 function toggle(group_id) {
   if (calDebug) console.log('toggling '+group_id)
