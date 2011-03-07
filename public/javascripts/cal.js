@@ -1,7 +1,6 @@
 var selectedGroups = []
 var group_positions = {}
 var cachedEvents = {}
-var datesPulled = []
 var calDebug = true
 var obj
 
