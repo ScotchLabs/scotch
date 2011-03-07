@@ -19,10 +19,26 @@ class EventsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @events }
       format.json {
-        json_events = group_events.clone
+        temp = group_events.clone
+        json_events = Array.new
         # params sent by fullCalendar
-        json_events = json_events.select{|e| e.start_time >= Time.at(params[:start].to_i)} if params[:start]
-        json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
+        if params[:dates]
+          for e in temp
+            for date in params[:dates].split('.')
+              d=date.split(',')
+              d[0] = d[0][0...d[0].length-3].to_i
+              d[1] = d[1][0...d[1].length-3].to_i
+              startTime = Time.at(d[0])
+              endTime = Time.at(d[1])
+              if (e.start_time > startTime and e.start_time < endTime) or
+                (e.end_time > startTime and e.end_time < endTime)
+                json_events.push e
+              end
+            end
+          end
+        else
+          json_events = temp.clone
+        end
         
         json = json_events.collect { |e| event_to_json(e) }.join(",\n")
         json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
