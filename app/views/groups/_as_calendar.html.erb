@@ -8,5 +8,4 @@ className += "_" unless selected %>
 <button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
 <script>
   group_positions[<%= group.id %>] = <%=raw group.positions.to_json %>;
-  datesPulled[<%= group.id %>] = [];
 </script>
