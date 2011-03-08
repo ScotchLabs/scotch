@@ -59,29 +59,32 @@ $(document).ready(function() {
         }
         
         if (!foundCache) {
-          $("#grouploading_"+group_id).show()
-          url = '/groups/'+group_id+'/events.json'
-          if (calDebug) console.log("pulling "+group_id+" events from "+url)
-          ajax[group_id] = $.ajax({
-            url: url,
-            success: function(data) {
-              if (calDebug) console.log('success')
-              $.each(data.events, function(k) {
-                if ($.inArray(data.events[k].id, eventIds) == -1) {
-                  $("#calendar").fullCalendar('renderEvent',data.events[k])
-                  eventIds.push(data.events[k].id)
-                }
-                cachedEvents[data.events[k].id] = data.events[k]
-              })
-              $("#grouploading_"+data.group_id).hide()
-            },
-            error: function(xhr, status, thrown) {
-              //TODO hide loading
-              if (calDebug) console.log('error. status: '+status+', thrown: '+thrown)
-              //TODO show error
-            }
+          if (ajax[group_id] == undefined) {
+            $("#grouploading_"+group_id).show()
+            url = '/groups/'+group_id+'/events.json'
+            if (calDebug) console.log("pulling "+group_id+" events from "+url)
+            ajax[group_id] = $.ajax({
+              url: url,
+              success: function(data) {
+                if (calDebug) console.log('success')
+                $.each(data.events, function(k) {
+                  if ($.inArray(data.events[k].id, eventIds) == -1) {
+                    $("#calendar").fullCalendar('renderEvent',data.events[k])
+                    eventIds.push(data.events[k].id)
+                  }
+                  cachedEvents[data.events[k].id] = data.events[k]
+                })
+                ajax[data.group_id] = undefined
+                $("#grouploading_"+data.group_id).hide()
+              },
+              error: function(xhr, status, thrown) {
+                //TODO hide loading
+                if (calDebug) console.log('error. status: '+status+', thrown: '+thrown)
+                //TODO show error
+              }
             
-          })
+            })
+          }
         } else {
           $("#grouploading_"+group_id).show()
           if (calDebug) console.log('pulling '+group_id+' events from cache')
@@ -100,11 +103,6 @@ $(document).ready(function() {
         }
       }
     }
-  })
-  
-  $(".fc-button-prev a, .fc-button-next a, .fc-button-today:not(.fc-state-disabled) a").click(function(){
-    abortAllAjax()
-    super
   })
   
   var dates = $("#event_start_time, #event_end_time").datepicker({
@@ -130,15 +128,6 @@ $(document).ready(function() {
   
   populateInvitees()
 })
-function abortAllAjax(){
-  for (i in ajax) {
-    if (ajax[i] == undefined)
-      continue
-    ajax[i].abort()
-    if (calDebug) console.log('aborting request for '+i)
-  }
-  ajax = []
-}
 
 function toggle(group_id) {
   if (calDebug) console.log('toggling '+group_id)
