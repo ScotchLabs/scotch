@@ -250,7 +250,9 @@ function submit_event_form() {
     success: function(data, status, xhr) {
       obj = data
       if (data.event == undefined) {
-        // data is errors
+        for (i in obj) {
+          $("#event_"+i).css('border-color','#f90')
+        }
       } else {
         $("#calendar").fullCalendar('renderEvent',data.event)
         $.colorbox.close()
