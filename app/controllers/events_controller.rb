@@ -84,17 +84,21 @@ class EventsController < ApplicationController
               n=0
               while tempTime < goal
                 n=n+1
-                tempTime = tempTime.advance(change => delta)
+                tempTime = tempTime.advance(change.to_sym => delta)
               end
             else
               n=@event.stop_after_occurrences-1
             end
             g=@event.clone
             g.repeat_id = @event.id
+            g.repeat_period = nil
+            g.repeat_frequency = nil
+            g.stop_after_occurrences = nil
+            g.stop_on_date = nil
             n.times do
               g=g.clone
-              g.start_time = g.start_time.advance(change => delta)
-              g.end_time = g.end_time.advance(change => delta)
+              g.start_time = g.start_time.advance(change.to_sym => delta)
+              g.end_time = g.end_time.advance(change.to_sym => delta)
               @events.push g if g.save
             end
           end
