@@ -25,6 +25,7 @@ module EventsHelper
       \"end\" : \"#{event.end_time.to_datetime}\",
       \"className\": \"#{event.className}\",
       \"group\": \"#{event.group.name}\",
-      \"location\":\"#{event.location}\"}"
+      \"location\":\"#{event.location}\",
+      \"allDay\":\"#{event.all_day}\"}"
   end
 end

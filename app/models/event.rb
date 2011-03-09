@@ -84,7 +84,7 @@ protected
 
   def times_are_sane
     errors[:start_time] << "cannot be in the past" if start_time.past?
-    errors[:end_time] << "cannot be before start time" if end_time and end_time <= start_time
+    errors[:end_time] << "cannot be before start time" if end_time and end_time < start_time
   end
   
   def repeat_id_is_sane

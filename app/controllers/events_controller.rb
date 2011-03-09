@@ -69,14 +69,16 @@ class EventsController < ApplicationController
       @event = Event.new(params[:event])
       @event.group = @group
       @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
-
+      
       respond_to do |format|
         if @event.save
           format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
           format.xml  { render :xml => @event, :status => :created, :location => @event }
+          format.json { render :json => "{\"group_id\": #{@event.group_id},\n\"event\": "+event_to_json(@event)+"}"}
         else
           format.html { render :action => "new" }
           format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+          format.json { render :json => @event.errors }
         end
       end
     end
