@@ -19,6 +19,9 @@ class Event < ActiveRecord::Base
   validates_presence_of :group, :title, :start_time, :end_time
   validates_numericality_of :repeat_frequency, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :repeat_period, :in => PERIODS.map{|p| p[1]}, :allow_nil => true, :allow_blank => true
+  validates_numericality_of :stop_after_occurrences, :allow_nil => true, :allow_blank => true
+  validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
   
@@ -85,6 +88,7 @@ protected
   def times_are_sane
     errors[:start_time] << "cannot be in the past" if start_time.past?
     errors[:end_time] << "cannot be before start time" if end_time and end_time < start_time
+    errors[:stop_on_date] << "cannot be before end time" if stop_on_date and stop_on_date < end_time
   end
   
   def repeat_id_is_sane
