@@ -241,6 +241,7 @@ function updateRepeat() {
 
 function submit_event_form() {
   $("#position_names option").attr("selected",true)
+  $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)
   // show loading
   $.ajax({
@@ -250,6 +251,8 @@ function submit_event_form() {
     success: function(data, status, xhr) {
       obj = data
       if (data.event == undefined) {
+        $("#newFormError").show()
+        $("#pageContainer").animate({"left":"0px"}, "fast")
         for (i in obj) {
           $("#event_"+i).css('border-color','#f90')
         }
