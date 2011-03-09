@@ -47,10 +47,10 @@
           
           <div id="event_times">
             <%= f.check_box :all_day, :onchange => "updateEventTimes(null)" %> All day<br>
-            <%= f.text_field :start_time, {:class => 'datepicker placeholder-shim', :placeholder => "Start"} %>
-            <span class='at'>@</span> <%= f.time_select :start_time, {:minute_step => 5, :ignore_date => true} %><br>
-            <%= f.text_field :end_time, {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %>
-            <span class='at'>@</span> <%= f.time_select :end_time, {:minute_step => 5, :ignore_date => true} %><br>
+            <%= text_field_tag :start_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "Start"} %>
+            <span class='at'>@</span> <%= f.time_select :start_time, {:minute_step => 5} %><br>
+            <%= text_field_tag :end_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %>
+            <span class='at'>@</span> <%= f.time_select :end_time, {:minute_step => 5} %><br>
           </div>
           <hr>
           
@@ -65,8 +65,8 @@
               <br>
               <%= radio_button_tag :stop_condition_type, 'date', false, {:onchange => "updateRepeat()", :disabled => true} %>
               <span style="width:27px;display:inline-block">until</span>
-              <%= f.text_field :stop_on_date, {:class => 'datepicker placeholder-shim', :placeholder => "date", :disabled => true} %><br>
-              <span class='at' style='margin-left:15px;color:#ddd'>@</span> <%= time_select nil, :stop_on_time, {:minute_step => 5, :ignore_date => true}, :disabled => true %>
+              <%= text_field_tag :stop_on_date, nil, {:class => 'datepicker placeholder-shim', :placeholder => "date", :disabled => true} %><br>
+              <span class='at' style='margin-left:15px;color:#ddd'>@</span> <%= f.time_select :stop_on_date, {:minute_step => 5}, :disabled => true %>
             </div>
           </div>
           <div class='clearfix'></div>

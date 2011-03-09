@@ -105,10 +105,10 @@ $(document).ready(function() {
     }
   })
   
-  var dates = $("#event_start_time, #event_end_time").datepicker({
+  var dates = $("#start_time, #end_time").datepicker({
     timeFormat: 'h:mm',
     onSelect: function( selectedDate ) {
-  		var option = this.id == "event_start_time" ? "minDate" : "maxDate",
+  		var option = this.id == "start_time" ? "minDate" : "maxDate",
   			instance = $( this ).data( "datepicker" );
   			date = $.datepicker.parseDate(
   				instance.settings.dateFormat ||
@@ -169,12 +169,12 @@ function newEvent(group_id, date, allDay) {
   }
   
   if (date) {
-    $("#event_start_time").datetimepicker('setDate', date)
+    $("#start_time").datetimepicker('setDate', date)
     if (allDay)
       date.setDate(date.getDate()+1)
     else
       date.setHours(date.getHours()+1)
-    $("#event_end_time").datetimepicker('setDate', date)
+    $("#end_time").datetimepicker('setDate', date)
   }
   
   $("#new_event").attr('action','/events.json')
@@ -238,8 +238,19 @@ function updateRepeat() {
     $("#_stop_on_time_5i").attr('disabled',true)
   }
 }
-
+function updateTime(sel) {
+  arr = $("#"+sel).val().split('/')
+  for (i in arr)
+    if (arr[i] == undefined)
+      arr[i] = ""
+  $("#event_"+sel+"_1i").val(arr[2])
+  $("#event_"+sel+"_2i").val(arr[0])
+  $("#event_"+sel+"_3i").val(arr[1])
+}
 function submit_event_form() {
+  updateTime('start_time')
+  updateTime('end_time')
+  updateTime('stop_on_date')
   $("#position_names option").attr("selected",true)
   $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)

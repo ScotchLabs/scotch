@@ -58,13 +58,13 @@
   width: 440px;
   font: normal normal normal 17pt/17pt Georgia, 'Times New Roman', Times, serif
 }
-#event_stop_on_date {
+#stop_on_date {
   width: 129px !important
 }
-#event_start_time {
+#start_time {
   width: 197px !important
 }
-#event_end_time {
+#end_time {
   width: 197px !important
 }
 #event_description {
