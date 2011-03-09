@@ -70,11 +70,41 @@ class EventsController < ApplicationController
       @event.group = @group
       @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
       
+      @events = Array.new
+      @events.push @event
+      
       respond_to do |format|
         if @event.save
+          if params[:repeat]=="1"
+            change = @event.repeat_period
+            delta = @event.repeat_frequency
+            if params[:stop_condition_type] == "date"
+              tempTime = @event.end_time
+              goal = @event.stop_on_date
+              n=0
+              while tempTime < goal
+                n=n+1
+                tempTime = tempTime.advance(change => delta)
+              end
+            else
+              n=@event.stop_after_occurrences-1
+            end
+            g=@event.clone
+            g.repeat_id = @event.id
+            n.times do
+              g=g.clone
+              g.start_time = g.start_time.advance(change => delta)
+              g.end_time = g.end_time.advance(change => delta)
+              @events.push g if g.save
+            end
+          end
           format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
           format.xml  { render :xml => @event, :status => :created, :location => @event }
-          format.json { render :json => "{\"group_id\": #{@event.group_id},\n\"event\": "+event_to_json(@event)+"}"}
+          format.json {
+            json = @events.collect { |e| event_to_json(e) }.join(",\n")
+            json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
+            render :json => json
+          }
         else
           format.html { render :action => "new" }
           format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }

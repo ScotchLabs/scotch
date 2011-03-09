@@ -261,7 +261,7 @@ function submit_event_form() {
     data: $("#new_event").serialize(),
     success: function(data, status, xhr) {
       obj = data
-      if (data.event == undefined) {
+      if (data.events == undefined) {
         // INVALID INPUT
         $("#newFormError").show()
         $("#pageContainer").animate({"left":"0px"}, "fast")
@@ -270,8 +270,10 @@ function submit_event_form() {
         }
       } else {
         // VALID INPUT
-        cachedEvents[data.event.id] = data.event
-        $("#calendar").fullCalendar('renderEvent',data.event)
+        for (i in data.events) {
+          cachedEvents[data.events[i].id] = data.events[i]
+          $("#calendar").fullCalendar('renderEvent',data.events[i])
+        }
         $.colorbox.close()
       }
     },
