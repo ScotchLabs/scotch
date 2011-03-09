@@ -251,9 +251,10 @@ function submit_event_form() {
       obj = data
       if (data.event == undefined) {
         // data is errors
-      } else
+      } else {
         $("#calendar").fullCalendar('renderEvent',data.event)
         $.colorbox.close()
+      }
     },
     error: function(xhr, status, thrown) {
       if (calDebug) console.log('error submitting new event form. status '+status+', thrown '+thrown)
