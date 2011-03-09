@@ -120,7 +120,7 @@ $(document).ready(function() {
     buttonImage: "/images/cal.png",
     buttonImageOnly: true
   })
-  $("#event_stop_on_date").datepicker({
+  $("#stop_on_date").datepicker({
     showOn: "button",
     buttonImage: "/images/cal.png",
     buttonImageOnly: true
@@ -213,7 +213,7 @@ function updateRepeat() {
   if (repeatStopOn == "occurrences")
     $("#event_stop_after_occurrences").removeAttr('disabled')
   else if (repeatStopOn == "date") {
-    $("#event_stop_on_date").removeAttr('disabled')
+    $("#stop_on_date").removeAttr('disabled')
     $("#_stop_on_time_4i").removeAttr('disabled')
     $("#_stop_on_time_5i").removeAttr('disabled')
     $("#repeat .at").css('color','#333')
@@ -221,7 +221,7 @@ function updateRepeat() {
   if (repeatStopOn != "occurrences")
     $("#event_stop_after_occurrences").attr('disabled',true)
   if (repeatStopOn != "date") {
-    $("#event_stop_on_date").attr('disabled',true)
+    $("#stop_on_date").attr('disabled',true)
     $("#_stop_on_time_4i").attr('disabled',true)
     $("#_stop_on_time_5i").attr('disabled',true)
     $("#repeat .at").css('color','#ddd')
@@ -232,7 +232,7 @@ function updateRepeat() {
     $("#stop_condition_type_occurrences").attr('disabled',true)
     $("#stop_condition_type_date").attr('disabled',true)
     $("#event_stop_after_occurrences").attr('disabled',true)
-    $("#event_stop_on_date").attr('disabled',true)
+    $("#stop_on_date").attr('disabled',true)
     $("#repeat .at").css('color','#ddd')
     $("#_stop_on_time_4i").attr('disabled',true)
     $("#_stop_on_time_5i").attr('disabled',true)
