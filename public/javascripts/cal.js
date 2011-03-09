@@ -254,7 +254,7 @@ function submit_event_form() {
   $("#position_names option").attr("selected",true)
   $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)
-  // show loading
+  //TODO show loading
   $.ajax({
     url: $("#new_event").attr('action'),
     type: "POST",
@@ -262,12 +262,15 @@ function submit_event_form() {
     success: function(data, status, xhr) {
       obj = data
       if (data.event == undefined) {
+        // INVALID INPUT
         $("#newFormError").show()
         $("#pageContainer").animate({"left":"0px"}, "fast")
         for (i in obj) {
           $("#event_"+i).css('border-color','#f90')
         }
       } else {
+        // VALID INPUT
+        cachedEvents[data.event.id] = data.event
         $("#calendar").fullCalendar('renderEvent',data.event)
         $.colorbox.close()
       }
@@ -278,7 +281,7 @@ function submit_event_form() {
     },
     complete: function(xhr, status) {
       $("#new_event [type='submit']").removeAttr('disabled')
-      // hide loading
+      //TODO hide loading
     }
   })
   return false
