@@ -26,6 +26,10 @@ module EventsHelper
       \"className\": \"#{event.className}\",
       \"group\": \"#{event.group.name}\",
       \"location\":\"#{event.location}\",
+      \"privacyType\":\"#{event.privacy_type}\",
+      \"attendeeLimit\":\"#{event.attendee_limit}\",
+      \"numAttendees\":\"#{event.attendees.count}\",
+      \"currentUserAttending\":\"#{event.attendees.include? current_user}\",
       \"allDay\":\"#{event.all_day}\"}"
   end
 end
