@@ -23,8 +23,8 @@ module PositionsHelper
   end
 
   def crews
-    crews = ["Lighting/Electrics", "Carpentry/Set design", "Sounds", "Paint",
-      "Publicity", "Props", "Hair/Makeup", "Costumes", "House Management"]
+    crews = ["Lighting/Electrics", "Carpentry/Set design", "Sound", "Paint",
+      "Publicity", "Props", "Hair/Makeup", "Costumes", "House Management", "Run"]
     return crews.collect{|c| c + " Crew"}
   end
 
