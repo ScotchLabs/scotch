@@ -5,6 +5,12 @@
   </article>
 <% end %>
 
+<article>
+<%= link_to "Elections are open!", "http://online.snstheatre.org/elections_login.php", :method=>:post,:andrewid=>current_user.andrewid,:auth=>Digest::MD5.hexdigest("kWhcuf6FbgvzCMMEQz9Q"+current_user.andrewid) %> 
+: Visit the elections site where you can nominate SNS members for board positions,
+accept/reject your nominations, and read or publish platforms.
+</article>
+
 <% if current_user.incomplete_record? %>
   <article> <%= current_user.first_name %>, 
   it looks like your profile is incomplete.  Please take some time to
