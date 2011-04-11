@@ -6,7 +6,7 @@
 <% end %>
 
 <article>
-<%= link_to "Elections are open!", "http://online.snstheatre.org/elections_login.php", :method=>:post,:andrewid=>current_user.andrewid,:auth=>Digest::MD5.hexdigest("kWhcuf6FbgvzCMMEQz9Q"+current_user.andrewid) %> 
+<%= link_to "Elections are open!", "http://online.snstheatre.org/elections_auth.php", :method=>:post,:andrewid=>current_user.andrewid,:auth=>Digest::MD5.hexdigest("kWhcuf6FbgvzCMMEQz9Q"+current_user.andrewid) %> 
 Visit the elections site where you can nominate S'n'S members for board positions,
 accept/reject your nominations, and read or publish platforms.
 </article>
