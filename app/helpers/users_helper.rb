@@ -34,7 +34,7 @@ module UsersHelper
 			if show_positions.length > 0
 				c "<div style='display: inline-block'>" 
 				c "<h1>Production History</h1>"
-				c "<table style='width:410px'><thead><tr><th style='width: 50%'>Show</th><th>Role</th></tr></thead>"
+				c "<table style='width:410px'>"
 				grid = show_positions.inject({}) { |acc,pos|
 					if acc[pos.group].nil?
 						acc[pos.group] = [pos]
@@ -57,7 +57,7 @@ module UsersHelper
 						end 
 					}
 					positions = positions.join "<br/>"
-					c "<tr style='background: #{odd}'><td style='padding:3px'>#{ link_to show.to_s, show_path(show) }</em></td><td style='padding:3px'>#{positions}</td></tr>"
+					c "<tr style='background: #{odd}'><td style='padding:3px; width: 50%'>#{ link_to show.to_s, show_path(show) }</em></td><td style='padding:3px'>#{positions}</td></tr>"
 					odd = odd == "#eee" ? "white" : "#eee"
 				}
 				c "</table>"
