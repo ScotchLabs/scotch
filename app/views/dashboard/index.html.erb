@@ -7,8 +7,8 @@
 
 <article style='text-align:center'>
 <a href="http://online.snstheatre.org/kudos2011/kudos_auth.php?andrewid=<%= current_user.andrewid %>&auth=<%= Digest::MD5.hexdigest("kWhcuf6FbgvzCMMEQz9Q"+current_user.andrewid) %>">
-Kudos are open!</a>
-Visit the site now to nominate S'n'S members for kudos awards!
+Kudos voting is open!</a>
+Visit the site now to vote!
 </article>
 
 <% if current_user.incomplete_record? %>
