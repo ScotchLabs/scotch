@@ -70,7 +70,7 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
-  resources :feedposts, :except => [:index, :edit, :update]
+  resources :feedposts, :except => [:index, :edit, :update, :new]
 
   get "dashboard/index"
   get "dashboard/calendar"
