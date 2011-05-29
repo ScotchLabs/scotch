@@ -127,4 +127,8 @@ end
     text = group.name if text.nil?
     "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb), :size => "50x50"}<div>#{group}</div></div></a>"
   end
+
+  def base_class(object)
+    object.class.to_s.classify.constantize.base_class.to_s
+  end
 end
