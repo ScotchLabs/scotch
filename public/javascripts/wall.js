@@ -148,7 +148,8 @@ function submit_feedpost() {
       'parent_id':$('#postform #feedpost_parent_id').attr('value'),
       'post_type':'wall',
       'headline':$('#postform #feedpost_headline').attr('value'),
-      'body':$('#postform textarea').attr('value')
+      'body':$('#postform textarea').attr('value'),
+      'privacy':$('#postform #feedpost_privacy').attr('value')
     }
     var email = ""
     if ($("#email") != undefined && $("#email").attr("checked"))

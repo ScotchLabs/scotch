@@ -10,6 +10,8 @@ end
 comments.reverse!
 %>
 
+<% if post.can_access? current_user %>
+
 <div id='post_<%= post.id %>' class="feedpost">
   <a name='feedpost_<%= post.id %>'></a>
   <div class='feedpost-image'>
@@ -24,10 +26,13 @@ comments.reverse!
       <% end %>
       </span>
     </div>
+    <% if post.privacy != "All" %>
+      <small style='color:#fbb'>Shh, this post is secret!</small><br>
+    <% end %>
     
     <%= raw textilize post.body %>
     <br>
-    <small style='color:#ddd'>Posted 
+    <small style='color:#bbb'>Posted 
       at <%= format_time post.created_at %>
     <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
       on <%= link_to post.parent, post.parent %>
@@ -71,3 +76,5 @@ comments.reverse!
   </div>
   <div class='clearfix'></div>
 </div>
+
+<% end %> <%# permissions check %>

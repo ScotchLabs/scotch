@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101222104959) do
+ActiveRecord::Schema.define(:version => 20110529094014) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -78,6 +78,8 @@ ActiveRecord::Schema.define(:version => 20101222104959) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parent_type"
+    t.string   "privacy",       :default => "All"
+    t.text     "recipient_ids"
   end
 
   add_index "feedposts", ["parent_id", "parent_type"], :name => "index_feedposts_on_parent_id_and_parent_type"

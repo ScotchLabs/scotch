@@ -91,8 +91,13 @@ class Group < Shared::Watchable
   end
 
   def user_has_permission?(user,permission)
-    permissions_for(user).include?(permission)||
-      permissions_for(user).include?(Permission.fetch("superuser"))
+    perms = permissions_for(user)
+    perms.include?(permission) || perms.include?(Permission.fetch("superuser"))
+  end
+
+  def user_is_superuser?(user)
+    perms = permissions_for(user)
+    perms.include?(Permission.fetch("superuser"))
   end
 
   def to_s

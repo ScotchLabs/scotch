@@ -199,6 +199,10 @@ class User < Shared::Watchable
 	groups.concat(Group.where(:id => group_ids).where("(archive_date IS NOT NULL) AND (archive_date < NOW())").order("id DESC").limit(count - groups.length))
 	return groups
   end
+
+  def member_of?(group)
+    self.groups.include(group)
+  end
  
 #######################
 # PERMISSIONS METHODS #
@@ -212,6 +216,10 @@ class User < Shared::Watchable
   def has_global_permission?(permission)
     global_permissions.include?(permission) ||
       global_permissions.include?(Permission.fetch("superuser"))
+  end
+
+  def superuser?
+    global_permissions.include?(Permission.fetch("superuser"))
   end
 
 #################
