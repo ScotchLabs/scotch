@@ -4,7 +4,9 @@
 require File.expand_path('../config/application', __FILE__)
 
 require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+
+class Rails::Application
+      include Rake::DSL if defined?(Rake::DSL)
+end
 
 Scotch::Application.load_tasks
