@@ -68,13 +68,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.save
-        format.html { 
-          if @group.type == "Show" then
-            redirect_to(@group, :notice => 'Position was successfully created.') 
-          else
-            redirect_to(@position, :notice => 'Position was successfully created.') 
-          end
-        }
+        format.html { redirect_to(group_positions_url(@group)) }
         format.xml  { render :xml => @position, :status => :created, :location => @position }
       else
         format.html { render :action => "new" }
