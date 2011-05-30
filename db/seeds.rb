@@ -13,5 +13,8 @@ SerializationHelper::Base.new(YamlDb::Helper).load "db/data.yml.gz"
 
 User.all.each do |u|
   u.password = "123456"
+  u.smc = "123456"
+  u.residence = "123 Main St"
+  u.phone = "5555555555"
   u.save
 end
