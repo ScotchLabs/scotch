@@ -1,0 +1,33 @@
+.ui-state-active.ui-accordion-header {
+  background: #333;
+  color: #fff;
+}
+.ui-datepicker-current-day a {
+  background: #333;
+  color: #fff;
+  border: 1px solid #333;
+}
+.ui-datepicker-today a {
+  background: #f90;
+  border: 1px solid #f90;
+}
+.ui-button {
+  color: #fff;
+  font-weight: bold;
+}
+.ui-button.ui-state-active, .ui-button.ui-state-hover {
+  background: #0dd;
+  border: 1px solid #0dd;
+}
+.ui-button:not(.ui-state-active):not(.ui-state-hover) {
+  background: #f90;
+  border: 1px solid #f90;
+}
+.ui-datepicker button {
+  min-width: inherit;
+}
+img.ui-datepicker-trigger {
+  cursor: pointer;
+}
+/* css for timepicker */
+.ui-timepicker-div { display: none }

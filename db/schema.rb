@@ -65,6 +65,14 @@ ActiveRecord::Schema.define(:version => 20110529094014) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.integer  "repeat_id"
+    t.integer  "repeat_frequency"
+    t.string   "repeat_period"
+    t.boolean  "all_day"
+    t.string   "privacy_type"
+    t.integer  "attendee_limit"
+    t.integer  "stop_after_occurrences"
+    t.string   "stop_on_date"
   end
 
   add_index "events", ["group_id"], :name => "index_events_on_group_id"
@@ -171,7 +179,7 @@ ActiveRecord::Schema.define(:version => 20110529094014) do
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",   :null => false
     t.string   "encrypted_password",    :limit => 128, :default => "",   :null => false
-    t.string   "password_salt",                        :default => "",   :null => false
+    t.string   "password_salt"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-
+  include EventsHelper
+  
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
@@ -13,10 +14,21 @@ class EventsController < ApplicationController
     group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
     @events = group_events.where(["start_time > ?",Time.zone.now]).all
     @past_events = group_events.where(["start_time < ?",Time.zone.now]).all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @events }
+      format.json {
+        json_events = group_events.clone
+        # params sent by fullCalendar
+        json_events = json_events.select{|e| e.start_time >= Time.at(params[:start].to_i)} if params[:start]
+        json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
+        
+        json = json_events.collect { |e| event_to_json(e) }.join(",\n")
+        json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
+        
+        render :json => json
+      }
     end
   end
 
@@ -57,14 +69,50 @@ class EventsController < ApplicationController
       @event = Event.new(params[:event])
       @event.group = @group
       @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
-
+      
+      @events = Array.new
+      @events.push @event
+      
       respond_to do |format|
         if @event.save
+          if params[:repeat]=="1"
+            change = @event.repeat_period
+            delta = @event.repeat_frequency
+            if params[:stop_condition_type] == "date"
+              tempTime = @event.end_time
+              goal = @event.stop_on_date
+              n=0
+              while tempTime < goal
+                n=n+1
+                tempTime = tempTime.advance(change.to_sym => delta)
+              end
+            else
+              n=@event.stop_after_occurrences-1
+            end
+            g=@event.clone
+            g.repeat_id = @event.id
+            g.repeat_period = nil
+            g.repeat_frequency = nil
+            g.stop_after_occurrences = nil
+            g.stop_on_date = nil
+            n.times do
+              g=g.clone
+              g.start_time = g.start_time.advance(change.to_sym => delta)
+              g.end_time = g.end_time.advance(change.to_sym => delta)
+              @events.push g if g.save
+            end
+          end
           format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
           format.xml  { render :xml => @event, :status => :created, :location => @event }
+          format.json {
+            json = @events.collect { |e| event_to_json(e) }.join(",\n")
+            json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
+            render :json => json
+          }
         else
           format.html { render :action => "new" }
           format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+          format.json { render :json => @event.errors }
         end
       end
     end

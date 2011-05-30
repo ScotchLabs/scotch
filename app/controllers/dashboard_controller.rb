@@ -7,7 +7,12 @@ class DashboardController < ApplicationController
   end
 
   def calendar
-    @events = current_user.user_events
+    @event = Event.new
+    @myevents = current_user.user_events
+    @mygroups = current_user.groups.active.uniq
+    @activeshows = Show.active - @mygroups
+    @activegroups = Group.active - @activeshows - @mygroups
+    
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,13 +1,16 @@
 /*
- * FullCalendar v1.4.7 Stylesheet
+ * FullCalendar v1.4.10 Stylesheet
  *
  * Feel free to edit this file to customize the look of FullCalendar.
  * When upgrading to newer versions, please upgrade this file as well,
  * porting over any customizations afterwards.
  *
- * Date: Mon Jul 5 16:07:40 2010 -0700
+ * Date: Sat Jan 1 23:46:27 2011 -0800
  *
  */
+ 
+ 
+/* TODO: make font sizes look the same in all doctypes */
 
 
 .fc,
@@ -156,13 +159,13 @@ table.fc-header {
 	
 .fc-header .fc-state-default,
 .fc-header .fc-state-default a {
-	border-color: #777; /* outer border */
+	border-color: #333; /* outer border */
 	color: #333;
 	}
 
 .fc-header .fc-state-default span {
-	border-color: #fff #fff #d1d1d1; /* inner border */
-	background: #e8e8e8;
+	border-color: #fff #fff #ddd; /* inner border */
+	background: #ddd;
 	}
 	
 /* PRESSED button COLORS (down and active) */
@@ -173,24 +176,24 @@ table.fc-header {
 	
 .fc-header .fc-state-down span,
 .fc-header .fc-state-active span {
-	background: #888;
-	border-color: #808080 #808080 #909090; /* inner border */
+	background: #333;
+	border-color: #333; /* inner border */
 	}
 	
 /* DISABLED button COLORS */
 	
 .fc-header .fc-state-disabled a {
-	color: #999;
+	color: #333;
 	}
 	
 .fc-header .fc-state-disabled,
 .fc-header .fc-state-disabled a {
-	border-color: #ccc; /* outer border */
+	border-color: #ddd; /* outer border */
 	}
 	
 .fc-header .fc-state-disabled span {
-	border-color: #fff #fff #f0f0f0; /* inner border */
-	background: #f0f0f0;
+	border-color: #fff; /* inner border */
+	background: #fff;
 	}
 	
 	
@@ -199,7 +202,7 @@ table.fc-header {
 ------------------------------------------------------------------------*/
 	
 .fc-widget-content {
-	border: 1px solid #ccc; /* outer border color */
+	border: 1px solid #ddd; /* outer border color */
 	}
 	
 .fc-content {
@@ -208,14 +211,14 @@ table.fc-header {
 	
 .fc-content .fc-state-default {
 	border-style: solid;
-	border-color: #ccc; /* inner border color */
+	border-color: #ddd; /* inner border color */
 	}
 	
 .fc-content .fc-state-highlight { /* today */
-	background: #ffc;
+	background: #eeb;
 	}
 	
-.fc-content .fc-not-today {
+.fc-content .fc-not-today { /* override jq-ui highlight (TODO: ui-widget-content) */
 	background: none;
 	}
 	
@@ -232,15 +235,15 @@ table.fc-header {
 	
 	
 	
+
+
 /* Global Event Styles
 ------------------------------------------------------------------------*/
 
 .fc-event,
 .fc-agenda .fc-event-time,
 .fc-event a {
-	border-style: solid; 
-	border-color: #36c;     /* default BORDER color (probably the same as background-color) */
-	background-color: #36c; /* default BACKGROUND color */
+	border-style: solid;
 	color: #fff;            /* default TEXT color */
 	}
 	
@@ -293,7 +296,7 @@ table.fc-header {
 	
 /* resizable */
 	
-.fc .ui-resizable-handle {
+.fc .ui-resizable-handle { /*** TODO: don't use ui-resizable anoymore, change class ***/
 	display: block;
 	position: absolute;
 	z-index: 99999;
@@ -356,6 +359,7 @@ table.fc-header {
 .fc-event-hori .ui-resizable-handle {
 	_padding-bottom: 14px; /* IE6 had 0 height */
 	}
+	
 	
 	
 
@@ -475,7 +479,7 @@ table.fc-header {
 	}
 	
 .fc .fc-divider .fc-state-default {
-	background: #eee; /* color for divider between all-day and time-slot events */
+	background: #ddd; /* color for divider between all-day and time-slot events */
 	}
 
 /* body styles */
@@ -491,6 +495,12 @@ table.fc-header {
 	
 .fc-agenda .fc-day-content {
 	padding: 2px 2px 0; /* distance between events and day edges */
+	}
+	
+/* vertical background columns */
+
+.fc .fc-agenda-bg .ui-state-highlight {
+	background-image: none; /* tall column, don't want repeating background image */
 	}
 	
 

@@ -1,0 +1,11 @@
+<% selected = false unless selected
+className = group.className
+className += "_" unless selected %>
+<div id='<%= group.id %>' class='groupButton long <%= className %>' <% unless selected %>style='color:#333'<% end %> onclick='toggle(<%= group.id %>)' title='<%= group.name %>' selected=<%= selected %>>
+  <%= group.name %>
+</div>
+<%= image_tag 'indicator.gif', :id => "grouploading_#{group.id}", :class => "grouploading hidden" %>
+<button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
+<script>
+  group_positions[<%= group.id %>] = <%=raw group.positions.to_json %>;
+</script>

@@ -2,7 +2,11 @@ class AddUsersToSnsGroup < ActiveRecord::Migration
   def self.up
     User.transaction do
       member_role = Role.member
-      sns_group = Group.sns_group
+      begin
+        sns_group = Group.sns_group
+      rescue Exception=>e
+        return
+      end
       User.all.each do |user|
         if Position.where(:user_id => user.id).where(:group_id => sns_group.id).count == 0
           p = user.positions.new(:role_id => member_role.id, :display_name => "Member")
