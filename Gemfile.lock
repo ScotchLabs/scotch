@@ -29,6 +29,7 @@ GEM
       activemodel (= 3.0.7)
       activesupport (= 3.0.7)
     activesupport (3.0.7)
+    acts-as-taggable-on (2.0.6)
     archive-tar-minitar (0.5.2)
     arel (2.0.10)
     bcrypt-ruby (2.1.4)
@@ -104,6 +105,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  acts-as-taggable-on
   devise
   htmlentities
   icalendar
