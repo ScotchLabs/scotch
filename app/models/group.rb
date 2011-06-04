@@ -10,7 +10,6 @@ class Group < Shared::Watchable
 
   belongs_to :parent, :class_name => "Group"
 
-
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
   has_attachment :image, :styles => 
@@ -38,6 +37,16 @@ class Group < Shared::Watchable
 
   scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
   scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
+
+  # sets model_name for all subclasses to be "Group"
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Group.model_name
+      end
+    end
+    super
+  end
 
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
