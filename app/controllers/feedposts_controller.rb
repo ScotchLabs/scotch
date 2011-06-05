@@ -48,6 +48,7 @@ class FeedpostsController < ApplicationController
     @feedpost.user_id = current_user.id
     @feedpost.parent_id = params[:feedpost][:parent_id]
     @feedpost.parent_type = params[:feedpost][:parent_type]
+    @feedpost.document_id = params[:document_id] if params[:document_id]
 
     respond_to do |format|
       if @feedpost.save

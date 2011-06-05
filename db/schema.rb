@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110604081346) do
+ActiveRecord::Schema.define(:version => 20110604215037) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -72,6 +72,13 @@ ActiveRecord::Schema.define(:version => 20110604081346) do
   end
 
   add_index "events", ["group_id"], :name => "index_events_on_group_id"
+
+  create_table "feedpost_attachments", :force => true do |t|
+    t.integer  "feedpost_id"
+    t.integer  "document_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "feedposts", :force => true do |t|
     t.integer  "parent_id"

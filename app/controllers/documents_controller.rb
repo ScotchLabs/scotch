@@ -8,7 +8,8 @@ class DocumentsController < ApplicationController
   # GET /groups/1/documents
   # GET /groups/1/documents.xml
   def index
-    @documents = Document.where(:group_id => @group.id).order("created_at DESC")
+    @documents = Document.order("created_at DESC")
+    @documents = @documents.where(:group_id => @group.id) if @group
 
     respond_to do |format|
       format.html # index.html.erb

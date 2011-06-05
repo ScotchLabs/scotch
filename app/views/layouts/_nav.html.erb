@@ -3,6 +3,7 @@
   <li><%= link_to "Calendar", dashboard_calendar_path, :class => nav_class(dashboard_calendar_path) %></li>
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", item_categories_path, :class => nav_class(item_categories_path) %></li>
+  <li><%= link_to "Documents", documents_path, :class => nav_class(documents_path) %></li>
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
   <% if @group && ! @group.new_record? %>
   <div id='subnav'>

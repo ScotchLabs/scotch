@@ -31,7 +31,13 @@ comments.reverse!
     <% end %>
     
     <%= raw textilize post.body %>
+
     <br>
+    <% if post.feedpost_attachment %>
+      <% doc = post.feedpost_attachment.document %>
+      <%= image_tag "attachment_icon.png", :size => "16x16" %> <%= link_to doc.name, doc.file.url %>
+      <br>
+    <% end %>
     <small style='color:#bbb'>Posted 
       at <%= format_time post.created_at %>
     <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>

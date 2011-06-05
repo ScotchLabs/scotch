@@ -21,5 +21,7 @@
 
 <br />
 
-<%= link_to 'New Document', new_group_document_path(@group) %>
+<% unless @group.nil? %>
+  <%= link_to 'New Document', new_group_document_path(@group) %>
+<% end %>
 </article>

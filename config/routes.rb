@@ -60,7 +60,7 @@ Scotch::Application.routes.draw do |map|
     put :signup, :on => :member
   end
   resources :positions, :only => [:destroy, :create]
-  resources :documents, :only => [:show, :edit, :update, :destroy, :create]
+  resources :documents, :only => [:index, :show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy]
 
   # These things shouldn't ever really be accessed by someone other than the

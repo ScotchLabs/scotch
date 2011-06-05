@@ -31,12 +31,16 @@
         <% end %>
 
         <% if object.kind_of? Group %>
-          <%= f.label :privacy, "Post Privacy" %>
+          <%= f.label :privacy, "Post Privacy" %>: 
           <% privacy_options = [["All users", "All"], ["Members of this group", "Group"]]
              privacy_options << ["Recipients of the email", "Recipients"] if object.class.name == "Show"
              privacy_options << ["Only site administrators", "Hidden"] 
           %>
           <%= f.select :privacy, options_for_select(privacy_options) %>
+          <br>
+          <%# FIXME: this should be an autocomplete %>
+          <%= label_tag :document_id, "Attach Document" %>: 
+          <%= select_tag :document_id, raw("<option>-</option>") + options_from_collection_for_select(Document.where(:group_id => object.id), :id, :name) %>
           <br>
         <% end %>
 

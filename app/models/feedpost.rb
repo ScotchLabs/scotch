@@ -4,6 +4,7 @@ class Feedpost < ActiveRecord::Base
   belongs_to :user
   
   has_many :feedposts, :as => :parent, :dependent => :destroy
+  has_one :feedpost_attachment
 
   # FIXME implement a feedpost _as_line_item and then uncomment this
   #define_index do
@@ -64,6 +65,13 @@ class Feedpost < ActiveRecord::Base
     else
       raise "There is a problem with this feedpost."
     end
+  end
+
+  def document_id=(id)
+    id = id.to_i
+    return if id.nil? or id == 0
+    attachment = self.build_feedpost_attachment
+    attachment.document_id = id
   end
   
 private

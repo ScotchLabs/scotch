@@ -25,7 +25,7 @@
     <%= f.text_area :description, :rows => 4 %>
   </div>
   <div cliss="field">
-    <% if @document.file %>
+    <% if @document.file_file_name %>
       Current document: <%= link_to @document.file_file_name, @document.file.url %><br>
     <% end %>
     <%= f.label :file, "New Document" %>:
