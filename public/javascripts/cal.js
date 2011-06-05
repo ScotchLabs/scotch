@@ -1,23 +1,39 @@
-var selectedGroups = []
+/* README
+ * This is basically how it goes:
+ *   events are pulled first from the cache, then via ajax, group by group.
+ *   events are displayed AS THEY ARE PARSED by the ajax call.
+ *   events are then cached locally.
+ *   when the user changes view of the calendar, events are refreshed.
+ 
+ * precautions taken: events should not duplicate in the view, nor in the cache
+ *   ajax calls do not duplicate per group
+ */
+
+var selectedGroups = [] // array of groups that are "selected" in the calside menu
 var group_positions = {}
 var cachedEvents = {}
 var calDebug = true
-var obj
-var ajax = {}
+var obj // used for debug purposes
+var ajax = {} // map of all open ajax calls for events (indexed by group id)
 
 $(document).ready(function() {
   // populate selectedGroups
   $.each($(".groupButton[selected=true]"), function(i, item) { selectedGroups.push(parseInt($(item).attr('id'))) })
   
+  // set up the fullcalendar object
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
     allDayDefault: false,
+    // clicking on a day pops up a New Event form
     dayClick: function(date, allDay, jsEvent, view) {
       // http://arshaw.com/fullcalendar/docs/mouse/dayClick/
       newEvent(null, date, allDay)
     },
+    // clicking on an event pops up an information view or Update Event form
     eventClick: function(event, jsEvent, view) {
+      debugLog('showing event '+event.id)
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
+      // build information view
       html = "<h1>"+event.title+"</h1>"+
         "<h2>"+event.group+"</h2>"
       if (!event.allDay) {
@@ -26,47 +42,61 @@ $(document).ready(function() {
       } else
         html += "All day "+event.start+"<br>"
       html+= "<b>Where</b>: "+event.location+"<br>"
-      if (event.attendees == undefined) {
-        html+= "<b>Attendees</b>: <span id='attendees_"+event.id+"'></span><img alt=\"Indicator\" id=\"attendeesloading_"+event.id+"\" src=\"/images/indicator.gif\">"
-        $.ajax({
-          url: '/events/'+event.id+'/event_attendees.json',
-          success: function(data) {
-            $("#attendeesloading_"+data.event_id).hide()
-            a = attendees_to_str(data.attendees)
-            cachedEvents[data.event_id].attendees = a
-            $("#attendees_"+data.event_id).html(a)
-          },
-          error: function(xhr, status, thrown) {
-            if (calDebug) console.log('attendees for event failed to load. status '+status+', thrown '+thrown)
-          }
-        })
-      } else {
-        html += "<b>Attendees</b>: "+event.attendees
+      if (event.privacyType == "closed")
+        html += "<b>This event id closed.</b><br>"
+      else if (event.privacyType == "limited" && event.numAttendees == event.attendeeLimit)
+        html += "<b>This event is limited and full.</b><br>"
+      else {
+        if (event.privacyType == "open")
+          html+= "<b>This event is open.</b> "  
+        else if (event.privacyType == "limited")
+          html+= "<b>This event is limited.</b> "
+        if (event.currentUserAttending == "true")
+          html+= "<span id='attending'>You are listed as attending. <a href='#none' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+        else
+          html+= "<span id='notAttending'>You are listed as not attending. <a href='#none' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+        html+= "<span id='attendingDisabled' class='hidden' style='color:#ddd'>I'm attending.</span>"
+        html+= "<span id='notAttendingDisabled' class='hidden' style='color:#ddd'>I'm not attending.</span>"
+        html+= "<img id='attendLoading' class='hidden' src='/images/indicator.gif'>"
+        html+="<br>"
       }
+      html+= "<b>Attendees</b>: <span id='attendees>"
+      if (event.attendees != undefined)
+        html+= attendees_to_str(event.id)
+      html+= "</span><img alt=\"Indicator\" id=\"attendeesloading\" class='hidden' src=\"/images/indicator.gif\">"
       
+      // display the information view
       $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
+      
+      updateAttendees(event.id)
     },
     events: function(start, end, callback) {
-      eventIds = []
+      // http://arshaw.com/fullcalendar/docs/event_data/events_function/
+      // this function is called whenever the calendar refreshes/refetches
+      eventIds = [] // all the events that have been pulled this time around
       
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
         foundCache = false
-        //FIXME traverse cache
+        //FIXME traverse cache more better
+        // try to find it in the cache
         for (j in cachedEvents) {
           if (cachedEvents[j]["group_id"] != group_id) continue
           else foundCache = true
         }
         
+        // ajax if not cached
         if (!foundCache) {
+          // make sure there isn't already an ajax call for this group's events
           if (ajax[group_id] == undefined) {
             $("#grouploading_"+group_id).show()
             url = '/groups/'+group_id+'/events.json'
-            if (calDebug) console.log("pulling "+group_id+" events from "+url)
+            debugLog("pulling "+group_id+" events from "+url)
             ajax[group_id] = $.ajax({
               url: url,
               success: function(data) {
-                if (calDebug) console.log('success')
+                debugLog('success')
+                // display and cache
                 $.each(data.events, function(k) {
                   if ($.inArray(data.events[k].id, eventIds) == -1) {
                     $("#calendar").fullCalendar('renderEvent',data.events[k])
@@ -74,27 +104,29 @@ $(document).ready(function() {
                   }
                   cachedEvents[data.events[k].id] = data.events[k]
                 })
+                // reset ajax flag
                 ajax[data.group_id] = undefined
                 $("#grouploading_"+data.group_id).hide()
               },
               error: function(xhr, status, thrown) {
                 //TODO hide loading
-                if (calDebug) console.log('error. status: '+status+', thrown: '+thrown)
+                debugLog('error. status: '+status+', thrown: '+thrown)
                 //TODO show error
               }
             
             })
           }
-        } else {
+        } else { // found in cache
           $("#grouploading_"+group_id).show()
-          if (calDebug) console.log('pulling '+group_id+' events from cache')
+          debugLog('pulling '+group_id+' events from cache')
           //FIXME traverse cache
           for (l in cachedEvents) {
             item = cachedEvents[l]
             if (item["group_id"] != group_id)
               continue
+            // display if not already displayed. should be a redundant measure?
             if ($.inArray(item.id, eventIds) == -1) {
-              if (calDebug) console.log('pushing event from cache')
+              debugLog('pushing event from cache')
               $("#calendar").fullCalendar('renderEvent',item)
               eventIds.push(item.id)
             }
@@ -107,6 +139,7 @@ $(document).ready(function() {
   
   var dates = $("#start_time, #end_time").datepicker({
     timeFormat: 'h:mm',
+    // ex: if May 4 is your start date, May 3 is disabled for end date selection
     onSelect: function( selectedDate ) {
   		var option = this.id == "start_time" ? "minDate" : "maxDate",
   			instance = $( this ).data( "datepicker" );
@@ -129,8 +162,8 @@ $(document).ready(function() {
   populateInvitees()
 })
 
-function toggle(group_id) {
-  if (calDebug) console.log('toggling '+group_id)
+function toggle(group_id) { // called when the user clicks on a group name to de/select it
+  debugLog('toggling '+group_id)
   classes = $("#"+group_id).attr('class').split(' ')
   needle=/event_color_([0-9]+)/
   color = -1
@@ -140,26 +173,28 @@ function toggle(group_id) {
     if (m != null)
       color = m[1]
   })
-  if (calDebug && color == -1) console.log('color not specified')
+  if (color == -1) debugLog('color not specified')
   if ($('#'+group_id).attr('selected')=='true') {
-    if (calDebug) console.log('selected -> deselected')
+    debugLog('selected -> deselected')
     $('#'+group_id).attr('selected','false')
     $("#"+group_id).removeClass('event_color_'+color)
     $("#"+group_id).addClass('event_color_'+color+'_')
     $("#"+group_id).css("color","#333")
     selectedGroups.splice(selectedGroups.indexOf(group_id),1)
   } else {
-    if (calDebug) console.log('deselected -> selected')
+    debugLog('deselected -> selected')
     $('#'+group_id).attr('selected','true')
     $("#"+group_id).removeClass('event_color_'+color+'_')
     $("#"+group_id).addClass('event_color_'+color)
     $("#"+group_id).css("color","#fff")
     selectedGroups.push(group_id)
   }
+  // FIXME: there's probably a better way to handle toggling than refetching ALL events
   $("#calendar").fullCalendar('refetchEvents')
 }
-
-function newEvent(group_id, date, allDay) {
+function newEvent(group_id, date, allDay) { // displays the New Event form
+  // if group_id, date or allDay are specified, sets the form with these
+  
   updateEventTimes(allDay)
     
   if (group_id != null) {
@@ -177,12 +212,13 @@ function newEvent(group_id, date, allDay) {
     $("#end_time").datetimepicker('setDate', date)
   }
   
+  // submission is captured in events_controller#create
   $("#new_event").attr('action','/events.json')
   
+  // display
   $.colorbox({href:"#newEventForm"})
 }
-
-function updateEventTimes(allDay) {
+function updateEventTimes(allDay) { // primes the allDay field of the New Event form
   if (allDay == null)
     allDay = $("#event_all_day").attr('checked')
   if (allDay) {
@@ -201,7 +237,7 @@ function updateEventTimes(allDay) {
     $("#event_times .at").css('color',"#333")
   }
 }
-function updateRepeat() {
+function updateRepeat() { // primes the repeat fields of the New Event form
   repeats = $("#_repeat").attr('checked')
   if (repeats) {
     $("#event_repeat_frequency").removeAttr('disabled')
@@ -239,6 +275,8 @@ function updateRepeat() {
   }
 }
 function updateTime(sel) {
+  // the time fields of the New Event form cannot be captured directly by the controller.
+  // They must first be reparsed locally.
   arr = $("#"+sel).val().split('/')
   for (i in arr)
     if (arr[i] == undefined)
@@ -247,11 +285,14 @@ function updateTime(sel) {
   $("#event_"+sel+"_2i").val(arr[0])
   $("#event_"+sel+"_3i").val(arr[1])
 }
-function submit_event_form() {
+function submit_event_form() { // woo user-generated-content submission!
+  // make sure the submitted times are reparsed such that they can be captured
   updateTime('start_time')
   updateTime('end_time')
   updateTime('stop_on_date')
+  // make sure we don't submit all of the position lists, just the "Invitees" one
   $("#position_names option").attr("selected",true)
+  // prime client-side validation
   $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)
   //TODO show loading
@@ -260,12 +301,11 @@ function submit_event_form() {
     type: "POST",
     data: $("#new_event").serialize(),
     success: function(data, status, xhr) {
-      obj = data
       if (data.events == undefined) {
         // INVALID INPUT
         $("#newFormError").show()
         $("#pageContainer").animate({"left":"0px"}, "fast")
-        for (i in obj) {
+        for (i in data) {
           $("#event_"+i).css('border-color','#f90')
         }
       } else {
@@ -278,33 +318,113 @@ function submit_event_form() {
       }
     },
     error: function(xhr, status, thrown) {
-      if (calDebug) console.log('error submitting new event form. status '+status+', thrown '+thrown)
-      obj = xhr
+      debugLog('error submitting new event form. status '+status+', thrown '+thrown)
     },
     complete: function(xhr, status) {
       $("#new_event [type='submit']").removeAttr('disabled')
       //TODO hide loading
     }
   })
-  return false
+  return false // so that the form is not submitted normally
 }
-
-function attendees_to_str(attendees) {
-  a = ""
-  for (i in attendees) {
-    attendee = attendees[i]
-    if (i==attendees.length-1 && i!=0)
-      a += " and "
-    else if (i!=0)
-      a += ", "
-    a+= attendee.name
+function attend(isAttending, event_id) { // ex: when you click "I'm attending"
+  $("#attendLoading").show()
+  url = ""
+  if (isAttending) {
+    $("#attending").hide()
+    $("#attendingDisabled").show()
+    url = "/events/"+event_id+"/event_attendees.json"
+    
+    $.ajax({
+      type:"POST",
+      url:url,
+      success:function(data){
+        if ($(data).event_attendee == undefined) {
+          // invalid
+        } else {
+          cachedEvents[event_id].currentUserAttending=data.event_attendee.id
+          cachedEvents[event_id].attendees.push(data.username)
+          $("#attendingDisabled").hide()
+          $("#notAttending").show()
+          updateAttendees(event_id)
+        }
+      },
+      error:function(){
+        debugLog('error attending '+event_id)
+      },
+      complete:function(){
+        $("#attendLoading").hide()
+      }
+    })
   }
-  if (a == "") a = "none listed"
-  return a
+  else {
+    $("#notAttending").hide()
+    $("#notAttendingDisabled").show()
+    url = "/event_attendees/"+cachedEvents[event_id].currentUserAttending
+    $.ajax({
+      url:url,
+      type:"DELETE",
+      success:function(data){
+        cachedEvents[event_id].currentUserAttending=-1
+        cachedEvents[event_id].attendees.splice(cachedEvents[event_id].attendees.indexOf(data.username),1)
+        $("#notAttendingDisabled").hide()
+        $("#attending").show()
+      },
+      error:function(){
+        debugLog('error attending '+event_id)
+      },
+      complete:function(){
+        $("#attendLoading").hide()
+      }
+    })
+  }
+}
+function updateAttendees(event_id) {
+  debugLog('updating attendees for '+event_id)
+  if (cachedEvents[event_id].attendees != undefined) {
+    debugLog('showing cached attendees')
+    $("#attendees").html(attendees_to_str(event_id))
+  }
+  
+  debugLog('fetching attendees')
+  $("#attendeesLoading").show()
+  $.ajax({
+    url: "/events/"+event_id+"/event_attendees",
+    success: function(data){
+      debugLog('updating listing')
+      cachedEvents[event_id].attendees = data.attendees
+      $("#attendees").html(attendees_to_str(event_id))
+    },
+    error: function(){
+      debugLog('update attendees errored')
+    },
+    complete: function(){
+      $("#attendeesLoading").hide()
+    }
+  })
+}
+function attendees_to_str(event_id) {
+  as = cachedEvents[event_id].attendees
+  if (as == undefined) return "none listed."
+  str = ""
+  str=as[as.length-1].name
+  debugLog("str stage 1: "+str)
+  if (as.length > 1)
+    str=as[as.length-2].name+" and "+str
+  debugLog("str stage 2: "+str)
+  if (as.length > 2)
+    as.slice(0,as.length-2)
+    temp = []
+    
+  debugLog("str stage 3: "+str)
+  debugLog(str)
+  debugLog('attendees_to_str returning '+str)
+  return str
 }
 function populateInvitees() {
+  // populates the new/update event form with this group's position-holders
   $("#position_names").empty()
-  if (calDebug) console.log('populating invitees')
+  debugLog('populating invitees')
   positions = []
   html = ""
   group_id = parseInt($("#event_group_id").val())
@@ -317,10 +437,13 @@ function populateInvitees() {
   })
   $("#position_select").html(html)
 }
-function updatePrivacy() {
+function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Limited"
   pt = $("[name='event[privacy_type]']:checked").val()
   if (pt == 'limited')
     $("#event_attendee_limit").removeAttr('disabled')
   else
     $("#event_attendee_limit").attr('disabled',true)
+}
+function debugLog(s) {
+  if (calDebug) console.log(s)
 }

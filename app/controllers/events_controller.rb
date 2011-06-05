@@ -9,6 +9,7 @@ class EventsController < ApplicationController
 
   # GET /group/1/events
   # GET /group/1/events.xml
+  # GET /group/1/events.json
   def index
     group_events = Event.where(:group_id => @group.id).order("start_time ASC")
     group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
@@ -59,61 +60,31 @@ class EventsController < ApplicationController
 
   # POST /events
   # POST /events.xml
+  # POST /events.json
   def create
     @group = Group.find(params[:event][:group_id])
 
-    if (params[:event_type] == "audition") then
-      @events = Event.create_audition @group, params[:slot_count].to_i, params[:slot_length].to_i, params[:signups].to_i, params[:event]
-      redirect_to(@group, :notice => "Events were successfully created.")
-    else
-      @event = Event.new(params[:event])
-      @event.group = @group
-      @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
-      
-      @events = Array.new
-      @events.push @event
-      
-      respond_to do |format|
-        if @event.save
-          if params[:repeat]=="1"
-            change = @event.repeat_period
-            delta = @event.repeat_frequency
-            if params[:stop_condition_type] == "date"
-              tempTime = @event.end_time
-              goal = @event.stop_on_date
-              n=0
-              while tempTime < goal
-                n=n+1
-                tempTime = tempTime.advance(change.to_sym => delta)
-              end
-            else
-              n=@event.stop_after_occurrences-1
-            end
-            g=@event.clone
-            g.repeat_id = @event.id
-            g.repeat_period = nil
-            g.repeat_frequency = nil
-            g.stop_after_occurrences = nil
-            g.stop_on_date = nil
-            n.times do
-              g=g.clone
-              g.start_time = g.start_time.advance(change.to_sym => delta)
-              g.end_time = g.end_time.advance(change.to_sym => delta)
-              @events.push g if g.save
-            end
-          end
-          format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-          format.xml  { render :xml => @event, :status => :created, :location => @event }
-          format.json {
-            json = @events.collect { |e| event_to_json(e) }.join(",\n")
-            json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
-            render :json => json
-          }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-          format.json { render :json => @event.errors }
-        end
+    @event = Event.new(params[:event])
+    @event.group = @group
+    @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
+    
+    @events = Array.new
+    @events.push @event
+    
+    respond_to do |format|
+      if @event.save
+        @event.propagate if params[:repeat]=="1"
+        format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
+        format.xml  { render :xml => @event, :status => :created, :location => @event }
+        format.json {
+          json = @events.collect { |e| event_to_json(e) }.join(",\n")
+          json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
+          render :json => json
+        }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        format.json { render :json => @event.errors }
       end
     end
   end
@@ -123,6 +94,14 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update_attributes(params[:event])
+        if params[:all]=="1"
+          c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
+          c.each do |e|
+            e.repeat_id = @event.id
+          end
+          @event.propagate
+        end
+        @event.repeat_id = nil
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -135,36 +114,15 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
+    if params[:all]=="1"
+      c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
+      c.destroy_all
+    end
     @event.destroy
 
     respond_to do |format|
       format.html { redirect_to(group_events_url(@event.group)) }
       format.xml  { head :ok }
-    end
-  end
-
-  # PUT /events/1
-  # PUT /events/1.xml
-  def signup
-
-    @user = current_user
-    @event_attendee = @event.event_attendees.where(:user_id => nil).first
-
-    if @event_attendee.nil? 
-      redirect_to @event, :notice => "No free slots available."
-      return
-    end
-
-    @event_attendee.user = @user
-
-    respond_to do |format|
-      if @event_attendee.save
-        format.html { redirect_to(@event, :notice => 'You are now signed up.') }
-        format.xml  { head :ok }
-      else
-        format.html { redirect_to(@event, :notice => 'Unable to signup.') }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
     end
   end
 

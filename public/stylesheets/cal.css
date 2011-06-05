@@ -1,3 +1,10 @@
+/* Table of Contents
+ * 100 General Layout
+ * 200 Colorbox popup
+ * 300 group coloring
+ */
+
+/* 100 GENERAL LAYOUT */
 #addGoogleImg {
   height: 34px;
 }
@@ -37,6 +44,7 @@
 }
 
 
+/* 200 Colorbox popup */
 #newEventForm {
   width: 455px;
   overflow: hidden;
@@ -100,6 +108,11 @@
 }
 
 
+/* 300 group coloring
+ * it should be noted that this list of color combinations was created based
+ * on those of Google Calendar. A group receives its color from the model:
+ * "event_color_#{short_name.hash % 42}" (group.rb#className)
+ */
 .event_color_0 {background-color: #d96666; border-color: #cc3333;}
 .event_color_1 {background-color: #e67399; border-color: #dd4477;}
 .event_color_2 {background-color: #b373b3; border-color: #994499;}

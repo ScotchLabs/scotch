@@ -57,8 +57,9 @@ Scotch::Application.routes.draw do |map|
     end
   end
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
-    put :signup, :on => :member
+    resources :event_attendees, :only => [:create]
   end
+  resources :event_attendees, :only => [:destroy]
   resources :positions, :only => [:destroy, :create]
   resources :documents, :only => [:index, :show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy]

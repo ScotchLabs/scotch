@@ -18,6 +18,11 @@ module EventsHelper
   end
   
   def event_to_json(event)
+    ea=-1
+    if event.attendees.include? current_user
+      ea=EventAttendee.where(:event_id => event.id, :user_id => current_user.id).first.id
+    end
+    
     return "{\"id\": #{event.id},
       \"group_id\": \"#{event.group.id}\",
       \"title\" : \"[#{event.group.short_name}] #{event.title}\", 
@@ -29,7 +34,7 @@ module EventsHelper
       \"privacyType\":\"#{event.privacy_type}\",
       \"attendeeLimit\":\"#{event.attendee_limit}\",
       \"numAttendees\":\"#{event.attendees.count}\",
-      \"currentUserAttending\":\"#{event.attendees.include? current_user}\",
+      \"currentUserAttending\":#{ea},
       \"allDay\":\"#{event.all_day}\"}"
   end
 end
