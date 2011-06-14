@@ -8,8 +8,12 @@ class DocumentsController < ApplicationController
   # GET /groups/1/documents
   # GET /groups/1/documents.xml
   def index
-    @documents = Document.order("created_at DESC")
+    @documents = Document.order("documents.created_at DESC")
     @documents = @documents.where(:group_id => @group.id) if @group
+
+    @tag_counts = @documents.tag_counts_on(:tags)
+
+    @documents = @documents.tagged_with(params[:tag]) if params.has_key? :tag
 
     respond_to do |format|
       format.html # index.html.erb

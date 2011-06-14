@@ -1,4 +1,15 @@
 <article>
+
+<% tag_cloud(@tag_counts, %w(tag1 tag2 tag3 tag4)) do |tag, css_class| %>
+  <% if params[:tag] == tag.name %>
+    <span class="<%= css_class %>"><%=tag.name%></span>
+  <% elsif @group.nil? %>
+    <%= link_to tag.name, documents_path(:tag => tag.name), :class => css_class %>
+  <% else %>
+    <%= link_to tag.name, group_path(@group, :tag => tag.name), :class => css_class %>
+  <% end %>
+<% end %>
+
 <h1>Listing documents</h1>
 
 <table>
