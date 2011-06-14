@@ -11,7 +11,9 @@
 
 <p>
   <b>Tag List:</b>
-  <%= @document.tag_list %>
+  <% @document.tag_list.each do |tag| %>
+    <%= link_to tag, group_documents_path(@group, :tag => tag) %>
+  <% end %>
 </p>
 
 <p>

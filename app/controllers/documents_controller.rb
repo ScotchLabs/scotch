@@ -1,6 +1,8 @@
 class DocumentsController < ApplicationController
   prepend_before_filter :locate_document, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
+  append_before_filter :get_popular_tags, :only => [:edit, :new]
+
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminDocuments"
   end
@@ -100,5 +102,9 @@ class DocumentsController < ApplicationController
     if @group.nil? and params.has_key? :document and params[:document].has_key? :group_id then
       @group = Group.find(params[:document][:group_id])
     end
+  end
+
+  def get_popular_tags
+    @popular_tags = Document.tag_counts_on(:tags).limit(10)
   end
 end
