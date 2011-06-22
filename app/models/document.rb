@@ -9,6 +9,11 @@ class Document < ActiveRecord::Base
   validates_presence_of :group_id
   validates_presence_of :name
 
+  define_index do
+    indexes :name
+    indexes :description
+  end
+
   acts_as_taggable
 
   # FIXME use :hash in the url when it works again
@@ -19,4 +24,8 @@ class Document < ActiveRecord::Base
   validates_attachment_size :file, :less_than => 15.megabytes,
     :message => "must be less than 15 megabytes",
     :unless => lambda { |user| !user.file.nil? }
+
+  def to_s
+    name
+  end
 end

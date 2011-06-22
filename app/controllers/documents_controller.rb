@@ -19,7 +19,11 @@ class DocumentsController < ApplicationController
 
     @tag_counts = @documents.tag_counts_on(:tags)
 
+    # filter by tag
     @documents = @documents.tagged_with(params[:tag]) if params.has_key? :tag
+
+    # paginate
+    @documents = @documents.paginate(:per_page => 20, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
