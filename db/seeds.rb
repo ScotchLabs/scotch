@@ -18,3 +18,14 @@ User.all.each do |u|
   u.phone = "5555555555"
   u.save
 end
+
+p =Permission.create(:name => "uploadDocument", 
+                     :description => "User can upload a document")
+
+r = Role.find_by_name("Tech Head")
+r.permissions << p
+r.save
+
+r = Role.find_by_name("Production Staff")
+r.permissions << p
+r.save

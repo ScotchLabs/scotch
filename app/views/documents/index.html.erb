@@ -16,23 +16,27 @@
   <tr>
     <th>Name</th>
     <th></th>
-    <th></th>
-    <th></th>
+    <% if has_permission? "uploadDocument" %>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <% @documents.each do |document| %>
   <tr>
     <td><%= document.name %></td>
     <td><%= link_to 'Show', document %></td>
-    <td><%= link_to 'Edit', edit_document_path(document) %></td>
-    <td><%= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% if has_permission? "uploadDocument" %>
+      <td><%= link_to 'Edit', edit_document_path(document) %></td>
+      <td><%= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<% unless @group.nil? %>
+<% unless @group.nil? or not has_permission? "uploadDocument" %>
   <%= link_to 'New Document', new_group_document_path(@group) %>
 <% end %>
 </article>

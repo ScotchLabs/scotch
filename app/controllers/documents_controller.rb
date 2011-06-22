@@ -4,6 +4,10 @@ class DocumentsController < ApplicationController
   append_before_filter :get_popular_tags, :only => [:edit, :new]
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
+    require_permission "uploadDocument"
+  end
+
+  before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminDocuments"
   end
 
