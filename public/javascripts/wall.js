@@ -149,7 +149,7 @@ function submit_feedpost() {
       'post_type':'wall',
       'headline':$('#postform #feedpost_headline').attr('value'),
       'body':$('#postform textarea').attr('value'),
-      'privacy':$('#postform #feedpost_privacy').attr('value')
+      'privacy':$('#postform #feedpost_privacy').attr('value'),
       'document_id':$('#postform #document_id').attr('value')
     }
     var email = ""
