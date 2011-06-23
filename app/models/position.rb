@@ -26,6 +26,11 @@ class Position < ActiveRecord::Base
       return gsort
     end
   end
+  
+  def simple
+    return nil if user.nil?
+    {:position=>display_name, :role=>Role.find(role_id).name,:andrewid=>user.andrewid,:user_name=>user.name, :user_email=>user.email}
+  end
 
   protected
 

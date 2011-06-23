@@ -124,6 +124,24 @@ class Group < Shared::Watchable
     positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
   end
 
+  def calendar_positions
+    # this method provides the positions of a group, as filtered for the user selection form
+    a=[]
+    a.push({"Board of Directors"=>Board.directors.positions.map{|e| e.simple}.compact})
+    # if the group is a Board then all members are in some filter already
+    # if the group is a Show then the following filters will be applied
+    #   (this is the super call):
+    #   role.name=~/Cast|Production Staff|Tech Head|Crew/
+    if id != Board.directors.id
+      p=positions.map{|e| e.simple}.compact.select{|e| e[:role] !~ /Cast|Crew|Production Staff|Tech Head/}
+      roles = p.map{|e| e[:role]}.uniq
+      for role in roles
+        a.push("#{role.pluralize}"=>p.select{|e| e[:role]==role})
+      end
+    end
+    return a
+  end
+
 	#TODO this isn't actually quite right for groups (I think)
   # but it works for shows and boards, which are what matter
 	# for the moment.

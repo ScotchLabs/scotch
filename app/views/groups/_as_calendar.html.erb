@@ -7,5 +7,5 @@ className += "_" unless selected %>
 <%= image_tag 'indicator.gif', :id => "grouploading_#{group.id}", :class => "grouploading hidden" %>
 <button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
 <script>
-  group_positions[<%= group.id %>] = <%=raw group.positions.to_json %>;
+  group_positions[<%= group.id %>] = <%=raw group.calendar_positions.to_json %>;
 </script>

@@ -86,17 +86,22 @@
           </span>
           <hr>
           
-          <div class='fleft' style='width: 240px; display: inline-block'>
-            <div class='fleft' style='display: inline-block; width: 214px'>
-              Select from positions:<br>
-              <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
+          <div class='fleft' style='display: inline-block'>
+            <div class='fleft' style='display: inline-block;'>
+              Filter your selection:<br>
+              <%= select_tag :filter_select, nil, :multiple => false, :size => 6, :onclick => "filterInvitees()" %>
+            </div>
+            <div class='fleft' style='display: inline-block;'>
+              Select names:<br>
+              <%= select_tag :position_select, nil, :multiple => false, :size => 6, :style => "height: 112px" %><br>
+              <%= text_field_tag :name_select, nil, :multiple => false, :style => "width: 127px" %>
             </div>
             <div id='invitee_buttons' class='fleft'>
               <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected"))'>&rarr;</a><br>
               <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_select").append($("#position_names :selected"))'>&larr;</a>
             </div>
           </div>
-          <div class='fleft' style="display: inline-block; width: 214px">
+          <div class='fleft' style="display: inline-block; width: 143px">
             People you're inviting:<br>
             <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
           </div>

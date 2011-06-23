@@ -429,11 +429,12 @@ function populateInvitees() {
   html = ""
   group_id = parseInt($("#event_group_id").val())
   $.each(group_positions[group_id], function(i) {
-    position = group_positions[group_id][i].position
-    if ($.inArray(position.display_name, positions) == -1) {
-      positions.push(position.display_name)
-      html += "<option value=\""+position.display_name+"\">"+position.display_name+"</option>"
-    }
+    
+    // position = group_positions[group_id][i].position
+    //     if ($.inArray(position.display_name, positions) == -1) {
+    //       positions.push(position.display_name)
+    //       html += "<option value=\""+position.display_name+"\">"+position.display_name+"</option>"
+    //     }
   })
   $("#position_select").html(html)
 }
