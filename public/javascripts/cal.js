@@ -421,22 +421,29 @@ function attendees_to_str(event_id) {
   debugLog('attendees_to_str returning '+str)
   return str
 }
-function populateInvitees() {
-  // populates the new/update event form with this group's position-holders
+function populateInvitees() { // populates the new/update event form with this group's position-holders
   $("#position_names").empty()
   debugLog('populating invitees')
-  positions = []
   html = ""
   group_id = parseInt($("#event_group_id").val())
-  $.each(group_positions[group_id], function(i) {
-    
-    // position = group_positions[group_id][i].position
-    //     if ($.inArray(position.display_name, positions) == -1) {
-    //       positions.push(position.display_name)
-    //       html += "<option value=\""+position.display_name+"\">"+position.display_name+"</option>"
-    //     }
+  $.each(group_positions[group_id], function(i,e) {
+    name = e.name
+    html += "<option value=\""+name+"\">"+name+"</option>"
+  })
+  $("#filter_select").html(html)
+}
+function filterInvitees() { // fires when a filter is clicked in the new/update event invite form
+  key=$("#filter_select :selected")[0].value
+  html=""
+  $.each(group_positions[group_id], function(i,e) {
+    if (e.name==key) {
+      $.each(e.positions, function(j,p) {
+        html += "<option value=\""+p.andrewid+"\">"+p.user_name+" ("+p.position+")</option>"
+      })
+    }
   })
   $("#position_select").html(html)
+  $("#position_select option").attr("selected",true)
 }
 function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Limited"
   pt = $("[name='event[privacy_type]']:checked").val()
