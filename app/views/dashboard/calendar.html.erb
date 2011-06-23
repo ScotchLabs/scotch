@@ -93,8 +93,7 @@
             </div>
             <div class='fleft' style='display: inline-block;'>
               Select names:<br>
-              <%= select_tag :position_select, nil, :multiple => true, :size => 6, :style => "height: 112px" %><br>
-              <%= text_field_tag :name_select, nil, :style => "width: 127px" %>
+              <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
             </div>
             <div id='invitee_buttons' class='fleft'>
               <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected").clone())'>&rarr;</a><br>
