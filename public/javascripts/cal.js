@@ -10,11 +10,12 @@
  */
 
 var selectedGroups = [] // array of groups that are "selected" in the calside menu
-var group_positions = {}
+var group_positions = {} // keeps track of the positions-holders of each group, and what filter each falls under
+var dates_pulled = {} // keeps track of what dateranges we've ajaxed and cached.
 var cachedEvents = {}
 var calDebug = true
 var obj // used for debug purposes
-var ajax = {} // map of all open ajax calls for events (indexed by group id)
+var ajax = {} // map of all open ajax calls
 
 $(document).ready(function() {
   // populate selectedGroups
@@ -73,20 +74,16 @@ $(document).ready(function() {
     events: function(start, end, callback) {
       // http://arshaw.com/fullcalendar/docs/event_data/events_function/
       // this function is called whenever the calendar refreshes/refetches
+      // we don't need milliseconds
+      start=start.valueOf()/1000
+      end=end.valueOf()/1000
       eventIds = [] // all the events that have been pulled this time around
       
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
-        foundCache = false
-        //FIXME traverse cache more better
-        // try to find it in the cache
-        for (j in cachedEvents) {
-          if (cachedEvents[j]["group_id"] != group_id) continue
-          else foundCache = true
-        }
         
         // ajax if not cached
-        if (!foundCache) {
+        if (!datesPulled(group_id,start,end)) {
           // make sure there isn't already an ajax call for this group's events
           if (ajax[group_id] == undefined) {
             $("#grouploading_"+group_id).show()
@@ -94,6 +91,7 @@ $(document).ready(function() {
             debugLog("pulling "+group_id+" events from "+url)
             ajax[group_id] = $.ajax({
               url: url,
+              data: {"start":start,"end":end},
               success: function(data) {
                 debugLog('success')
                 // display and cache
@@ -105,6 +103,7 @@ $(document).ready(function() {
                   cachedEvents[data.events[k].id] = data.events[k]
                 })
                 // reset ajax flag
+                dates_pulled[data.group_id].push([start,end])
                 ajax[data.group_id] = undefined
                 $("#grouploading_"+data.group_id).hide()
               },
@@ -452,6 +451,18 @@ function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Lim
   else
     $("#event_attendee_limit").attr('disabled',true)
 }
+
+function datesPulled(g,s,e) {
+  debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e)
+  a = false
+  $.each(dates_pulled[g],function(i,el) {
+    if (el[0]<=s&&el[1]>=e)
+      a = true
+  })
+  debugLog(a)
+  return a
+}
+
 function debugLog(s) {
   if (calDebug) console.log(s)
 }
