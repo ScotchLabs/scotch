@@ -93,10 +93,13 @@
             </div>
             <div class='fleft' style='display: inline-block;'>
               Select names:<br>
-              <%= select_tag :position_select, nil, :multiple => true, :size => 6 %><br>
+              <%= select_tag :position_select, nil, :multiple => true, :size => 6, :style => "height: 112px" %><br>
+              <div style='display:inline-block;position:relative'>
+              <%= text_field_tag :user_identifier, nil, :style => "width: 127px" %>
+              </div>
             </div>
             <div id='invitee_buttons' class='fleft'>
-              <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names").append($("#position_select :selected").clone())'>&rarr;</a><br>
+              <a class='cal_invitee_button button smallbutton' href="#none" onclick='addInvitees()'>&rarr;</a><br>
               <a class='cal_invitee_button button smallbutton' href="#none" onclick='$("#position_names :selected").remove()'>&larr;</a>
             </div>
           </div>

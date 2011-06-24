@@ -647,7 +647,7 @@ body > div > section {
   border: 1px solid #555;
   border-width: 1px 0 0;
   color: #fff;             /* white */
-  z-index: 999;
+  z-index: 99;
 }
 #sodabar * {
   color: #fff;  /* white */

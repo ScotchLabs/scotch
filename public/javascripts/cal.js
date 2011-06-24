@@ -446,6 +446,19 @@ function filterInvitees() { // fires when a filter is clicked in the new/update 
     $("#position_select option").attr("selected",true)
   }
 }
+function addInvitees() { // fires when the -> arrow is clicked in the invite people form
+  // move selected names from the middle select box
+  $("#position_names").append($("#position_select :selected").clone())
+  // move searched names from the text input
+  v=$("#user_identifier").attr('value')
+  if (v!="") {
+    // pull andrew id
+    a=v.match(/([a-z]+)\@/)[1]
+    html="<option value='"+a+"'>"+v+"</option>"
+    $("#position_names").html($("#position_names").html()+html)
+    $("#user_identifier").attr('value','')
+  }
+}
 function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Limited"
   pt = $("[name='event[privacy_type]']:checked").val()
   if (pt == 'limited')

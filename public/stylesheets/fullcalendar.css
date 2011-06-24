@@ -299,7 +299,7 @@ table.fc-header {
 .fc .ui-resizable-handle { /*** TODO: don't use ui-resizable anoymore, change class ***/
 	display: block;
 	position: absolute;
-	z-index: 99999;
+	z-index: 99;
 	border: 0 !important; /* important overrides pre jquery ui 1.7 styles */
 	background: url(data:image/gif;base64,AAAA) !important; /* hover fix for IE */
 	}
