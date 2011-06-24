@@ -220,8 +220,8 @@ function trim(s) {
   } else {
     less = text
   }
-  morelink = "<a id='more_link_"+s.id+"' href='#none' onclick=\"$(this).hide(); $('#comment_more_"+s.id+"').show('fast')\">more...</a>"
-  lesslink = "<a href='#none' onclick=\"$('#comment_more_"+s.id+"').hide('fast'); $('#more_link_"+s.id+"').show()\">...less</a>"
+  morelink = "<a id='more_link_"+s.id+"' href='javascript:void(0)' onclick=\"$(this).hide(); $('#comment_more_"+s.id+"').show('fast')\">more...</a>"
+  lesslink = "<a href='javascript:void(0)' onclick=\"$('#comment_more_"+s.id+"').hide('fast'); $('#more_link_"+s.id+"').show()\">...less</a>"
   if (more) {
     more = "<span id='comment_more_"+s.id+"' class='hidden'>"+more+"<br>"+lesslink+"</span>"
     text = less+more+"<br>"+morelink

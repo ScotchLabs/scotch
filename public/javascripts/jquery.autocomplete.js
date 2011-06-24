@@ -74,7 +74,7 @@
     	 * @type boolean
     	 * @private
     	 */
-        this.finishOnBlur_ = false;
+        this.finishOnBlur_ = true;
 
         /**
          * Assert parameters

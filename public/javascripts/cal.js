@@ -53,9 +53,9 @@ $(document).ready(function() {
         else if (event.privacyType == "limited")
           html+= "<b>This event is limited.</b> "
         if (event.currentUserAttending == "true")
-          html+= "<span id='attending'>You are listed as attending. <a href='#none' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+          html+= "<span id='attending'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
         else
-          html+= "<span id='notAttending'>You are listed as not attending. <a href='#none' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+          html+= "<span id='notAttending'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
         html+= "<span id='attendingDisabled' class='hidden' style='color:#ddd'>I'm attending.</span>"
         html+= "<span id='notAttendingDisabled' class='hidden' style='color:#ddd'>I'm not attending.</span>"
         html+= "<img id='attendLoading' class='hidden' src='/images/indicator.gif'>"

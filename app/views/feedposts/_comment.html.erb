@@ -5,7 +5,7 @@
   <div class='feedpost-text'>
     <span class='delete_link fright hidden'>
     <% if current_user == comment.user %>
-      <%= link_to image_tag("delete_icon.png", :size => "8x8"), '#none', :onclick => "delete_post(#{comment.id})" %>
+      <%= link_to image_tag("delete_icon.png", :size => "8x8"), 'javascript:void(0)', :onclick => "delete_post(#{comment.id})" %>
     <% end %>
     </span>
     <p><%= link_to comment.user, comment.user %>: <%= raw textilize_without_paragraph comment.body %></p>

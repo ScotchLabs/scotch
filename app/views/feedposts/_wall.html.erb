@@ -22,7 +22,7 @@ comments.reverse!
       <%= link_to post.user, post.user %>: <strong><%= post.headline %></strong>
       <span class='delete_link fright hidden'>
       <% if current_user == post.user %>
-        <%= link_to image_tag("delete_icon.png", :size => "8x8"), '#none', :onclick => "delete_post(#{post.id})" %>
+        <%= link_to image_tag("delete_icon.png", :size => "8x8"), 'javascript:void(0)', :onclick => "delete_post(#{post.id})" %>
       <% end %>
       </span>
     </div>
@@ -49,7 +49,7 @@ comments.reverse!
     <hr>
     <% if comment_count > 2 and !complete %>
       <div id='view_all_<%= post.id %>' style='margin-left: 60px'>
-        <small id='view_link_<%= post.id %>'><a href='#none' onclick='expand_comments(<%= post.id %>)'>View all <span id='post_<%= post.id %>_count'><%= comment_count %></span> comments</a></small>
+        <small id='view_link_<%= post.id %>'><a href='javascript:void(0)' onclick='expand_comments(<%= post.id %>)'>View all <span id='post_<%= post.id %>_count'><%= comment_count %></span> comments</a></small>
         <%= image_tag 'indicator.gif', :id => "loading_#{post.id}", :class => "hidden" %>
         <span id='view_error_<%= post.id %>' class='hidden'>There was an error retrieving the comments. <a id='retry_<%= post.id %>' href='#feedpost_<%= post.id %>' onclick='expand_comments(<%= post.id %>)'>Retry</a></span>
         <hr>
