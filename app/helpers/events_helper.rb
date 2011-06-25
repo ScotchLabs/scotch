@@ -20,6 +20,8 @@ module EventsHelper
   def event_to_json(event)
     ea=-1
     if event.attendees.include? current_user
+      # we pass an id and not a T/F value so that the user can
+      # delete his EventAttendee record
       ea=EventAttendee.where(:event_id => event.id, :user_id => current_user.id).first.id
     end
     
@@ -34,7 +36,13 @@ module EventsHelper
       \"privacyType\":\"#{event.privacy_type}\",
       \"attendeeLimit\":\"#{event.attendee_limit}\",
       \"numAttendees\":\"#{event.attendees.count}\",
+      \"repeatId\":#{event.repeat_id or 0},
+      \"repeatFrequency\":#{event.repeat_frequency or 0},
+      \"repeatPeriod\":\"#{event.repeat_period}\",
+      \"stopOnDate\":\"#{event.stop_on_date}\",
+      \"stopAfterOccurrences\":\"#{event.stop_after_occurrences}\",
       \"currentUserAttending\":#{ea},
-      \"allDay\":\"#{event.all_day}\"}"
+      \"allDay\":#{event.all_day or false},
+      \"canEdit\":#{@group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"
   end
 end

@@ -73,7 +73,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
-        @event.propagate if params[:repeat]=="1"
+        @event.propagate_create if params[:repeat]=="1"
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
         format.json {
@@ -99,7 +99,7 @@ class EventsController < ApplicationController
           c.each do |e|
             e.repeat_id = @event.id
           end
-          @event.propagate
+          @event.propagate_update
         end
         @event.repeat_id = nil
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }

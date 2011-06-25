@@ -39,49 +39,7 @@ class Event < ActiveRecord::Base
     Event.where(:id => repeat_id).first
   end
   def propagate
-    # propagates all changes (including repeat fields) to repeat_children
-    c=repeat_children
-    i=0
-    if stop_on_date
-      t=end_time
-      g=stop_on_date
-      n=0
-      while t < g
-        n=n+1
-        t=t.advance(repeat_period.to_sym => repeat_frequency)
-      end
-    else
-      n = stop_after_occurrences
-    end
-    
-    st=start_time
-    en=end_time
-    n.times do
-      st=st.advance(repeat_period.to_sym => repeat_frequency)
-      en=en.advance(repeat_period.to_sym => repeat_frequency)
-      if c[i].start_time == st
-        c[i].update_attributes({
-          :title => title, 
-          :start_time => st, 
-          :end_time => en, 
-          :location => location, 
-          :description => description, 
-          :repeat_frequency => repeat_frequency, 
-          :repeat_period => repeat_period, 
-          :all_day => all_day, 
-          :privacy_type => privacy_type, 
-          :attendee_limit => attendee_limit, 
-          :stop_after_occurrences => stop_after_occurences ? stop_after_occurrences-1 : nil,
-          :stop_on_date => stop_on_date})
-        i=i+1
-      else
-        e=this.clone
-        e.repeat_id = id
-        e.start_time = st
-        e.end_time = en
-        e.save!
-      end
-    end
+    #TODO
   end
 
   def future?

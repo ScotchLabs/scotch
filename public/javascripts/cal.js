@@ -36,7 +36,7 @@ $(document).ready(function() {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       // build information view
       html = "<h1>"+event.title+"</h1>"+
-        "<h2>"+event.group+"</h2>"
+        "<h2>"+event.group+((event.canEdit)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
       if (!event.allDay) {
         html += "<b>Starts</b>: "+event.start+"<br>"+
           "<b>Ends</b>: "+event.end+"<br>"
@@ -191,17 +191,21 @@ function toggle(group_id) { // called when the user clicks on a group name to de
   // FIXME: there's probably a better way to handle toggling than refetching ALL events
   $("#calendar").fullCalendar('refetchEvents')
 }
-function newEvent(group_id, date, allDay) { // displays the New Event form
-  // if group_id, date or allDay are specified, sets the form with these
-  
-  updateEventTimes(allDay)
-    
+function newEvent(group_id, date, allDay) { // blanks and displays the form
+  // blank out the form
+  // page 1, part 1
+  $("#new_event").attr('action','/events.json')
+  $("#event_title").attr('value','')
+  $("#event_description").text('')
+  $("#event_location").attr('value','')
+  $("#event_group_id").removeAttr('disabled')
   if (group_id != null) {
     $("#event_group_id option").removeAttr('selected')
     $("#event_group_id option[value='"+group_id+"']").attr('selected','selected')
     populateInvitees()
   }
-  
+  // page 1, part 2
+  updateEventTimes(allDay)
   if (date) {
     $("#start_time").datetimepicker('setDate', date)
     if (allDay)
@@ -210,11 +214,56 @@ function newEvent(group_id, date, allDay) { // displays the New Event form
       date.setHours(date.getHours()+1)
     $("#end_time").datetimepicker('setDate', date)
   }
-  
-  // submission is captured in events_controller#create
-  $("#new_event").attr('action','/events.json')
-  
-  // display
+  // page 1, part 3
+  $("#_repeat").removeAttr('checked')
+  updateRepeat()
+  // page 2, part 1
+  $("#event_privacy_type_open").click()
+  // page 2, part 2
+  $("#position_names").html('')
+  // display form
+  $.colorbox({href:"#newEventForm"})
+}
+function editEvent(event_id) { // populates the form with event's values, displays form
+  e = cachedEvents[event_id]
+  // populate form
+  // page 1, part 1
+  $("#new_event").attr('action','/events/'+event_id+'.json')
+  $("#event_title").attr('value',e.title.split('] ')[1])
+  $("#event_description").text(e.description)
+  $("#event_location").attr('value',e.location)
+  $("#event_group_id option").removeAttr('selected')
+  $("#event_group_id option[value='"+e.group_id+"']").attr('selected',true)
+  $("#event_group_id").attr('disabled',true)
+  // page 1, part 2
+  updateEventTimes(e.allDay)
+  $("#start_time").datetimepicker('setDate',e.start)
+  $("#end_time").datetimepicker('setDate',e.end)
+  // page 1, part 3
+  $("#_repeat").removeAttr('checked')
+  updateRepeat()
+  if (e.repeatFrequency != 0) {
+    $("#_repeat").attr('checked',true)
+    updateRepeat()
+    $("#event_repeat_frequency").attr('value',e.repeatFrequency)
+    $("#event_repeat_period option").removeAttr('selected')
+    $("#event_repeat_period  option[value='"+e.repeatPeriod+"']").attr('selected',true)
+    if (e.stopOnDate == "") {
+      $("#stop_condition_type_occurrences").click()
+      $("#event_stop_after_occurrences").attr('value',e.stopAfterOccurrences)
+    } else {
+      $("#stop_condition_type_date").click()
+      $("#event_stop_on_date").datetimepicker('setDate',e.stopOnDate)
+    }
+  }
+  // page 2, part 1
+  $("#event_privacy_type_"+e.privacyType).click()
+  if (e.privacyType=='limited')
+    $("#event_attendee_limit").attr('value',e.attendeeLimit)
+  // page 2, part 2
+  populateInvitees()
+  //TODO when Attending/Attendees is implemented
+  // display form
   $.colorbox({href:"#newEventForm"})
 }
 function updateEventTimes(allDay) { // primes the allDay field of the New Event form
