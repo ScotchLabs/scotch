@@ -95,7 +95,7 @@
               Select names:<br>
               <%= select_tag :position_select, nil, :multiple => true, :size => 6, :style => "height: 112px" %><br>
               <div style='display:inline-block;position:relative'>
-              <%= text_field_tag :user_identifier, nil, :style => "width: 127px" %>
+              <%= text_field_tag :user_identifier, nil, :style => "width: 127px", :placeholder => "Search by name", :class => "placeholder-shim" %>
               </div>
             </div>
             <div id='invitee_buttons' class='fleft'>
