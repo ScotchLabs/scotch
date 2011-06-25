@@ -40,7 +40,7 @@
           </div>
           <div class='fleft' style="width: 222px; display: inline-block">
             <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
-            <div class="field"><%= f.collection_select :group_id, @mygroups+@activeshows+@activegroups, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
+            <div class="field"><%= f.collection_select :group_id, (@mygroups+@activeshows+@activegroups).select{|e| e.user_has_permission? current_user, Permission.find_by_name("adminEvents")}, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
           </div>
           <div class='clearfix'></div>
           <hr>
