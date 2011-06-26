@@ -74,7 +74,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         if params[:repeat]=="1"
-          puts "vvvvv DEBUGGGG vvvvv"
           freq=params[:repeat_frequency].to_i
           per=params[:repeat_period].to_sym
           if params[:stop_condition_type] == "date"
@@ -91,7 +90,6 @@ class EventsController < ApplicationController
           st=@event.start_time
           en=@event.end_time
           n=n-1
-          puts "creating #{n} repeated events"
           n.times do
             st=st.advance(per => freq)
             en=en.advance(per => freq)
@@ -101,14 +99,11 @@ class EventsController < ApplicationController
             e.start_time=st
             e.end_time=en
             if e.save
-              puts "repeated created"
               @events.push e
             else
-              puts e.errors
               #TODO handle errors
             end
           end
-          puts "^^^^^ DEBUGGGG ^^^^^"
         end
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
