@@ -27,6 +27,8 @@ class EventAttendeesController < ApplicationController
   # DELETE /event_attendees/1.json
   def destroy
     @event_attendee = EventAttendee.find(params[:id])
+    @group = @event_attendee.event.group
+    require_permission "adminEvents" unless @event_attendee.user == current_user
     @event_attendee.destroy
     
     respond_to do |format|
