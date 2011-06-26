@@ -37,8 +37,8 @@ $(document).ready(function() {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       // build information view
       html = "<h1>"+event.title+"</h1>"+
-        ((event.canEdit)? "<span class='delete_link fright hidden'><a href='javascript:void(0)' onclick='deleteEvent("+event.id+")'><img alt='Delete_icon' height='8' width='8' src='/images/delete_icon.png'></a></span>":"")+
-        "<h2>"+event.group+((event.canEdit)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
+        ((event.editable)? "<span class='delete_link fright hidden'><a href='javascript:void(0)' onclick='deleteEvent("+event.id+")'><img alt='Delete_icon' height='8' width='8' src='/images/delete_icon.png'></a></span>":"")+
+        "<h2>"+event.group+((event.editable)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
       displayAttending = false
       if (!event.allDay) {
         html += "<b>Starts</b>: "+event.start+"<br>"+
@@ -280,7 +280,7 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     data:data,
     success: function(data) {
       if (data.event == undefined)
-        errorLog("There was a problem with the data that was sent.")
+        errorLog("There was a problem with the data that was sent. Make sure the start time of the event is not in the past and the end time is not before the start time!")
       $("#grouploading_"+data.event.group_id).hide()
     },
     error: function(xhr, status, thrown) {

@@ -39,6 +39,6 @@ module EventsHelper
       \"repeatId\":#{event.repeat_id or 0},
       \"currentUserAttending\":#{ea},
       \"allDay\":#{event.all_day or false},
-      \"canEdit\":#{event.group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"
+      \"editable\":#{event.group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"
   end
 end
