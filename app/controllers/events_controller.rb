@@ -138,12 +138,7 @@ class EventsController < ApplicationController
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-        format.json {
-          render :json => @event.errors
-          puts @event.errors
-          puts @event.start_time
-          puts @event.end_time
-        }
+        format.json { render :json => {:group_id => @event.group_id, :errors => @event.errors} }
       end
     end
   end

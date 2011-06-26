@@ -18,7 +18,7 @@ class EventAttendeesController < ApplicationController
       if @event_attendee.save
         format.json { render :json => {:event_attendee => @event_attendee, :username => current_user.name} }
       else
-        format.json { render :json => @event_attendee.errors }
+        format.json { render :json => {:errors => @event_attendee.errors } }
       end
     end
   end

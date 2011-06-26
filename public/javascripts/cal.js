@@ -279,9 +279,17 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     url:'/events/'+e.id+'.json',
     data:data,
     success: function(data) {
-      if (data.event == undefined)
-        errorLog("There was a problem with the data that was sent. Make sure the start time of the event is not in the past and the end time is not before the start time!")
-      $("#grouploading_"+data.event.group_id).hide()
+      obj = data
+      if (data.errors != undefined) {
+        html = "There was a problem with the data that was sent. <br>"
+        for (key in data.errors)
+          for (i in data.errors[key])
+            html += key+" "+data.errors[key][i]+"<br>"
+        errorLog(html)
+        $("#grouploading_"+data.errors.group_id).hide()
+      } else {
+        $("#grouploading_"+data.event.group_id).hide()
+      }
     },
     error: function(xhr, status, thrown) {
       debugLog('error. status: '+status+', thrown: '+thrown)
@@ -477,11 +485,10 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
         if (data.event_attendee == undefined) {
           $("#attendingDisabled").hide()
           $("#notAttending").show()
-          html = "Input invalid."
-          if (data.event)
-            html += " Event "+data.event+"."
-          if (data.user)
-            html += " User "+data.user+"."
+          html = "There was a problem with the data that was sent. <br>"
+          for (key in data.errors)
+            for (i in data.errors[key])
+              html += key+" "+data.errors[key][i]+"<br>"
           errorLog(html)
         } else {
           ea = data.event_attendee.event_attendee
