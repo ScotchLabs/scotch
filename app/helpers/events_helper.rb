@@ -37,10 +37,6 @@ module EventsHelper
       \"attendeeLimit\":\"#{event.attendee_limit}\",
       \"numAttendees\":\"#{event.attendees.count}\",
       \"repeatId\":#{event.repeat_id or 0},
-      \"repeatFrequency\":#{event.repeat_frequency or 0},
-      \"repeatPeriod\":\"#{event.repeat_period}\",
-      \"stopOnDate\":\"#{event.stop_on_date}\",
-      \"stopAfterOccurrences\":\"#{event.stop_after_occurrences}\",
       \"currentUserAttending\":#{ea},
       \"allDay\":#{event.all_day or false},
       \"canEdit\":#{@group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"

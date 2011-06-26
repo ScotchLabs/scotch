@@ -242,20 +242,6 @@ function editEvent(event_id) { // populates the form with event's values, displa
   // page 1, part 3
   $("#_repeat").removeAttr('checked')
   updateRepeat()
-  if (e.repeatFrequency != 0) {
-    $("#_repeat").attr('checked',true)
-    updateRepeat()
-    $("#event_repeat_frequency").attr('value',e.repeatFrequency)
-    $("#event_repeat_period option").removeAttr('selected')
-    $("#event_repeat_period  option[value='"+e.repeatPeriod+"']").attr('selected',true)
-    if (e.stopOnDate == "") {
-      $("#stop_condition_type_occurrences").click()
-      $("#event_stop_after_occurrences").attr('value',e.stopAfterOccurrences)
-    } else {
-      $("#stop_condition_type_date").click()
-      $("#event_stop_on_date").datetimepicker('setDate',e.stopOnDate)
-    }
-  }
   // page 2, part 1
   $("#event_privacy_type_"+e.privacyType).click()
   if (e.privacyType=='limited')
@@ -288,36 +274,45 @@ function updateEventTimes(allDay) { // primes the allDay field of the New Event 
 function updateRepeat() { // primes the repeat fields of the New Event form
   repeats = $("#_repeat").attr('checked')
   if (repeats) {
-    $("#event_repeat_frequency").removeAttr('disabled')
-    $("#event_repeat_period").removeAttr('disabled')
+    $("#_repeat_frequency").removeAttr('disabled')
+    $("#_repeat_period").removeAttr('disabled')
     $("#stop_condition_type_occurrences").removeAttr('disabled')
     $("#stop_condition_type_date").removeAttr('disabled')
   }
   repeatStopOn = $("[name='stop_condition_type']:checked").val()
   if (repeatStopOn == "occurrences")
-    $("#event_stop_after_occurrences").removeAttr('disabled')
+    $("#_stop_after_occurrences").removeAttr('disabled')
   else if (repeatStopOn == "date") {
     $("#stop_on_date").removeAttr('disabled')
+    $("#_stop_on_time_1i").removeAttr('disabled')
+    $("#_stop_on_time_2i").removeAttr('disabled')
+    $("#_stop_on_time_3i").removeAttr('disabled')
     $("#_stop_on_time_4i").removeAttr('disabled')
     $("#_stop_on_time_5i").removeAttr('disabled')
     $("#repeat .at").css('color','#333')
   }
   if (repeatStopOn != "occurrences")
-    $("#event_stop_after_occurrences").attr('disabled',true)
+    $("#_stop_after_occurrences").attr('disabled',true)
   if (repeatStopOn != "date") {
     $("#stop_on_date").attr('disabled',true)
+    $("#_stop_on_time_1i").attr('disabled',true)
+    $("#_stop_on_time_2i").attr('disabled',true)
+    $("#_stop_on_time_3i").attr('disabled',true)
     $("#_stop_on_time_4i").attr('disabled',true)
     $("#_stop_on_time_5i").attr('disabled',true)
     $("#repeat .at").css('color','#ddd')
   }
   if (!repeats) {
-    $("#event_repeat_frequency").attr('disabled',true)
-    $("#event_repeat_period").attr('disabled',true)
+    $("#_repeat_frequency").attr('disabled',true)
+    $("#_repeat_period").attr('disabled',true)
     $("#stop_condition_type_occurrences").attr('disabled',true)
     $("#stop_condition_type_date").attr('disabled',true)
-    $("#event_stop_after_occurrences").attr('disabled',true)
+    $("#_stop_after_occurrences").attr('disabled',true)
     $("#stop_on_date").attr('disabled',true)
     $("#repeat .at").css('color','#ddd')
+    $("#_stop_on_time_1i").attr('disabled',true)
+    $("#_stop_on_time_2i").attr('disabled',true)
+    $("#_stop_on_time_3i").attr('disabled',true)
     $("#_stop_on_time_4i").attr('disabled',true)
     $("#_stop_on_time_5i").attr('disabled',true)
   }
@@ -329,9 +324,13 @@ function updateTime(sel) {
   for (i in arr)
     if (arr[i] == undefined)
       arr[i] = ""
-  $("#event_"+sel+"_1i").val(arr[2])
-  $("#event_"+sel+"_2i").val(arr[0])
-  $("#event_"+sel+"_3i").val(arr[1])
+  if (sel != "stop_on_date")
+    sel = "event_"+sel
+  else
+    sel = "_stop_on_time"
+  $("#"+sel+"_1i").val(arr[2])
+  $("#"+sel+"_2i").val(arr[0])
+  $("#"+sel+"_3i").val(arr[1])
 }
 function submit_event_form() { // woo user-generated-content submission!
   // make sure the submitted times are reparsed such that they can be captured

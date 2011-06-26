@@ -73,7 +73,43 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
-        @event.propagate_create if params[:repeat]=="1"
+        if params[:repeat]=="1"
+          puts "vvvvv DEBUGGGG vvvvv"
+          freq=params[:repeat_frequency].to_i
+          per=params[:repeat_period].to_sym
+          if params[:stop_condition_type] == "date"
+            stop_on = Time.new(params["stop_on_time(1i)"],params["stop_on_time(2i)"],params["stop_on_time(3i)"],params["stop_on_time(4i)"],params["stop_on_time(5i)"])
+            t=@event.start_time
+            n=1
+            while t<stop_on
+              t=t.advance(per => freq)
+              n=n+1
+            end
+          else
+            n=params[:stop_after_occurrences].to_i
+          end
+          st=@event.start_time
+          en=@event.end_time
+          n=n-1
+          puts "creating #{n} repeated events"
+          n.times do
+            st=st.advance(per => freq)
+            en=en.advance(per => freq)
+            e=@event.clone
+            e.repeat_id=@event.id
+            e.group_id=@event.group_id
+            e.start_time=st
+            e.end_time=en
+            if e.save
+              puts "repeated created"
+              @events.push e
+            else
+              puts e.errors
+              #TODO handle errors
+            end
+          end
+          puts "^^^^^ DEBUGGGG ^^^^^"
+        end
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
         format.json {
@@ -94,14 +130,6 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update_attributes(params[:event])
-        if params[:all]=="1"
-          c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
-          c.each do |e|
-            e.repeat_id = @event.id
-          end
-          @event.propagate_update
-        end
-        @event.repeat_id = nil
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
       else

@@ -56,23 +56,23 @@
           
           <div id='repeat'>
             <div class='fleft' style='margin-right:5px'>
-              <%= check_box nil, :repeat, :onchange => "updateRepeat()" %> Repeats every <%= f.number_field :repeat_frequency, :disabled => true %><%= f.select :repeat_period, options_for_select(Event.periods), {}, :disabled => true %>
+              <%= check_box nil, :repeat, :onchange => "updateRepeat()" %> Repeats every <%= number_field nil, :repeat_frequency, :disabled => true %><%= select nil, :repeat_period, options_for_select(Event.periods), {}, :disabled => true %>
             </div>
             <div class='fleft'>
               <%= radio_button_tag :stop_condition_type, 'occurrences', true, {:onchange => "updateRepeat()", :disabled => true} %>
               <span style="width:27px;display:inline-block">for</span>
-              <%= f.number_field :stop_after_occurrences, :disabled => true %> occurrences
+              <%= number_field nil, :stop_after_occurrences, :disabled => true %> occurrences
               <br>
               <%= radio_button_tag :stop_condition_type, 'date', false, {:onchange => "updateRepeat()", :disabled => true} %>
               <span style="width:27px;display:inline-block">until</span>
               <%= text_field_tag :stop_on_date, nil, {:class => 'datepicker placeholder-shim', :placeholder => "date", :disabled => true} %><br>
-              <span class='at' style='margin-left:15px;color:#ddd'>@</span> <%= f.time_select :stop_on_date, {:minute_step => 5}, :disabled => true %>
+              <span class='at' style='margin-left:15px;color:#ddd'>@</span> <%= time_select nil, :stop_on_time, {:minute_step => 5}, :disabled => true %>
             </div>
           </div>
           <div class='clearfix'></div>
           <br><br>
           <div id='newFormError' style="position:absolute;bottom:36px;color:#f90;width:100%;text-align:center" class='hidden'><i>Please check the form input.</i></div>
-          <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
+          <%= f.submit "Create Event", :onclick => 'submit_event_form();return false' %>
           <div style="position:absolute;right:0;bottom:2px">
             <div style='display:inline-block;text-align:right'><a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Or Invite<br>People First</a></div>
             <div style='display:inline-block;bottom:7px;position:relative;'>&rarr;</div>
