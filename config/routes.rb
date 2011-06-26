@@ -56,6 +56,7 @@ Scotch::Application.routes.draw do |map|
       post :archive
     end
   end
+  resources :events, :only => [:index] # for calendar to ajax a bunch of group's events at once
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
     resources :event_attendees, :only => [:create]
   end

@@ -11,7 +11,11 @@ class EventsController < ApplicationController
   # GET /group/1/events.xml
   # GET /group/1/events.json
   def index
-    group_events = Event.where(:group_id => @group.id).order("start_time ASC")
+    if @group
+      group_events = Event.where(:group_id => @group.id).order("start_time ASC")
+    elsif params[:group_ids]
+      group_events = Event.where(:group_id => params[:group_ids]).order("start_time ASC")
+    end
     group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
     @events = group_events.where(["start_time > ?",Time.zone.now]).all
     @past_events = group_events.where(["start_time < ?",Time.zone.now]).all
@@ -26,7 +30,9 @@ class EventsController < ApplicationController
         json_events = json_events.select{|e| e.end_time <= Time.at(params[:end].to_i)} if params[:end]
         
         json = json_events.collect { |e| event_to_json(e) }.join(",\n")
-        json = "{\"group_id\" : #{@group.id},\n\"events\" : [#{json}]}"
+        json = "{\"events\" : [#{json}]"
+        json += ",\n\"ref\" : \"#{params[:ref]}\"" if params[:ref]
+        json += "}"
         
         render :json => json
       }

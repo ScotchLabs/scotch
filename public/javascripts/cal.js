@@ -15,7 +15,7 @@ var dates_pulled = {} // keeps track of what dateranges we've ajaxed and cached.
 var cachedEvents = {}
 var calDebug = true
 var obj // used for debug purposes
-var ajax = {} // map of all open ajax calls
+var ajax = {} // map of all open ajax calls, by data (only for group/event pulls)
 // When there's an error server-side ExceptionNotifier emails us so the user doesn't have to
 var serverSideErrorMessage = " The developers have been notified. There's not much you can do now but wait for them to fix it."
 
@@ -84,43 +84,16 @@ $(document).ready(function() {
       start=start.valueOf()/1000
       end=end.valueOf()/1000
       eventIds = [] // all the events that have been pulled this time around
-      
+      ajaxThese = []
       for (i in selectedGroups) {
         group_id = selectedGroups[i]
         
         // ajax if not cached
         if (!datesPulled(group_id,start,end)) {
-          // make sure there isn't already an ajax call for this group's events
+          // make sure this group is not in any open ajax calls for this start/end
           if (ajax[group_id] == undefined) {
+            ajaxThese.push(group_id)
             $("#grouploading_"+group_id).show()
-            url = '/groups/'+group_id+'/events.json'
-            debugLog("pulling "+group_id+" events from "+url)
-            ajax[group_id] = $.ajax({
-              url: url,
-              data: {"start":start,"end":end},
-              success: function(data) {
-                debugLog('success')
-                // display and cache
-                $.each(data.events, function(k) {
-                  if ($.inArray(data.events[k].id, eventIds) == -1) {
-                    $("#calendar").fullCalendar('renderEvent',data.events[k])
-                    eventIds.push(data.events[k].id)
-                  }
-                  cachedEvents[data.events[k].id] = data.events[k]
-                })
-                // reset ajax flag
-                dates_pulled[data.group_id].push([start,end])
-                ajax[data.group_id] = undefined
-                $("#grouploading_"+data.group_id).hide()
-              },
-              error: function(xhr, status, thrown) {
-                group_id = parseInt(this.url.split('/')[2])
-                $("#grouploading_"+group_id).hide()
-                debugLog('error. status: '+status+', thrown: '+thrown)
-                errorLog("There was a problem fetching event data."+serverSideErrorMessage)
-              }
-            
-            })
           }
         } else { // found in cache
           $("#grouploading_"+group_id).show()
@@ -140,6 +113,40 @@ $(document).ready(function() {
           $("#grouploading_"+group_id).hide()
         }
       }
+      url = '/events.json'
+      ref = "s"+start+"e"+end+"g"+ajaxThese.join('|')
+      ajax[ref] = $.ajax({
+        url: url,
+        data: {"start":start,"end":end,"group_ids":ajaxThese,"ref":ref},
+        success: function(data) {
+          debugLog('success')
+          // display and cache
+          $.each(data.events, function(k,ev) {
+            if ($.inArray(ev.id, eventIds) == -1) {
+              $("#calendar").fullCalendar('renderEvent',ev)
+              eventIds.push(ev.id)
+            }
+            cachedEvents[ev.id] = ev
+          })
+          // reset ajax flag
+          ajax[ref] = undefined
+          for (i in ajaxThese) {
+            group_id = ajaxThese[i]
+            dates_pulled[group_id].push([start,end])
+            $("#grouploading_"+group_id).hide()
+          }
+        },
+        error: function(xhr, status, thrown) {
+          //TODO reset ajax flag
+          obj = xhr
+          for (i in ajaxThese) {
+            group_id = ajaxThese[i]
+            $("#grouploading_"+group_id).hide()
+          }
+          debugLog('error. status: '+status+', thrown: '+thrown)
+          errorLog("There was a problem fetching event data."+serverSideErrorMessage)
+        }
+      })
     },
     eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) { // triggered when event is dropped and is moved to a DIFFERENT day/time
       // http://arshaw.com/fullcalendar/docs/event_ui/eventDrop/
