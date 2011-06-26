@@ -16,6 +16,7 @@ var cachedEvents = {}
 var calDebug = true
 var obj // used for debug purposes
 var ajax = {} // map of all open ajax calls
+var serverSideErrorMessage = " The developers have been notified. There's not much you can do now but wait for them to fix it."
 
 $(document).ready(function() {
   // populate selectedGroups
@@ -108,9 +109,10 @@ $(document).ready(function() {
                 $("#grouploading_"+data.group_id).hide()
               },
               error: function(xhr, status, thrown) {
-                //TODO hide loading
+                group_id = parseInt(this.url.split('/')[2])
+                $("#grouploading_"+group_id).hide()
                 debugLog('error. status: '+status+', thrown: '+thrown)
-                //TODO show error
+                errorLog("There was a problem fetching event data."+serverSideErrorMessage)
               }
             
             })
@@ -189,6 +191,7 @@ function toggle(group_id) { // called when the user clicks on a group name to de
     selectedGroups.push(group_id)
   }
   // FIXME: there's probably a better way to handle toggling than refetching ALL events
+  // but it's sort of moot since all refetching does is ask the cache for more.
   $("#calendar").fullCalendar('refetchEvents')
 }
 function newEvent(group_id, date, allDay) { // blanks and displays the form
@@ -366,6 +369,7 @@ function submit_event_form() { // woo user-generated-content submission!
     },
     error: function(xhr, status, thrown) {
       debugLog('error submitting new event form. status '+status+', thrown '+thrown)
+      errorLog('There was a problem submitting the form.'+serverSideErrorMessage)
     },
     complete: function(xhr, status) {
       $("#new_event [type='submit']").removeAttr('disabled')
@@ -387,7 +391,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       url:url,
       success:function(data){
         if ($(data).event_attendee == undefined) {
-          // invalid
+          //TODO invalid return
         } else {
           cachedEvents[event_id].currentUserAttending=data.event_attendee.id
           cachedEvents[event_id].attendees.push(data.username)
@@ -398,6 +402,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       },
       error:function(){
         debugLog('error attending '+event_id)
+        errogLog('There was a problem submitting the data.')
       },
       complete:function(){
         $("#attendLoading").hide()
@@ -514,7 +519,6 @@ function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Lim
   else
     $("#event_attendee_limit").attr('disabled',true)
 }
-
 function datesPulled(g,s,e) {
   debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e)
   a = false
@@ -528,4 +532,7 @@ function datesPulled(g,s,e) {
 
 function debugLog(s) {
   if (calDebug) console.log(s)
+}
+function errorLog(s) {
+  $.colorbox({html:"<h1>Oops!</h1>"+s,inline:false,width:'400px'})
 }
