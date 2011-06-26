@@ -4,7 +4,7 @@ class EventAttendeesController < ApplicationController
     @event = Event.find(params[:event_id])
     
     respond_to do |format|
-      format.json { render :json => {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| {"name" => u.name, "andrewid" => u.andrewid} } } }
+      format.json { render :json => {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| u.name } } }
     end
   end
   
@@ -24,12 +24,14 @@ class EventAttendeesController < ApplicationController
   end
   
   # DELETE /event_attendees/1.xml
+  # DELETE /event_attendees/1.json
   def destroy
     @event_attendee = EventAttendee.find(params[:id])
     @event_attendee.destroy
     
     respond_to do |format|
       format.xml { head :ok }
+      format.json { head :ok }
     end
   end
 end

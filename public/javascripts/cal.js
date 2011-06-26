@@ -16,6 +16,7 @@ var cachedEvents = {}
 var calDebug = true
 var obj // used for debug purposes
 var ajax = {} // map of all open ajax calls
+// When there's an error server-side ExceptionNotifier emails us so the user doesn't have to
 var serverSideErrorMessage = " The developers have been notified. There's not much you can do now but wait for them to fix it."
 
 $(document).ready(function() {
@@ -38,6 +39,7 @@ $(document).ready(function() {
       // build information view
       html = "<h1>"+event.title+"</h1>"+
         "<h2>"+event.group+((event.canEdit)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
+      displayAttending = false
       if (!event.allDay) {
         html += "<b>Starts</b>: "+event.start+"<br>"+
           "<b>Ends</b>: "+event.end+"<br>"
@@ -45,27 +47,31 @@ $(document).ready(function() {
         html += "All day "+event.start+"<br>"
       html+= "<b>Where</b>: "+event.location+"<br>"
       if (event.privacyType == "closed")
-        html += "<b>This event id closed.</b><br>"
+        html += "<b>This event is closed.</b><br>"
       else if (event.privacyType == "limited" && event.numAttendees == event.attendeeLimit)
         html += "<b>This event is limited and full.</b><br>"
       else {
+        displayAttending = true
         if (event.privacyType == "open")
           html+= "<b>This event is open.</b> "  
         else if (event.privacyType == "limited")
           html+= "<b>This event is limited.</b> "
-        if (event.currentUserAttending == "true")
+      }
+      displayAttending = displayAttending || event.currentUserAttending!=-1
+      if (displayAttending) {
+        if (event.currentUserAttending != -1) {
           html+= "<span id='attending'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
-        else
+          html+= "<span id='notAttending' class='hidden'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+        } else {
+          html+= "<span id='attending' class='hidden'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
           html+= "<span id='notAttending'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+        }
         html+= "<span id='attendingDisabled' class='hidden' style='color:#ddd'>I'm attending.</span>"
         html+= "<span id='notAttendingDisabled' class='hidden' style='color:#ddd'>I'm not attending.</span>"
         html+= "<img id='attendLoading' class='hidden' src='/images/indicator.gif'>"
-        html+="<br>"
       }
-      html+= "<b>Attendees</b>: <span id='attendees>"
-      if (event.attendees != undefined)
-        html+= attendees_to_str(event.id)
-      html+= "</span><img alt=\"Indicator\" id=\"attendeesloading\" class='hidden' src=\"/images/indicator.gif\">"
+      html+="<br>"
+      html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading\" class='hidden' src=\"/images/indicator.gif\">"
       
       // display the information view
       $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
@@ -382,27 +388,40 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
   $("#attendLoading").show()
   url = ""
   if (isAttending) {
-    $("#attending").hide()
+    $("#notAttending").hide()
     $("#attendingDisabled").show()
     url = "/events/"+event_id+"/event_attendees.json"
     
     $.ajax({
       type:"POST",
+      data: {
+        utf8:$("#new_event [name='utf8']").attr('value'),
+        authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
+      },
       url:url,
       success:function(data){
-        if ($(data).event_attendee == undefined) {
-          //TODO invalid return
-        } else {
-          cachedEvents[event_id].currentUserAttending=data.event_attendee.id
-          cachedEvents[event_id].attendees.push(data.username)
+        if (data.event_attendee == undefined) {
           $("#attendingDisabled").hide()
           $("#notAttending").show()
-          updateAttendees(event_id)
+          html = "Input invalid."
+          if (data.event)
+            html += " Event "+data.event+"."
+          if (data.user)
+            html += " User "+data.user+"."
+          obj = data
+          errorLog(html)
+        } else {
+          ea = data.event_attendee.event_attendee
+          cachedEvents[event_id].currentUserAttending=ea.id
+          $("#attendingDisabled").hide()
+          $("#attending").show()
         }
       },
       error:function(){
+        $("#attendingDisabled").hide()
+        $("#notAttending").show()
         debugLog('error attending '+event_id)
-        errogLog('There was a problem submitting the data.')
+        errorLog('There was a problem submitting the data.'+serverSideErrorMessage)
       },
       complete:function(){
         $("#attendLoading").hide()
@@ -410,64 +429,58 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
     })
   }
   else {
-    $("#notAttending").hide()
+    $("#attending").hide()
     $("#notAttendingDisabled").show()
-    url = "/event_attendees/"+cachedEvents[event_id].currentUserAttending
+    url = "/event_attendees/"+cachedEvents[event_id].currentUserAttending+".json"
     $.ajax({
       url:url,
+      data: {
+        utf8:$("#new_event [name='utf8']").attr('value'),
+        authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
+      },
       type:"DELETE",
-      success:function(data){
-        cachedEvents[event_id].currentUserAttending=-1
-        cachedEvents[event_id].attendees.splice(cachedEvents[event_id].attendees.indexOf(data.username),1)
-        $("#notAttendingDisabled").hide()
-        $("#attending").show()
-      },
-      error:function(){
-        debugLog('error attending '+event_id)
-      },
       complete:function(){
+        cachedEvents[event_id].currentUserAttending=-1
+        $("#notAttendingDisabled").hide()
+        $("#notAttending").show()
         $("#attendLoading").hide()
       }
     })
   }
+  updateAttendees(event_id)
 }
 function updateAttendees(event_id) {
   debugLog('updating attendees for '+event_id)
-  if (cachedEvents[event_id].attendees != undefined) {
-    debugLog('showing cached attendees')
-    $("#attendees").html(attendees_to_str(event_id))
-  }
   
   debugLog('fetching attendees')
   $("#attendeesLoading").show()
   $.ajax({
-    url: "/events/"+event_id+"/event_attendees",
+    url: "/events/"+event_id+"/event_attendees.json",
     success: function(data){
       debugLog('updating listing')
-      cachedEvents[event_id].attendees = data.attendees
-      $("#attendees").html(attendees_to_str(event_id))
+      $("#attendees").html(attendees_to_str(event_id,data.attendees))
     },
     error: function(){
+      errorLog("There was an error submitting the data."+serverSideErrorMessage)
       debugLog('update attendees errored')
     },
     complete: function(){
       $("#attendeesLoading").hide()
     }
   })
+  
+  
 }
-function attendees_to_str(event_id) {
-  as = cachedEvents[event_id].attendees
-  if (as == undefined) return "none listed."
+function attendees_to_str(event_id, as) {
+  if (as == undefined || as.length == 0) return "none listed."
   str = ""
-  str=as[as.length-1].name
+  str=as[as.length-1]
   debugLog("str stage 1: "+str)
   if (as.length > 1)
-    str=as[as.length-2].name+" and "+str
+    str=as[as.length-2]+" and "+str
   debugLog("str stage 2: "+str)
   if (as.length > 2)
-    as.slice(0,as.length-2)
-    temp = []
-    
+    str = as.slice(0,as.length-2).join(", ")+", "+str
   debugLog("str stage 3: "+str)
   debugLog(str)
   debugLog('attendees_to_str returning '+str)
