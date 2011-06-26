@@ -218,7 +218,7 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   if (date) {
     $("#start_time").datetimepicker('setDate', date)
     if (allDay)
-      date.setDate(date.getDate()+1)
+      date.setDate(date.getDate())
     else
       date.setHours(date.getHours()+1)
     $("#end_time").datetimepicker('setDate', date)
