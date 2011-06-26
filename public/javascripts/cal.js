@@ -137,7 +137,6 @@ $(document).ready(function() {
           }
         },
         error: function(xhr, status, thrown) {
-          //TODO reset ajax flag
           obj = xhr
           for (i in ajaxThese) {
             group_id = ajaxThese[i]
@@ -251,7 +250,7 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
 }
 function updateEvent(event_id,revertFunc) { // fires when events are dragged or resized
   e = cachedEvents[event_id]
-  //TODO show loading
+  $("#grouploading_"+e.group_id).show()
   data = {
     utf8:$("#new_event [name='utf8']").attr('value'),
     authenticity_token:$("#new_event [name='authenticity_token']").attr('value'),
@@ -282,15 +281,12 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     success: function(data) {
       if (data.event == undefined)
         errorLog("There was a problem with the data that was sent.")
+      $("#grouploading_"+data.event.group_id).hide()
     },
     error: function(xhr, status, thrown) {
       debugLog('error. status: '+status+', thrown: '+thrown)
       errorLog("There was a problem sending the data."+serverSideErrorMessage)
       revertFunc()
-    },
-    complete: function() {
-      //TODO hide loading
-      
     }
   })
 }
@@ -431,7 +427,6 @@ function submit_event_form() { // woo user-generated-content submission!
   // prime client-side validation
   $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)
-  //TODO show loading
   $.ajax({
     url: $("#new_event").attr('action'),
     type: $("#new_event").attr('method'),
@@ -459,7 +454,6 @@ function submit_event_form() { // woo user-generated-content submission!
     },
     complete: function(xhr, status) {
       $("#new_event [type='submit']").removeAttr('disabled')
-      //TODO hide loading
     }
   })
   return false // so that the form is not submitted normally
