@@ -182,37 +182,7 @@ $(document).ready(function() {
   populateInvitees()
 })
 
-function toggle(group_id) { // called when the user clicks on a group name to de/select it
-  debugLog('toggling '+group_id)
-  classes = $("#"+group_id).attr('class').split(' ')
-  needle=/event_color_([0-9]+)/
-  color = -1
-  $.each(classes, function(i) {
-    hay = classes[i]
-    m = needle.exec(hay)
-    if (m != null)
-      color = m[1]
-  })
-  if (color == -1) debugLog('color not specified')
-  if ($('#'+group_id).attr('selected')=='true') {
-    debugLog('selected -> deselected')
-    $('#'+group_id).attr('selected','false')
-    $("#"+group_id).removeClass('event_color_'+color)
-    $("#"+group_id).addClass('event_color_'+color+'_')
-    $("#"+group_id).css("color","#333")
-    selectedGroups.splice(selectedGroups.indexOf(group_id),1)
-  } else {
-    debugLog('deselected -> selected')
-    $('#'+group_id).attr('selected','true')
-    $("#"+group_id).removeClass('event_color_'+color+'_')
-    $("#"+group_id).addClass('event_color_'+color)
-    $("#"+group_id).css("color","#fff")
-    selectedGroups.push(group_id)
-  }
-  // FIXME: there's probably a better way to handle toggling than refetching ALL events
-  // but it's sort of moot since all refetching does is ask the cache for more.
-  $("#calendar").fullCalendar('refetchEvents')
-}
+// these functions manipulate the new event form
 function newEvent(group_id, date, allDay) { // blanks and displays the form
   // blank out the form
   // page 1, part 1
@@ -248,6 +218,128 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   // display form
   $.colorbox({href:"#newEventForm"})
 }
+function editEvent(event_id) { // populates the form with event's values, displays form
+  e = cachedEvents[event_id]
+  // populate form
+  // page 1, part 1
+  $("#new_event").attr('action','/events/'+event_id+'.json')
+  $("#new_event").attr('method','PUT')
+  $("#event_title").attr('value',e.title.split('] ')[1])
+  $("#event_description").text(e.description)
+  $("#event_location").attr('value',e.location)
+  $("#event_group_id option").removeAttr('selected')
+  $("#event_group_id option[value='"+e.group_id+"']").attr('selected',true)
+  $("#event_group_id").attr('disabled',true)
+  // page 1, part 2
+  updateEventTimes(e.allDay)
+  $("#start_time").datetimepicker('setDate',e.start)
+  if (e.end != null)
+    $("#end_time").datetimepicker('setDate',e.end)
+  else // fc seems to null end_time when it's equal to start_time
+    $("#start_time").datetimepicker('setDate',e.start)
+  // page 1, part 3
+  $("#_repeat").removeAttr('checked')
+  updateRepeat()
+  $("#event_submit").attr('value','Update Event')
+  // page 2, part 1
+  $("#event_privacy_type_"+e.privacyType).click()
+  if (e.privacyType=='limited')
+    $("#event_attendee_limit").attr('value',e.attendeeLimit)
+  // page 2, part 2
+  populateInvitees()
+  //TODO when Attending/Attendees is implemented
+  // display form
+  $.colorbox({href:"#newEventForm"})
+}
+function updateEventTimes(allDay) { // primes the allDay field of the New Event form
+  if (allDay == null)
+    allDay = $("#event_all_day").attr('checked')
+  if (allDay) {
+    $("#event_all_day").attr('checked',true)
+    $("#event_start_time_4i").attr('disabled',true)
+    $("#event_start_time_5i").attr('disabled',true)
+    $("#event_end_time_4i").attr('disabled',true)
+    $("#event_end_time_5i").attr('disabled',true)
+    $("#event_times .at").css('color','#ddd')
+  } else {
+    $("#event_all_day").removeAttr('checked')
+    $("#event_start_time_4i").removeAttr('disabled')
+    $("#event_start_time_5i").removeAttr('disabled')
+    $("#event_end_time_4i").removeAttr('disabled')
+    $("#event_end_time_5i").removeAttr('disabled')
+    $("#event_times .at").css('color',"#333")
+  }
+}
+function updateTime(sel) {
+  // the time fields of the New Event form cannot be captured directly by the controller.
+  // They must first be reparsed locally.
+  arr = $("#"+sel).val().split('/')
+  for (i in arr)
+    if (arr[i] == undefined)
+      arr[i] = ""
+  if (sel != "stop_on_date")
+    sel = "event_"+sel
+  else
+    sel = "_stop_on_time"
+  $("#"+sel+"_1i").val(arr[2])
+  $("#"+sel+"_2i").val(arr[0])
+  $("#"+sel+"_3i").val(arr[1])
+}
+function updateRepeat() { // primes the repeat fields of the New Event form
+  repeats = $("#_repeat").attr('checked')
+  if (repeats) {
+    $("#_repeat_frequency").removeAttr('disabled')
+    $("#_repeat_period").removeAttr('disabled')
+    $("#stop_condition_type_occurrences").removeAttr('disabled')
+    $("#stop_condition_type_date").removeAttr('disabled')
+  }
+  repeatStopOn = $("[name='stop_condition_type']:checked").val()
+  if (repeatStopOn == "occurrences")
+    $("#_stop_after_occurrences").removeAttr('disabled')
+  else if (repeatStopOn == "date") {
+    $("#stop_on_date").removeAttr('disabled')
+    $("#_stop_on_time_1i").removeAttr('disabled')
+    $("#_stop_on_time_2i").removeAttr('disabled')
+    $("#_stop_on_time_3i").removeAttr('disabled')
+    $("#_stop_on_time_4i").removeAttr('disabled')
+    $("#_stop_on_time_5i").removeAttr('disabled')
+    $("#repeat .at").css('color','#333')
+  }
+  if (repeatStopOn != "occurrences")
+    $("#_stop_after_occurrences").attr('disabled',true)
+  if (repeatStopOn != "date") {
+    $("#stop_on_date").attr('disabled',true)
+    $("#_stop_on_time_1i").attr('disabled',true)
+    $("#_stop_on_time_2i").attr('disabled',true)
+    $("#_stop_on_time_3i").attr('disabled',true)
+    $("#_stop_on_time_4i").attr('disabled',true)
+    $("#_stop_on_time_5i").attr('disabled',true)
+    $("#repeat .at").css('color','#ddd')
+  }
+  if (!repeats) {
+    $("#_repeat_frequency").attr('disabled',true)
+    $("#_repeat_period").attr('disabled',true)
+    $("#stop_condition_type_occurrences").attr('disabled',true)
+    $("#stop_condition_type_date").attr('disabled',true)
+    $("#_stop_after_occurrences").attr('disabled',true)
+    $("#stop_on_date").attr('disabled',true)
+    $("#repeat .at").css('color','#ddd')
+    $("#_stop_on_time_1i").attr('disabled',true)
+    $("#_stop_on_time_2i").attr('disabled',true)
+    $("#_stop_on_time_3i").attr('disabled',true)
+    $("#_stop_on_time_4i").attr('disabled',true)
+    $("#_stop_on_time_5i").attr('disabled',true)
+  }
+}
+function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Limited"
+  pt = $("[name='event[privacy_type]']:checked").val()
+  if (pt == 'limited')
+    $("#event_attendee_limit").removeAttr('disabled')
+  else
+    $("#event_attendee_limit").attr('disabled',true)
+}
+
+// these functions are more like events than functions
 function updateEvent(event_id,revertFunc) { // fires when events are dragged or resized
   e = cachedEvents[event_id]
   $("#grouploading_"+e.group_id).show()
@@ -298,39 +390,6 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     }
   })
 }
-function editEvent(event_id) { // populates the form with event's values, displays form
-  e = cachedEvents[event_id]
-  // populate form
-  // page 1, part 1
-  $("#new_event").attr('action','/events/'+event_id+'.json')
-  $("#new_event").attr('method','PUT')
-  $("#event_title").attr('value',e.title.split('] ')[1])
-  $("#event_description").text(e.description)
-  $("#event_location").attr('value',e.location)
-  $("#event_group_id option").removeAttr('selected')
-  $("#event_group_id option[value='"+e.group_id+"']").attr('selected',true)
-  $("#event_group_id").attr('disabled',true)
-  // page 1, part 2
-  updateEventTimes(e.allDay)
-  $("#start_time").datetimepicker('setDate',e.start)
-  if (e.end != null)
-    $("#end_time").datetimepicker('setDate',e.end)
-  else // fc seems to null end_time when it's equal to start_time
-    $("#start_time").datetimepicker('setDate',e.start)
-  // page 1, part 3
-  $("#_repeat").removeAttr('checked')
-  updateRepeat()
-  $("#event_submit").attr('value','Update Event')
-  // page 2, part 1
-  $("#event_privacy_type_"+e.privacyType).click()
-  if (e.privacyType=='limited')
-    $("#event_attendee_limit").attr('value',e.attendeeLimit)
-  // page 2, part 2
-  populateInvitees()
-  //TODO when Attending/Attendees is implemented
-  // display form
-  $.colorbox({href:"#newEventForm"})
-}
 function deleteEvent(event_id) { // fires when user hits the button to delete an event
   sure = confirm("Are you sure you want to delete this event?")
   $.colorbox.close()
@@ -344,86 +403,6 @@ function deleteEvent(event_id) { // fires when user hits the button to delete an
     })
   }
   $("#calendar").fullCalendar('refetchEvents')
-}
-function updateEventTimes(allDay) { // primes the allDay field of the New Event form
-  if (allDay == null)
-    allDay = $("#event_all_day").attr('checked')
-  if (allDay) {
-    $("#event_all_day").attr('checked',true)
-    $("#event_start_time_4i").attr('disabled',true)
-    $("#event_start_time_5i").attr('disabled',true)
-    $("#event_end_time_4i").attr('disabled',true)
-    $("#event_end_time_5i").attr('disabled',true)
-    $("#event_times .at").css('color','#ddd')
-  } else {
-    $("#event_all_day").removeAttr('checked')
-    $("#event_start_time_4i").removeAttr('disabled')
-    $("#event_start_time_5i").removeAttr('disabled')
-    $("#event_end_time_4i").removeAttr('disabled')
-    $("#event_end_time_5i").removeAttr('disabled')
-    $("#event_times .at").css('color',"#333")
-  }
-}
-function updateRepeat() { // primes the repeat fields of the New Event form
-  repeats = $("#_repeat").attr('checked')
-  if (repeats) {
-    $("#_repeat_frequency").removeAttr('disabled')
-    $("#_repeat_period").removeAttr('disabled')
-    $("#stop_condition_type_occurrences").removeAttr('disabled')
-    $("#stop_condition_type_date").removeAttr('disabled')
-  }
-  repeatStopOn = $("[name='stop_condition_type']:checked").val()
-  if (repeatStopOn == "occurrences")
-    $("#_stop_after_occurrences").removeAttr('disabled')
-  else if (repeatStopOn == "date") {
-    $("#stop_on_date").removeAttr('disabled')
-    $("#_stop_on_time_1i").removeAttr('disabled')
-    $("#_stop_on_time_2i").removeAttr('disabled')
-    $("#_stop_on_time_3i").removeAttr('disabled')
-    $("#_stop_on_time_4i").removeAttr('disabled')
-    $("#_stop_on_time_5i").removeAttr('disabled')
-    $("#repeat .at").css('color','#333')
-  }
-  if (repeatStopOn != "occurrences")
-    $("#_stop_after_occurrences").attr('disabled',true)
-  if (repeatStopOn != "date") {
-    $("#stop_on_date").attr('disabled',true)
-    $("#_stop_on_time_1i").attr('disabled',true)
-    $("#_stop_on_time_2i").attr('disabled',true)
-    $("#_stop_on_time_3i").attr('disabled',true)
-    $("#_stop_on_time_4i").attr('disabled',true)
-    $("#_stop_on_time_5i").attr('disabled',true)
-    $("#repeat .at").css('color','#ddd')
-  }
-  if (!repeats) {
-    $("#_repeat_frequency").attr('disabled',true)
-    $("#_repeat_period").attr('disabled',true)
-    $("#stop_condition_type_occurrences").attr('disabled',true)
-    $("#stop_condition_type_date").attr('disabled',true)
-    $("#_stop_after_occurrences").attr('disabled',true)
-    $("#stop_on_date").attr('disabled',true)
-    $("#repeat .at").css('color','#ddd')
-    $("#_stop_on_time_1i").attr('disabled',true)
-    $("#_stop_on_time_2i").attr('disabled',true)
-    $("#_stop_on_time_3i").attr('disabled',true)
-    $("#_stop_on_time_4i").attr('disabled',true)
-    $("#_stop_on_time_5i").attr('disabled',true)
-  }
-}
-function updateTime(sel) {
-  // the time fields of the New Event form cannot be captured directly by the controller.
-  // They must first be reparsed locally.
-  arr = $("#"+sel).val().split('/')
-  for (i in arr)
-    if (arr[i] == undefined)
-      arr[i] = ""
-  if (sel != "stop_on_date")
-    sel = "event_"+sel
-  else
-    sel = "_stop_on_time"
-  $("#"+sel+"_1i").val(arr[2])
-  $("#"+sel+"_2i").val(arr[0])
-  $("#"+sel+"_3i").val(arr[1])
 }
 function submit_event_form() { // woo user-generated-content submission!
   // make sure the submitted times are reparsed such that they can be captured
@@ -466,6 +445,8 @@ function submit_event_form() { // woo user-generated-content submission!
   })
   return false // so that the form is not submitted normally
 }
+
+// these functions relate to Attending
 function attend(isAttending, event_id) { // ex: when you click "I'm attending"
   $("#attendLoading").show()
   url = ""
@@ -566,6 +547,8 @@ function attendees_to_str(event_id, as) {
   debugLog('attendees_to_str returning '+str)
   return str
 }
+
+// these functions relate to Invitees
 function populateInvitees() { // populates the new/update event form with this group's position-holders
   $("#position_names").empty()
   debugLog('populating invitees')
@@ -605,12 +588,38 @@ function addInvitees() { // fires when the -> arrow is clicked in the invite peo
     $("#user_identifier").attr('value','')
   }
 }
-function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Limited"
-  pt = $("[name='event[privacy_type]']:checked").val()
-  if (pt == 'limited')
-    $("#event_attendee_limit").removeAttr('disabled')
-  else
-    $("#event_attendee_limit").attr('disabled',true)
+
+// random helper functions
+function toggle(group_id) { // called when the user clicks on a group name to de/select it
+  debugLog('toggling '+group_id)
+  classes = $("#"+group_id).attr('class').split(' ')
+  needle=/event_color_([0-9]+)/
+  color = -1
+  $.each(classes, function(i) {
+    hay = classes[i]
+    m = needle.exec(hay)
+    if (m != null)
+      color = m[1]
+  })
+  if (color == -1) debugLog('color not specified')
+  if ($('#'+group_id).attr('selected')=='true') {
+    debugLog('selected -> deselected')
+    $('#'+group_id).attr('selected','false')
+    $("#"+group_id).removeClass('event_color_'+color)
+    $("#"+group_id).addClass('event_color_'+color+'_')
+    $("#"+group_id).css("color","#333")
+    selectedGroups.splice(selectedGroups.indexOf(group_id),1)
+  } else {
+    debugLog('deselected -> selected')
+    $('#'+group_id).attr('selected','true')
+    $("#"+group_id).removeClass('event_color_'+color+'_')
+    $("#"+group_id).addClass('event_color_'+color)
+    $("#"+group_id).css("color","#fff")
+    selectedGroups.push(group_id)
+  }
+  // FIXME: there's probably a better way to handle toggling than refetching ALL events
+  // but it's sort of moot since all refetching does is ask the cache for more.
+  $("#calendar").fullCalendar('refetchEvents')
 }
 function datesPulled(g,s,e) {
   debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e)
@@ -622,7 +631,6 @@ function datesPulled(g,s,e) {
   debugLog(a)
   return a
 }
-
 function debugLog(s) {
   if (calDebug) console.log(s)
 }
