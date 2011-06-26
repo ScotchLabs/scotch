@@ -38,6 +38,7 @@ $(document).ready(function() {
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       // build information view
       html = "<h1>"+event.title+"</h1>"+
+        ((event.canEdit)? "<span class='delete_link fright hidden'><a href='javascript:void(0)' onclick='deleteEvent("+event.id+")'><img alt='Delete_icon' height='8' width='8' src='/images/delete_icon.png'></a></span>":"")+
         "<h2>"+event.group+((event.canEdit)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
       displayAttending = false
       if (!event.allDay) {
@@ -260,6 +261,19 @@ function editEvent(event_id) { // populates the form with event's values, displa
   //TODO when Attending/Attendees is implemented
   // display form
   $.colorbox({href:"#newEventForm"})
+}
+function deleteEvent(event_id) {
+  sure = confirm("Are you sure you want to delete this event?")
+  $.colorbox.close()
+  if (sure) {
+    delete cachedEvents[event_id]
+    $.ajax({
+      async: true,
+      type: 'DELETE',
+      url: '/events/'+event_id+'.xml',
+      data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')}
+    })
+  }
 }
 function updateEventTimes(allDay) { // primes the allDay field of the New Event form
   if (allDay == null)
