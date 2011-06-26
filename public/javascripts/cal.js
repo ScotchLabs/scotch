@@ -27,13 +27,12 @@ $(document).ready(function() {
   $('#calendar').fullCalendar({
     header: {right: 'month,agendaWeek prev,today,next'},
     allDayDefault: false,
-    // clicking on a day pops up a New Event form
-    dayClick: function(date, allDay, jsEvent, view) {
+    editable: true, // events can be dragged and resized
+    dayClick: function(date, allDay, jsEvent, view) { // clicking on a day pops up a New Event form
       // http://arshaw.com/fullcalendar/docs/mouse/dayClick/
       newEvent(null, date, allDay)
     },
-    // clicking on an event pops up an information view or Update Event form
-    eventClick: function(event, jsEvent, view) {
+    eventClick: function(event, jsEvent, view) { // clicking on an event pops up an information view
       debugLog('showing event '+event.id)
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       // build information view
@@ -79,9 +78,8 @@ $(document).ready(function() {
       
       updateAttendees(event.id)
     },
-    events: function(start, end, callback) {
+    events: function(start, end, callback) { // this function is called whenever the calendar refreshes/refetches
       // http://arshaw.com/fullcalendar/docs/event_data/events_function/
-      // this function is called whenever the calendar refreshes/refetches
       // we don't need milliseconds
       start=start.valueOf()/1000
       end=end.valueOf()/1000
@@ -142,6 +140,14 @@ $(document).ready(function() {
           $("#grouploading_"+group_id).hide()
         }
       }
+    },
+    eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) { // triggered when event is dropped and is moved to a DIFFERENT day/time
+      // http://arshaw.com/fullcalendar/docs/event_ui/eventDrop/
+      updateEvent(event.id,revertFunc)
+    },
+    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) { // triggered when resizing stops and event has changed duration
+      // http://arshaw.com/fullcalendar/docs/event_ui/eventResize/
+      updateEvent(event.id,revertFunc)
     }
   })
   
@@ -205,6 +211,7 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   // blank out the form
   // page 1, part 1
   $("#new_event").attr('action','/events.json')
+  $("#new_event").attr('method','post')
   $("#event_title").attr('value','')
   $("#event_description").text('')
   $("#event_location").attr('value','')
@@ -227,6 +234,7 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   // page 1, part 3
   $("#_repeat").removeAttr('checked')
   updateRepeat()
+  $("#event_submit").attr('value','Create Event')
   // page 2, part 1
   $("#event_privacy_type_open").click()
   // page 2, part 2
@@ -234,11 +242,57 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   // display form
   $.colorbox({href:"#newEventForm"})
 }
+function updateEvent(event_id,revertFunc) { // fires when events are dragged or resized
+  e = cachedEvents[event_id]
+  //TODO show loading
+  data = {
+    utf8:$("#new_event [name='utf8']").attr('value'),
+    authenticity_token:$("#new_event [name='authenticity_token']").attr('value'),
+    id: e.id,
+    event:{"start_time(1i)":e.start.getFullYear(),
+    "start_time(2i)":(e.start.getMonth()+1),
+    "start_time(3i)":e.start.getDate(),
+    "start_time(4i)":e.start.getHours(),
+    "start_time(5i)":e.start.getMinutes()}
+  }
+  if (e.end != null) {
+    data["event"]["end_time(1i)"]=e.end.getFullYear(),
+    data["event"]["end_time(2i)"]=e.end.getMonth()+1,
+    data["event"]["end_time(3i)"]=e.end.getDate(),
+    data["event"]["end_time(4i)"]=e.end.getHours(),
+    data["event"]["end_time(5i)"]=e.end.getMinutes()
+  } else { // fc seems to null the end time when it's equal to the start value
+    data["event"]["end_time(1i)"]=e.start.getFullYear(),
+    data["event"]["end_time(2i)"]=e.start.getMonth()+1,
+    data["event"]["end_time(3i)"]=e.start.getDate(),
+    data["event"]["end_time(4i)"]=e.start.getHours(),
+    data["event"]["end_time(5i)"]=e.start.getMinutes()
+  }
+  $.ajax({
+    type:'PUT',
+    url:'/events/'+e.id+'.json',
+    data:data,
+    success: function(data) {
+      if (data.event == undefined)
+        errorLog("There was a problem with the data that was sent.")
+    },
+    error: function(xhr, status, thrown) {
+      debugLog('error. status: '+status+', thrown: '+thrown)
+      errorLog("There was a problem sending the data."+serverSideErrorMessage)
+      revertFunc()
+    },
+    complete: function() {
+      //TODO hide loading
+      
+    }
+  })
+}
 function editEvent(event_id) { // populates the form with event's values, displays form
   e = cachedEvents[event_id]
   // populate form
   // page 1, part 1
   $("#new_event").attr('action','/events/'+event_id+'.json')
+  $("#new_event").attr('method','PUT')
   $("#event_title").attr('value',e.title.split('] ')[1])
   $("#event_description").text(e.description)
   $("#event_location").attr('value',e.location)
@@ -248,10 +302,14 @@ function editEvent(event_id) { // populates the form with event's values, displa
   // page 1, part 2
   updateEventTimes(e.allDay)
   $("#start_time").datetimepicker('setDate',e.start)
-  $("#end_time").datetimepicker('setDate',e.end)
+  if (e.end != null)
+    $("#end_time").datetimepicker('setDate',e.end)
+  else // fc seems to null end_time when it's equal to start_time
+    $("#start_time").datetimepicker('setDate',e.start)
   // page 1, part 3
   $("#_repeat").removeAttr('checked')
   updateRepeat()
+  $("#event_submit").attr('value','Update Event')
   // page 2, part 1
   $("#event_privacy_type_"+e.privacyType).click()
   if (e.privacyType=='limited')
@@ -262,7 +320,7 @@ function editEvent(event_id) { // populates the form with event's values, displa
   // display form
   $.colorbox({href:"#newEventForm"})
 }
-function deleteEvent(event_id) {
+function deleteEvent(event_id) { // fires when user hits the button to delete an event
   sure = confirm("Are you sure you want to delete this event?")
   $.colorbox.close()
   if (sure) {
@@ -274,6 +332,7 @@ function deleteEvent(event_id) {
       data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')}
     })
   }
+  $("#calendar").fullCalendar('refetchEvents')
 }
 function updateEventTimes(allDay) { // primes the allDay field of the New Event form
   if (allDay == null)
@@ -368,7 +427,7 @@ function submit_event_form() { // woo user-generated-content submission!
   //TODO show loading
   $.ajax({
     url: $("#new_event").attr('action'),
-    type: "POST",
+    type: $("#new_event").attr('method'),
     data: $("#new_event").serialize(),
     success: function(data, status, xhr) {
       if (data.events == undefined) {
@@ -422,7 +481,6 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
             html += " Event "+data.event+"."
           if (data.user)
             html += " User "+data.user+"."
-          obj = data
           errorLog(html)
         } else {
           ea = data.event_attendee.event_attendee

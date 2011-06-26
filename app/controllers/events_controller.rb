@@ -122,14 +122,22 @@ class EventsController < ApplicationController
 
   # PUT /events/1
   # PUT /events/1.xml
+  # PUT /events/1.json
   def update
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
+        format.json { render :json => @event }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        format.json {
+          render :json => @event.errors
+          puts @event.errors
+          puts @event.start_time
+          puts @event.end_time
+        }
       end
     end
   end
