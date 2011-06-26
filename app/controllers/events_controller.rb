@@ -66,7 +66,7 @@ class EventsController < ApplicationController
 
     @event = Event.new(params[:event])
     @event.group = @group
-    @event.attendees = @group.users.where("positions.display_name" => params[:position_names]).uniq
+    @event.attendees = User.where("andrewid" => params[:position_names]).uniq
     
     @events = Array.new
     @events.push @event
