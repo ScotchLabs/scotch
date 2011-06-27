@@ -16,6 +16,8 @@ var cachedEvents = {}
 var calDebug = true
 var obj // used for debug purposes
 var ajax = {} // map of all open ajax calls, by data (only for group/event pulls)
+var registrar = {} // map of all open loading images
+var revertFunctions = {} // map of all the revert functions
 // When there's an error server-side ExceptionNotifier emails us so the user doesn't have to
 var serverSideErrorMessage = " The developers have been notified. There's not much you can do now but wait for them to fix it."
 
@@ -93,10 +95,9 @@ $(document).ready(function() {
           // make sure this group is not in any open ajax calls for this start/end
           if (ajax[group_id] == undefined) {
             ajaxThese.push(group_id)
-            $("#grouploading_"+group_id).show()
           }
         } else { // found in cache
-          $("#grouploading_"+group_id).show()
+          register("#grouploading_"+group_id,'caches'+start+'e'+end+'g'+group_id,'show')
           debugLog('pulling '+group_id+' events from cache')
           //FIXME traverse cache
           for (l in cachedEvents) {
@@ -110,11 +111,13 @@ $(document).ready(function() {
               eventIds.push(item.id)
             }
           }
-          $("#grouploading_"+group_id).hide()
+          register("#grouploading_"+group_id,'caches'+start+'e'+end+'g'+group_id,'hide')
         }
       }
       url = '/events.json'
       ref = "s"+start+"e"+end+"g"+ajaxThese.join('|')
+      for (i in ajaxThese)
+        register("#grouploading_"+ajaxThese[i],ref,'show')
       ajax[ref] = $.ajax({
         url: url,
         data: {"start":start,"end":end,"group_ids":ajaxThese,"ref":ref},
@@ -129,19 +132,15 @@ $(document).ready(function() {
             cachedEvents[ev.id] = ev
           })
           // reset ajax flag
-          ajax[ref] = undefined
+          ajax[data.ref] = undefined
           for (i in ajaxThese) {
             group_id = ajaxThese[i]
             dates_pulled[group_id].push([start,end])
-            $("#grouploading_"+group_id).hide()
+            register("#grouploading_"+group_id,data.ref,'hide')
           }
         },
         error: function(xhr, status, thrown) {
-          obj = xhr
-          for (i in ajaxThese) {
-            group_id = ajaxThese[i]
-            $("#grouploading_"+group_id).hide()
-          }
+          //TODO hide loading images
           debugLog('error. status: '+status+', thrown: '+thrown)
           errorLog("There was a problem fetching event data."+serverSideErrorMessage)
         }
@@ -342,8 +341,12 @@ function updatePrivacy() { // ex: when a user clicks on "Open", "Closed" or "Lim
 // these functions are more like events than functions
 function updateEvent(event_id,revertFunc) { // fires when events are dragged or resized
   e = cachedEvents[event_id]
-  $("#grouploading_"+e.group_id).show()
+  ref = "update"+event_id+Date.now()
+  register("#grouploading_"+e.group_id,ref,'show')
+  debugLog('storing revert func with reference')
+  revertFunctions[ref] = revertFunc
   data = {
+    ref:ref,
     utf8:$("#new_event [name='utf8']").attr('value'),
     authenticity_token:$("#new_event [name='authenticity_token']").attr('value'),
     id: e.id,
@@ -371,22 +374,21 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     url:'/events/'+e.id+'.json',
     data:data,
     success: function(data) {
-      obj = data
       if (data.errors != undefined) {
         html = "There was a problem with the data that was sent. <br>"
         for (key in data.errors)
           for (i in data.errors[key])
             html += key+" "+data.errors[key][i]+"<br>"
         errorLog(html)
-        $("#grouploading_"+data.errors.group_id).hide()
-      } else {
-        $("#grouploading_"+data.event.group_id).hide()
+        revertFunctions[data.ref]()
       }
+      register("#grouploading_"+data.group_id,data.ref,'hide')
     },
     error: function(xhr, status, thrown) {
+      //TODO hide loading
+      //TODO revert
       debugLog('error. status: '+status+', thrown: '+thrown)
       errorLog("There was a problem sending the data."+serverSideErrorMessage)
-      revertFunc()
     }
   })
 }
@@ -396,7 +398,6 @@ function deleteEvent(event_id) { // fires when user hits the button to delete an
   if (sure) {
     delete cachedEvents[event_id]
     $.ajax({
-      async: true,
       type: 'DELETE',
       url: '/events/'+event_id+'.xml',
       data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')}
@@ -448,7 +449,8 @@ function submit_event_form() { // woo user-generated-content submission!
 
 // these functions relate to Attending
 function attend(isAttending, event_id) { // ex: when you click "I'm attending"
-  $("#attendLoading").show()
+  ref = 'attending'+event_id+Date.now()
+  register("#attendLoading",ref,'show')
   url = ""
   if (isAttending) {
     $("#notAttending").hide()
@@ -458,6 +460,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
     $.ajax({
       type:"POST",
       data: {
+        ref:ref,
         utf8:$("#new_event [name='utf8']").attr('value'),
         authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
       },
@@ -477,15 +480,14 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
           $("#attendingDisabled").hide()
           $("#attending").show()
         }
+        register("#attendLoading",data.ref,'hide')
       },
       error:function(){
+        //TODO hide loading
         $("#attendingDisabled").hide()
         $("#notAttending").show()
         debugLog('error attending '+event_id)
         errorLog('There was a problem submitting the data.'+serverSideErrorMessage)
-      },
-      complete:function(){
-        $("#attendLoading").hide()
       }
     })
   }
@@ -496,6 +498,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
     $.ajax({
       url:url,
       data: {
+        ref:ref,
         utf8:$("#new_event [name='utf8']").attr('value'),
         authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
       },
@@ -504,7 +507,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
         cachedEvents[event_id].currentUserAttending=-1
         $("#notAttendingDisabled").hide()
         $("#notAttending").show()
-        $("#attendLoading").hide()
+        register('#attendLoading',null,'reset')
       }
     })
   }
@@ -512,21 +515,20 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
 }
 function updateAttendees(event_id) {
   debugLog('updating attendees for '+event_id)
-  
-  debugLog('fetching attendees')
-  $("#attendeesLoading").show()
+  ref = 'attendees'+event_id+Date.now()
+  register("#attendeesLoading",ref,'show')
   $.ajax({
+    data:{ref:ref},
     url: "/events/"+event_id+"/event_attendees.json",
     success: function(data){
       debugLog('updating listing')
       $("#attendees").html(attendees_to_str(event_id,data.attendees))
+      register("#attendeesLoading",data.ref,'hide')
     },
     error: function(){
       errorLog("There was an error submitting the data."+serverSideErrorMessage)
       debugLog('update attendees errored')
-    },
-    complete: function(){
-      $("#attendeesLoading").hide()
+      register('#attendeesLoading',null,'reset')
     }
   })
   
@@ -620,6 +622,23 @@ function toggle(group_id) { // called when the user clicks on a group name to de
   // FIXME: there's probably a better way to handle toggling than refetching ALL events
   // but it's sort of moot since all refetching does is ask the cache for more.
   $("#calendar").fullCalendar('refetchEvents')
+}
+function register(imageId,ajaxRef,command) {
+  debugLog("registering image id '"+imageId+"' with ajax reference '"+ajaxRef+"' and command '"+command+"'")
+  if (registrar[imageId] == undefined)
+    registrar[imageId] = {}
+  if (ajaxRef != null)
+    registrar[imageId][ajaxRef] = command
+  else if (ajaxRef == null && command == 'reset')
+    for (ref in registrar[imageId])
+      if (registrar[imageId][ref] == 'show')
+        registrar[imageId][ref] = 'reset'
+  showImg = false
+  for (ref in registrar[imageId])
+    if (registrar[imageId][ref] == 'show')
+      showImg = true
+  if (showImg) eval("$(\""+imageId+"\").show()")
+  else eval("$(\""+imageId+"\").hide()")
 }
 function datesPulled(g,s,e) {
   debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e)

@@ -134,11 +134,20 @@ class EventsController < ApplicationController
       if @event.update_attributes(params[:event])
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
-        format.json { render :json => @event }
+        format.json {
+          json = "{\"group_id\":#{@event.group_id},\n\"event\":"+event_to_json(@event)
+          json += ",\n\"ref\":\""+params[:ref]+"\"" if params[:ref]
+          json += "}"
+          render :json => json
+        }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-        format.json { render :json => {:group_id => @event.group_id, :errors => @event.errors} }
+        format.json {
+          json = {:group_id => @event.group_id, :errors => @event.errors}
+          json[:ref] = params[:ref] if params[:ref]
+          render :json => json
+        }
       end
     end
   end

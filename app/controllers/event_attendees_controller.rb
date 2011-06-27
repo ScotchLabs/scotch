@@ -4,7 +4,10 @@ class EventAttendeesController < ApplicationController
     @event = Event.find(params[:event_id])
     
     respond_to do |format|
-      format.json { render :json => {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| u.name } } }
+      format.json {
+        json = {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| u.name } }
+        json[:ref] = params[:ref] if params[:ref]
+        render :json => json }
     end
   end
   
@@ -16,9 +19,17 @@ class EventAttendeesController < ApplicationController
     
     respond_to do |format|
       if @event_attendee.save
-        format.json { render :json => {:event_attendee => @event_attendee, :username => current_user.name} }
+        format.json {
+          json = {:event_attendee => @event_attendee, :username => current_user.name}
+          json[:ref] = params[:ref] if params[:ref]
+          render :json => json
+        }
       else
-        format.json { render :json => {:errors => @event_attendee.errors } }
+        format.json {
+          json = {:errors => @event_attendee.errors }
+          json[:ref] = params[:ref] if params[:ref]
+          render :json => json
+        }
       end
     end
   end
@@ -33,7 +44,11 @@ class EventAttendeesController < ApplicationController
     
     respond_to do |format|
       format.xml { head :ok }
-      format.json { head :ok }
+      format.json {
+        json = {}
+        json[:ref] = params[:ref] if params[:ref]
+        render :json => json
+      }
     end
   end
 end
