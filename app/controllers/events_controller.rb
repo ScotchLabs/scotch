@@ -154,16 +154,23 @@ class EventsController < ApplicationController
 
   # DELETE /events/1
   # DELETE /events/1.xml
+  # DELETE /events/1.json
   def destroy
     if params[:all]=="1"
       c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
       c.destroy_all
     end
+    event_id = @event.id
     @event.destroy
 
     respond_to do |format|
       format.html { redirect_to(group_events_url(@event.group)) }
       format.xml  { head :ok }
+      format.json {
+        json = {:event_id => event_id}
+        json[:ref] = params[:ref] if params[:ref]
+        render :json => json
+      }
     end
   end
 

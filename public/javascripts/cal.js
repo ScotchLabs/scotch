@@ -14,10 +14,12 @@ var group_positions = {} // keeps track of the positions-holders of each group, 
 var dates_pulled = {} // keeps track of what dateranges we've ajaxed and cached.
 var cachedEvents = {}
 var calDebug = true
+var debugLevel = 3 // hide some debug messages
 var obj // used for debug purposes
 var ajax = {} // map of all open ajax calls, by data (only for group/event pulls)
-var registrar = {} // map of all open loading images
+var registrar = {} // map of all open loading images. controlled by register()
 var revertFunctions = {} // map of all the revert functions
+var watcher = {} // map of all the ajax watchers. controlled by watch()
 // When there's an error server-side ExceptionNotifier emails us so the user doesn't have to
 var serverSideErrorMessage = " The developers have been notified. There's not much you can do now but wait for them to fix it."
 
@@ -35,7 +37,7 @@ $(document).ready(function() {
       newEvent(null, date, allDay)
     },
     eventClick: function(event, jsEvent, view) { // clicking on an event pops up an information view
-      debugLog('showing event '+event.id)
+      debugLog('showing event '+event.id,0)
       // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
       // build information view
       html = "<h1>"+event.title+"</h1>"+
@@ -62,18 +64,18 @@ $(document).ready(function() {
       displayAttending = displayAttending || event.currentUserAttending!=-1
       if (displayAttending) {
         if (event.currentUserAttending != -1) {
-          html+= "<span id='attending'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
-          html+= "<span id='notAttending' class='hidden'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+          html+= "<span id='attending"+event.id+"'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+          html+= "<span id='notAttending"+event.id+"' class='hidden'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
         } else {
-          html+= "<span id='attending' class='hidden'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
-          html+= "<span id='notAttending'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+          html+= "<span id='attending"+event.id+"' class='hidden'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+          html+= "<span id='notAttending"+event.id+"'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
         }
-        html+= "<span id='attendingDisabled' class='hidden' style='color:#ddd'>I'm attending.</span>"
-        html+= "<span id='notAttendingDisabled' class='hidden' style='color:#ddd'>I'm not attending.</span>"
-        html+= "<img id='attendLoading' class='hidden' src='/images/indicator.gif'>"
+        html+= "<span id='attendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm attending.</span>"
+        html+= "<span id='notAttendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm not attending.</span>"
+        html+= "<img id='attendLoading"+event.id+"' class='hidden' src='/images/indicator.gif'>"
       }
       html+="<br>"
-      html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading\" class='hidden' src=\"/images/indicator.gif\">"
+      html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading"+event.id+"\" class='hidden' src=\"/images/indicator.gif\">"
       
       // display the information view
       $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
@@ -98,7 +100,7 @@ $(document).ready(function() {
           }
         } else { // found in cache
           register("#grouploading_"+group_id,'caches'+start+'e'+end+'g'+group_id,'show')
-          debugLog('pulling '+group_id+' events from cache')
+          debugLog('pulling '+group_id+' events from cache',0)
           //FIXME traverse cache
           for (l in cachedEvents) {
             item = cachedEvents[l]
@@ -106,7 +108,7 @@ $(document).ready(function() {
               continue
             // display if not already displayed. should be a redundant measure?
             if ($.inArray(item.id, eventIds) == -1) {
-              debugLog('pushing event from cache')
+              debugLog('pushing event from cache',0)
               $("#calendar").fullCalendar('renderEvent',item)
               eventIds.push(item.id)
             }
@@ -122,7 +124,6 @@ $(document).ready(function() {
         url: url,
         data: {"start":start,"end":end,"group_ids":ajaxThese,"ref":ref},
         success: function(data) {
-          debugLog('success')
           // display and cache
           $.each(data.events, function(k,ev) {
             if ($.inArray(ev.id, eventIds) == -1) {
@@ -138,13 +139,18 @@ $(document).ready(function() {
             dates_pulled[group_id].push([start,end])
             register("#grouploading_"+group_id,data.ref,'hide')
           }
+          watchReg(data.ref,'unwatch','error')
         },
         error: function(xhr, status, thrown) {
-          //TODO hide loading images
           debugLog('error. status: '+status+', thrown: '+thrown)
           errorLog("There was a problem fetching event data."+serverSideErrorMessage)
         }
       })
+      ajax[ref].ref = ref
+      callback = ""
+      for (i in ajaxThese)
+        callback += "register('#grouploading_"+ajaxThese[i]+"','"+ref+"','reset');"
+      watchReg(ref,'watch','error',callback)
     },
     eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) { // triggered when event is dropped and is moved to a DIFFERENT day/time
       // http://arshaw.com/fullcalendar/docs/event_ui/eventDrop/
@@ -343,7 +349,7 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
   e = cachedEvents[event_id]
   ref = "update"+event_id+Date.now()
   register("#grouploading_"+e.group_id,ref,'show')
-  debugLog('storing revert func with reference')
+  debugLog('storing revert func with reference',0)
   revertFunctions[ref] = revertFunc
   data = {
     ref:ref,
@@ -369,7 +375,7 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
     data["event"]["end_time(4i)"]=e.start.getHours(),
     data["event"]["end_time(5i)"]=e.start.getMinutes()
   }
-  $.ajax({
+  a=$.ajax({
     type:'PUT',
     url:'/events/'+e.id+'.json',
     data:data,
@@ -383,25 +389,34 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
         revertFunctions[data.ref]()
       }
       register("#grouploading_"+data.group_id,data.ref,'hide')
+      watchReg(data.ref,'unwatch','error')
     },
     error: function(xhr, status, thrown) {
-      //TODO hide loading
-      //TODO revert
       debugLog('error. status: '+status+', thrown: '+thrown)
       errorLog("There was a problem sending the data."+serverSideErrorMessage)
     }
   })
+  a.ref=ref
+  watchReg(ref,'watch','error',"revertFunctions[\""+ref+"\"]();register('#grouploading_"+e.group_id+"','"+ref+"','hide')")
 }
 function deleteEvent(event_id) { // fires when user hits the button to delete an event
   sure = confirm("Are you sure you want to delete this event?")
   $.colorbox.close()
+  ref = "delete"+event_id+Date.now()
+  register('#groupLoading_'+event_id,ref,'show')
   if (sure) {
     delete cachedEvents[event_id]
-    $.ajax({
+    a=$.ajax({
+      data:{ref:ref},
       type: 'DELETE',
-      url: '/events/'+event_id+'.xml',
-      data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')}
+      url: '/events/'+event_id+'.json',
+      data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')},
+      complete: function(xhr) {
+        data = $.parseJSON(xhr.response)
+        register('#groupLoading_'+data.event_id,data.ref,'hide')
+      }
     })
+    a.ref=ref
   }
   $("#calendar").fullCalendar('refetchEvents')
 }
@@ -415,7 +430,7 @@ function submit_event_form() { // woo user-generated-content submission!
   // prime client-side validation
   $("#newFormError").hide()
   $("#new_event [type='submit']").attr('disabled',true)
-  $.ajax({
+  a=$.ajax({
     url: $("#new_event").attr('action'),
     type: $("#new_event").attr('method'),
     data: $("#new_event").serialize(),
@@ -444,20 +459,21 @@ function submit_event_form() { // woo user-generated-content submission!
       $("#new_event [type='submit']").removeAttr('disabled')
     }
   })
+  a.ref='submitEventForm'
   return false // so that the form is not submitted normally
 }
 
 // these functions relate to Attending
 function attend(isAttending, event_id) { // ex: when you click "I'm attending"
-  ref = 'attending'+event_id+Date.now()
-  register("#attendLoading",ref,'show')
+  ref = 'attending'+Date.now()
+  register("#attendLoading"+event_id,ref,'show')
   url = ""
   if (isAttending) {
-    $("#notAttending").hide()
-    $("#attendingDisabled").show()
+    register("#notAttending"+event_id,ref,'hide')
+    register("#attendingDisabled"+event_id,ref,'show')
     url = "/events/"+event_id+"/event_attendees.json"
     
-    $.ajax({
+    a=$.ajax({
       type:"POST",
       data: {
         ref:ref,
@@ -467,8 +483,9 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       url:url,
       success:function(data){
         if (data.event_attendee == undefined) {
-          $("#attendingDisabled").hide()
-          $("#notAttending").show()
+          register("#notAttending"+data.event_id,data.ref,'show')
+          register("#attendingDisabled"+data.event_id,data.ref,'hide')
+          // this should only happen if function was tampered with
           html = "There was a problem with the data that was sent. <br>"
           for (key in data.errors)
             for (i in data.errors[key])
@@ -476,26 +493,26 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
           errorLog(html)
         } else {
           ea = data.event_attendee.event_attendee
-          cachedEvents[event_id].currentUserAttending=ea.id
-          $("#attendingDisabled").hide()
-          $("#attending").show()
+          cachedEvents[data.event_id].currentUserAttending=ea.id
+          register("#attendingDisabled"+data.event_id,data.ref,'hide')
+          register("#attending"+data.event_id,data.ref,'show')
         }
-        register("#attendLoading",data.ref,'hide')
+        register("#attendLoading"+data.event_id,data.ref,'hide')
+        watchReg(data.ref,'unwatch','error')
       },
       error:function(){
-        //TODO hide loading
-        $("#attendingDisabled").hide()
-        $("#notAttending").show()
         debugLog('error attending '+event_id)
         errorLog('There was a problem submitting the data.'+serverSideErrorMessage)
       }
     })
+    a.ref=ref
+    watchReg(ref,'watch','error',"register('#notAttending"+event_id+"','"+ref+"','show');register('#attendingDisabled"+event_id+"','"+ref+"','hide')")
   }
   else {
-    $("#attending").hide()
-    $("#notAttendingDisabled").show()
+    register("#attending"+event_id,'hide')
+    register("#notAttendingDisabled"+event_id,'show')
     url = "/event_attendees/"+cachedEvents[event_id].currentUserAttending+".json"
-    $.ajax({
+    a=$.ajax({
       url:url,
       data: {
         ref:ref,
@@ -503,27 +520,30 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
         authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
       },
       type:"DELETE",
-      complete:function(){
+      complete:function(data){
+        data = $.parseJSON(data.response)
         cachedEvents[event_id].currentUserAttending=-1
-        $("#notAttendingDisabled").hide()
-        $("#notAttending").show()
-        register('#attendLoading',null,'reset')
+        register("#notAttendingDisabled"+data.event_id,data.ref,'hide')
+        register("#notAttending"+data.event_id,data.ref,'show')
+        register('#attendLoading'+data.event_id,data.ref,'hide')
       }
     })
+    a.ref=ref
   }
   updateAttendees(event_id)
 }
 function updateAttendees(event_id) {
-  debugLog('updating attendees for '+event_id)
+  debugLog('updating attendees for '+event_id,0)
   ref = 'attendees'+event_id+Date.now()
-  register("#attendeesLoading",ref,'show')
-  $.ajax({
+  register("#attendeesLoading"+event_id,ref,'show')
+  a=$.ajax({
     data:{ref:ref},
     url: "/events/"+event_id+"/event_attendees.json",
     success: function(data){
-      debugLog('updating listing')
-      $("#attendees").html(attendees_to_str(event_id,data.attendees))
-      register("#attendeesLoading",data.ref,'hide')
+      debugLog('updating listing',1)
+      $("#attendees").html(attendees_to_str(data.event_id,data.attendees))
+      register("#attendeesLoading"+data.event_id,data.ref,'hide')
+      watchReg(data.ref,'unwatch','error',null)
     },
     error: function(){
       errorLog("There was an error submitting the data."+serverSideErrorMessage)
@@ -531,29 +551,29 @@ function updateAttendees(event_id) {
       register('#attendeesLoading',null,'reset')
     }
   })
-  
-  
+  a.ref=ref
+  watchReg(ref,'watch','error',"register(\"#attendeesLoading\"+event_id,ref,'show')")
 }
 function attendees_to_str(event_id, as) {
   if (as == undefined || as.length == 0) return "none listed."
   str = ""
   str=as[as.length-1]
-  debugLog("str stage 1: "+str)
+  debugLog("str stage 1: "+str,0)
   if (as.length > 1)
     str=as[as.length-2]+" and "+str
-  debugLog("str stage 2: "+str)
+  debugLog("str stage 2: "+str,0)
   if (as.length > 2)
     str = as.slice(0,as.length-2).join(", ")+", "+str
-  debugLog("str stage 3: "+str)
-  debugLog(str)
-  debugLog('attendees_to_str returning '+str)
+  debugLog("str stage 3: "+str,0)
+  debugLog(str,0)
+  debugLog('attendees_to_str returning '+str,0)
   return str
 }
 
 // these functions relate to Invitees
 function populateInvitees() { // populates the new/update event form with this group's position-holders
   $("#position_names").empty()
-  debugLog('populating invitees')
+  debugLog('populating invitees',0)
   html = ""
   group_id = parseInt($("#event_group_id").val())
   $.each(group_positions[group_id], function(i,e) {
@@ -593,7 +613,7 @@ function addInvitees() { // fires when the -> arrow is clicked in the invite peo
 
 // random helper functions
 function toggle(group_id) { // called when the user clicks on a group name to de/select it
-  debugLog('toggling '+group_id)
+  debugLog('toggling '+group_id,0)
   classes = $("#"+group_id).attr('class').split(' ')
   needle=/event_color_([0-9]+)/
   color = -1
@@ -603,16 +623,16 @@ function toggle(group_id) { // called when the user clicks on a group name to de
     if (m != null)
       color = m[1]
   })
-  if (color == -1) debugLog('color not specified')
+  if (color == -1) debugLog('color not specified',0)
   if ($('#'+group_id).attr('selected')=='true') {
-    debugLog('selected -> deselected')
+    debugLog('selected -> deselected',0)
     $('#'+group_id).attr('selected','false')
     $("#"+group_id).removeClass('event_color_'+color)
     $("#"+group_id).addClass('event_color_'+color+'_')
     $("#"+group_id).css("color","#333")
     selectedGroups.splice(selectedGroups.indexOf(group_id),1)
   } else {
-    debugLog('deselected -> selected')
+    debugLog('deselected -> selected',0)
     $('#'+group_id).attr('selected','true')
     $("#"+group_id).removeClass('event_color_'+color+'_')
     $("#"+group_id).addClass('event_color_'+color)
@@ -623,8 +643,8 @@ function toggle(group_id) { // called when the user clicks on a group name to de
   // but it's sort of moot since all refetching does is ask the cache for more.
   $("#calendar").fullCalendar('refetchEvents')
 }
-function register(imageId,ajaxRef,command) {
-  debugLog("registering image id '"+imageId+"' with ajax reference '"+ajaxRef+"' and command '"+command+"'")
+function register(imageId,ajaxRef,command) { // for when loading images correspond to multiple ajax requests
+  debugLog("registering image id '"+imageId+"' with ajax reference '"+ajaxRef+"' and command '"+command+"'",2)
   if (registrar[imageId] == undefined)
     registrar[imageId] = {}
   if (ajaxRef != null)
@@ -640,18 +660,87 @@ function register(imageId,ajaxRef,command) {
   if (showImg) eval("$(\""+imageId+"\").show()")
   else eval("$(\""+imageId+"\").hide()")
 }
+$(document).ajaxComplete(function(e, xhr, settings){
+  watchGo(xhr.ref,'complete')
+})
+$(document).ajaxError(function(e, xhr, settings, exception) {
+  watchGo(xhr.ref,'error')
+})
+$(document).ajaxSuccess(function(e, xhr, settings) {
+  watchGo(xhr.ref,'success')
+})
+function watchReg(ref,command,event,callback) { // for when ajax requests error and we still need to callback
+  /* Usage:
+  xhr: the xhr you want to watch. optional
+    it must have a field ref that contains a unique id
+  ref: the ref of the xhr you want to watch
+  commands:
+    watch   : use this to register a callback to fire when an event happens
+    unwatch : use this with an event to remove the callback, or use with event=null to remove all commands
+  events:
+    complete : ajax request is done, whether it succeeded or errored
+    error    : server doesn't return 200OK
+    success  : server returns 200OK
+  callback:
+    not a real callback, but something to eval. because i don't have internet right now and can't look up how to do callbacks with arguments
+  we don't watch start or stop ajax events because they don't have parameters to identify xhr
+  we don't watch send ajax events because the xhr doesn't have a ref at that point
+  registering a callback will overwrite the previous callback of that command
+  */
+  debugLog("registering watch for '"+ref+"' with command '"+command+"', event '"+event+"' and callback '"+callback+"'",3)
+  if (ref == null || ref == undefined) {
+    debugLog("can't watch without a ref",3)
+    return
+  }
+  
+  
+  if (watcher[ref] == undefined)
+    watcher[ref] = {}
+  if (command == 'watch') {
+    if (!event) {
+      debugLog("can't watch without an event",3)
+      return
+    } else if (!callback) {
+      debugLog("can't watch without a callback",3)
+      return
+    } else {
+      watcher[ref][event] = callback
+    }
+  } else {
+    if (!event)
+      for (event in watcher[ref])
+        watcher[ref][event] = undefined
+    else
+      watcher[ref][event] = undefined
+  }
+}
+function watchGo(ref, event) { // checks for an event callback and executes it, then unwatches it
+  debugLog("executing watch for '"+ref+"', event '"+event+"'",3)
+  if (ref == null || ref == undefined) {
+    debugLog("ajax without ref "+event+"d. hope it wasn't supposed to be watched",3)
+    return
+  } else if (watcher[ref] == undefined) {
+    debugLog("ref isn't being watched",3)
+    return
+  }
+  
+  if (watcher[ref][event]) {
+    eval(watcher[ref][event])
+    watchReg(ref,'unwatch',event,null)
+  }
+}
 function datesPulled(g,s,e) {
-  debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e)
+  debugLog('asking if group '+g+' has dates pulled from '+s+' to '+e,0)
   a = false
   $.each(dates_pulled[g],function(i,el) {
     if (el[0]<=s&&el[1]>=e)
       a = true
   })
-  debugLog(a)
+  debugLog(a,0)
   return a
 }
-function debugLog(s) {
-  if (calDebug) console.log(s)
+function debugLog(s,l) {
+  if (calDebug && (l == undefined || debugLevel <= l)) console.log(s)
 }
 function errorLog(s) {
   $.colorbox({html:"<h1>Oops!</h1>"+s,inline:false,width:'400px'})
