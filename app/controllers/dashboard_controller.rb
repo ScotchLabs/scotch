@@ -16,10 +16,10 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @events }
+      format.xml  { render :xml => @myevents }
       format.ics do 
         ical = new_ical
-        @events.each do |event|
+        @myevents.each do |event|
           ical.add_event(event.to_ical_event)
         end
         render :text => ical.to_ical, :status => 200
