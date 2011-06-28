@@ -138,10 +138,12 @@ class EventsController < ApplicationController
           #TODO better error handling: return errors instead of throwing exceptions
           # low priority because all propagations should at this point validate
           if params[:propagate]
-            c = @event.repeat_parent.repeat_children.where(["start_time > ?",@event.start_time])
-            c.each do |child|
-              child.repeat_id = @event.id
-              child.save!
+            if @event.repeat_parent
+              c = @event.repeat_parent.repeat_children.where(["start_time > ?",@event.start_time])
+              c.each do |child|
+                child.repeat_id = @event.id
+                child.save!
+              end
             end
             @event.repeat_id = nil
             @event.save!
