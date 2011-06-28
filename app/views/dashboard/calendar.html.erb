@@ -1,7 +1,7 @@
 <article>
 <div id='calwrapper'>
   <h1>My Calendar</h1>
-  <div class='fleft'>
+  <div style="position:absolute;top:22px;bottom:0px">
     <%= link_to "http://www.google.com/calendar/render?cid=" + h(dashboard_calendar_url(:format => :ics, :authentication_token => current_user.authentication_token)), :target => "_blank" do %>
       <%= image_tag "http://www.google.com/calendar/images/ext/gc_button6.gif", :border => 0, :id => 'addGoogleImg' %>
     <% end %>
