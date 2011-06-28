@@ -35,6 +35,20 @@ class Event < ActiveRecord::Base
   def repeat_parent
     Event.where(:id => repeat_id).first
   end
+  def propagate(old_event)
+    c=repeat_children
+    c.each do |child|
+      child.title = title
+      child.location = location
+      child.description = description
+      child.all_day = all_day
+      child.privacy_type = privacy_type
+      child.attendee_limit = attendee_limit
+      child.start_time = child.start_time.advance(:seconds => start_time.to_i-old_event.start_time.to_i)
+      child.end_time = child.end_time.advance(:seconds => end_time.to_i-old_event.end_time.to_i)
+      child.save
+    end
+  end
 
   def future?
     start_time.future?

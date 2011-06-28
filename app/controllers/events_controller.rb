@@ -131,7 +131,30 @@ class EventsController < ApplicationController
   # PUT /events/1.json
   def update
     respond_to do |format|
+      old_event = @event.clone
       if @event.update_attributes(params[:event])
+        unless params[:propagate].nil?
+          #TODO better error handling: return errors instead of throwing exceptions
+          # low priority because all propagations should at this point validate
+          if params[:propagate]
+            c = @event.repeat_parent.repeat_children.where(["start_time > ?",@event.start_time])
+            c.each do |child|
+              child.repeat_id = @event.id
+              child.save!
+            end
+            @event.repeat_id = nil
+            @event.save!
+            @event.propagate old_event
+          else
+            c = @event.repeat_children
+            c.each do |child|
+              child.repeat_id = c.first.id
+              child.save!
+            end
+            @event.repeat_id = nil
+            @event.save!
+          end
+        end
         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
         format.json {
@@ -156,9 +179,17 @@ class EventsController < ApplicationController
   # DELETE /events/1.xml
   # DELETE /events/1.json
   def destroy
-    if params[:all]=="1"
-      c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
-      c.destroy_all
+    unless params[:propagate].nil?
+      if params[:propagate]
+        c = @event.repeat_parent.repeat_children.where(["start_time > ?",e.start_time])
+        c.destroy_all
+      else
+        c = @event.repeat_children
+        c.each do |child|
+          child.repeat_id = c.first.id
+          child.save!
+        end
+      end
     end
     event_id = @event.id
     @event.destroy
