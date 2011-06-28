@@ -45,10 +45,10 @@ $(document).ready(function() {
         "<h2>"+event.group+((event.editable)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
       displayAttending = false
       if (!event.allDay) {
-        html += "<b>Starts</b>: "+event.start+"<br>"+
-          "<b>Ends</b>: "+event.end+"<br>"
+        html += "<b>Starts</b>: "+event.formattedStart+"<br>"+
+          "<b>Ends</b>: "+event.formattedEnd+"<br>"
       } else
-        html += "All day "+event.start+"<br>"
+        html += "All day "+event.formattedStart+"<br>"
       html+= "<b>Where</b>: "+event.location+"<br>"
       if (event.privacyType == "closed")
         html += "<b>This event is closed.</b><br>"

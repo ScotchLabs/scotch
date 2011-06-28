@@ -28,8 +28,9 @@ module ApplicationHelper
   #FIXME: implement more things like "less than an hour ago"?
   # this week => "4PM Wednesday"
   # "a few days ago"?
-  def format_time(time)
+  def format_time(time,override=false)
 		return "-" if time.nil?
+		return time.strftime("%I:%M %p on %B %d, %Y") if override
 		format = "%I:%M %p"
 		if time.today?
 		  format += " today"
@@ -42,9 +43,9 @@ module ApplicationHelper
 		else
 		  format += " on %B %d, %Y"
 		end
-		time.strftime(format)
+		time.strftime(format) unless override
   end
-  def format_date(date)
+  def format_date(date,override=false)
 		return "-" if date.nil?
 	  if date.today?
 		  format = "today"

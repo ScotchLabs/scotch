@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include EventsHelper
+  include ApplicationHelper
   
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
