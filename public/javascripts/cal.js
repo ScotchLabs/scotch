@@ -470,8 +470,10 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
   register("#attendLoading"+event_id,ref,'show')
   url = ""
   if (isAttending) {
-    register("#notAttending"+event_id,ref,'hide')
-    register("#attendingDisabled"+event_id,ref,'show')
+    // since there will only be onle of these requests at a time we don't have to register these
+    // this is good because some of them aren't hidden by default, which is the premise of register()
+    $("#notAttending"+event_id).hide()
+    $("#attendingDisabled"+event_id).show()
     url = "/events/"+event_id+"/event_attendees.json"
     
     a=$.ajax({
@@ -484,8 +486,9 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       url:url,
       success:function(data){
         if (data.event_attendee == undefined) {
-          register("#notAttending"+data.event_id,data.ref,'show')
-          register("#attendingDisabled"+data.event_id,data.ref,'hide')
+          // invalid
+          $("#notAttending"+data.event_id).show()
+          $("#attendingDisabled"+data.event_id).hide()
           // this should only happen if function was tampered with
           html = "There was a problem with the data that was sent. <br>"
           for (key in data.errors)
@@ -493,10 +496,11 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
               html += key+" "+data.errors[key][i]+"<br>"
           errorLog(html)
         } else {
+          // valid
           ea = data.event_attendee.event_attendee
           cachedEvents[data.event_id].currentUserAttending=ea.id
-          register("#attendingDisabled"+data.event_id,data.ref,'hide')
-          register("#attending"+data.event_id,data.ref,'show')
+          $("#attendingDisabled"+data.event_id).hide()
+          $("#attending"+data.event_id).show()
         }
         register("#attendLoading"+data.event_id,data.ref,'hide')
         watchReg(data.ref,'unwatch','error')
@@ -507,11 +511,11 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       }
     })
     a.ref=ref
-    watchReg(ref,'watch','error',"register('#notAttending"+event_id+"','"+ref+"','show');register('#attendingDisabled"+event_id+"','"+ref+"','hide')")
+    watchReg(ref,'watch','error',"$('#notAttending"+event_id+"').show();$('#attendingDisabled"+event_id+"').hide()")
   }
   else {
-    register("#attending"+event_id,'hide')
-    register("#notAttendingDisabled"+event_id,'show')
+    $("#attending"+event_id).hide()
+    $("#notAttendingDisabled"+event_id).show()
     url = "/event_attendees/"+cachedEvents[event_id].currentUserAttending+".json"
     a=$.ajax({
       url:url,
@@ -524,8 +528,8 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       complete:function(data){
         data = $.parseJSON(data.response)
         cachedEvents[event_id].currentUserAttending=-1
-        register("#notAttendingDisabled"+data.event_id,data.ref,'hide')
-        register("#notAttending"+data.event_id,data.ref,'show')
+        $("#notAttendingDisabled"+data.event_id).hide()
+        $("#notAttending"+data.event_id).show()
         register('#attendLoading'+data.event_id,data.ref,'hide')
       }
     })
@@ -553,7 +557,7 @@ function updateAttendees(event_id) {
     }
   })
   a.ref=ref
-  watchReg(ref,'watch','error',"register(\"#attendeesLoading\"+event_id,ref,'show')")
+  watchReg(ref,'watch','error',"register(\"#attendeesLoading"+event_id+"\",'"+ref+"','show')")
 }
 function attendees_to_str(event_id, as) {
   if (as == undefined || as.length == 0) return "none listed."
