@@ -23,7 +23,7 @@
           <% events.each do |event| %>
             <li>
             <%= link_to event.group, event.group %>: <%= link_to event, event %>
-            <%= format_time event.start_time %>
+            <%= (event.all_day)? format_date(event.start_time) : format_time(event.start_time) %>
             </li>
           <% end %>
         </ul>
