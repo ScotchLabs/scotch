@@ -16,8 +16,8 @@
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
         <%= f.hidden_field :post_type, :value => "wall" %>
-        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim" %><br>
-        <%= f.text_area :body, :rows => "10", :placeholder => "Message", :class => "placeholder-shim" %><br>
+        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim", :style => "width: 350px; max-width: 500px" %><br>
+        <%= f.text_area :body, :rows => "10", :style => "width: 350px; max-width: 500px", :placeholder => "Message", :class => "placeholder-shim" %><br>
         <small>You can use <%= raw(HelpItem.get("textile").full) %> to format your message!</small><br>
 
         <% if (object.class.name == "Group" && has_permission?("email")) ||
