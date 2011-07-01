@@ -55,6 +55,28 @@
     </div>
     <hr>
     <div class="dashboard-item">
+      <h1>All Active Shows</h1>
+      <% groups = Show.active.all %>
+      <% if groups.count > 0 %>
+      <table style='vertical-align: top'>
+        <% c = 0 %>
+        <% groups.each do |g| %>
+          <% if c%4==0 %>
+          <tr>
+          <% end %>
+          <td style='vertical-align:top'><%= raw as_icon(g, nil) %></td>
+          <% if c%4==3 %>
+          </tr>
+          <% end %>
+          <% c=c+1 %>
+        <% end %>
+      </table>
+      <% else %>
+        There are not any active shows.  Check back soon.
+      <% end %>
+    </div>
+    <hr>
+    <div class="dashboard-item">
       <h1>My Checkouts</h1>
       <% checkouts = current_user.current_checkouts_to %>
       <% if checkouts.count > 0 %>
