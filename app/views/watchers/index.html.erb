@@ -1,5 +1,9 @@
 <article>
+<% if @user == current_user %>
   <h1>My Followed Things</h1>
+<% else %>
+  <h1><%= @user %>'s Followed Things</h1>
+<% end %>
 
   <% @watchers.each do |watcher| %>
     <%= render "#{watcher.item.class.base_class.name.tableize}/as_line_item", :object => watcher.item %>
