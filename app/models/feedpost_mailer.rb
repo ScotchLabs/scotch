@@ -10,9 +10,18 @@ class FeedpostMailer < ActionMailer::Base
 
   def group_notification(feedpost, emails)
     @feedpost = feedpost
-    mail(:bcc => emails,
-         :from => feedpost.user.email,
-         :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
+    if feedpost.parent.class == Show and emails.size < 20
+      mail(:to => emails,
+           :from => "#{feedpost.user.name} <#{feedpost.user.email}>",
+           :cc => "#{feedpost.user.name} <#{feedpost.user.email}>",
+           :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
+    else
+      mail(:bcc => emails,
+           :to => "#{feedpost.parent.name} <noreply@snstheatre.org>",
+           :from => "#{feedpost.user.name} <#{feedpost.user.email}>",
+           :cc => "#{feedpost.user.name} <#{feedpost.user.email}>",
+           :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
+    end
   end
 
 end
