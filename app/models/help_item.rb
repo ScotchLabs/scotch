@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: help_items
+#
+#  id           :integer(4)      not null, primary key
+#  display_text :string(255)
+#  name         :string(255)
+#  anchor       :string(255)
+#  message      :text
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 include HelpItemsHelper
 class HelpItem < ActiveRecord::Base
   validates :display_text, :presence => true

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: positions
+#
+#  id           :integer(4)      not null, primary key
+#  group_id     :integer(4)
+#  role_id      :integer(4)
+#  user_id      :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  display_name :string(255)
+#
+
 class Position < ActiveRecord::Base
 
   belongs_to :user

@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: feedposts
+#
+#  id            :integer(4)      not null, primary key
+#  parent_id     :integer(4)
+#  user_id       :integer(4)
+#  post_type     :string(255)
+#  headline      :string(255)
+#  body          :text
+#  created_at    :datetime
+#  updated_at    :datetime
+#  parent_type   :string(255)
+#  privacy       :string(255)     default("All")
+#  recipient_ids :text
+#
+
 class Feedpost < ActiveRecord::Base
 
   belongs_to :parent, :polymorphic => true

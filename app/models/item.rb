@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: items
+#
+#  id               :integer(4)      not null, primary key
+#  name             :string(255)
+#  location         :string(255)
+#  description      :text
+#  item_category_id :integer(4)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  catalog_number   :string(255)
+#
+
 class Item < Shared::Watchable
   has_many :checkouts
 

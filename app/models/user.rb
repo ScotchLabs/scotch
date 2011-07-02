@@ -1,3 +1,48 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                    :integer(4)      not null, primary key
+#  email                 :string(255)     default(""), not null
+#  encrypted_password    :string(128)     default(""), not null
+#  password_salt         :string(255)
+#  confirmation_token    :string(255)
+#  confirmed_at          :datetime
+#  confirmation_sent_at  :datetime
+#  reset_password_token  :string(255)
+#  remember_token        :string(255)
+#  remember_created_at   :datetime
+#  sign_in_count         :integer(4)      default(0)
+#  current_sign_in_at    :datetime
+#  last_sign_in_at       :datetime
+#  current_sign_in_ip    :string(255)
+#  last_sign_in_ip       :string(255)
+#  first_name            :string(255)
+#  last_name             :string(255)
+#  status                :string(255)
+#  authentication_token  :string(255)
+#  created_at            :datetime
+#  updated_at            :datetime
+#  phone                 :string(255)
+#  home_college          :string(255)
+#  smc                   :string(255)
+#  graduation_year       :string(255)
+#  residence             :string(255)
+#  gender                :string(255)
+#  birthday              :date
+#  public_profile        :boolean(1)      default(TRUE), not null
+#  headshot_file_name    :string(255)
+#  headshot_content_type :string(255)
+#  headshot_file_size    :integer(4)
+#  headshot_updated_at   :datetime
+#  andrewid              :string(255)
+#  majors                :string(255)
+#  minors                :string(255)
+#  other_activities      :string(255)
+#  about                 :text
+#  email_notifications   :boolean(1)      default(TRUE), not null
+#
+
 class User < Shared::Watchable
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper

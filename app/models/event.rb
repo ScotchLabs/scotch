@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                     :integer(4)      not null, primary key
+#  title                  :string(255)
+#  group_id               :integer(4)
+#  start_time             :datetime
+#  end_time               :datetime
+#  location               :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  description            :text
+#  repeat_id              :integer(4)
+#  repeat_frequency       :integer(4)
+#  repeat_period          :string(255)
+#  all_day                :boolean(1)
+#  privacy_type           :string(255)
+#  attendee_limit         :integer(4)
+#  stop_after_occurrences :integer(4)
+#  stop_on_date           :string(255)
+#
+
 class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user

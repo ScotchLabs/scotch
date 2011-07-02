@@ -24,4 +24,5 @@ gem 'acts-as-taggable-on'
 
 group :development do
   gem 'ruby-debug19'
+  gem 'annotate'
 end

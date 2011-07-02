@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: item_categories
+#
+#  id                 :integer(4)      not null, primary key
+#  prefix             :integer(4)
+#  name               :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  parent_category_id :integer(4)
+#
+
 class ItemCategory < ActiveRecord::Base
   # All ICs with "parent_category_id" == this id are subcategories of this
   # when we destroy this, we destroy them too.

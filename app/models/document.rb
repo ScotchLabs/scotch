@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                :integer(4)      not null, primary key
+#  name              :string(255)
+#  group_id          :integer(4)
+#  created_at        :datetime
+#  updated_at        :datetime
+#  file_file_name    :string(255)
+#  file_content_type :string(255)
+#  file_file_size    :integer(4)
+#  file_updated_at   :datetime
+#  description       :text
+#
+
 class Document < ActiveRecord::Base
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper

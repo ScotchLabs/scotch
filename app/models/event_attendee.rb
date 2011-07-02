@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: event_attendees
+#
+#  id         :integer(4)      not null, primary key
+#  event_id   :integer(4)
+#  user_id    :integer(4)
+#  kind       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class EventAttendee < ActiveRecord::Base
   #FIXME: do we need the kind column?
 

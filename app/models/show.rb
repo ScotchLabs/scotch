@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id                 :integer(4)      not null, primary key
+#  name               :string(255)
+#  description        :text
+#  type               :string(255)
+#  parent_id          :integer(4)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  short_name         :string(255)
+#  archive_date       :date
+#  image_file_name    :string(255)
+#  image_content_type :string(255)
+#  image_file_size    :integer(4)
+#  image_updated_at   :datetime
+#
+
 class Show < Group
 
   before_create :set_parent
