@@ -18,6 +18,7 @@
 class Feedpost < ActiveRecord::Base
 
   belongs_to :parent, :polymorphic => true
+  belongs_to :reference, :polymorphic => true
   belongs_to :user
   
   has_many :feedposts, :as => :parent, :dependent => :destroy
@@ -36,7 +37,8 @@ class Feedpost < ActiveRecord::Base
   
   POST_TYPES = [
     ['wall',"Wallpost"],
-    ['comment',"Comment"]
+    ['comment',"Comment"],
+    ['create',"Creation"]
   ]
   
   validates_presence_of :parent, :user, :headline

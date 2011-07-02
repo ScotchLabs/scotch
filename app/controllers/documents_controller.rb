@@ -3,6 +3,8 @@ class DocumentsController < ApplicationController
 
   append_before_filter :get_popular_tags, :only => [:edit, :new]
 
+  append_after_filter :create_feedpost, :only => [:create]
+
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "uploadDocument"
   end
@@ -114,5 +116,16 @@ class DocumentsController < ApplicationController
 
   def get_popular_tags
     @popular_tags = Document.tag_counts_on(:tags).limit(10)
+  end
+
+  def create_feedpost
+    f = Feedpost.new
+    f.post_type = "create"
+    f.user = current_user
+    f.reference = @document
+    f.parent = @document.group
+    f.headline = "uploaded a document"
+    f.body = @document.description
+    f.save
   end
 end

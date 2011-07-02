@@ -4,6 +4,8 @@ class EventsController < ApplicationController
   
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
+  append_after_filter :create_feedpost, :only => [:create]
+
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
   end
@@ -218,5 +220,20 @@ class EventsController < ApplicationController
     if @group.nil? and params.has_key? :event and params[:event].has_key? :group_id then
       @group = Group.find(params[:event][:group_id])
     end
+  end
+
+  def create_feedpost
+    f = Feedpost.new
+    f.post_type = "create"
+    f.user = current_user
+    f.reference = @event
+    f.parent = @event.group
+    if @events.size > 1
+      f.headline = "created events"
+    else
+      f.headline = "created an event"
+    end
+    f.body = @event.description
+    f.save
   end
 end

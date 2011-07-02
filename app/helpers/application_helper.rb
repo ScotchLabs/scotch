@@ -132,6 +132,9 @@ module ApplicationHelper
     when "Group" then group_as_icon(object, text)
     when "Show" then group_as_icon(object, text)
     when "Board" then group_as_icon(object, text)
+    when "Event" then default_icon("event", text)
+    when "Item" then default_icon("item", text)
+    when "Document" then default_icon("document", text)
     else ""
     end
 end
@@ -144,6 +147,11 @@ end
   def group_as_icon(group, text)
     text = group.name if text.nil?
     "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb), :size => "50x50"}<div>#{group}</div></div></a>"
+  end
+
+  def default_icon(type, text)
+    text = "" if text.nil?
+    "<div clas='icon'>#{image_tag "#{type}_icon.png", :size => "50x50"}</div>"
   end
 
   def base_class(object)

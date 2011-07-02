@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110626094848) do
+ActiveRecord::Schema.define(:version => 20110702070438) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "group_id"
@@ -85,8 +85,10 @@ ActiveRecord::Schema.define(:version => 20110626094848) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parent_type"
-    t.string   "privacy",       :default => "All"
+    t.string   "privacy",        :default => "All"
     t.text     "recipient_ids"
+    t.integer  "reference_id"
+    t.string   "reference_type"
   end
 
   add_index "feedposts", ["parent_id", "parent_type"], :name => "index_feedposts_on_parent_id_and_parent_type"
@@ -195,7 +197,7 @@ ActiveRecord::Schema.define(:version => 20110626094848) do
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",   :null => false
     t.string   "encrypted_password",    :limit => 128, :default => "",   :null => false
-    t.string   "password_salt",                        :default => "",   :null => false
+    t.string   "password_salt"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
