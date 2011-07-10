@@ -57,6 +57,16 @@ class Item < Shared::Watchable
   protected 
 
   def generate_catalog_number
+    if self.suffix.nil? or self.suffix.blank?
+      prefix = "%03d" % self.item_category.slug.to_i
+      last_item = Item.where(["catalog_number LIKE ?", "#{prefix}-%"]).order("catalog_number DESC").first
+      unless last_item.nil?
+        self.suffix = last_item.catalog_number[4..6].to_i + 1
+      else
+        self.suffix = 1
+      end
+    end
+
     self.catalog_number = "%03d\-%03d" % [self.item_category.slug.to_i, self.suffix]
   end
 end
