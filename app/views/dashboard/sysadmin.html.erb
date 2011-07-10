@@ -35,7 +35,10 @@
     <%= link_to "Add an item", new_item_path %>
     </li>
     <% if has_global_permission? "adminItemCategories" %>
-      <li><%= link_to "Administer Item Categories", item_categories_path %></li>
+    <li>
+    <%= image_tag "add_icon.png", :size => "12x12" %>
+    <%= link_to "Add Item Category", new_item_category_path %>
+    </li>
     <% end %>
   </ul>
 
