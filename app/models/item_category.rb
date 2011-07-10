@@ -104,7 +104,8 @@ protected
   def parent_category_exists
     return if parent_category_id.nil? or parent_category_id.blank?
     begin
-      ItemCategory.find(parent_category_id)
+      ic = ItemCategory.find(parent_category_id)
+      errors[parent_category_id] << "is not a top-level category" unless ic.parent_category.nil?
     rescue RecordNotFound
       errors[parent_category_id] << "does not correspond to a valid Item Category"
     end
