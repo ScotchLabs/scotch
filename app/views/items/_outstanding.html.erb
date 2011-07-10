@@ -1,0 +1,6 @@
+<article>
+<h1>Outstanding Items</h1>
+<% outstanding_items.each do |item| %>
+  <%= render "items/as_line_item", :object => item, :h3 => "#{item.current_checkout.user} on #{format_date item.current_checkout.checkout_date}" %>
+<% end %>
+</article>

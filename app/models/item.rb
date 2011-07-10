@@ -26,6 +26,8 @@ class Item < Shared::Watchable
 
   attr_accessor :suffix
 
+  scope :outstanding, joins(:current_checkout)
+
   define_index do
     indexes :name
     indexes :location

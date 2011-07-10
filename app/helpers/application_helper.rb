@@ -45,6 +45,7 @@ module ApplicationHelper
   end
   def format_date(date,override=false)
 		return "-" if date.nil?
+    date = date.to_time if date.instance_of? Date
 	  if date.today?
 		  format = "today"
 		elsif date.yesterday?
