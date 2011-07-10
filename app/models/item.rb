@@ -14,7 +14,8 @@
 
 class Item < Shared::Watchable
   has_many :checkouts
-  has_one :current_checkout, :conditions => "checkin_date IS NULL"
+  has_many :past_checkouts, :class_name => "Checkout", :conditions => "checkin_date IS NOT NULL", :order => "created_at DESC"
+  has_one :current_checkout, :class_name => "Checkout",  :conditions => "checkin_date IS NULL", :order => "created_at DESC"
 
   belongs_to :item_category # foreign key item_category_id
 

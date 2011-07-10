@@ -78,7 +78,7 @@
     <hr>
     <div class="dashboard-item">
       <h1>My Checkouts</h1>
-      <% checkouts = current_user.current_checkouts_to %>
+      <% checkouts = current_user.checkouts & Checkout.current %>
       <% if checkouts.count > 0 %>
         <ul>
           <% checkouts.each do |checkout| %>

@@ -282,57 +282,6 @@ class User < Shared::Watchable
     return es
   end
 
-####################
-# CHECKOUT METHODS #
-####################
-  def can_check_out_items_to?(other, group)
-    unless other.class.to_s == "User"
-      #puts "other is not a User"
-      return false
-    end
-    unless ['Group','Show','Board'].include? group.class.to_s
-      #puts "group is not a Group, Show or Board"
-      return false
-    end
-    
-    cs = Permission.fetch "checkoutSelf"
-    co = Permission.fetch "checkoutOther"
-    
-    # if user has checkoutSelf globally, he can check out items to himself in any of his groups
-    return true if has_global_permission? cs and groups.include? group and self == other
-    
-    # if user has checkoutSelf for a group, he can check out items to himself in that group
-    return true if group.permissions_for(self).include? cs and self == other
-    
-    # if user has checkoutOther globally, she can check out items to anyone in any group
-    return true if has_global_permission? co and other.groups.include? group
-    
-    # if user has checkoutOther for a group, she can check out items to anyone in that group
-    return true if group.permission_for(self).include? co and other.groups.include? group
-    
-    return false
-  end
-
-  def allowedToCauseEvent? (event,checkout)
-    return false unless event.class.to_s == 'Array' and checkout.class.to_s == 'Checkout'
-    eventType = event[0]
-    eventList = event[5]
-    
-    return true if eventList.include? 'other' # anyone is allowed to do an 'other' event
-    return true if eventList.include? 'opener' and self == checkout.opener
-    return true if eventList.include? 'owner' and self == checkout.user
-    return false
-  end
-  
-  # FIXME performance
-  def current_checkouts_to
-    checkouts_to.select{|ch| ch.open?}
-  end
-  
-  def current_checkouts_by
-    checkouts_by.select{|ch| ch.open?}
-  end
-
 ###################
 # WATCHER METHODS #
 ###################

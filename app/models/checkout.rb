@@ -20,12 +20,12 @@ class Checkout < ActiveRecord::Base
   belongs_to :user
   belongs_to :item
 
-  attr_protected :opener_id
-
   before_create :set_checkout_date
   
-  validates_presence_of :group, :user, :item, :opener
+  validates_presence_of :user, :item
   validate :item_unavailable, :on => :create
+
+  scope :current, where(:checkin_date => nil)
   
   def open?
     checkin_date.nil?
