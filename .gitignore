@@ -3,3 +3,33 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 config/database.yml
+
+# /
+/client
+/.bundle
+/index
+
+# /config/
+/config/database.yml
+
+# /log/
+/log/development.log
+/log/production.log
+/log/staging.log
+/log/testing.log
+
+# /public/
+/public/system
+/public/st
+
+# /public/images/
+/public/images/*.psd
+
+# /public/javascripts/
+/public/javascripts/all.js
+
+# /public/stylesheets/
+/public/stylesheets/all.css
+
+# /tmp/pids/
+/tmp/pids/server.pid
