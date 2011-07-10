@@ -14,6 +14,7 @@
 
 class Item < Shared::Watchable
   has_many :checkouts
+  has_one :current_checkout, :conditions => "checkin_date IS NULL"
 
   belongs_to :item_category # foreign key item_category_id
 
@@ -31,14 +32,6 @@ class Item < Shared::Watchable
     indexes :catalog_number
   end
   
-  #TODO FIXME using these in lieu of scopes until I figure out how TODO that
-  def self.available_items
-    Item.all.select { |i| i.available? }
-  end
-  def self.unavailable_items
-    Item.all.select {|i| !i.available? }
-  end
-  
   # some item names are super long
   def shortname
     name[0..27]+((name.length>30)? ("..."):(""))
@@ -47,13 +40,6 @@ class Item < Shared::Watchable
   # returns true if item is ready to be checked out
   def available?
     current_checkout.nil?
-  end
-  
-  def current_checkout
-    checkouts.each do |c|
-      return c if c.open?
-    end
-    nil
   end
   
   # sort items by catalog number

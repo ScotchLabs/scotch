@@ -64,9 +64,7 @@ class User < Shared::Watchable
   has_many :event_attendees, :dependent => :destroy
   has_many :events, :through => :event_attendees
 
-  has_many :checkouts_to, :dependent => :destroy, :class_name => "Checkout", :foreign_key => :user_id
-  has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
-  #has_many :checkout_events, :dependent => :destroy #FIXME
+  has_many :checkouts
   
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
