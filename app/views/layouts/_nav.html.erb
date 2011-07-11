@@ -11,7 +11,6 @@
       <li><b><%= link_to @group, @group %><% if @group.archived? %> (archived)<% end %></b></li>
       <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
       <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
-      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
       <li><%= link_to "Documents", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li>
       <% if @group.class.name == "Group" then %>
         <li>
