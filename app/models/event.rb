@@ -69,6 +69,7 @@ class Event < ActiveRecord::Base
       child.attendee_limit = attendee_limit
       child.start_time = child.start_time.advance(:seconds => start_time.to_i-old_event.start_time.to_i)
       child.end_time = child.end_time.advance(:seconds => end_time.to_i-old_event.end_time.to_i)
+      child.attendees = attendees
       child.save
     end
   end

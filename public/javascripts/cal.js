@@ -447,7 +447,7 @@ function submit_event_form() { // woo user-generated-content submission!
     type: $("#new_event").attr('method'),
     data: $("#new_event").serialize(),
     success: function(data, status, xhr) {
-      if (data.events == undefined) {
+      if (data.events == undefined && data.event == undefined) {
         // INVALID INPUT
         $("#newFormError").show()
         $("#pageContainer").animate({"left":"0px"}, "fast")

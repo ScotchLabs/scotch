@@ -136,6 +136,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       old_event = @event.clone
       if @event.update_attributes(params[:event])
+        @event.attendees = User.where("andrewid" => params[:position_names]).uniq
         unless params[:propagate].nil?
           #TODO better error handling: return errors instead of throwing exceptions
           # low priority because all propagations should at this point validate
