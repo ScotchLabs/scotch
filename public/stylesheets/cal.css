@@ -80,7 +80,7 @@
 #event_description {
   height: 59px
 }
-#event_submit {
+#event_submit, #event_submit_2 {
   position:absolute;
   bottom:0;
   left:143.5px;

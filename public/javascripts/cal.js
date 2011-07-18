@@ -220,6 +220,7 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
   $("#_repeat").removeAttr('checked')
   updateRepeat()
   $("#event_submit").attr('value','Create Event')
+  $("#event_submit_2").attr('value','Create Event')
   // page 2, part 1
   $("#event_privacy_type_open").click()
   // page 2, part 2
@@ -254,6 +255,7 @@ function editEvent(event_id) { // populates the form with event's values, displa
   $("#repeat").hide()
   $("#propagate").show()
   $("#event_submit").attr('value','Update Event')
+  $("#event_submit_2").attr('value','Update Event')
   // page 2, part 1
   $("#event_privacy_type_"+e.privacyType).click()
   if (e.privacyType=='limited')

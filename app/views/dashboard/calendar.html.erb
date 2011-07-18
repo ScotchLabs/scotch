@@ -77,9 +77,9 @@
           <div class='clearfix'></div>
           <br><br>
           <div id='newFormError' style="position:absolute;bottom:36px;color:#f90;width:100%;text-align:center" class='hidden'><i>Whoops! The form has errors. Try again?</i></div>
-          <%= f.submit "Create Event", :onclick => 'submit_event_form();return false' %>
+          <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
           <div style="position:absolute;right:0;bottom:2px">
-            <div style='display:inline-block;text-align:right'><a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"-456px"}, "fast")'>Or Invite<br>People First</a></div>
+            <div style='display:inline-block;text-align:right'><a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"-458px"}, "fast")'>Or Invite<br>People First</a></div>
             <div style='display:inline-block;bottom:7px;position:relative;'>&rarr;</div>
           </div>
         </div>
@@ -112,7 +112,7 @@
           </div>
           <div class='clearfix'></div>
           
-          <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
+          <%= f.submit "Create Event", :id => "event_submit_2", :onclick => 'return submit_event_form()' %>
           
           <div style="position:absolute;left:0;bottom:9px">
             &larr; <a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Go Back</a>
