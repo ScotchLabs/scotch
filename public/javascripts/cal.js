@@ -271,6 +271,8 @@ function updateEventTimes(allDay) { // primes the allDay field of the New Event 
     allDay = $("#event_all_day").attr('checked')
   if (allDay) {
     $("#event_all_day").attr('checked',true)
+    $("#start_time_inputs").hide()
+    $("#end_time_inputs").hide()
     $("#event_start_time_4i").attr('disabled',true)
     $("#event_start_time_5i").attr('disabled',true)
     $("#event_end_time_4i").attr('disabled',true)
@@ -282,6 +284,8 @@ function updateEventTimes(allDay) { // primes the allDay field of the New Event 
     $("#event_start_time_5i").removeAttr('disabled')
     $("#event_end_time_4i").removeAttr('disabled')
     $("#event_end_time_5i").removeAttr('disabled')
+    $("#start_time_inputs").show()
+    $("#end_time_inputs").show()
     $("#event_times .at").css('color',"#333")
   }
 }
