@@ -54,6 +54,11 @@
           </div>
           <hr>
           
+          <div id='propagate' class='hidden' style='width:100%;text-align:center'>
+            Change
+            <%= radio_button_tag :propagate, nil, false %> only this event
+            <%= radio_button_tag :propagate, nil, true %> all future events
+          </div>
           <div id='repeat'>
             <div class='fleft' style='margin-right:5px'>
               <%= check_box nil, :repeat, :onchange => "updateRepeat()" %> Repeats every <%= number_field nil, :repeat_frequency, :disabled => true %><%= select nil, :repeat_period, options_for_select(Event.periods), {}, :disabled => true %>

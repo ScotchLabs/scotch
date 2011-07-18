@@ -148,7 +148,7 @@ class FeedpostsController < ApplicationController
       @group.class.name != "Show" ||
       (! has_permission?("email"))
 
-    users = @group.positions.where(:display_name => params[:email_names]).collect{|p| p.user}.uniq
+    users = User.where(:andrewid => params[:email_names]).uniq
 
     @feedpost.recipient_ids = users.collect{|u| u.id}
     @feedpost.save!

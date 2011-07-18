@@ -190,6 +190,8 @@ $(document).ready(function() {
 // these functions manipulate the new event form
 function newEvent(group_id, date, allDay) { // blanks and displays the form
   // blank out the form
+  $("#newFormError").hide()
+  //TODO remove css border-color
   // page 1, part 1
   $("#new_event").attr('action','/events.json')
   $("#new_event").attr('method','post')
@@ -213,6 +215,8 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
     $("#end_time").datetimepicker('setDate', date)
   }
   // page 1, part 3
+  $("#propagate").hide()
+  $("#repeat").show()
   $("#_repeat").removeAttr('checked')
   updateRepeat()
   $("#event_submit").attr('value','Create Event')
@@ -226,6 +230,8 @@ function newEvent(group_id, date, allDay) { // blanks and displays the form
 function editEvent(event_id) { // populates the form with event's values, displays form
   e = cachedEvents[event_id]
   // populate form
+  $("#newFormError").hide()
+  //TODO remove css border-color
   // page 1, part 1
   $("#new_event").attr('action','/events/'+event_id+'.json')
   $("#new_event").attr('method','PUT')
@@ -245,6 +251,8 @@ function editEvent(event_id) { // populates the form with event's values, displa
   // page 1, part 3
   $("#_repeat").removeAttr('checked')
   updateRepeat()
+  $("#repeat").hide()
+  $("#propagate").show()
   $("#event_submit").attr('value','Update Event')
   // page 2, part 1
   $("#event_privacy_type_"+e.privacyType).click()
@@ -252,7 +260,7 @@ function editEvent(event_id) { // populates the form with event's values, displa
     $("#event_attendee_limit").attr('value',e.attendeeLimit)
   // page 2, part 2
   populateInvitees()
-  //TODO when Attending/Attendees is implemented
+  //TODO update invitees with attendees?
   // display form
   $.colorbox({href:"#newEventForm"})
 }
@@ -430,6 +438,7 @@ function submit_event_form() { // woo user-generated-content submission!
   $("#position_names option").attr("selected",true)
   // prime client-side validation
   $("#newFormError").hide()
+  //TODO remove css border-color
   $("#new_event [type='submit']").attr('disabled',true)
   a=$.ajax({
     url: $("#new_event").attr('action'),
@@ -440,9 +449,12 @@ function submit_event_form() { // woo user-generated-content submission!
         // INVALID INPUT
         $("#newFormError").show()
         $("#pageContainer").animate({"left":"0px"}, "fast")
-        for (i in data) {
-          $("#event_"+i).css('border-color','#f90')
+        for (i in data.errors) {
+          if (i != "start_time" && i != "end_time")
+            i="event_"+i
+          $("#"+i).css('border-color','#f90')
         }
+        obj = data
       } else {
         // VALID INPUT
         for (i in data.events) {
@@ -560,6 +572,9 @@ function updateAttendees(event_id) {
   watchReg(ref,'watch','error',"register(\"#attendeesLoading"+event_id+"\",'"+ref+"','show')")
 }
 function attendees_to_str(event_id, as) {
+  temp = []
+  as = as.map(function(e){temp.push(e.name)})
+  as = temp
   if (as == undefined || as.length == 0) return "none listed."
   str = ""
   str=as[as.length-1]

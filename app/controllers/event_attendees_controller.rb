@@ -5,7 +5,7 @@ class EventAttendeesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        json = {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| u.name } }
+        json = {"event_id" => @event.id, "attendees" => @event.attendees.map{|u| {:name => u.name, :andrewid => u.andrewid} } }
         json[:ref] = params[:ref] if params[:ref]
         render :json => json }
     end

@@ -124,7 +124,7 @@ class EventsController < ApplicationController
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-        format.json { render :json => @event.errors }
+        format.json { render :json => {:errors => @event.errors } }
       end
     end
   end

@@ -158,8 +158,7 @@ function submit_feedpost() {
     var email_names = []
     if ($("#email_names")[0] != undefined)
       for (i=0; i<$("#email_names")[0].options.length; i++)
-        if ($("#email_names")[0].options[i].selected)
-          email_names.push($("#email_names")[0].options[i].value)
+        email_names.push($("#email_names")[0].options[i].value)
     // request page
     $.ajax({
       type: 'post', 
@@ -194,6 +193,34 @@ function submit_feedpost_error() {
   $("#postform input[type='submit']").removeAttr('disabled')
   $("#submitting").hide()
   $("#error_submitting").show()
+}
+function filterInvitees() { // fires when a filter is clicked in the new/update event invite form
+  if ($("#filter_select :selected")[0]!=undefined) {
+    key=$("#filter_select :selected")[0].value
+    html=""
+    $.each(positions, function(i,e) {
+      if (e.name==key) {
+        $.each(e.positions, function(j,p) {
+          html += "<option value=\""+p.andrewid+"\">"+p.user_name+" ("+p.position+")</option>"
+        })
+      }
+    })
+    $("#position_select").html(html)
+    $("#position_select option").attr("selected",true)
+  }
+}
+function addInvitees() { // fires when the -> arrow is clicked in the invite people form
+  // move selected names from the middle select box
+  $("#email_names").append($("#position_select :selected").clone())
+  // move searched names from the text input
+  v=$("#user_identifier").attr('value')
+  if (v!="") {
+    // pull andrew id
+    a=v.match(/([a-z]+)\@/)[1]
+    html="<option value='"+a+"'>"+v+"</option>"
+    $("#email_names").html($("#email_names").html()+html)
+    $("#user_identifier").attr('value','')
+  }
 }
 
 /***************
@@ -246,9 +273,4 @@ function blur_comment(post_id) {
     $('#'+post_id+" textarea").attr('rows','2')
     $('#'+post_id+" [type='submit']").hide()
   }
-}
-
-function clearEmailNames() {
-  for (i=0; i<$("#email_names")[0].options.length; i++)
-    $("#email_names")[0].options[i].selected = false
 }

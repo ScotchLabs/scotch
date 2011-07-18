@@ -32,7 +32,7 @@
     <%= f.text_area :description, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :attendee_ids, "Attendees" %> (leave blank for all)<br>
+    <%= f.label :attendee_ids, "Attendees" %><br>
     <%= select_tag :position_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
   </div>
   <div class="actions">
