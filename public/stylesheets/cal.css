@@ -48,12 +48,12 @@
 
 /* 200 Colorbox popup */
 #newEventForm {
-  width: 455px;
+  width: 459px;
   overflow: hidden;
   position: relative;
 }
 .newEventForm_page {
-  width: 455px;
+  width: 459px;
   height: 393px;
   float: left;
   display: inline;
@@ -61,7 +61,7 @@
 }
 #pageContainer {
   position: relative;
-  width: 910px;
+  width: 918px;
 }
 #event_title {
   max-width: 452px;
