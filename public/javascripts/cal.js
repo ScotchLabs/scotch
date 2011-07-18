@@ -248,7 +248,7 @@ function editEvent(event_id) { // populates the form with event's values, displa
   if (e.end != null)
     $("#end_time").datetimepicker('setDate',e.end)
   else // fc seems to null end_time when it's equal to start_time
-    $("#start_time").datetimepicker('setDate',e.start)
+    $("#end_time").datetimepicker('setDate',e.start)
   // page 1, part 3
   $("#_repeat").removeAttr('checked')
   updateRepeat()
