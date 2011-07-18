@@ -10,22 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110702070438) do
+ActiveRecord::Schema.define(:version => 20110710005616) do
 
   create_table "checkouts", :force => true do |t|
-    t.integer  "group_id"
     t.integer  "user_id"
     t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "opener_id"
     t.date     "checkout_date"
     t.date     "checkin_date"
-    t.date     "due_date"
     t.text     "notes"
   end
 
-  add_index "checkouts", ["group_id"], :name => "index_checkouts_on_group_id"
   add_index "checkouts", ["item_id"], :name => "index_checkouts_on_item_id"
   add_index "checkouts", ["user_id"], :name => "index_checkouts_on_user_id"
 
@@ -197,7 +193,7 @@ ActiveRecord::Schema.define(:version => 20110702070438) do
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",   :null => false
     t.string   "encrypted_password",    :limit => 128, :default => "",   :null => false
-    t.string   "password_salt"
+    t.string   "password_salt",                        :default => "",   :null => false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
