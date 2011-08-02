@@ -6,8 +6,8 @@ class SimplifyInventory < ActiveRecord::Migration
   end
 
   def self.down
-    add_rolumn :checkouts, :opener_id, :integer
-    add_rolumn :checkouts, :group_id, :integer
-    add_rolumn :checkouts, :due_date, :date
+    add_column :checkouts, :opener_id, :integer
+    add_column :checkouts, :group_id, :integer
+    add_column :checkouts, :due_date, :date
   end
 end
