@@ -9,7 +9,16 @@
 # data.  In the future, perhaps some of these sanitation actions should occur
 # on load time.
 
+c = ActiveRecord::Base.connection
+c.add_column :checkouts, :opener_id, :integer
+c.add_column :checkouts, :group_id, :integer
+c.add_column :checkouts, :due_date, :date
+
 SerializationHelper::Base.new(YamlDb::Helper).load "db/data.yml.gz"
+
+c.remove_column :checkouts, :opener_id
+c.remove_column :checkouts, :group_id
+c.remove_column :checkouts, :due_date
 
 User.all.each do |u|
   u.password = "123456"
