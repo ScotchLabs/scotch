@@ -41,6 +41,7 @@ GEM
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
+    digest-whirlpool (1.0.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     htmlentities (4.3.0)
@@ -111,6 +112,7 @@ DEPENDENCIES
   acts-as-taggable-on
   annotate
   devise
+  digest-whirlpool
   htmlentities
   icalendar
   mysql
