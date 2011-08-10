@@ -7,9 +7,11 @@ module Devise
 
       def valid_password?(password)
         if self.password_salt.length == 32
+          logger.info "Using SOTW Password."
           str = [self.password_salt, password].flatten.compact.join
           if ::Digest::Whirlpool.hexdigest(str) == self.encrypted_password
             ## authenticated; now convert to bcrypt password
+            self.password_salt = nil
             self.password = password
             self.save(false)
             return true
@@ -18,6 +20,7 @@ module Devise
             return false
           end
         else
+          logger.info "Using BCrypt Password."
           bcrypt_valid_password?(password)
         end            
       end
