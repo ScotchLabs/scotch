@@ -114,7 +114,7 @@ class User < Shared::Watchable
     where 'public_profile = 1'
   end
 
-  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
+  validates_presence_of :first_name, :last_name, :encrypted_password, :andrewid
 
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
