@@ -35,7 +35,7 @@ class Document < ActiveRecord::Base
   # FIXME use :hash in the url when it works again
   has_attachment :file,
     :default_url => nil,
-		:file_name => 'documents/:id_partition/:basename:extension'
+		:file_name => 'documents/:id_partition/:basename.:extension'
 
   validates_attachment_size :file, :less_than => 15.megabytes,
     :message => "must be less than 15 megabytes",
