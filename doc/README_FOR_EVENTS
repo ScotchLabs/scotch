@@ -1,0 +1,36 @@
+README FOR EVENTS
+important documents/locations:
+
+Controllers (/app/controllers/):
+dashboard_controller.rb
+event_attendees_controller.rb
+events_controller.rb
+
+Helpers (/app/helpers/):
+events_helper.rb
+
+Models (/app/models/):
+event_attendee.rb
+event.rb
+group.rb
+user.rb
+
+Views (/app/views/):
+/dashboard/calendar.html.erb
+/events/
+/groups/_as_calendar.html.erb
+
+Scripts (/public/javascripts/):
+cal.js
+fullcalender.min.js
+jquery-ui-timepicker-addon.js
+
+Styles (/public/stylesheets/):
+cal.css
+fullcalendar.css
+jui-base.css
+jui-custom.css
+
+Other:
+/config/routes.rb
+/public/images/jui

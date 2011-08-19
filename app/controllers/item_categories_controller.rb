@@ -9,6 +9,8 @@ class ItemCategoriesController < ApplicationController
   def index
     @item_categories = ItemCategory.parent_categories_with_item_count
 
+    @outstanding_items = Item.outstanding.all
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @item_categories }

@@ -30,9 +30,14 @@ class FeedpostsController < ApplicationController
     @feedpost = Feedpost.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+        if params[:ajax]
+          render :html => @feedpost, :layout => false
+        else
+          render :html => @feedpost
+        end
+      }# show.html.erb
       format.xml  { render :xml => @feedpost }
-      format.text # show.text.erb
     end
   end
 
@@ -43,6 +48,7 @@ class FeedpostsController < ApplicationController
     @feedpost.user_id = current_user.id
     @feedpost.parent_id = params[:feedpost][:parent_id]
     @feedpost.parent_type = params[:feedpost][:parent_type]
+    @feedpost.document_id = params[:document_id] if params[:document_id]
 
     respond_to do |format|
       if @feedpost.save
@@ -54,7 +60,7 @@ class FeedpostsController < ApplicationController
         else
           redirect = @feedpost
           redirect = @feedpost.parent if @feedpost.parent_type == "Feedpost"          
-          format.html { redirect_to(url_for(:action => :show, :format => :text, :id => redirect.id)) }
+          format.html { redirect_to(url_for(:action => :show, :id => redirect.id, :ajax => true)) }
         end
       else
         unless params[:ajax]
@@ -142,7 +148,12 @@ class FeedpostsController < ApplicationController
       @group.class.name != "Show" ||
       (! has_permission?("email"))
 
-    emails = @group.positions.where(:display_name => params[:email_names]).collect{|p| p.user.email}.uniq
+    users = User.where(:andrewid => params[:email_names]).uniq
+
+    @feedpost.recipient_ids = users.collect{|u| u.id}
+    @feedpost.save!
+
+    emails = users.collect{|u| u.email}
 
     logger.info "sending show notification to #{emails.inspect}"
 

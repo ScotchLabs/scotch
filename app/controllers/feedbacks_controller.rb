@@ -7,7 +7,13 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(params[:feedback])
     @feedback.email = current_user.email
     if @feedback.valid?
+      initial_state = ActionMailer::Base.perform_deliveries
+      ActionMailer::Base.perform_deliveries = true
+      begin
       FeedbackMailer.deliver_feedback(@feedback)
+      rescue
+      end
+      ActionMailer::Base.perform_deliveries = initial_state
       flash[:notice] = "Thank you for your feedback!"
       redirect_to dashboard_index_path
     else

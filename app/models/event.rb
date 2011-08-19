@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                     :integer(4)      not null, primary key
+#  title                  :string(255)
+#  group_id               :integer(4)
+#  start_time             :datetime
+#  end_time               :datetime
+#  location               :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  description            :text
+#  repeat_id              :integer(4)
+#  repeat_frequency       :integer(4)
+#  repeat_period          :string(255)
+#  all_day                :boolean(1)
+#  privacy_type           :string(255)
+#  attendee_limit         :integer(4)
+#  stop_after_occurrences :integer(4)
+#  stop_on_date           :string(255)
+#
+
 class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
   has_many :attendees, :through => :event_attendees, :source => :user
@@ -5,34 +28,49 @@ class Event < ActiveRecord::Base
   belongs_to :group
 
   attr_protected :group_id
-
-  #TODO: validate that start_time and end_time are sane
-  #TODO: validate on creation that event is in the future
+  
+  PERIODS = [
+    ['Minutes','minutes'],
+    ['Hours','hours'],
+    ['Days','days'],
+    ['Weeks','weeks'],
+    ['Months','months'],
+    ['Years','years']
+  ]
+  
   validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
+  validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
+  validate :repeat_id_is_sane
+  validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
+  
+  
+  def self.periods
+    PERIODS.clone
+  end
 
   scope :future, where("end_time > NOW()")
 
-  def self.create_audition(group,count,length,signups,params)
-    time = nil
-    es = []
-    count.times do
-      e = self.new(params)
-      e.group = group
-
-      if (time == nil)
-        time = e.start_time
-      else
-        e.start_time = time
-      end
-      time += length.minutes
-      e.end_time = time
-
-      e.save!
-
-      signups.times do
-        e.event_attendees.create
-      end
+  def repeat_children
+    Event.where(:repeat_id => id)
+  end
+  def repeat_parent
+    Event.where(:id => repeat_id).first
+  end
+  def propagate(old_event)
+    c=repeat_children
+    c.each do |child|
+      child.title = title
+      child.location = location
+      child.description = description
+      child.all_day = all_day
+      child.privacy_type = privacy_type
+      child.attendee_limit = attendee_limit
+      child.start_time = child.start_time.advance(:seconds => start_time.to_i-old_event.start_time.to_i)
+      child.end_time = child.end_time.advance(:seconds => end_time.to_i-old_event.end_time.to_i)
+      child.attendees = attendees
+      child.save
     end
   end
 
@@ -52,22 +90,27 @@ class Event < ActiveRecord::Base
     ievent = Icalendar::Event.new
     ievent.start = start_time.to_datetime
     ievent.end = end_time.to_datetime
-    ievent.dtstamp = updated_at.to_datetime
+    ievent.dtstamp = created_at.to_datetime
     ievent.summary = title
     ievent.description = (description or "")
-    ievent.location = location
-    ievent.uid = "event-#{id}-#{updated_at.strftime('%s')}"
+    ievent.uid = "event-#{id}"
     return ievent
   end
   def <=>(other)
     start_time <=> other.start_time
   end
-  
+  def className
+    group.className
+  end
 protected
 
   def times_are_sane
-    errors[:start_time] << "cannot be in the past" if start_time.past?
-    errors[:end_time] << "cannot be before start time" if end_time <= start_time
+    errors[:start_time] << "cannot be in the past" if start_time and start_time.past?
+    errors[:end_time] << "cannot be before start time" if end_time and end_time < start_time
+  end
+  
+  def repeat_id_is_sane
+    errors[:repeat_id] << "points to an invalid Event" if repeat_id and !Event.find(repeat_id)
   end
 
 end

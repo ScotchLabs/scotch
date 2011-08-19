@@ -9,9 +9,7 @@ module HelpItemsHelper
     
     # defaults
     p = Hash.new
-    p[:inline] = true
     p[:href] = "\"##{anchor}\""
-    p[:transition] = '"none"'
     p[:width] = '"25%"'
     
     # override defaults / add params

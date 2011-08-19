@@ -1,8 +1,0 @@
-<article>
-<h1>New checkout for <% if @group %>Group "<%= @group.name %>"<% else %>Item "<%= @item.name %>"<% end %></h1>
-
-<%= render 'form' %>
-
-<br>
-<% if @item %><%= link_to "Back to #{@item}", item_checkouts_path(@item) %><% end %>
-</article>

@@ -1,0 +1,14 @@
+<%
+#defaults
+object = object
+image = image
+
+#model-specific
+link = url_for(object) unless link
+h2 = object.to_s unless h2
+p = object.description unless p
+href = url_for(object) unless href
+image = image_tag("document_icon.png", :size => "50x50") unless image
+%>
+
+<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :p => p, :image => image %>

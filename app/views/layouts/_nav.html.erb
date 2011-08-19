@@ -3,6 +3,7 @@
   <li><%= link_to "Calendar", dashboard_calendar_path, :class => nav_class(dashboard_calendar_path) %></li>
   <li><%= link_to "Groups", groups_path, :class => nav_class(groups_path) %></li>
   <li><%= link_to "Inventory", item_categories_path, :class => nav_class(item_categories_path) %></li>
+  <li><%= link_to "Documents", documents_path, :class => nav_class(documents_path) %></li>
   <li><%= link_to "Members", users_path, :class => nav_class(users_path) %></li>
   <% if @group && ! @group.new_record? %>
   <div id='subnav'>
@@ -10,7 +11,7 @@
       <li><b><%= link_to @group, @group %><% if @group.archived? %> (archived)<% end %></b></li>
       <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
       <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
-      <li><%= link_to "Checkouts", group_checkouts_path(@group), :class =>  nav_class(group_checkouts_path(@group)) %></li>
+      <li><%= link_to "Documents", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li>
       <% if @group.class.name == "Group" then %>
         <li>
         <% if @group.users.include? current_user then %>

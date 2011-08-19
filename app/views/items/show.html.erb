@@ -16,34 +16,46 @@
 
   <h2>Description</h2>
   <%= @item.description %>
-  <p>
-  <% if @item.available? and (has_permission? "checkoutSelf" or has_permission? "checkoutOther")-%>
-    <%= link_to 'Check out this item!', new_item_checkout_path(@item) -%>
-  <% elsif @item.available? %>
-    Sorry, you don't have permission to check this item out.
-  <% else %>
-    This item is currently checked out to <%= link_to @item.current_checkout.user, @item.current_checkout.user %> for <%= link_to @item.current_checkout.group, @item.current_checkout.group %>. <!-- #TODO FIXME there must be a prettier way to do this -->
-    <% if @item.current_checkout.has_deadline? %>Due back on <%= format_date @item.current_checkout.deadline %>.<% end %>
-    <%= link_to "View Checkout", @item.current_checkout %>
-  <% end %>
-  </p>
 </article>
+
 <article>
-  <h1>Recent Checkouts</h1>
-  <p>
-  <% if @checkouts.empty? %>
-  No checkouts here!
-  <% else %>
-  <% @checkouts.each do |checkout| %>
-  <%= link_to checkout.opener, checkout.opener %> checked it out
-  <% if checkout.opener != checkout.user %>
-    to <%= link_to checkout.user, checkout.user %> 
-  <% end %>for
-  <%= link_to checkout.group, checkout.group %> on <!-- #TODO FIXME there must be a prettier way to do this -->
-  <%= format_time checkout.created_at %>. <%= link_to "View Checkout", @item.current_checkout %><br>
+<% if @item.current_checkout.nil? %>
+  <h1>Checkout Item</h1>
+  <%= form_for(@checkout) do |f| %>
+    <%= f.hidden_field :item_id, :value => @item.id %>
+
+    <div class="field">
+      Notes:<br>
+      <%= f.text_area :notes, :cols => 60, :rows => 3 %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Checkout Item" %>
+    </div>
   <% end %>
-  <p><%= link_to 'View All Checkouts', item_checkouts_path(@item) %></p>
+<% else %>
+  <h1>Current Checkout</h1>
+  <%= render @item.current_checkout %>
+  <hr>
+  <%= form_for(@item.current_checkout) do |f| %>
+    <div class="field">
+      Checkin Notes:<br>
+      <%= text_area_tag :additional_notes, "", :cols => 60, :rows => 3 %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Checkin Item" %>
+    </div>
   <% end %>
-  </p>
+<% end %>
 </article>
+
+<article>
+  <h1>Past Checkouts</h1>
+  <% if @item.past_checkouts.empty? %>
+    No checkouts here!
+  <% else %>
+    <%= render @item.past_checkouts %>
+  <% end %>
+</article>
+
 <%= render "shared/feedposts", :object => @item %>

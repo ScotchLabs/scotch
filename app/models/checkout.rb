@@ -1,20 +1,31 @@
+# == Schema Information
+#
+# Table name: checkouts
+#
+#  id            :integer(4)      not null, primary key
+#  group_id      :integer(4)
+#  user_id       :integer(4)
+#  item_id       :integer(4)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  opener_id     :integer(4)
+#  checkout_date :date
+#  checkin_date  :date
+#  due_date      :date
+#  notes         :text
+#
+
 class Checkout < ActiveRecord::Base
-  has_many :checkout_events, :dependent => :destroy
-  
-  # the person the item was checked out BY
-  belongs_to :opener, :class_name => "User"
   # the person the item was checked out TO
   belongs_to :user
-  belongs_to :group
   belongs_to :item
-
-  attr_protected :opener_id
 
   before_create :set_checkout_date
   
-  validates_presence_of :group, :user, :item, :opener
-  #validate :user_in_group, :on => :create
+  validates_presence_of :user, :item
   validate :item_unavailable, :on => :create
+
+  scope :current, where(:checkin_date => nil)
   
   def open?
     checkin_date.nil?
@@ -24,12 +35,8 @@ class Checkout < ActiveRecord::Base
     DateTime.zone.now > due_date
   end
   
-  def has_deadline?
-    not due_date.nil?
-  end
-  
   def to_s
-    "#{user} checked out #{item} for #{group}"
+    "#{user} checked out #{item}"
   end
 
   def item_catalog_number
@@ -41,9 +48,6 @@ class Checkout < ActiveRecord::Base
   end
   
 private
-  def user_in_group
-    errors[:user] << "is not in group #{group}" unless user.active_groups.include? group
-  end
   
   def item_unavailable
     errors[:item] << "is already checked out" unless item.available?

@@ -8,31 +8,79 @@
 				}
 			</script>
       <a class='button' onclick='return newPost(this);'>New Post</a>
+
+      <%# NOTE: If you change this form you will likely need to update submit_feedpost() in walls.js %>
 			<div id='postform' style='display:none'>
 			<h2>New Post</h2>
       <%= form_for(Feedpost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
         <%= f.hidden_field :parent_type, :value => object.class.to_s %>
         <%= f.hidden_field :parent_id, :value => object.id.to_s %>
         <%= f.hidden_field :post_type, :value => "wall" %>
-        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim" %><br>
-        <%= f.text_area :body, :rows => "10", :placeholder => "Message", :class => "placeholder-shim" %><br>
-        <small>You can use <%= raw(HelpItem.get("textile").full) %> in your message!</small><br>
+        <%= f.text_field :headline, :placeholder => "Subject", :class => "placeholder-shim", :style => "width: 350px; max-width: 500px" %><br>
+        <%= f.text_area :body, :rows => "10", :style => "width: 350px; max-width: 500px", :placeholder => "Message", :class => "placeholder-shim" %><br>
+        <small>You can use <%= raw(HelpItem.get("textile").full) %> to format your message!</small><br>
 
         <% if (object.class.name == "Group" && has_permission?("email")) ||
               (object.class.name == "Board" && object.users.include?(current_user)) then %>
           <%= check_box_tag "email", "email" %>
-	  <%= label_tag "email", "Send an email notification to all users who follow this group and have notifications turned on." %><br>
+	        <%= label_tag "email", "Send an email notification." %><br>
         <% elsif object.class.name == "Show" && has_permission?("email") then %>
           <%= label_tag :email_names, "Notify these positions via email" %><br>
-	  <%= select_tag :email_names, options_for_select(@group.positions.sort.collect{|p| p.display_name}.uniq), :multiple => true, :size => 6 %><br>
+	        <div>
+            <div class='fleft' style='display: inline-block;'>
+              Filter your selection:<br>
+              <%= select_tag :filter_select, options_for_select(@group.calendar_positions.map{|g| g[:name]}), :multiple => false, :size => 6, :onchange => "filterInvitees()" %>
+            </div>
+            <div class='fleft' style='display: inline-block;'>
+              Select names:<br>
+              <%= select_tag :position_select, nil, :multiple => true, :size => 6, :style => "height: 112px" %><br>
+              <%= text_field_tag :user_identifier, nil, :style => "width: 127px", :placeholder => "Search by name", :class => "placeholder-shim" %>
+            </div>
+            <div id='invitee_buttons' class='fleft'>
+              <a class='cal_invitee_button button smallbutton' href="javascript:void(0)" onclick='addInvitees()'>&rarr;</a><br>
+              <a class='cal_invitee_button button smallbutton' href="javascript:void(0)" onclick='$("#email_names :selected").remove()'>&larr;</a>
+            </div>
+          </div>
+          <div class='fleft' style="display: inline-block; width: 143px">
+            People you're inviting:<br>
+            <%= select_tag :email_names, nil, :multiple => true, :size => 6 %><br>
+          </div>
+          <div class='clearfix'></div>
+          <style type='text/css'>
+            #filter_select, #position_select, #user_identifier, #email_names {
+              width:139px;
+            }
+            #filter_select, #email_names {
+              height:142px;
+            }
+            #invitee_buttons {
+              margin-top: 61px;
+            }
+          </style>
+          <script type='text/javascript'>positions = <%=raw @group.calendar_positions.to_json %></script>
         <% end %>
 
-        <%= f.submit "Post!" %>
+        <% if object.kind_of? Group %>
+          <%= f.label :privacy, "Post Privacy" %>: 
+          <% privacy_options = [["All users", "All"], ["Members of this group", "Group"]]
+             privacy_options << ["Recipients of the email", "Recipients"] if object.class.name == "Show"
+             privacy_options << ["Only site administrators", "Hidden"] 
+          %>
+          <%= f.select :privacy, options_for_select(privacy_options) %>
+          <br>
+          <%# FIXME: this should be an autocomplete %>
+          <%= label_tag :document_id, "Attach Document" %>: 
+          <%= select_tag :document_id, raw("<option>-</option>") + options_from_collection_for_select(Document.where(:group_id => object.id), :id, :name) %>
+          <br>
+        <% end %>
+
+        <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
         <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
         <span class='hidden' id='error_submitting'>Error. Try again?</span>
         <span class='hidden' id='post_invalid'>You need to write something!</span>
       <% end %>
 			</div>
+
       <div id='feedposts'>
       <% for post in object.feedposts.recent %>
         <%= render "feedposts/" + post.post_type, :post => post %>

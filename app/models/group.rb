@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id                 :integer(4)      not null, primary key
+#  name               :string(255)
+#  description        :text
+#  type               :string(255)
+#  parent_id          :integer(4)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  short_name         :string(255)
+#  archive_date       :date
+#  image_file_name    :string(255)
+#  image_content_type :string(255)
+#  image_file_size    :integer(4)
+#  image_updated_at   :datetime
+#
+
 class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
@@ -9,7 +28,6 @@ class Group < Shared::Watchable
   has_many :users, :through => :positions
 
   belongs_to :parent, :class_name => "Group"
-
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
@@ -38,6 +56,16 @@ class Group < Shared::Watchable
 
   scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
   scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
+
+  # sets model_name for all subclasses to be "Group"
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Group.model_name
+      end
+    end
+    super
+  end
 
   # Return the system group, a "special" group defined as having an ID of 1.
   # The system group is used to assign permissions to the webmaster and other
@@ -91,8 +119,13 @@ class Group < Shared::Watchable
   end
 
   def user_has_permission?(user,permission)
-    permissions_for(user).include?(permission)||
-      permissions_for(user).include?(Permission.fetch("superuser"))
+    perms = permissions_for(user)
+    perms.include?(permission) || perms.include?(Permission.fetch("superuser"))
+  end
+
+  def user_is_superuser?(user)
+    perms = permissions_for(user)
+    perms.include?(Permission.fetch("superuser"))
   end
 
   def to_s
@@ -108,6 +141,24 @@ class Group < Shared::Watchable
 
   def member_positions
     positions.group_by{|p| p.user}.collect{|u,ps| [u,ps.sort]}
+  end
+
+  def calendar_positions
+    # this method provides the positions of a group, as filtered for the user selection form
+    a=[]
+    a.push({:name=>"Board of Directors",:positions=>Board.directors.positions.map{|e| e.simple}.compact})
+    # if the group is a Board then all members are in some filter already
+    # if the group is a Show then the following filters will be applied
+    #   (this is the super call):
+    #   role.name=~/Cast|Production Staff|Tech Head|Crew/
+    if id != Board.directors.id
+      p=positions.map{|e| e.simple}.compact.select{|e| e[:role] !~ /Cast|Crew|Production Staff|Tech Head/}
+      roles = p.map{|e| e[:role]}.uniq
+      for role in roles
+        a.push(:name=>"#{role.pluralize}",:positions=>p.select{|e| e[:role]==role})
+      end
+    end
+    return a
   end
 
 	#TODO this isn't actually quite right for groups (I think)
@@ -140,5 +191,9 @@ class Group < Shared::Watchable
   end
   def active?
     not self.archived?
+  end
+
+  def className
+    "event_color_#{short_name.hash % 42}"
   end
 end

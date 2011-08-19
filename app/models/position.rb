@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: positions
+#
+#  id           :integer(4)      not null, primary key
+#  group_id     :integer(4)
+#  role_id      :integer(4)
+#  user_id      :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  display_name :string(255)
+#
+
 class Position < ActiveRecord::Base
 
   belongs_to :user
@@ -25,6 +38,11 @@ class Position < ActiveRecord::Base
     else
       return gsort
     end
+  end
+  
+  def simple
+    return nil if user.nil?
+    {:position=>display_name, :role=>Role.find(role_id).name,:andrewid=>user.andrewid,:user_name=>user.name, :user_email=>user.email}
   end
 
   protected

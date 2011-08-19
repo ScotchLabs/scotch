@@ -4,7 +4,9 @@
   <div class='grid'>
   
     <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
-  
+    
+    <%= render "as_grid_item", :object => @item_category %>
+    
     <% for item_category in @item_subcategories %>
       <%= render "as_grid_item", :object => item_category, :link => true %>
     <% end %>

@@ -5,21 +5,24 @@
 </p>
 
 <p>
-  <b>Group:</b>
-  <%= @document.group_id %>
+  <b>Description:</b>
+  <%= @document.description %>
 </p>
 
 <p>
-  <b>Filename:</b>
-  <%= @document.filename %>
+  <b>Tag List:</b>
+  <% @document.tag_list.each do |tag| %>
+    <%= link_to tag, group_documents_path(@group, :tag => tag) %>
+  <% end %>
 </p>
 
 <p>
-  <b>Mime type:</b>
-  <%= @document.mime_type %>
+  <%= link_to "Download", @document.file.url %>
 </p>
 
-
-<%= link_to 'Edit', edit_document_path(@document) %> |
-<%= link_to 'Back', documents_path %>
+<% if has_permission? "uploadDocument" %>
+  <%= link_to 'Edit', edit_document_path(@document) %> |
+  <%= link_to 'Destroy', @document, :confirm => 'Are you sure?', :method => :delete %> |
+<% end %>
+<%= link_to 'Back', group_documents_path(@group) %>
 </article>

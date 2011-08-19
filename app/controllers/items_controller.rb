@@ -19,7 +19,12 @@ class ItemsController < ApplicationController
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
-    @checkouts = @item.checkouts[0...10]
+
+    if @item.available?
+      @checkout = Checkout.new
+      @checkout.user = current_user
+      @checkout.item = @item if @item
+    end
 
     respond_to do |format|
       format.html # show.html.erb

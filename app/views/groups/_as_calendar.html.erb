@@ -1,0 +1,14 @@
+<% selected = false unless selected
+className = group.className
+className += "_" unless selected %>
+<div id='<%= group.id %>' class='groupButton long <%= className %>' <% unless selected %>style='color:#333'<% end %> onclick='toggle(<%= group.id %>)' title='<%= group.name %>' selected=<%= selected %>>
+  <%= group.name %>
+</div>
+<%= image_tag 'indicator.gif', :id => "grouploading_#{group.id}", :class => "grouploading hidden" %>
+<% if group.user_has_permission? current_user, Permission.find_by_name("adminEvents") %>
+<button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
+<% end %>
+<script>
+  group_positions[<%= group.id %>] = <%=raw group.calendar_positions.to_json %>;
+  dates_pulled[<%= group.id %>] = [];
+</script>

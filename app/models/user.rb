@@ -1,3 +1,48 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                    :integer(4)      not null, primary key
+#  email                 :string(255)     default(""), not null
+#  encrypted_password    :string(128)     default(""), not null
+#  password_salt         :string(255)
+#  confirmation_token    :string(255)
+#  confirmed_at          :datetime
+#  confirmation_sent_at  :datetime
+#  reset_password_token  :string(255)
+#  remember_token        :string(255)
+#  remember_created_at   :datetime
+#  sign_in_count         :integer(4)      default(0)
+#  current_sign_in_at    :datetime
+#  last_sign_in_at       :datetime
+#  current_sign_in_ip    :string(255)
+#  last_sign_in_ip       :string(255)
+#  first_name            :string(255)
+#  last_name             :string(255)
+#  status                :string(255)
+#  authentication_token  :string(255)
+#  created_at            :datetime
+#  updated_at            :datetime
+#  phone                 :string(255)
+#  home_college          :string(255)
+#  smc                   :string(255)
+#  graduation_year       :string(255)
+#  residence             :string(255)
+#  gender                :string(255)
+#  birthday              :date
+#  public_profile        :boolean(1)      default(TRUE), not null
+#  headshot_file_name    :string(255)
+#  headshot_content_type :string(255)
+#  headshot_file_size    :integer(4)
+#  headshot_updated_at   :datetime
+#  andrewid              :string(255)
+#  majors                :string(255)
+#  minors                :string(255)
+#  other_activities      :string(255)
+#  about                 :text
+#  email_notifications   :boolean(1)      default(TRUE), not null
+#
+
 class User < Shared::Watchable
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
@@ -19,9 +64,7 @@ class User < Shared::Watchable
   has_many :event_attendees, :dependent => :destroy
   has_many :events, :through => :event_attendees
 
-  has_many :checkouts_to, :dependent => :destroy, :class_name => "Checkout", :foreign_key => :user_id
-  has_many :checkouts_by, :class_name => "Checkout", :foreign_key => :opener_id
-  #has_many :checkout_events, :dependent => :destroy #FIXME
+  has_many :checkouts
   
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
@@ -71,7 +114,7 @@ class User < Shared::Watchable
     where 'public_profile = 1'
   end
 
-  validates_presence_of :first_name, :last_name, :encrypted_password, :password_salt, :andrewid
+  validates_presence_of :first_name, :last_name, :encrypted_password, :andrewid
 
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
@@ -89,7 +132,6 @@ class User < Shared::Watchable
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA)
 
-  default_scope order("last_name, first_name ASC")
   scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
   scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
   scope :newest, unscoped.order("created_at DESC").limit(10)
@@ -183,6 +225,7 @@ class User < Shared::Watchable
   def active_groups
     self.groups.all.select{|g| g.active?}
   end
+  
   def active_positions
     positions.select{ |p| p.group.active? }
   end
@@ -192,6 +235,17 @@ class User < Shared::Watchable
     conditions["groups.type"] = type unless type.nil?
     positions.joins(:group).where(conditions)
   end 
+  
+  def recent_groups(count)
+  	group_ids = self.positions.select("DISTINCT group_id").order("group_id DESC").map{ |p| p.group_id }
+	groups = Group.where(:id => group_ids).where("(archive_date IS NULL) OR (archive_date > NOW())").order("id DESC").limit(count)
+	groups.concat(Group.where(:id => group_ids).where("(archive_date IS NOT NULL) AND (archive_date < NOW())").order("id DESC").limit(count - groups.length))
+	return groups
+  end
+
+  def member_of?(group)
+    self.groups.include(group)
+  end
  
 #######################
 # PERMISSIONS METHODS #
@@ -205,6 +259,10 @@ class User < Shared::Watchable
   def has_global_permission?(permission)
     global_permissions.include?(permission) ||
       global_permissions.include?(Permission.fetch("superuser"))
+  end
+
+  def superuser?
+    global_permissions.include?(Permission.fetch("superuser"))
   end
 
 #################
@@ -222,57 +280,6 @@ class User < Shared::Watchable
     es = events.future.all 
     es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
     return es
-  end
-
-####################
-# CHECKOUT METHODS #
-####################
-  def can_check_out_items_to?(other, group)
-    unless other.class.to_s == "User"
-      #puts "other is not a User"
-      return false
-    end
-    unless ['Group','Show','Board'].include? group.class.to_s
-      #puts "group is not a Group, Show or Board"
-      return false
-    end
-    
-    cs = Permission.fetch "checkoutSelf"
-    co = Permission.fetch "checkoutOther"
-    
-    # if user has checkoutSelf globally, he can check out items to himself in any of his groups
-    return true if has_global_permission? cs and groups.include? group and self == other
-    
-    # if user has checkoutSelf for a group, he can check out items to himself in that group
-    return true if group.permissions_for(self).include? cs and self == other
-    
-    # if user has checkoutOther globally, she can check out items to anyone in any group
-    return true if has_global_permission? co and other.groups.include? group
-    
-    # if user has checkoutOther for a group, she can check out items to anyone in that group
-    return true if group.permission_for(self).include? co and other.groups.include? group
-    
-    return false
-  end
-
-  def allowedToCauseEvent? (event,checkout)
-    return false unless event.class.to_s == 'Array' and checkout.class.to_s == 'Checkout'
-    eventType = event[0]
-    eventList = event[5]
-    
-    return true if eventList.include? 'other' # anyone is allowed to do an 'other' event
-    return true if eventList.include? 'opener' and self == checkout.opener
-    return true if eventList.include? 'owner' and self == checkout.user
-    return false
-  end
-  
-  # FIXME performance
-  def current_checkouts_to
-    checkouts_to.select{|ch| ch.open?}
-  end
-  
-  def current_checkouts_by
-    checkouts_by.select{|ch| ch.open?}
   end
 
 ###################

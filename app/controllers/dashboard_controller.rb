@@ -7,14 +7,19 @@ class DashboardController < ApplicationController
   end
 
   def calendar
-    @events = current_user.user_events
+    @event = Event.new
+    @myevents = current_user.user_events
+    @mygroups = current_user.groups.active.uniq
+    @activeshows = Show.active - @mygroups
+    @activegroups = Group.active - @activeshows - @mygroups
+    
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @events }
+      format.xml  { render :xml => @myevents }
       format.ics do 
         ical = new_ical
-        @events.each do |event|
+        @myevents.each do |event|
           ical.add_event(event.to_ical_event)
         end
         render :text => ical.to_ical, :status => 200

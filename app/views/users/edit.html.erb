@@ -13,14 +13,14 @@
 
 <div class='halves-split'>
   <div class='half fleft'>
-    <div style='padding: 15px; background: #333; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
+    <div style='padding: 15px; background: #333; color:#fff; -moz-border-radius: 8px; -webkit-border-radius: 8px'>
       <div class='fleft' style='margin-right: 20px'>
 				<%= image_tag @user.headshot.url(:medium), :style => 'border: 1px solid white'%>
 			</div>
-	    <h1 style='color:#fff'><%= @user %></h1>
+	    <h1><%= @user %></h1>
 	    <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a><br/>
-			<%= f.label :headshot %><%= f.file_field :headshot, :style => "width:200px; color:white" %>
       <div class='clearfix'></div>
+      <%= f.label :headshot %>: <%= f.file_field :headshot, :style => "width:100px" %>
     </div>
   </div>
   <div class='half fright'>

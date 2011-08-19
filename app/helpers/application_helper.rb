@@ -23,22 +23,41 @@ module ApplicationHelper
     end
   end
 
-  #FIXME: These should print the time with different specificity depending on
-  #how far in the future or past something is.  (e.g. if it is next week, just
-  #print "May 20", but if it was last year print "May 20, 2010")
-  def format_time(time)
-		if time.nil?
-			"-"
+  #FIXME: implement more things like "less than an hour ago"?
+  # this week => "4PM Wednesday"
+  # "a few days ago"?
+  def format_time(time,override=false)
+		return "-" if time.nil?
+		return time.strftime("%I:%M %p on %B %d, %Y") if override
+		format = "%I:%M %p"
+		if time.today?
+		  format += " today"
+		elsif time.yesterday?
+		  format += " yesterday"
+		elsif time.tomorrow?
+		  format += " tomorrow"
+		elsif time.year == Time.now.year
+		  format += " on %B %d"
 		else
-    	time.strftime("%I:%M %p on %B %d, %Y")
+		  format += " on %B %d, %Y"
 		end
+		time.strftime(format) unless override
   end
-  def format_date(date)
-		if date.nil?
-			"-"
+  def format_date(date,override=false)
+		return "-" if date.nil?
+    date = date.to_time if date.instance_of? Date
+	  if date.today?
+		  format = "today"
+		elsif date.yesterday?
+		  format = "yesterday"
+		elsif date.tomorrow?
+		  format = "tomorrow"
+		elsif date.year == Time.now.year
+		  format = "%B %d"
 		else
-    	date.strftime("%B %d, %Y")
+		  format = "%B %d, %Y"
 		end
+		date.strftime(format)
   end
   
   def flavortext
@@ -114,6 +133,9 @@ module ApplicationHelper
     when "Group" then group_as_icon(object, text)
     when "Show" then group_as_icon(object, text)
     when "Board" then group_as_icon(object, text)
+    when "Event" then default_icon("event", text)
+    when "Item" then default_icon("item", text)
+    when "Document" then default_icon("document", text)
     else ""
     end
 end
@@ -126,5 +148,14 @@ end
   def group_as_icon(group, text)
     text = group.name if text.nil?
     "<a href='#{url_for(group)}'><div class='icon'>#{image_tag group.image(:thumb), :size => "50x50"}<div>#{group}</div></div></a>"
+  end
+
+  def default_icon(type, text)
+    text = "" if text.nil?
+    "<div clas='icon'>#{image_tag "#{type}_icon.png", :size => "50x50"}</div>"
+  end
+
+  def base_class(object)
+    object.class.to_s.classify.constantize.base_class.to_s
   end
 end

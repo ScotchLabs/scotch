@@ -74,7 +74,7 @@
     	 * @type boolean
     	 * @private
     	 */
-        this.finishOnBlur_ = false;
+        this.finishOnBlur_ = true;
 
         /**
          * Assert parameters
@@ -468,6 +468,12 @@
 		this.dom.$results.html($ul).show();
 		extraWidth = this.dom.$results.outerWidth() - this.dom.$results.width();
 		this.dom.$results.width(this.dom.$elem.outerWidth() - extraWidth);
+		// reposition in case the element moved since the page loaded (as with colorbox)
+		offset = this.dom.$elem.offset()
+		this.dom.$results.css({
+			top: offset.top + this.dom.$elem.outerHeight(),
+			left: offset.left
+		});
 		$('li', this.dom.$results).hover(
 			function() { self.focusItem(this); },
 			function() { /* void */ }

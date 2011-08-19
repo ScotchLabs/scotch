@@ -8,6 +8,7 @@ link = url_for(object) unless link
 h2 = object.to_s unless h2
 h3 = object.location unless h3
 href = url_for(object) unless href
+# FIXME add icon
 %>
 
 <%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :image => image %>

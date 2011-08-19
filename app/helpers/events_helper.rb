@@ -16,4 +16,31 @@ module EventsHelper
 
     end
   end
+  
+  def event_to_json(event)
+    ea=-1
+    if event.attendees.include? current_user
+      # we pass an id and not a T/F value so that the user can
+      # delete his EventAttendee record
+      ea=EventAttendee.where(:event_id => event.id, :user_id => current_user.id).first.id
+    end
+    
+    return "{\"id\": #{event.id},
+      \"group_id\": \"#{event.group.id}\",
+      \"title\" : \"[#{event.group.short_name}] #{event.title}\", 
+      \"start\" : \"#{event.start_time.to_datetime}\",
+      \"formattedStart\" : \"#{(event.all_day)? format_date(event.start_time,true):format_time(event.start_time,true)}\", 
+      \"end\" : \"#{event.end_time.to_datetime}\",
+      \"formattedEnd\" : \"#{(event.all_day)? format_date(event.end_time,true):format_time(event.end_time,true)}\",
+      \"className\": \"#{event.className}\",
+      \"group\": \"#{event.group.name}\",
+      \"location\":\"#{event.location}\",
+      \"privacyType\":\"#{event.privacy_type}\",
+      \"attendeeLimit\":\"#{event.attendee_limit}\",
+      \"numAttendees\":\"#{event.attendees.count}\",
+      \"repeatId\":#{event.repeat_id or 0},
+      \"currentUserAttending\":#{ea},
+      \"allDay\":#{event.all_day or false},
+      \"editable\":#{event.group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"
+  end
 end

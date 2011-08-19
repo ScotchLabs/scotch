@@ -1,0 +1,11 @@
+<div class="checkout">
+  <h2>
+    <%= format_date checkout.checkout_date %>
+  </h2>
+  <b>Checked out by:</b> <%= link_to checkout.user, checkout.user %><br>
+  <b>Checked in on:</b> <% unless checkout.open? %><%= format_date checkout.checkin_date %><% else %>Not checked in yet.<% end %><br>
+
+  <b>Notes:</b><br>
+
+  <p><%= simple_format checkout.notes %></p>
+</div>

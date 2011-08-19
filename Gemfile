@@ -1,29 +1,30 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.7'
 
-gem 'mysql', '2.7'
+gem 'mysql'
 
-gem 'devise', '1.1.5'
+gem 'devise'
 
-gem 'RedCloth', '4.2.3'
+gem 'RedCloth'
 
-gem 'will_paginate', '~> 3.0.pre3'
+gem 'will_paginate', '~> 3.0.pre2'
 
-gem 'htmlentities', '4.2.3'
+gem 'htmlentities'
 
-# FIXME: UPGRADE WHEN UPGRADING RAILS VERSION
-gem 'smurf', '1.0.4'
+gem 'smurf'
 
-gem 'paperclip', '2.3.3'
+gem 'paperclip'
 
-gem 'digest-whirlpool', '1.0.0'
+gem 'thinking-sphinx', :require => 'thinking_sphinx'
 
-# FIXME: UPGRADE WHEN UPGRADING RAILS VERSION
-gem 'thinking-sphinx', '2.0.0', :require => 'thinking_sphinx'
+gem 'icalendar'
 
-gem 'icalendar', '1.1.5'
+gem 'acts-as-taggable-on'
+
+gem 'digest-whirlpool'
 
 group :development do
-  gem 'ruby-debug'
+  gem 'ruby-debug19'
+  gem 'annotate'
 end

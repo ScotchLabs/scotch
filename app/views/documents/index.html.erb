@@ -1,31 +1,25 @@
 <article>
-<h1>Listing documents</h1>
+<% if has_permission?("uploadDocument") && @group %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Upload a New document', new_group_document_path(@group) %></div>
+<% end %>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Group</th>
-    <th>Filename</th>
-    <th>Mime type</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h2>Popular Tags</h2>
+<% tag_cloud(@tag_counts, %w(tag1 tag2 tag3 tag4)) do |tag, css_class| %>
+  <% if params[:tag] == tag.name %>
+    <span class="<%= css_class %>"><%=tag.name%></span>
+  <% elsif @group.nil? %>
+    <%= link_to tag.name, documents_path(:tag => tag.name), :class => css_class %>
+  <% else %>
+    <%= link_to tag.name, group_path(@group, :tag => tag.name), :class => css_class %>
+  <% end %>
+<% end %>
+
+<h2>Documents</h2>
+
+<%= will_paginate @documents %>
 
 <% @documents.each do |document| %>
-  <tr>
-    <td><%= document.name %></td>
-    <td><%= document.group_id %></td>
-    <td><%= document.filename %></td>
-    <td><%= document.mime_type %></td>
-    <td><%= link_to 'Show', document %></td>
-    <td><%= link_to 'Edit', edit_document_path(document) %></td>
-    <td><%= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+  <%= render "as_line_item", :object => document %>
 <% end %>
-</table>
 
-<br />
-
-<%= link_to 'New Document', new_document_path %>
 </article>

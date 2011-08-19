@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
+  feedpost_id: 1
   document_id: 1
 
 two:
-  name: MyString
+  feedpost_id: 1
   document_id: 1

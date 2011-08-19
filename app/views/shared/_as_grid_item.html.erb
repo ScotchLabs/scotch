@@ -8,6 +8,7 @@ h1 = "#{object.to_s}" unless h1
 spanclass = 'three-grid-no-link'
 spanclass = 'three-grid' if link
 href = url_for(object) unless href
+edit = edit
 %>
 
 <% #FIXME this is not DRY.
@@ -27,6 +28,9 @@ if link %>
         <span class='fleft'><%= image %></span>
       <% end %>
       <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+    <% unless edit.nil? %>
+      <span class="edit_link"><%= edit %></span>
+    <% end %>
     </span>
   </span>
 <% end %>

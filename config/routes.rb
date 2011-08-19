@@ -13,7 +13,7 @@ Scotch::Application.routes.draw do |map|
   # such things exist as separate applications and simply consume the models
   # of Scotch via the REST API.
   resources :items, :except => [:index] do
-    resources :checkouts, :only => [:index, :new]
+    resources :checkouts, :only => [:index]
     resources :feedposts, :only => [:index]
   end
 
@@ -45,20 +45,24 @@ Scotch::Application.routes.draw do |map|
       post :bulk_create, :on => :collection
     end
     resources :events, :only => [:index, :new]
+    resources :events, :only => [:show] do
+      resources :event_attendees, :only => [:index]
+    end
     resources :documents, :only => [:index, :new]
-    resources :checkouts, :only => [:index, :new]
     member do
       post :join
       post :leave
       post :archive
     end
   end
+  resources :events, :only => [:index] # for calendar to ajax a bunch of group's events at once
   resources :events, :only => [:show, :edit, :update, :destroy, :create] do
-    put :signup, :on => :member
+    resources :event_attendees, :only => [:create]
   end
+  resources :event_attendees, :only => [:destroy]
   resources :positions, :only => [:destroy, :create]
-  resources :documents, :only => [:show, :edit, :update, :destroy, :create]
-  resources :checkouts, :except => [:edit, :destroy]
+  resources :documents, :only => [:index, :show, :edit, :update, :destroy, :create]
+  resources :checkouts, :except => [:edit, :destroy, :new, :show]
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,
@@ -70,7 +74,7 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
-  resources :feedposts, :except => [:index, :edit, :update]
+  resources :feedposts, :except => [:index, :edit, :update, :new]
 
   get "dashboard/index"
   get "dashboard/calendar"
