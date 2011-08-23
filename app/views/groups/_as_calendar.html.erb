@@ -7,7 +7,7 @@ className += "_" unless selected %>
 <%= image_tag 'indicator.gif', :id => "grouploading_#{group.id}", :class => "grouploading hidden" %>
 <% if group.user_has_permission? current_user, Permission.find_by_name("adminEvents") %>
 <button class='smallbutton' onclick='newEvent(<%= group.id %>, null, true)'>+</button>
-<% end %>
+<% end %><br>
 <script>
   group_positions[<%= group.id %>] = <%=raw group.calendar_positions.to_json %>;
   dates_pulled[<%= group.id %>] = [];
