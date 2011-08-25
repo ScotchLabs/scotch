@@ -83,9 +83,6 @@
         <ul>
           <% checkouts.each do |checkout| %>
             <li><%= link_to checkout.item, checkout.item %>.<br>
-            <% if checkout.has_deadline? %>
-            Due <%= format_date checkout.due_date %>.
-            <% end %>
             <%= link_to "View Checkout", checkout %>.</li>
           <% end %>
         </ul>
