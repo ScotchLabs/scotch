@@ -1,14 +1,14 @@
 <article>
-<p>
-  <b>Name:</b>
-  <%= @document.name %>
-</p>
 
-<p>
-  <b>Description:</b>
-  <%= @document.description %>
-</p>
+<% if has_permission? "uploadDocument" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_document_path(@document) %></div>
+<% end %>
 
+<h1><%= @document.name %></h1>
+
+<%= raw textilize @document.description %>
+
+<br>
 <p>
   <b>Tag List:</b>
   <% @document.tag_list.each do |tag| %>
@@ -17,12 +17,11 @@
 </p>
 
 <p>
-  <%= link_to "Download", @document.file.url %>
+<% if @document.file? %>
+  <%= image_tag "attachment_icon.png", :size => "16x16" %> <%= link_to @document.name, @document.file.url %>
+<% else %>
+  Oops, this document went missing!
+<% end %>
 </p>
 
-<% if has_permission? "uploadDocument" %>
-  <%= link_to 'Edit', edit_document_path(@document) %> |
-  <%= link_to 'Destroy', @document, :confirm => 'Are you sure?', :method => :delete %> |
-<% end %>
-<%= link_to 'Back', group_documents_path(@group) %>
 </article>

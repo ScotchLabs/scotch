@@ -3,5 +3,7 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', group_documents_path(@group) %>
+<% if has_permission? "uploadDocument" %>
+  <%= link_to 'Destroy', @document, :confirm => 'Are you sure?', :method => :delete %>
+<% end %>
 </article>
