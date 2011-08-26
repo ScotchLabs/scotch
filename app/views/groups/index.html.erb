@@ -11,8 +11,6 @@
   <h1>Active Groups</h1>
 <% end %>
 
-<%= will_paginate @groups %>
-
 <% @groups.sort.each do |group| %>
   <%= render "as_line_item", :object => group %>
 <% end %>

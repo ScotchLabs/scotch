@@ -40,7 +40,8 @@ class GroupsController < ApplicationController
 
     # FIXME This is a bad idea from a performance perspective, but until I have
     # figured out how do to group sorting in the DB, it will have to stay
-    @groups = @groups.sort.paginate(:per_page => 20, :page => params[:page])
+    # FIXME we can't paginate until we do sorting in the db
+    @groups = @groups.sort
 
     respond_to do |format|
       format.html # index.html.erb
