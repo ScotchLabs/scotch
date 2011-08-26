@@ -12,7 +12,7 @@ gem 'will_paginate', '~> 3.0.pre2'
 
 gem 'htmlentities'
 
-gem 'smurf'
+#gem 'smurf'
 
 gem 'paperclip'
 
