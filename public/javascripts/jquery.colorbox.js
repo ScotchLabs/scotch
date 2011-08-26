@@ -681,7 +681,7 @@
 				}
 				
 				$(iframe).appendTo($loaded).one(event_purge, function () {
-					iframe.src = "//about:blank";
+					iframe.src = "about:blank";
 				});
 			});
 			
