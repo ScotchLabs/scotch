@@ -147,7 +147,7 @@ class GroupsController < ApplicationController
   end
 
   def archive
-    unless @group.archived? then
+    if @group.archived? then
       flash[:notice] = "This group is already archived."
       redirect_to group_path(@group)
       return
