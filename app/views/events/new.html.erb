@@ -1,12 +1,5 @@
 <article>
 <h1>New event</h1>
 
-<% if params[:event_type] == "audition" %>
-  <%= render 'form_audition' %>
-<% else %>
-  <% if params[:group_type] == "Show" then %>
-    <p>Would you like to create <%= link_to "an audition", new_group_event_path(@group, :event_type => :audition) %> instead?</p>
-  <% end %>
-  <%= render 'form' %>
-<% end %>
+<%= render 'form' %>
 </article>
