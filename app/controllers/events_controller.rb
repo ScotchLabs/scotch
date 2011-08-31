@@ -4,8 +4,6 @@ class EventsController < ApplicationController
   
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
-  append_after_filter :create_feedpost, :only => [:create]
-
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
   end
@@ -114,6 +112,7 @@ class EventsController < ApplicationController
             end
           end
         end
+        create_feedpost
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
         format.json {
