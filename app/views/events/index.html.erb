@@ -9,6 +9,19 @@ cachedEvents = {}
 <% for event in (@events+@past_events) %>
   cachedEvents[<%= event.id %>] = <%= raw(event_to_json(event)) %>
 <% end %>
+$(function(){
+	// if the url has a hash, let's follow the command
+	if ($(location).attr('hash')) {
+		h = $(location).attr('hash')
+		if (h == '#new') {
+		  newEvent(<%= @group.id %>, undefined, false)
+		} else if (h.match(/\#(show/gi)) {
+		  showEvent(cachedEvents[parseInt(h.slice(5))])
+		} else if (h.match(/\#edit/gi)) {
+		  editEvent(cachedEvents[parseIng(h.slice(5))])
+		}
+	}
+});
 </script>
 <h1>Listing events</h1>
 
