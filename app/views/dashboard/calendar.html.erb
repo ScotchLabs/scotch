@@ -12,118 +12,24 @@
         <% @mygroups.each do |group| %>
         <%= render "groups/as_calendar", :group => group, :selected => true %>
         <% end %>
-        </div>
+      </div> <!-- #mygroups -->
       <div id='activeshows'>
         <h2>Active Shows</h2>
         <% @activeshows.each do |group| %>
         <%= render "groups/as_calendar", :group => group %>
         <% end %>
-        </div>
+      </div><!-- #activeshows -->
       <div id='activegroups'>
         <h2>Active Groups</h2>
         <% @activegroups.each do |group| %>
         <%= render "groups/as_calendar", :group => group %>
         <% end %>
-      </div>
-    </div>
+      </div><!-- #activegroups -->
+    </div><!-- #calside -->
   </div>
   <div id='calendar'></div>
-  <div class='hidden'>
-    <div id='newEventForm'>
-      <%= form_for(@event) do |f| %>
-      <div id='pageContainer'>
-        <div class='newEventForm_page'>
-          <div class="field"><%= f.text_field :title, {:placeholder => "Title", :class => "placeholder-shim"} %></div>
-          
-          <div class='fleft' style='width: 230px; display: inline-block'>
-            <%= f.text_area :description, :placeholder => "Description", :class => "placeholder-shim" %>
-          </div>
-          <div class='fleft' style="width: 222px; display: inline-block">
-            <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
-            <div class="field"><%= f.collection_select :group_id, (@mygroups+@activeshows+@activegroups).select{|e| e.user_has_permission? current_user, Permission.find_by_name("adminEvents")}, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
-          </div>
-          <div class='clearfix'></div>
-          <hr>
-          
-          <div id="event_times">
-            <%= f.check_box :all_day, :onchange => "updateEventTimes(null)" %> All day<br>
-            <%= text_field_tag :start_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "Start"} %>
-            <span id='start_time_inputs'><span class='at'>@</span> <%= f.time_select :start_time, {:minute_step => 5} %></span><br>
-            <%= text_field_tag :end_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %>
-            <span id='end_time_inputs'><span class='at'>@</span> <%= f.time_select :end_time, {:minute_step => 5} %></span><br>
-          </div>
-          <hr>
-          
-          <div id='propagate' class='hidden' style='width:100%;text-align:center'>
-            Change
-            <%= radio_button_tag :propagate, nil, false %> only this event
-            <%= radio_button_tag :propagate, nil, true %> all future events
-          </div>
-          <div id='repeat'>
-            <div class='fleft' style='margin-right:5px'>
-              <%= check_box nil, :repeat, :onchange => "updateRepeat()" %> Repeats every <%= number_field nil, :repeat_frequency, :disabled => true %><%= select nil, :repeat_period, options_for_select(Event.periods), {}, :disabled => true %>
-            </div>
-            <div class='fleft'>
-              <%= radio_button_tag :stop_condition_type, 'occurrences', true, {:onchange => "updateRepeat()", :disabled => true} %>
-              <span style="width:27px;display:inline-block">for</span>
-              <%= number_field nil, :stop_after_occurrences, :disabled => true %> occurrences
-              <br>
-              <%= radio_button_tag :stop_condition_type, 'date', false, {:onchange => "updateRepeat()", :disabled => true} %>
-              <span style="width:27px;display:inline-block">until</span>
-              <%= text_field_tag :stop_on_date, nil, {:class => 'datepicker placeholder-shim', :placeholder => "date", :disabled => true} %><br>
-              <span class='at' style='margin-left:15px;color:#ddd'>@</span> <%= time_select nil, :stop_on_time, {:minute_step => 5}, :disabled => true %>
-            </div>
-          </div>
-          <div class='clearfix'></div>
-          <br><br>
-          <div id='newFormError' style="position:absolute;bottom:36px;color:#f90;width:100%;text-align:center" class='hidden'><i>Whoops! The form has errors. Try again?</i></div>
-          <%= f.submit "Create Event", :onclick => 'return submit_event_form()' %>
-          <div style="position:absolute;right:0;bottom:2px">
-            <div style='display:inline-block;text-align:right'><a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"-458px"}, "fast")'>Or Invite<br>People First</a></div>
-            <div style='display:inline-block;bottom:7px;position:relative;'>&rarr;</div>
-          </div>
-        </div>
-        <div class='newEventForm_page' id='invitees' style+'position:relative'>
-          <span id="privacy_type">
-            <%= f.radio_button :privacy_type, "open", :checked => true, :onchange => "updatePrivacy()" %><b>Open.</b> Anyone may attend.<br>
-            <%= f.radio_button :privacy_type, "limited", :onchange => "updatePrivacy()" %><b>Limited.</b> Only <%= f.number_field :attendee_limit, {:disabled => true} %> people may attend.<br>
-            <%= f.radio_button :privacy_type, "closed", :onchange => "updatePrivacy()" %><b>Closed.</b> Only the people invited may attend.<br>
-          </span>
-          <hr>
-          
-          <div class='fleft' style='display: inline-block'>
-            <div class='fleft' style='display: inline-block;'>
-              Filter your selection:<br>
-              <%= select_tag :filter_select, nil, :multiple => false, :size => 6, :onchange => "filterInvitees()" %>
-            </div>
-            <div class='fleft' style='display: inline-block;'>
-              Select names:<br>
-              <%= select_tag :position_select, nil, :multiple => true, :size => 6, :style => "height: 112px" %><br>
-              <%= text_field_tag :user_identifier, nil, :style => "width: 127px", :placeholder => "Search by name", :class => "placeholder-shim" %>
-            </div>
-            <div id='invitee_buttons' class='fleft'>
-              <a class='cal_invitee_button button smallbutton' href="javascript:void(0)" onclick='addInvitees()'>&rarr;</a><br>
-              <a class='cal_invitee_button button smallbutton' href="javascript:void(0)" onclick='$("#position_names :selected").remove()'>&larr;</a>
-            </div>
-          </div>
-          <div class='fleft' style="display: inline-block; width: 143px">
-            People you're inviting:<br>
-            <%= select_tag :position_names, nil, :multiple => true, :size => 6 %><br>
-          </div>
-          <div class='clearfix'></div>
-          
-          <%= f.submit "Create Event", :id => "event_submit_2", :onclick => 'return submit_event_form()' %>
-          
-          <div style="position:absolute;left:0;bottom:9px">
-            &larr; <a href='javascript:void(0)' onclick='$("#pageContainer").animate({"left":"0px"}, "fast")'>Go Back</a>
-          </div>
-        </div>
-        <div class='clearfix'></div>
-      </div>
-      <% end %>
-    </div>
-  </div>
+  <%= render "shared/new_event_form" %>
   <div class='clearfix'></div>
-</div>
+</div><!-- #calwrapper -->
 
 </article>

@@ -4,8 +4,6 @@ class EventsController < ApplicationController
   
   prepend_before_filter :locate_event, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
-  append_after_filter :create_feedpost, :only => [:create]
-
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "adminEvents"
   end
@@ -45,26 +43,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @event }
-    end
-  end
-
-  # GET /group/1/events/new
-  # GET /group/1/events/new.xml
-  def new
-    @event = Event.new
-    @event.group = @group
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
-  end
-
-  # GET /events/1/edit
-  def edit
+    redirect_to group_events_path(@event.group)+"#show#{@event.id}"
   end
 
   # POST /events
@@ -114,6 +93,7 @@ class EventsController < ApplicationController
             end
           end
         end
+        create_feedpost
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
         format.json {
