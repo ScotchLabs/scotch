@@ -22,6 +22,7 @@ c.remove_column :checkouts, :due_date
 
 User.all.each do |u|
   u.password = "123456"
+  u.password_salt = nil
   u.smc = "123456"
   u.residence = "123 Main St"
   u.phone = "5555555555"
