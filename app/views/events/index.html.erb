@@ -1,6 +1,8 @@
 <article>
 <% if has_permission? "adminEvents" %>
-  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a New Event', new_group_event_path(@group) %></div>
+  <%= render "shared/new_event_form" %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a New Event', "#", :onclick => "newEvent(#{@group.id},undefined,false);" %></div>
+  <script>group_positions[<%= @group.id %>] = <%=raw @group.calendar_positions.to_json %>;</script>
 <% end %>
 <h1>Listing events</h1>
 
