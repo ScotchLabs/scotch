@@ -11,7 +11,7 @@
       <small><%= raw textilize(es[0].description) %> </small>
       <ul>
         <% es.each do |e| %>
-          <li><%= link_to format_time(e.start_time), e %>:
+          <li><%= link_to format_time(e.start_time), "#show#{e.id}", :onclick=>"showEvent(cachedEvents[#{e.id}])" %>:
           <% e.event_attendees.sort.each do |ea| %>
             <% if e.future? && ea.user.nil? then %>
               <%= link_to "Signup!", signup_event_url(e), :method => :put %>
