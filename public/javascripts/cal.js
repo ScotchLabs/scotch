@@ -37,50 +37,7 @@ $(document).ready(function() {
       newEvent(null, date, allDay)
     },
     eventClick: function(event, jsEvent, view) { // clicking on an event pops up an information view
-      debugLog('showing event '+event.id,0)
-      // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
-      // build information view
-      html = "<h1>"+event.title+"</h1>"+
-        ((event.editable)? "<span class='delete_link fright hidden'><a href='javascript:void(0)' onclick='deleteEvent("+event.id+")'><img alt='Delete_icon' height='8' width='8' src='/images/delete_icon.png'></a></span>":"")+
-        "<h2>"+event.group+((event.editable)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
-      displayAttending = false
-      if (!event.allDay) {
-        html += "<b>Starts</b>: "+event.formattedStart+"<br>"+
-          "<b>Ends</b>: "+event.formattedEnd+"<br>"
-      } else
-        html += "All day "+event.formattedStart+"<br>"
-      html+= "<b>Where</b>: "+event.location+"<br>"
-      if (event.privacyType == "closed")
-        html += "<b>This event is closed.</b><br>"
-      else if (event.privacyType == "limited" && event.numAttendees == event.attendeeLimit)
-        html += "<b>This event is limited and full.</b><br>"
-      else {
-        displayAttending = true
-        if (event.privacyType == "open")
-          html+= "<b>This event is open.</b> "  
-        else if (event.privacyType == "limited")
-          html+= "<b>This event is limited.</b> "
-      }
-      displayAttending = displayAttending || event.currentUserAttending!=-1
-      if (displayAttending) {
-        if (event.currentUserAttending != -1) {
-          html+= "<span id='attending"+event.id+"'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
-          html+= "<span id='notAttending"+event.id+"' class='hidden'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
-        } else {
-          html+= "<span id='attending"+event.id+"' class='hidden'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
-          html+= "<span id='notAttending"+event.id+"'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
-        }
-        html+= "<span id='attendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm attending.</span>"
-        html+= "<span id='notAttendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm not attending.</span>"
-        html+= "<img id='attendLoading"+event.id+"' class='hidden' src='/images/indicator.gif'>"
-      }
-      html+="<br>"
-      html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading"+event.id+"\" class='hidden' src=\"/images/indicator.gif\">"
-      
-      // display the information view
-      $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
-      
-      updateAttendees(event.id)
+      showEvent(event);
     },
     events: function(start, end, callback) { // this function is called whenever the calendar refreshes/refetches
       // http://arshaw.com/fullcalendar/docs/event_data/events_function/
@@ -183,7 +140,7 @@ $(document).ready(function() {
     buttonImage: "/images/cal.png",
     buttonImageOnly: true
   })
-  
+
   populateInvitees()
 })
 
@@ -265,6 +222,52 @@ function editEvent(event_id) { // populates the form with event's values, displa
   //TODO update invitees with attendees?
   // display form
   $.colorbox({href:"#newEventForm"})
+}
+function showEvent(event) {
+  debugLog('showing event '+event.id,0)
+  // http://arshaw.com/fullcalendar/docs/mouse/eventClick/
+  // build information view
+  html = "<h1>"+event.title+"</h1>"+
+    ((event.editable)? "<span class='delete_link fright hidden'><a href='javascript:void(0)' onclick='deleteEvent("+event.id+")'><img alt='Delete_icon' height='8' width='8' src='/images/delete_icon.png'></a></span>":"")+
+    "<h2>"+event.group+((event.editable)? " <a href='javascript:void(0)' onclick='editEvent("+event.id+")'>Edit this</a>":"")+"</h2>"
+  displayAttending = false
+  if (!event.allDay) {
+    html += "<b>Starts</b>: "+event.formattedStart+"<br>"+
+      "<b>Ends</b>: "+event.formattedEnd+"<br>"
+  } else
+    html += "All day "+event.formattedStart+"<br>"
+  html+= "<b>Where</b>: "+event.location+"<br>"
+  if (event.privacyType == "closed")
+    html += "<b>This event is closed.</b><br>"
+  else if (event.privacyType == "limited" && event.numAttendees == event.attendeeLimit)
+    html += "<b>This event is limited and full.</b><br>"
+  else {
+    displayAttending = true
+    if (event.privacyType == "open")
+      html+= "<b>This event is open.</b> "  
+    else if (event.privacyType == "limited")
+      html+= "<b>This event is limited.</b> "
+  }
+  displayAttending = displayAttending || event.currentUserAttending!=-1
+  if (displayAttending) {
+    if (event.currentUserAttending != -1) {
+      html+= "<span id='attending"+event.id+"'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+      html+= "<span id='notAttending"+event.id+"' class='hidden'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+    } else {
+      html+= "<span id='attending"+event.id+"' class='hidden'>You are listed as attending. <a href='javascript:void(0)' onclick='attend(false,"+event.id+")'>I'm not attending.</a></span>"
+      html+= "<span id='notAttending"+event.id+"'>You are listed as not attending. <a href='javascript:void(0)' onclick='attend(true,"+event.id+")'>I'm attending.</a></span>"
+    }
+    html+= "<span id='attendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm attending.</span>"
+    html+= "<span id='notAttendingDisabled"+event.id+"' class='hidden' style='color:#ddd'>I'm not attending.</span>"
+    html+= "<img id='attendLoading"+event.id+"' class='hidden' src='/images/indicator.gif'>"
+  }
+  html+="<br>"
+  html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading"+event.id+"\" class='hidden' src=\"/images/indicator.gif\">"
+  
+  // display the information view
+  $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
+  
+  updateAttendees(event.id)
 }
 function updateEventTimes(allDay) { // primes the allDay field of the New Event form
   if (allDay == null)

@@ -2,7 +2,7 @@
   <div>
     <% if es.length == 1 %> <!-- Standard Event -->
       <% e = es[0] %>
-      <h3><%= link_to e, e %></h3>
+      <h3><%= link_to e, "#show#{e.id}", :onclick => "showEvent(cachedEvents[#{e.id}])" %></h3>
       <%= format_time(e.start_time) %> to <%= format_time(e.end_time) %> at <%= e.location %><br />
       <small><%= raw textilize(e.description) %></small>
     <% else %> <!-- Multi-Part Event -->

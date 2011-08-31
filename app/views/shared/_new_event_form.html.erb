@@ -3,6 +3,11 @@ event = Event.new unless event
 mygroups = current_user.groups.active.uniq unless mygroups
 activeshows = Show.active - mygroups unless activeshows
 activegroups = Group.active - activeshows - mygroups unless activegroups
+if current_page? dashboard_calendar_path
+  availablegroups = mygroups+activeshows+activegroups
+else
+  availablegroups = [@group]
+end
 %>
 <div class='hidden'>
   <div id='newEventForm'>
@@ -16,7 +21,7 @@ activegroups = Group.active - activeshows - mygroups unless activegroups
         </div>
         <div class='fleft' style="width: 222px; display: inline-block">
           <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
-          <div class="field"><%= f.collection_select :group_id, (mygroups+activeshows+activegroups).select{|e| e.user_has_permission? current_user, Permission.find_by_name("adminEvents")}, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
+          <div class="field"><%= f.collection_select :group_id, (availablegroups).select{|e| e.user_has_permission? current_user, Permission.find_by_name("adminEvents")}, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
         </div>
         <div class='clearfix'></div>
         <hr>
