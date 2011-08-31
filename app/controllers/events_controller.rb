@@ -46,22 +46,6 @@ class EventsController < ApplicationController
     redirect_to group_events_path(@event.group)+"#show#{@event.id}"
   end
 
-  # GET /group/1/events/new
-  # GET /group/1/events/new.xml
-  def new
-    @event = Event.new
-    @event.group = @group
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
-  end
-
-  # GET /events/1/edit
-  def edit
-  end
-
   # POST /events
   # POST /events.xml
   # POST /events.json
