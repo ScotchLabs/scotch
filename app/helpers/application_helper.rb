@@ -1,4 +1,3 @@
-require "Time"
 module ApplicationHelper
   extend ActiveSupport::Memoizable
 
