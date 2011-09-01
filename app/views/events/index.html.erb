@@ -15,7 +15,7 @@ $(function(){
 		h = $(location).attr('hash')
 		if (h == '#new') {
 		  newEvent(<%= @group.id %>, undefined, false)
-		} else if (h.match(/\#(show/gi)) {
+		} else if (h.match(/\#show/gi)) {
 		  showEvent(cachedEvents[parseInt(h.slice(5))])
 		} else if (h.match(/\#edit/gi)) {
 		  editEvent(cachedEvents[parseIng(h.slice(5))])
