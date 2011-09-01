@@ -244,7 +244,7 @@ class User < Shared::Watchable
   end
 
   def member_of?(group)
-    self.groups.include(group)
+    self.groups.include? group
   end
  
 #######################
