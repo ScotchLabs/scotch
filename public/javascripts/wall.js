@@ -58,7 +58,7 @@ function submit_comment(post_id) {
     // gather data
     var commit = $("#new_feedpost_form_"+post_id+" [type='submit']").attr('value')
     var utf8 = $("#new_feedpost_form_"+post_id+" [name='utf8']").attr('value')
-    var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
+    var auth = $("[name='csrf-token']").attr('content')
     var feedpost = {
       'parent_type':'Feedpost',
       'parent_id':post_id,
@@ -111,14 +111,13 @@ function delete_post(post_id) {
   
   if (sure) {
     $("#post_"+post_id).hide('fast')
-    var auth = $("#new_feedpost_form_"+post_id+" [name='authenticity_token']").attr('value')
+    var auth = $("[name='csrf-token']").attr('content')
     //TODO decrement View All N Comments
     $.ajax({
       type: 'DELETE',
       url: '/feedposts/'+post_id+'.xml',
       data: {
-        authenticity_token: auth,
-        id: post_id
+        authenticity_token: auth
       }
     })
   }
@@ -142,7 +141,7 @@ function submit_feedpost() {
     // gather data
     var commit = $("#postform [type='submit']").attr('value')
     var utf8 = $("#postform [name='utf8']").attr('value')
-    var auth = $("#postform [name='authenticity_token']").attr('value')
+    var auth = $("[name='csrf-token']").attr('content')
     var feedpost = {
       'parent_type':$('#postform #feedpost_parent_type').attr('value'),
       'parent_id':$('#postform #feedpost_parent_id').attr('value'),
