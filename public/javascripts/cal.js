@@ -371,7 +371,7 @@ function updateEvent(event_id,revertFunc) { // fires when events are dragged or 
   data = {
     ref:ref,
     utf8:$("#new_event [name='utf8']").attr('value'),
-    authenticity_token:$("#new_event [name='authenticity_token']").attr('value'),
+    authenticity_token:$("[name='csrf-token']").attr('content'),
     id: e.id,
     propagate: false,
     event:{"start_time(1i)":e.start.getFullYear(),
@@ -428,7 +428,7 @@ function deleteEvent(event_id) { // fires when user hits the button to delete an
       data:{ref:ref},
       type: 'DELETE',
       url: '/events/'+event_id+'.json',
-      data: {authenticity_token:$("#new_event [name='authenticity_token']").attr('value')},
+      data: {authenticity_token:$("[name='csrf-token']").attr('content')},
       complete: function(xhr) {
         data = $.parseJSON(xhr.response)
         register('#groupLoading_'+data.event_id,data.ref,'hide')
@@ -502,7 +502,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       data: {
         ref:ref,
         utf8:$("#new_event [name='utf8']").attr('value'),
-        authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
+        authenticity_token:$("[name='csrf-token']").attr('content')
       },
       url:url,
       success:function(data){
@@ -543,7 +543,7 @@ function attend(isAttending, event_id) { // ex: when you click "I'm attending"
       data: {
         ref:ref,
         utf8:$("#new_event [name='utf8']").attr('value'),
-        authenticity_token:$("#new_event [name='authenticity_token']").attr('value')
+        authenticity_token:$("[name='csrf-token']").attr('content')
       },
       type:"DELETE",
       complete:function(data){
