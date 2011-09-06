@@ -18,6 +18,14 @@
     </div>
     
     <%= raw simple_format post.body %>
+
+    <br>
+    <small style='color:#bbb'>Posted 
+      at <%= format_time post.created_at %>
+    <% if current_page?(:controller => :dashboard, :action => :index) or current_page?(root_url) %>
+      on <%= link_to post.parent, post.parent %>
+    <% end %>
+    </small>
   </div>
   <div class='clearfix'></div>
 </div>
