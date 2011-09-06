@@ -119,6 +119,7 @@ class DocumentsController < ApplicationController
   end
 
   def create_feedpost
+    return if @document.new_record?
     f = Feedpost.new
     f.post_type = "create"
     f.user = current_user

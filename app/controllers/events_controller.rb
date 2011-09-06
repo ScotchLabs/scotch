@@ -204,6 +204,7 @@ class EventsController < ApplicationController
   end
 
   def create_feedpost
+    return if @event.new_record?
     f = Feedpost.new
     f.post_type = "create"
     f.user = current_user
