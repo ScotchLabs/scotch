@@ -7,7 +7,9 @@ module EventsHelper
     while (all_events.length > 0) do
       # slide all elements off of the front of all_events that are repeat_children (or siblings) of the first
       events = [all_events.shift]
-      while (all_events.length > 0 and all_events[0].repeat_id != nil and (events[0].id == all_events[0].repeat_id or events[0].repeat_id == all_events[0].repeat_id) ) do
+      while (all_events.length > 0 and
+        all_events[0].start_time.strftime("%D")==events[0].start_time.strftime("%D") and # repeated events that cross into a new day get a new badge
+        all_events[0].repeat_id != nil and (events[0].id == all_events[0].repeat_id or events[0].repeat_id == all_events[0].repeat_id) ) do # repeated events on the same day list together
         events.push all_events.shift
       end
 

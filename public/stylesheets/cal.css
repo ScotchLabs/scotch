@@ -158,6 +158,9 @@
 .event_color_40 {background-color: #d1bc36; border-color: #a59114;}
 .event_color_41 {background-color: #ad2d2d; border-color: #871111;}
 
+.event-list {
+  margin: 1em 0;
+}
 .event-badge {
   height: 50px;
   width: 50px;
@@ -167,9 +170,9 @@
   font-size: 13pt;
   line-height: 18px;
   display: inline-block;
+  vertical-align: top;
 }
 .event-badge-blank {
-  
   width: 56px;
   display: inline-block;
 }
