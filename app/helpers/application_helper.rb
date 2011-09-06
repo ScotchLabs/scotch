@@ -36,6 +36,23 @@ module ApplicationHelper
     date = date.to_time if date.instance_of? Date
     date.strftime(day_word(date))
   end
+  def format_time_range(start_time, end_time, override=false)
+    return format_time(start_time) if end_time.nil?
+    return format_time(end_time) if start_time.nil?
+    return format_time(start_time,override)+" to "+format_time(end_time,override) if override
+    start_date = start_time.to_date
+    end_date = start_time.to_date
+    r = start_time.strftime("%I:%M %p")
+    r += " "+start_time.strftime(day_word(start_time)) unless start_date == end_date
+    r += " to "+end_time.strftime("%I:%M %p "+day_word(end_time))
+    r
+  end
+  def format_date_range(start_date, end_date, override=false)
+    start_date = start_date.to_time if start_date.instance_of? Date
+    end_date = end_date.to_time if end_date.instance_of? Date
+    return start_date.strftime(day_word(start_date)) if start_date.strftime("%D") == end_date.strftime("%D")
+    start_date.strftime(day_word(start_date))+" through "+end_date.strftime(day_word(end_date))
+  end
   def day_word(t)
     if t.today?
       return "today"

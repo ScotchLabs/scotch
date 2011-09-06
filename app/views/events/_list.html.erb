@@ -21,9 +21,9 @@ squish_events(events) do |es| %>
     <ul>
       <li id='event-<%= e.id %>'>
         <% if e.all_day %>
-          <%= format_date(e.start_time) %><% if e.end_time.strftime("%D") != e.start_time.strftime("%D") %>through <%= format_date(e.end_time) %><% end %>.
+          <%= format_date_range(e.start_time, e.end_time) %>.
         <% else %>
-          <%= format_time(e.start_time) %> to <%= format_time(e.end_time) %>.
+          <%= format_time_range(e.start_time, e.end_time) %>.
         <% end %>
         <% if e.privacy_type == "closed" %>
           This event is closed.
