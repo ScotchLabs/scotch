@@ -29,35 +29,25 @@ module ApplicationHelper
   def format_time(time,override=false)
 		return "-" if time.nil?
 		return time.strftime("%I:%M %p on %B %d, %Y") if override
-		format = "%I:%M %p"
-		if time.today?
-		  format += " today"
-		elsif time.yesterday?
-		  format += " yesterday"
-		elsif time.tomorrow?
-		  format += " tomorrow"
-		elsif time.year == Time.now.year
-		  format += " on %B %d"
-		else
-		  format += " on %B %d, %Y"
-		end
-		time.strftime(format) unless override
+		time.strftime("%I:%M %p "+day_word(time)) unless override
   end
   def format_date(date,override=false)
 		return "-" if date.nil?
     date = date.to_time if date.instance_of? Date
-	  if date.today?
-		  format = "today"
-		elsif date.yesterday?
-		  format = "yesterday"
-		elsif date.tomorrow?
-		  format = "tomorrow"
-		elsif date.year == Time.now.year
-		  format = "%B %d"
-		else
-		  format = "%B %d, %Y"
-		end
-		date.strftime(format)
+    date.strftime(day_word(date))
+  end
+  def day_word(t)
+    if t.today?
+      return "today"
+    elsif t.yesterday?
+      return "yesterday"
+    elsif t.tomorrow?
+      return "tomorrow"
+    elsif t.year == Time.now.year
+      return "on %B %d"
+    else
+      return "on %B %d, %Y"
+    end
   end
   
   def flavortext
