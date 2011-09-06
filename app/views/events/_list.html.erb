@@ -32,27 +32,29 @@ squish_events(events) do |es| %>
             <% else %>
               <%= link_to(block, "#show#{e.id}", :onclick=> "showEvent(cachedEvents[#{e.id}])") %>.
             <% end %>
-            <% if e.privacy_type == "closed" %>
-              This event is closed.
-            <% elsif e.privacy_type == "limited" and e.attendees.count == e.attendee_limit %>
-              This event is full.
-            <% else %>
-              <% if e.attendees.count > 0 %>
-                <%= e.attendees.count %> attending.
-              <% end %>
-              <% if e.privacy_type == "limited" %>
-                <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
-              <% end %>
-              <% if e.attendees.include? current_user %>
-                <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
-                <span id='notAttending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+            <% if e.future? %>
+              <% if e.privacy_type == "closed" %>
+                This event is closed.
+              <% elsif e.privacy_type == "limited" and e.attendees.count == e.attendee_limit %>
+                This event is full.
               <% else %>
-                <span id='attending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
-                <span id='notAttending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+                <% if e.attendees.count > 0 %>
+                  <%= e.attendees.count %> attending.
+                <% end %>
+                <% if e.privacy_type == "limited" %>
+                  <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
+                <% end %>
+                <% if e.attendees.include? current_user %>
+                  <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+                  <span id='notAttending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+                <% else %>
+                  <span id='attending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+                  <span id='notAttending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+                <% end %>
+                <span id='attendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm attending.</span>
+                <span id='notAttendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm not attending.</span>
+                <img id='attendLoading<%= e.id %>' class='hidden' src='/images/indicator.gif'>
               <% end %>
-              <span id='attendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm attending.</span>
-              <span id='notAttendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm not attending.</span>
-              <img id='attendLoading<%= e.id %>' class='hidden' src='/images/indicator.gif'>
             <% end %>
           </li>
         <% end %>
