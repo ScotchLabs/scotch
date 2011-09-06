@@ -1,27 +1,83 @@
-<% squish_events(events) do |es| %>
-  <div>
-    <% if es.length == 1 %> <!-- Standard Event -->
-      <% e = es[0] %>
-      <h3><%= link_to e, "#show#{e.id}", :onclick => "showEvent(cachedEvents[#{e.id}])" %></h3>
-      <%= format_time(e.start_time) %> to <%= format_time(e.end_time) %> at <%= e.location %><br />
-      <small><%= raw textilize(e.description) %></small>
-    <% else %> <!-- Multi-Part Event -->
-      <h3><%= es[0].title %></h3>
-      At <%= es[0].location %><br />
-      <small><%= raw textilize(es[0].description) %> </small>
-      <ul>
-        <% es.each do |e| %>
-          <li><%= link_to format_time(e.start_time), "#show#{e.id}", :onclick=>"showEvent(cachedEvents[#{e.id}])" %>:
-          <% e.event_attendees.sort.each do |ea| %>
-            <% if e.future? && ea.user.nil? then %>
-              <%= link_to "Signup!", signup_event_url(e), :method => :put %>
-            <% else %>
-              <%= ea.user || "-" %>
-            <% end %>
+<%
+dates = Array.new
+squish_events(events) do |es| %>
+  <div class='event-list'>
+  <% if not dates.include? es[0].start_time.strftime("%D")
+    dates.push es[0].start_time.strftime("%D")
+    day = es[0].start_time.day
+    month = es[0].start_time.strftime("%b") %>
+    <div class='event-badge'>
+      <div class='event-badge-month'><%= month %></div>
+      <div class='event-badge-day'><%= day %></div>
+    </div>
+  <% else %>
+    <div class='event-badge-blank'></div>
+  <% end %>
+  <div class='event-info'>
+  <% if es.length == 1
+    e = es[0] %>
+    <!-- Standard Event -->
+    <h3><%= link_to e, "#show#{e.id}", :onclick => "showEvent(cachedEvents[#{e.id}])" %></h3> &mdash; <%= e.location %>
+    <ul>
+      <li id='event-<%= e.id %>'>
+        <%= format_time(e.start_time) %> to <%= format_time(e.end_time) %>.
+        <% if e.privacy_type == "closed" %>
+          This event is closed.
+        <% elsif e.privacy_type == "limited" and e.attendees.count == e.attendee_limit %>
+          This event is full.
+        <% else %>
+          <% if e.attendees.count > 0 %>
+            <%= e.attendees.count %> attending.
           <% end %>
-          </li>
+          <% if e.privacy_type == "limited" %>
+            <%= e.attendee_limit - e.attendees.count %> slots remain.
+          <% end %>
+          <% if e.attendees.include? current_user %>
+            <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+            <span id='notAttending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+          <% else %>
+            <span id='attending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+            <span id='notAttending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+          <% end %>
+          <span id='attendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm attending.</span>
+          <span id='notAttendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm not attending.</span>
+          <img id='attendLoading<%= e.id %>' class='hidden' src='/images/indicator.gif'>
         <% end %>
-      </ul>
-    <% end %>
+      </li>
+    </ul>
+  <% else %>
+    <!-- Repeated Event -->
+    <h3><%= es[0].title %></h3> &mdash; <%= es[0].location %>
+    <ul>
+      <% es.each do |e| %>
+        <li id='event-<%= e.id %>'>
+          <%= link_to(format_time(e.start_time)+" to "+format_time(e.end_time), "#show#{e.id}", :onclick=>"showEvent(cachedEvents[#{e.id}])") %>.
+          <% if e.privacy_type == "closed" %>
+          This event is closed.
+        <% elsif e.privacy_type == "limited" and e.attendees.count == e.attendee_limit %>
+          This event is full.
+        <% else %>
+          <% if e.attendees.count > 0 %>
+            <%= e.attendees.count %> attending.
+          <% end %>
+          <% if e.privacy_type == "limited" %>
+            <%= e.attendee_limit - e.attendees.count %> slots remain.
+          <% end %>
+          <% if e.attendees.include? current_user %>
+            <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+            <span id='notAttending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+          <% else %>
+            <span id='attending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
+            <span id='notAttending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
+          <% end %>
+          <span id='attendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm attending.</span>
+          <span id='notAttendingDisabled<%= e.id %>' class='hidden' style='color:#ddd'>I'm not attending.</span>
+          <img id='attendLoading<%= e.id %>' class='hidden' src='/images/indicator.gif'>
+        <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+  </div>
   </div>
 <% end %>
