@@ -23,14 +23,14 @@ squish_events(events) do |es| %>
         <% es.each do |e| %>
           <li id='event-<%= e.id %>'>
             <% if e.all_day
-              block = format_date_range(e.start_time, e.end_time)+"."
+              block = format_date_range(e.start_time, e.end_time)
             else
-              block = format_time_range(e.start_time, e.end_time)+"."
+              block = format_time_range(e.start_time, e.end_time)
             end %>
             <% if es.length == 1 %>
-              <%= block %>
+              <%= block %>.
             <% else %>
-              <%= link_to(block, "#show#{e.id}", :onclick=> "showEvent(cachedEvents[#{e.id}])") %>
+              <%= link_to(block, "#show#{e.id}", :onclick=> "showEvent(cachedEvents[#{e.id}])") %>.
             <% end %>
             <% if e.privacy_type == "closed" %>
               This event is closed.
