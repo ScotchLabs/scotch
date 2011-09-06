@@ -25,6 +25,7 @@ module EventsHelper
       # delete his EventAttendee record
       ea=EventAttendee.where(:event_id => event.id, :user_id => current_user.id).first.id
     end
+    d = HTMLEntities.new
     
     return "{\"id\": #{event.id},
       \"group_id\": \"#{event.group.id}\",
@@ -42,6 +43,7 @@ module EventsHelper
       \"repeatId\":#{event.repeat_id or 0},
       \"currentUserAttending\":#{ea},
       \"allDay\":#{event.all_day or false},
-      \"editable\":#{event.group.user_has_permission? current_user, Permission.find_by_name("adminEvents")}}"
+      \"editable\":#{event.group.user_has_permission? current_user, Permission.find_by_name("adminEvents")},
+      \"description\":\"#{d.encode(event.description).gsub(/\n/,"<br>")}\"}"
   end
 end

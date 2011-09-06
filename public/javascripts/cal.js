@@ -263,7 +263,7 @@ function showEvent(event) {
   }
   html+="<br>"
   html+= "<b>Attendees</b>: <span id='attendees'></span><img alt=\"Indicator\" id=\"attendeesLoading"+event.id+"\" class='hidden' src=\"/images/indicator.gif\">"
-  
+  html+="<hr>"+event.description
   // display the information view
   $.colorbox({html:html,inline:false,width:"400px",height:"400px"})
   
