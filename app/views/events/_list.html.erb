@@ -30,7 +30,7 @@ squish_events(events) do |es| %>
             <%= e.attendees.count %> attending.
           <% end %>
           <% if e.privacy_type == "limited" %>
-            <%= e.attendee_limit - e.attendees.count %> slots remain.
+            <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
           <% end %>
           <% if e.attendees.include? current_user %>
             <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
@@ -61,7 +61,7 @@ squish_events(events) do |es| %>
             <%= e.attendees.count %> attending.
           <% end %>
           <% if e.privacy_type == "limited" %>
-            <%= e.attendee_limit - e.attendees.count %> slots remain.
+            <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
           <% end %>
           <% if e.attendees.include? current_user %>
             <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
