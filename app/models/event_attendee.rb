@@ -28,7 +28,7 @@ class EventAttendee < ActiveRecord::Base
   protected
 
   def no_duplicates
-    if EventAttendee.where(:event_id => event_id, :user_id => user_id).where(["id != ?",id]).count > 0 then
+    if EventAttendee.where(:event_id => event_id, :user_id => user_id).count > 0 then
       errors.add(:user, "is already attending this event")
     end
   end

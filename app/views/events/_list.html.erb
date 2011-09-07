@@ -33,22 +33,18 @@ squish_events(events) do |es| %>
               <%= link_to(block, "#show#{e.id}", :onclick=> "showEvent(cachedEvents[#{e.id}])") %>.
             <% end %>
             <% if e.future? %>
-              <% if e.privacy_type == "closed" %>
-                This event is closed.
-              <% elsif e.privacy_type == "limited" and e.attendees.count == e.attendee_limit %>
-                This event is full.
-              <% else %>
-                <% if e.attendees.count > 0 %>
-                  <%= link_to e.attendees[0], e.attendees[0] %>
-                  <% if e.attendees.count > 1 %>
-                    and <%= e.attendees.count-1 %> more are attending.
-                  <% else %>
-                    is attending.
-                  <% end %>
+              <% if e.attendees.count > 0 %>
+                <%= link_to e.attendees[0], e.attendees[0] %>
+                <% if e.attendees.count > 1 %>
+                  and <%= e.attendees.count-1 %> more are attending.
+                <% else %>
+                  is attending.
                 <% end %>
-                <% if e.privacy_type == "limited" %>
-                  <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
-                <% end %>
+              <% end %>
+              <% if e.privacy_type == "limited" %>
+                <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
+              <% end %>
+              <% if e.privacy_type == "open" or (e.privacy_type == "limited" and (e.attendees-[current_user]).count < e.attendee_limit) %>
                 <% if e.attendees.include? current_user %>
                   <span id='attending<%= e.id %>'><a href='javascript:void(0)' onclick='attend(false,<%= e.id %>)'>I'm not attending.</a></span>
                   <span id='notAttending<%= e.id %>' class='hidden'><a href='javascript:void(0)' onclick='attend(true,<%= e.id %>)'>I'm attending.</a></span>
