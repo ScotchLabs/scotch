@@ -39,7 +39,12 @@ squish_events(events) do |es| %>
                 This event is full.
               <% else %>
                 <% if e.attendees.count > 0 %>
-                  <%= e.attendees.count %> attending.
+                  <%= link_to e.attendees[0], e.attendees[0] %>
+                  <% if e.attendees.count > 1 %>
+                    and <%= e.attendees.count-1 %> more are attending.
+                  <% else %>
+                    is attending.
+                  <% end %>
                 <% end %>
                 <% if e.privacy_type == "limited" %>
                   <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
