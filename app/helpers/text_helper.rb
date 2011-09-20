@@ -1,11 +1,13 @@
 module TextHelper
   def textilize(text)
     text = filter_referrals(text)
+    text = text.gsub(/\n/,"<br>")
     super(text)
   end
   
   def textilize_without_paragraph(text)
     text = filter_referrals(text)
+    text = text.gsub(/\n/,"<br>")
     super(text)
   end
   
