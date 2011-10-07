@@ -28,9 +28,9 @@ end
         
         <div id="event_times">
           <%= f.check_box :all_day, :onchange => "updateEventTimes(null)" %> All day<br>
-          <%= text_field_tag :start_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "Start"} %>
+          <%= text_field_tag :start_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "Start Date"} %>
           <span id='start_time_inputs'><span class='at'>@</span> <%= f.time_select :start_time, {:minute_step => 5} %></span><br>
-          <%= text_field_tag :end_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "End Time"} %>
+          <%= text_field_tag :end_time, nil, {:class => 'datepicker placeholder-shim', :placeholder => "End Date"} %>
           <span id='end_time_inputs'><span class='at'>@</span> <%= f.time_select :end_time, {:minute_step => 5} %></span><br>
         </div><!-- #event_times -->
         <hr>
