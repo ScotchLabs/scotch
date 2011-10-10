@@ -439,6 +439,10 @@ function deleteEvent(event_id) { // fires when user hits the button to delete an
   $("#calendar").fullCalendar('refetchEvents')
 }
 function submit_event_form() { // woo user-generated-content submission!
+  // if the user didn't input an end-date, do that now
+  e = $("#end_time").attr('value')
+  if (e=="" || e=="End Date" || e==null || e==undefined)
+    $("#end_time").attr('value',$("#start_time").attr('value'))
   // make sure the submitted times are reparsed such that they can be captured
   updateTime('start_time')
   updateTime('end_time')

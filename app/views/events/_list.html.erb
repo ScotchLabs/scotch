@@ -15,10 +15,11 @@ squish_events(events) do |es| %>
     <% end %>
     <div class='event-info'>
       <% if es.length == 1 %>
-        <h3><%= link_to es[0], "#show#{es[0].id}", :onclick => "showEvent(cachedEvents[#{es[0].id}])" %></h3> &mdash; <%= es[0].location %>
+        <h3><%= link_to es[0], "#show#{es[0].id}", :onclick => "showEvent(cachedEvents[#{es[0].id}])" %></h3>
       <% else %>
-        <h3><%= es[0].title %></h3> &mdash; <%= es[0].location %>
+        <h3><%= es[0].title %></h3>
       <% end %>
+      <% if es[0].location? %>&mdash; <%= es[0].location %><% end %>
       <ul>
         <% es.each do |e| %>
           <li id='event-<%= e.id %>'>
