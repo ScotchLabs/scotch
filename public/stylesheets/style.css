@@ -93,6 +93,10 @@ html, body {
   height: 94px; /* same height as the footer stuff */
 }
 
+p {
+  margin: 1em 0;
+}
+
 
 /* 430
  * These styles are for people who are using tiny browser windows or smartphones */
