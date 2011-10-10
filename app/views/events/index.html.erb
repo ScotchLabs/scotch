@@ -6,9 +6,15 @@
 <script>
 group_positions[<%= @group.id %>] = <%=raw @group.calendar_positions.to_json %>;
 cachedEvents = {}
-<% for event in (@events+@past_events) %>
-  cachedEvents[<%= event.id %>] = <%= raw(event_to_json(event)) %>
-<% end %>
+eventIds = []
+events = [<%= raw((@events+@past_events).collect { |e| event_to_json(e) }.join(",\n")) %>]
+$.each(events, function(k,ev) {
+  if ($.inArray(ev.id, eventIds) == -1)
+    eventIds.push(ev.id)
+  ev.start = new Date(ev.start)
+  ev.end = new Date(ev.end)
+  cachedEvents[ev.id] = ev
+})
 $(function(){
 	// if the url has a hash, let's follow the command
 	if ($(location).attr('hash')) {
