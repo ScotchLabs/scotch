@@ -10,8 +10,7 @@ module TextHelper
   end
   
   def filter_referrals(text)
-    return nil if text.nil?
-    return '' if text.blank?
+    return text unless text
     
     text = basic_referrals(text)
     text = user_referrals(text)
@@ -20,8 +19,8 @@ module TextHelper
   def user_referrals(text)
     matches = text.scan(/\@([a-z]+)/)
     matches.each do |match|
-      user = User.find_by_andrewid(match)
-      text.gsub!("@#{match}", link_to(user.to_s, user)) unless user.nil?
+      user = User.find_by_andrewid(match[0])
+      text.gsub!("@#{match[0]}", link_to(user.to_s, user)) unless user.nil?
     end
     raw(text)
   end
