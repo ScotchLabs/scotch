@@ -63,6 +63,8 @@ class GroupsController < ApplicationController
   def new
     if params[:group_type] == "Show" then
       @group = Show.new
+    elsif params[:group_type] == "Board" then
+      @group = Board.new
     else
       @group = Group.new
     end
@@ -81,9 +83,9 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     if params[:group_type] == "Show" then
-      @group = Show.new(params[:show])
+      @group = Show.new(params[:group])
     elsif params[:group_type] == "Board" then
-      @group = Board.new(params[:board])
+      @group = Board.new(params[:group])
     else
       @group = Group.new(params[:group])
     end
