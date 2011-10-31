@@ -19,7 +19,7 @@ class FeedpostMailer < ActionMailer::Base
       mail(:bcc => emails,
            :to => "\"#{feedpost.parent.name}\" <noreply@snstheatre.org>",
            :from => "\"#{feedpost.user.name}\" <#{feedpost.user.email}>",
-           :cc => "#{feedpost.user.name} <#{feedpost.user.email}>",
+           :cc => "\"#{feedpost.user.name}\" <#{feedpost.user.email}>",
            :subject => "[Scotch] #{feedpost.parent.short_name}: #{feedpost.headline}")
     end
   end
