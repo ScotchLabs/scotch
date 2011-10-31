@@ -41,6 +41,7 @@ class Event < ActiveRecord::Base
   validate :times_are_sane # rails3?
   validates_presence_of :group, :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
+  validate :attendee_limit_is_sane
   validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
@@ -103,6 +104,10 @@ class Event < ActiveRecord::Base
     group.className
   end
 protected
+
+  def attendee_limit_is_sane
+    errors[:attendee_limit] << "must be an integer" if privacy_type == "limited" and not attendee_limit
+  end
 
   def times_are_sane
     errors[:start_time] << "cannot be in the past" if start_time and start_time.past?
