@@ -52,7 +52,8 @@ class Group < Shared::Watchable
 
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
-  validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/
+  validates_length_of :short_name, :minimum => 1, :maximum => 20
+  validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/, :message => "may consist only of letters, numbers and the following: & _ -"
 
   scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
   scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
