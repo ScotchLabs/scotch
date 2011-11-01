@@ -2,3 +2,6 @@
 
 <hr/>
 This is an automated message sent to you by Scotch.
+<% if @feedpost.parent.class.name == "Group" # FIXME doesn't take into account if current_user is a member of the group %>
+To unsubscribe from this mailing list, <%= link_to "click here", leave_group_url(@feedpost.parent) %>.
+<% end %>
