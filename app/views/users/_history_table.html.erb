@@ -11,7 +11,7 @@ function setBold(tag) {
 
 <% index = -1
 @years.each { |year| %>
-  	<span class='historyYear' style='margin: 0 10px; white-space: nowrap; cursor: pointer' onclick='scrollHistory(<%= "#{index += 1}" %>); return setBold(this);'>
+  	<span class='historyYear' style='margin: 0 10px; cursor: pointer' onclick='scrollHistory(<%= "#{index += 1}" %>); return setBold(this);'>
 		<%= "#{year.first.year} - #{year.last.year}" %>
 		</span>
 <% } %>
@@ -19,12 +19,12 @@ function setBold(tag) {
 
 <script>var current = $('.historyYear'); setBold(current[current.length-1])</script>
 
-<div style='width:408px; height:147px; overflow:hidden; position:relative'><!-- window -->
-<div style='position:relative; height: 147px; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'><!-- container -->
+<div style='width:408px; overflow:hidden; position:relative'><!-- window -->
+<div style='position:relative; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'><!-- container -->
   <%	@years.each { |year|
 		show_positions = @user.positions_during(year, "Show") %>
 		<% if show_positions.length > 0 %>
-		  <div style='display: inline-block; height:147px; width:408px; float:left'>
+		  <div style='display: inline-block; width:408px; float:left'>
 		    <h1>Production History</h1>
 		    <table style='width:408px'>
 		      <% grid = show_positions.inject({}) { |acc,pos|
