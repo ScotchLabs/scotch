@@ -19,12 +19,12 @@ function setBold(tag) {
 
 <script>var current = $('.historyYear'); setBold(current[current.length-1])</script>
 
-<div style='width:100%; overflow:hidden; position:relative'>
-<div style='position:relative; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'>
+<div style='width:408px; height:147px; overflow:hidden; position:relative'><!-- window -->
+<div style='position:relative; height: 147px; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'><!-- container -->
   <%	@years.each { |year|
 		show_positions = @user.positions_during(year, "Show") %>
 		<% if show_positions.length > 0 %>
-		  <div style='display: inline-block'>
+		  <div style='display: inline-block; height:147px; width:408px; float:left'>
 		    <h1>Production History</h1>
 		    <table style='width:408px'>
 		      <% grid = show_positions.inject({}) { |acc,pos|
@@ -52,10 +52,11 @@ function setBold(tag) {
           <% } %>
           
 		    </table>
-		    </div>
+		    </div><!-- pane -->
 		<% end
     # TODO Someday, when we can track old board positions, etc, organizational
     # history will go here.
     %>
   <% } %>
-</div></div>
+</div><!-- window -->
+</div><!-- container -->
