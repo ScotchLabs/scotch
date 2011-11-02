@@ -1,0 +1,62 @@
+<script>function scrollHistory(index) {
+	$('#history').animate({'right':index * 408});
+}
+function setBold(tag) {
+	$('.historyYear').css({'font-weight':'normal'});
+	$(tag).css({'font-weight':'bold'})
+}</script>
+
+<div style='text-align:center; width:408px; margin: 5px 0'>
+<!-- <div style='float:left'>&lt;</div><div style='float:right'>&gt;</div> -->
+
+<% index = -1
+@years.each { |year| %>
+  	<span class='historyYear' style='margin: 0 10px; white-space: nowrap; cursor: pointer' onclick='scrollHistory(<%= "#{index += 1}" %>); return setBold(this);'>
+		<%= "#{year.first.year} - #{year.last.year}" %>
+		</span>
+<% } %>
+</div>
+
+<script>var current = $('.historyYear'); setBold(current[current.length-1])</script>
+
+<div style='width:408px; height:147px; overflow:hidden; position:relative'><!-- window -->
+<div style='position:relative; height: 147px; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'><!-- container -->
+  <%	@years.each { |year|
+		show_positions = @user.positions_during(year, "Show") %>
+		<% if show_positions.length > 0 %>
+		  <div style='display: inline-block; height:147px; width:408px; float:left'>
+		    <h1>Production History</h1>
+		    <table style='width:408px'>
+		      <% grid = show_positions.inject({}) { |acc,pos|
+        		if acc[pos.group].nil?
+        			acc[pos.group] = [pos]
+        		else
+        			acc[pos.group] += [pos]
+        		end
+        	  acc
+        	} %>
+        	<% odd = "#eee" %>
+        	<% (grid.sort_by { |k,v| k.archive_date }).each { |show,pos|
+          	positions = pos.map { |p| 
+          		if p.role.to_s == "Cast" 
+          			"<em>as " << p.to_s << "</em>"
+          		elsif p.role.to_s == "Tech Head" or p.role.to_s == "Production Staff"
+          			"<strong>" << p.to_s << "</strong>" 
+          		else 
+          			p.to_s 
+          		end 
+          	}
+          	positions = positions.join "<br/>" %>
+          	<tr style='background: <%= odd %>'><td style='padding:3px; width: 50%'><%= link_to show.to_s, show_path(show) %></em></td><td style='padding:3px'><%= raw positions %></td></tr>
+          	<% odd = odd == "#eee" ? "white" : "#eee" %>
+          <% } %>
+          
+		    </table>
+		    </div><!-- pane -->
+		<% end
+    # TODO Someday, when we can track old board positions, etc, organizational
+    # history will go here.
+    %>
+  <% } %>
+</div><!-- window -->
+</div><!-- container -->

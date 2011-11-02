@@ -36,6 +36,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
+    @years = @user.active_years("Show")
+    
     respond_to do |format|
       format.html # show.html.erb
 
