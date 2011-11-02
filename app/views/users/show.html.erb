@@ -26,7 +26,7 @@
 			<a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
 			<div class='clearfix'></div>
 		</div>
-		<% history_table %>
+		<%= render "history_table" %>
 	</div>
 	<div class='half fright'>
 		<% if @user == current_user or has_global_permission? "adminUsers" %>
