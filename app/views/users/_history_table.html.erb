@@ -1,12 +1,12 @@
 <script>function scrollHistory(index) {
-	$('#history').animate({'right':index * 408});
+	$('#history').animate({'right':index * 410});
 }
 function setBold(tag) {
 	$('.historyYear').css({'font-weight':'normal'});
 	$(tag).css({'font-weight':'bold'})
 }</script>
 
-<div style='text-align:center; width:408px; margin: 5px 0'>
+<div style='text-align:center; width:410px; margin: 5px 0'>
 <!-- <div style='float:left'>&lt;</div><div style='float:right'>&gt;</div> -->
 
 <% index = -1
@@ -20,13 +20,13 @@ function setBold(tag) {
 <script>var current = $('.historyYear'); setBold(current[current.length-1])</script>
 
 <div style='width:100%; overflow:hidden; position:relative'>
-<div style='position:relative; width: <%= "#{408*@years.length}" %>px; right: <%= "#{408*(@years.length-1)}" %>px' id='history'>
+<div style='position:relative; width: <%= "#{410*@years.length}" %>px; right: <%= "#{410*(@years.length-1)}" %>px' id='history'>
   <%	@years.each { |year|
 		show_positions = @user.positions_during(year, "Show") %>
 		<% if show_positions.length > 0 %>
 		  <div style='display: inline-block'>
 		    <h1>Production History</h1>
-		    <table style='width:408px'>
+		    <table style='width:410px'>
 		      <% grid = show_positions.inject({}) { |acc,pos|
         		if acc[pos.group].nil?
         			acc[pos.group] = [pos]
