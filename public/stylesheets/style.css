@@ -551,7 +551,8 @@ body > div > section {
   vertical-align: middle;
   text-transform: uppercase;
   margin: 0;
-  padding: 0 8px 8px
+  padding: 0 8px 8px;
+  width: 130px !important;
 }
 #nav > ul > li:before {
   content: ""
@@ -559,7 +560,6 @@ body > div > section {
 #nav > ul > li > a {
   display: inline-block;
   color: #333;  /* black */
-  width: 93px;
   padding: 16px 0 6px;
   
   -webkit-border-bottom-left-radius: 8px;
