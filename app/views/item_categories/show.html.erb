@@ -1,38 +1,26 @@
-<% if @item_subcategories
+<% unless @item_subcategories
   # this is a category that contains other categories
   %>
+  <%= link_to @item_category.parent_category, @item_category.parent_category %> &gt;
+<% end %>
+<%= @item_category %>
+<% if has_global_permission? "adminItemCategories" %> 
+  (<%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_item_category_path(@item_category) %>)
+<% end %>
+<br><br>
+
+<% if @item_subcategories %>
   <div class='grid'>
-  
-    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Back", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
-    
-    <%= render "as_grid_item", :object => @item_category %>
-    
     <% for item_category in @item_subcategories %>
       <%= render "as_grid_item", :object => item_category, :link => true %>
     <% end %>
-  
   </div>
+<% end %>
 
-<% else
-  # this is a category that contains items
-  %>
-  
-  <div class='grid'>
-  
-    <%= render "as_grid_item", :link => true, :href => item_categories_path, :h1 => "<< Beginning", :h2 => pluralize(ItemCategory.parent_categories.count, "Category") %>
-    
-    <%= render "as_grid_item", :link => true, :object => @item_category.parent_category, :h1 => "< #{@item_category.parent_category}" %>
-  
-    <%= render "as_grid_item", :link => false, :object => @item_category %>
-  
-  </div>
-  
-  <% unless @item_category.items.empty? %>
+<% unless @item_category.items.empty? %>
   <article>
-  <% for item in @item_category.items %>
-    <%= render "items/as_line_item", :object => item %>
-  <% end %>
+    <% for item in @item_category.items %>
+      <%= render "items/as_line_item", :object => item %>
+    <% end %>
   </article>
-  <% end %>
-  
 <% end %>
