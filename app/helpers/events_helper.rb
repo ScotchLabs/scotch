@@ -42,7 +42,7 @@ module EventsHelper
       \"repeatId\":#{event.repeat_id or 0},
       \"currentUserAttending\":#{ea},
       \"allDay\":#{event.all_day or false},
-      \"editable\":#{has_permission? "adminEvents"},
+      \"editable\":#{(has_permission? "adminEvents")? true : false},
       \"description\":#{RedCloth.new(event.description).gsub(/\n/,"<br>").to_json}}"
   end
 end
