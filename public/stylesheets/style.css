@@ -552,12 +552,13 @@ body > div > section {
   text-transform: uppercase;
   margin: 0;
   padding: 0 8px 8px;
-  width: 130px !important;
+  width: 130px;
 }
 #nav > ul > li:before {
   content: ""
 }
 #nav > ul > li > a {
+  width: 130px;
   display: inline-block;
   color: #333;  /* black */
   padding: 16px 0 6px;
