@@ -28,8 +28,8 @@ module ApplicationHelper
   # "a few days ago"?
   def format_time(time,override=false)
 		return "-" if time.nil?
-		return time.strftime("%I:%M %p on %B %d, %Y") if override
-		time.strftime("%I:%M %p "+day_word(time)) unless override
+		return time.strftime("%l:%M %p on %B %d, %Y") if override
+		time.strftime("%l:%M %p "+day_word(time)) unless override
   end
   def format_date(date,override=false)
 		return "-" if date.nil?
@@ -42,9 +42,9 @@ module ApplicationHelper
     return format_time(start_time,override)+" to "+format_time(end_time,override) if override
     start_date = start_time.to_date
     end_date = start_time.to_date
-    r = start_time.strftime("%I:%M %p")
+    r = start_time.strftime("%l:%M %p")
     r += " "+start_time.strftime(day_word(start_time)) unless start_date == end_date
-    r += " to "+end_time.strftime("%I:%M %p "+day_word(end_time))
+    r += " to "+end_time.strftime("%l:%M %p "+day_word(end_time))
     r
   end
   def format_date_range(start_date, end_date, override=false)
@@ -70,39 +70,46 @@ module ApplicationHelper
   def flavortext
     # The first flavortext in this list is the only one used until the person
     # logs in, then it cycles pseudo-randomly
+    # Remember that the style makes it all-caps, so capitalization doesn't really matter
     flav = [
+      # Obligatory
       "Scotch'n'Soda's Online Informatory",
       "Is Informatory Even A Word?",
+      # ... Since 1938
       "Breaking Legs and Taking Names Since 1938",
       "Enabling Dangerous Acts Since 1938",
       "Loving Every Minute Of It Since 1938",
       "Conscripting Baggers Since 1938",
-      "Pretentious since 1938",
-      "Have you seen the new Dungeon?",
-      "Unofficially sponsored by Jolt Cola",
-      "It seemed like a good idea at the time",
-      "No, we will *not* implement an S'n'Cest feature!",
-      "The Mafia of Theatre",
-      "Proud to be Fierce!",
-      "SSTH FTW",
-      "<Show Name Here> BITES",
-      "Anyone want to steal the fence?",
-      "Powered By Kitten Sneezes",
-      "Better Than 6 Hours of Sex and Bacon",
-      "Because Academics Come First",
-      "This message brought to you by Spackle For President",
-      "Have you finished your budget yet?",
+      "Pretentious Since 1938",
+      "Making Mistakes Since 1938",
+      # Facebook jokes
       "Who are we kidding, it's really \"Scotchbook\"",
       "Like Facebook, but not for losers",
+      "Too close for missiles, switching to guns",
       "We took Facebook and changed the Stylesheet",
-      "Don't stick it in the crazy",
+      # Thank you Caitlin
       "You are beautiful",
       "You are loved and appreciated",
       "You don't suck",
       "Sunshine, puppies, and fresh-baked cookies",
       "10 points for brushing your teeth every day",
       "Caitlin thinks you're attractive",
-      "Too close for missiles, switching to guns" # if you remember facebook in 2005 you will keep this one
+      "Powered By Kitten Sneezes",
+      # Things We Say
+      "Have you seen the new Dungeon?",
+      "Unofficially sponsored by Jolt Cola",
+      "It seemed like a good idea at the time",
+      "Mistakes were made",
+      "SSTH FTW",
+      "<Show Name Here> BITES",
+      "Anyone want to steal the fence?",
+      "Have you finished your budget yet?",
+      "Because Academics Come First",
+      "Don't stick it in the crazy",
+      # Institutional (you have to be old or in "that" show to get it)
+      "No, we will *not* implement an S'n'Cest feature!",
+      "This message brought to you by Spackle For President",
+      "Better Than 6 Hours of Sex and Bacon"
     ]
     if current_user
       flav[rand(flav.length)]
