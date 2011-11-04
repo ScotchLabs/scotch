@@ -106,7 +106,6 @@ module ApplicationHelper
       "Have you finished your budget yet?",
       "Because Academics Come First",
       "Don't stick it in the crazy",
-      # Institutional (you have to be old or in "that" show to get it)
       "No, we will *not* implement an S'n'Cest feature!",
       "This message brought to you by Spackle For President",
       "Better Than 6 Hours of Sex and Bacon"
