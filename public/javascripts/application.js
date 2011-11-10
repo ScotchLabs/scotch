@@ -2,11 +2,6 @@ $(function(){
   // apply the placeholder shim for the rich and prosperous elements.
   $('.placeholder-shim').placeholder();
   
-  // dynamically size the navitems: because some people have more than others
-  numnav = $('#nav > ul> li').size();
-  $('#nav > ul > li').css('width',900/numnav-21);
-  $('#nav > ul > li a').css('width',900/numnav-21);
-  
   // autocomplete stuff
   $('#user_identifier').autocomplete('/users.js');
   $('.user_identifier').autocomplete('/users.js');

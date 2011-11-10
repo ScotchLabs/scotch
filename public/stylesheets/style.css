@@ -140,35 +140,35 @@ p {
 }
 /* box-shadow and rounded borders */
 .shadow {
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  box-shadow: 0 5px 20px #333;          /* black */
+  -webkit-box-shadow: 0 1px 1px #333;  /* black */
+  -moz-box-shadow: 0 1px 1px #333;     /* black */
+  box-shadow: 0 1px 1px #333;          /* black */
 }
 .topcorner {
-  -webkit-border-top-left-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
 }
 .bottomcorner {
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 .bottomleftcorner {
-  -webkit-border-bottom-left-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-left-radius: 3px;
 }
 .bottomrightcorner {
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-right-radius: 8px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
 }
 /* use these classes on divs inside an article */
 .thirds-split-left {
@@ -273,15 +273,15 @@ hr {
 article {
   background: #fff;                     /* white */
   padding: 20px;
-  margin-bottom: 35px;
+  margin-bottom: 8px;
   
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  box-shadow: 0 5px 20px #333;          /* black */
+  -webkit-box-shadow: 0 1px 1px #333;  /* black */
+  -moz-box-shadow: 0 1px 1px #333;     /* black */
+  box-shadow: 0 1px 1px #333;          /* black */
   
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 /* In order to create a three-grid, wrap your grid items
  *   in <div class='grid'>...</div>.
@@ -292,21 +292,21 @@ article {
  */
 .three-grid, .three-grid-no-link {
   display: inline-block;
-  width: 234px;
+  width: 252px;
   background: #fff;                     /* white */
   color: #333;                          /* black */
   padding: 20px;
-  margin-bottom: 35px;
+  margin-bottom: 8px;
   
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  box-shadow: 0 5px 20px #333;          /* black */
+  -webkit-box-shadow: 0 1px 1px #333;  /* black */
+  -moz-box-shadow: 0 1px 1px #333;     /* black */
+  box-shadow: 0 1px 1px #333;          /* black */
   
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
   
-  margin-right: 35px;
+  margin-right: 8px;
 }
 .three-grid:hover {
   background-color: #ddd;
@@ -473,12 +473,12 @@ body {
   color: #fff;  /* white */
   background: #333;  /* black */
   
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
   
   padding: 3px 11px;
 }
@@ -524,21 +524,21 @@ body > div > section {
   min-width: inherit;
   text-transform: none
 }
-#nav {
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  box-shadow: 0 5px 20px #333;          /* black */
+#nav, #login {
+  -webkit-box-shadow: 0 1px 1px #333;  /* black */
+  -moz-box-shadow: 0 1px 1px #333;     /* black */
+  box-shadow: 0 1px 1px #333;          /* black */
   
   background: #fff;                     /* white */
   
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
   
-  margin-bottom: 35px;
+  margin-bottom: 8px;
 }
 #nav > ul {
   padding: 0;
@@ -551,31 +551,32 @@ body > div > section {
   vertical-align: middle;
   text-transform: uppercase;
   margin: 0;
-  padding: 0 8px 8px
+  padding: 0 8px 8px;
+  width: 130px;
 }
 #nav > ul > li:before {
   content: ""
 }
 #nav > ul > li > a {
+  width: 130px;
   display: inline-block;
   color: #333;  /* black */
-  width: 93px;
   padding: 16px 0 6px;
   
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 .navselected, #nav > ul > li > a:hover {
   background: #ddd !important;  /* grey */
   color: #333 !important;       /* black */
 }
 #subnav {
-  position: absolute;
-  margin: 0 auto;
+  /*position: absolute;*/
+  margin: 8px auto;
   width: 900px
 }
   
@@ -601,13 +602,13 @@ body > div > section {
   color: #333;                          /* black */
   line-height: 9px;
   
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
   
-  -webkit-box-shadow: 0 5px 20px #333;  /* black */
-  -moz-box-shadow: 0 5px 20px #333;     /* black */
-  box-shadow: 0 5px 20px #333;          /* black */
+  -webkit-box-shadow: 0 1px 1px #333;  /* black */
+  -moz-box-shadow: 0 1px 1px #333;     /* black */
+  box-shadow: 0 1px 1px #333;          /* black */
   
   padding: 8px 18px;
 }
@@ -662,12 +663,12 @@ body > div > section {
   color: #fff;
   background: #333;
   
-  -webkit-border-top-left-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
   
   padding: 3px 11px;
   text-transform: uppercase;

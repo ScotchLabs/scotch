@@ -56,13 +56,11 @@
         </span>
         <% end %>
       </header>
-      <nav id='nav'>
-        <% if current_user then %>
-          <%= render "layouts/nav" %>
-        <% else %>
-          <%= render "layouts/login" %>
-        <% end %>
-      </nav>
+      <% if current_user then %>
+        <%= render "layouts/nav" %>
+      <% else %>
+        <div id='login'><%= render "layouts/login" %></div>
+      <% end %>
       <noscript>
         <article>
           <p>Hey there! It looks like you've got JavaScript turned off.
