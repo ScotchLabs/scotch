@@ -82,5 +82,5 @@ Scotch::Application.routes.draw do |map|
   get "dashboard/terms"
   get "dashboard/search"
 
-  root :to => "dashboard#index"
+  root :to => "dashboard#root"
 end

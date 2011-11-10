@@ -1,4 +1,8 @@
 class DashboardController < ApplicationController
+  def root
+    redirect_to dashboard_index_path
+  end
+  
   def index
     unless current_user.valid?
       flash[:notice] = "Sorry, but we need you to fill out some profile information before continuing."
