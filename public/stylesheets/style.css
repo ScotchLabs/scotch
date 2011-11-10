@@ -273,7 +273,7 @@ hr {
 article {
   background: #fff;                     /* white */
   padding: 20px;
-  margin-bottom: 35px;
+  margin-bottom: 8px;
   
   -webkit-box-shadow: 0 1px 1px #333;  /* black */
   -moz-box-shadow: 0 1px 1px #333;     /* black */
@@ -292,11 +292,11 @@ article {
  */
 .three-grid, .three-grid-no-link {
   display: inline-block;
-  width: 234px;
+  width: 252px;
   background: #fff;                     /* white */
   color: #333;                          /* black */
   padding: 20px;
-  margin-bottom: 35px;
+  margin-bottom: 8px;
   
   -webkit-box-shadow: 0 1px 1px #333;  /* black */
   -moz-box-shadow: 0 1px 1px #333;     /* black */
@@ -306,7 +306,7 @@ article {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   
-  margin-right: 35px;
+  margin-right: 8px;
 }
 .three-grid:hover {
   background-color: #ddd;
@@ -524,7 +524,7 @@ body > div > section {
   min-width: inherit;
   text-transform: none
 }
-#nav {
+#nav, #login {
   -webkit-box-shadow: 0 1px 1px #333;  /* black */
   -moz-box-shadow: 0 1px 1px #333;     /* black */
   box-shadow: 0 1px 1px #333;          /* black */
@@ -538,7 +538,7 @@ body > div > section {
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   
-  margin-bottom: 35px;
+  margin-bottom: 8px;
 }
 #nav > ul {
   padding: 0;
@@ -575,8 +575,8 @@ body > div > section {
   color: #333 !important;       /* black */
 }
 #subnav {
-  position: absolute;
-  margin: 0 auto;
+  /*position: absolute;*/
+  margin: 8px auto;
   width: 900px
 }
   
