@@ -78,7 +78,7 @@ class Feedpost < ActiveRecord::Base
     when "Hidden"
       false
     when "Recipients"
-      recipient_ids && recipient_ids.include?(member.id)
+      not recipient_ids.nil? and recipient_ids.include?(member.id)
     when "Group"
       member.member_of?(parent)
     else

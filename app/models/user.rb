@@ -173,7 +173,7 @@ class User < Shared::Watchable
   
   def email=(e)
     super
-    if self.andrewid.nil? and e.include? "@andrew.cmu.edu"
+    if self.andrewid.nil? and not e.nil? and e.include? "@andrew.cmu.edu"
       self.andrewid = e[0...e.index("@andrew.cmu.edu")]
     end
     self.email

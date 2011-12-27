@@ -43,7 +43,7 @@ squish_events(events) do |es| %>
                 <% end %>
               <% end %>
               <% if e.privacy_type == "limited" %>
-                <%= pluralize e.attendee_limit-e.attendees.count, "slot remains", "slots remain" %>.
+                <%= pluralize (e.attendee_limit or 1)-e.attendees.count, "slot remains", "slots remain" %>.
               <% end %>
               <% if e.privacy_type == "open" or (e.privacy_type == "limited" and (e.attendees-[current_user]).count < e.attendee_limit) %>
                 <% if e.attendees.include? current_user %>

@@ -5,7 +5,7 @@
   <h1><%= @user %>'s Followed Things</h1>
 <% end %>
 
-  <% @watchers.each do |watcher| %>
+  <% @watchers.compact.each do |watcher| %>
     <%= render "#{watcher.item.class.base_class.name.tableize}/as_line_item", :object => watcher.item %>
   <% end %>
 </article>
