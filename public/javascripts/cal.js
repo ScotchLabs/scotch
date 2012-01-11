@@ -7,6 +7,14 @@
  
  * precautions taken: events should not duplicate in the view, nor in the cache
  *   ajax calls do not duplicate per group
+ 
+ * Two fancy things:
+ * - some loading gifs are associated with multiple ajax calls. We have a registry
+ *   of calls currently open so that images don't hide before all the calls are back.
+ * - We don't know if an ajax call will return error or not, so we have a watcher
+ *   that triggers events based on ajax return status.
+ * - these two features boil down to "let's uniquely id every ajax call, and use that
+ *   id to make sure everything happens that should and doesn't happen that shouldn't"
  */
 
 var selectedGroups = [] // array of groups that are "selected" in the calside menu
