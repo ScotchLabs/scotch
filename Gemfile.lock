@@ -57,7 +57,6 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.16)
     mysql (2.8.1)
-    newrelic_rpm (3.3.1)
     orm_adapter (0.0.5)
     paperclip (2.3.16)
       activerecord (>= 2.3.0)
@@ -120,7 +119,6 @@ DEPENDENCIES
   htmlentities
   icalendar
   mysql
-  newrelic_rpm
   paperclip
   rails (= 3.0.7)
   ruby-debug19

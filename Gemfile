@@ -24,8 +24,6 @@ gem 'acts-as-taggable-on'
 
 gem 'digest-whirlpool'
 
-gem 'newrelic_rpm'
-
 group :development do
   gem 'ruby-debug19'
   gem 'annotate'
