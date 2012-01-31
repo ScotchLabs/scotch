@@ -110,8 +110,16 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
+    # I'm not sure when it actually uses the type in the name, but it seems
+    # inconsistent, so we'll try both for now
+    if params.has_key? params[:group_type].downcase then
+      data = params[params[:group_type].downcase]
+    else
+      data = params[:group]
+    end
+
     respond_to do |format|
-      if @group.update_attributes(params[params[:group_type].downcase])
+      if @group.update_attributes(data)
         format.html { redirect_to(@group, :notice => 'Group was successfully updated.') }
         format.xml  { head :ok }
       else
