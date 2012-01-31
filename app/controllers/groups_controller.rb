@@ -111,7 +111,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     respond_to do |format|
-      if @group.update_attributes(params[params[:group_type].downcase])
+      if @group.update_attributes(params[:group])
         format.html { redirect_to(@group, :notice => 'Group was successfully updated.') }
         format.xml  { head :ok }
       else
