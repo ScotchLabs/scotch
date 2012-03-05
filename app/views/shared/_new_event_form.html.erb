@@ -21,7 +21,14 @@ end
         </div>
         <div class='fleft' style="width: 222px; display: inline-block">
           <%= f.text_field :location, {:placeholder => "Location", :class => "placeholder-shim"} %><br>
-          <div class="field"><%= f.collection_select :group_id, (availablegroups).select{|e| current_user.has_global_permission? Permission.fetch("adminEvents") or e.user_has_permission? current_user,Permission.fetch("adminEvents") }, :id, :name, {}, {:onChange => 'populateInvitees()'} %></div>
+          <div class="field">
+            <%= f.collection_select :group_id, (availablegroups).select{ |e|
+              p = Permission.fetch("adminEvents")
+              # FIXME couldn't use has_permission? because it accesses @group
+              current_user.has_global_permission? p or 
+                e.user_has_permission? current_user, p
+            }, :id, :name, {}, {:onChange => 'populateInvitees()'} %>
+          </div>
         </div>
         <div class='clearfix'></div>
         <hr>

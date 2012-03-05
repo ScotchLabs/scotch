@@ -6,7 +6,7 @@ module Devise
       alias_method :bcrypt_valid_password?, :valid_password?
 
       def valid_password?(password)
-        if self.password_salt.length == 32
+        if not self.password_salt.nil? and self.password_salt.length == 32
           logger.info "Using SOTW Password."
           str = [self.password_salt, password].flatten.compact.join
           if ::Digest::Whirlpool.hexdigest(str) == self.encrypted_password
