@@ -10,7 +10,7 @@
   <% elsif @group.nil? %>
     <%= link_to tag.name, documents_path(:tag => tag.name), :class => css_class %>
   <% else %>
-    <%= link_to tag.name, group_path(@group, :tag => tag.name), :class => css_class %>
+    <%= link_to tag.name, group_documents_path(@group, :tag => tag.name), :class => css_class %>
   <% end %>
 <% end %>
 
