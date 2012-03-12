@@ -1,0 +1,27 @@
+<h1>Listing elections</h1>
+
+<table>
+  <tr>
+    <th>Position</th>
+    <th>Name</th>
+    
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @elections.each do |election| %>
+  <tr>
+    <td><%= election.position %></td>
+    <td><%= link_to election.name, election %></td>
+    <td><%= link_to 'Edit', edit_election_path(election) %></td>
+    <td><%= link_to 'Delete', election, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<h1>
+
+<%= link_to 'New Ballot', new_election_path %>

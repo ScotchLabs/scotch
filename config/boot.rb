@@ -1,5 +1,16 @@
 require 'rubygems'
 
+require 'rails/commands/server'
+
+module Rails
+  class Server
+    alias :default_options_alias :default_options
+    def default_options
+      default_options_alias.merge!(:Port => 9000)
+    end
+  end
+end
+
 # Set up gems listed in the Gemfile.
 gemfile = File.expand_path('../../Gemfile', __FILE__)
 begin

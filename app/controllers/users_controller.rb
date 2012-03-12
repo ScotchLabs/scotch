@@ -92,7 +92,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
+     format.xml  { head :ok }
     end
   end
 
