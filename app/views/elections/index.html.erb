@@ -1,10 +1,8 @@
-<h1>Listing elections</h1>
+<article>
+<h1>Listing all elections</h1>
 
 <table>
-  <tr>
-    <th>Position</th>
-    <th>Name</th>
-    
+  <tr>    
     <th></th>
     <th></th>
     <th></th>
@@ -12,16 +10,83 @@
 
 <% @elections.each do |election| %>
   <tr>
-    <td><%= election.position %></td>
     <td><%= link_to election.name, election %></td>
+    <td><%= election.position %></td>
     <td><%= link_to 'Edit', edit_election_path(election) %></td>
-    <td><%= link_to 'Delete', election, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', election, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
-
 <br />
-
 <h1>
 
-<%= link_to 'New Ballot', new_election_path %>
+<h1>President</h1>
+<% for election in @elections %>
+  <% if election.position == "President" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+  <% if @elections.empty? %>
+    <em> No platforms found </em>
+  <% end %>
+<% end %>
+<br>
+<h1>Vice President</h1>
+<% for election in @elections %>
+  <% if election.position == "Vice President" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>Artistic Director</h1>
+<% for election in @elections %>
+  <% if election.position == "Artistic Director" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>Managing Director</h1>
+<% for election in @elections %>
+  <% if election.position == "Managing Director" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>Technical Coordinator</h1>
+<% for election in @elections %>
+  <% if election.position == "Technical Coordinator" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>Secretary</h1>
+<% for election in @elections %>
+  <% if election.position == "Secretary" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>Public Relations Coordinator</h1>
+<% for election in @elections %>
+  <% if election.position == "Public Relations Coordinator" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<h1>General Membership Coordinator</h1>
+<% for election in @elections %>
+  <% if election.position == "General Membership Coordinator" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+<br>
+<% # Is this staying or...??? %>
+<h1>Rights & Reservations Representative</h1>
+<% for election in @elections %>
+  <% if election.position == "Rights & Reservations Representative" %>
+    <h2><%= link_to election.name, election %></h2>
+  <% end %>
+<% end %>
+
+<br>
+<h1><%= link_to 'New Ballot', new_election_path %></h1<br>
+</article>
