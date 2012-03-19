@@ -33,7 +33,7 @@ class Document < ActiveRecord::Base
   acts_as_taggable
 
   # FIXME use :hash in the url when it works again
-  has_attachment :file,
+  has_attachment :file, :styles => { :thumb => "50x50" },
     :default_url => nil,
 		:file_name => 'documents/:id_partition/:basename.:extension'
 
