@@ -17,13 +17,13 @@
   </div>
   <div class="field">
     <%= f.label :position %><br />
-    <%= f.collection_select :position, Election::POSITIONS, :to_s, :to_s, :include_blank => true %>
+    <%= f.text_field :position %>
   </div>
   <div class="field">
     <%= f.label :platform %><br />
     <%= f.text_area :platform %>
   </div>
   <div class="actions">
-    <%= f.submit "Create" %>
+    <%= f.submit %>
   </div>
 <% end %>
