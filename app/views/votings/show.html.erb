@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type:</b>
+  <%= @voting.type %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @voting.name %>
+</p>
+
+<p>
+  <b>Open date:</b>
+  <%= @voting.open_date %>
+</p>
+
+<p>
+  <b>Close date:</b>
+  <%= @voting.close_date %>
+</p>
+
+<p>
+  <b>Vote date:</b>
+  <%= @voting.vote_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_voting_path(@voting) %> |
+<%= link_to 'Back', votings_path %>
