@@ -1,7 +1,5 @@
 Scotch::Application.routes.draw do |map|
 
-  resources :elections
-
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
   resources :users, :except => [:new, :destroy] do
