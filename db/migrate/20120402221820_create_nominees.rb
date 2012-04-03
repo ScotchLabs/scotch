@@ -1,8 +1,8 @@
 class CreateNominees < ActiveRecord::Migration
   def self.up
     create_table :nominees do |t|
-      t.reference :user
-      t.reference :nomination
+      t.references :user
+      t.references :nomination
 
       t.timestamps
     end

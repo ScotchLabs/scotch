@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120131230130) do
+ActiveRecord::Schema.define(:version => 20120402221820) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -138,6 +138,25 @@ ActiveRecord::Schema.define(:version => 20120131230130) do
   add_index "items", ["catalog_number"], :name => "index_items_on_catalog_number"
   add_index "items", ["item_category_id"], :name => "index_items_on_item_category_id"
 
+  create_table "nominations", :force => true do |t|
+    t.integer  "race_id"
+    t.text     "platform"
+    t.string   "tagline"
+    t.integer  "votes"
+    t.boolean  "accepted"
+    t.boolean  "winner"
+    t.string   "write_in_nominee"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "nominees", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "nomination_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "permissions", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -155,6 +174,14 @@ ActiveRecord::Schema.define(:version => 20120131230130) do
   end
 
   add_index "positions", ["group_id", "user_id"], :name => "index_positions_on_group_id_and_user_id"
+
+  create_table "races", :force => true do |t|
+    t.integer  "voting_id"
+    t.string   "name"
+    t.integer  "grouping"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "role_permissions", :force => true do |t|
     t.integer  "role_id"
@@ -236,6 +263,16 @@ ActiveRecord::Schema.define(:version => 20120131230130) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "votings", :force => true do |t|
+    t.string   "type"
+    t.string   "name"
+    t.date     "open_date"
+    t.date     "close_date"
+    t.date     "vote_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "watchers", :force => true do |t|
     t.integer  "user_id"

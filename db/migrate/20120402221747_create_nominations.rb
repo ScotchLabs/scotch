@@ -1,7 +1,7 @@
 class CreateNominations < ActiveRecord::Migration
   def self.up
     create_table :nominations do |t|
-      t.reference :race
+      t.references :race
       t.text :platform
       t.string :tagline
       t.integer :votes

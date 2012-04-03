@@ -1,7 +1,7 @@
 class CreateRaces < ActiveRecord::Migration
   def self.up
     create_table :races do |t|
-      t.reference :voting
+      t.references :voting
       t.string :name
       t.integer :grouping
 
