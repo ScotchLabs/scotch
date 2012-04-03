@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :type %><br />
-    <%= f.text_field :type %>
+    <%= f.label :voting_type %><br />
+    <%= f.select :voting_type, Voting.VOTING_TYPES %>
   </div>
   <div class="field">
     <%= f.label :name %><br />
@@ -24,12 +24,12 @@
     <%= f.date_select :open_date %>
   </div>
   <div class="field">
-    <%= f.label :close_date %><br />
-    <%= f.date_select :close_date %>
-  </div>
-  <div class="field">
     <%= f.label :vote_date %><br />
     <%= f.date_select :vote_date %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date %><br />
+    <%= f.date_select :close_date %>
   </div>
   <div class="actions">
     <%= f.submit %>

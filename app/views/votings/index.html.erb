@@ -1,8 +1,10 @@
+<article>
+
 <h1>Listing votings</h1>
 
 <table>
   <tr>
-    <th>Type</th>
+    <th>Voting Type</th>
     <th>Name</th>
     <th>Open date</th>
     <th>Close date</th>
@@ -14,7 +16,7 @@
 
 <% @votings.each do |voting| %>
   <tr>
-    <td><%= voting.type %></td>
+    <td><%= voting.voting_type %></td>
     <td><%= voting.name %></td>
     <td><%= voting.open_date %></td>
     <td><%= voting.close_date %></td>
@@ -29,3 +31,5 @@
 <br />
 
 <%= link_to 'New Voting', new_voting_path %>
+
+</article>

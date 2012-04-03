@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120402221820) do
+ActiveRecord::Schema.define(:version => 20120403052119) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -265,13 +265,13 @@ ActiveRecord::Schema.define(:version => 20120402221820) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "votings", :force => true do |t|
-    t.string   "type"
     t.string   "name"
     t.date     "open_date"
     t.date     "close_date"
     t.date     "vote_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "voting_type"
   end
 
   create_table "watchers", :force => true do |t|

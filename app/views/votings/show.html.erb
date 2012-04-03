@@ -1,8 +1,10 @@
+<article>
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Type:</b>
-  <%= @voting.type %>
+  <b>Voting Type:</b>
+  <%= @voting.voting_type %>
 </p>
 
 <p>
@@ -28,3 +30,27 @@
 
 <%= link_to 'Edit', edit_voting_path(@voting) %> |
 <%= link_to 'Back', votings_path %>
+
+<hr>
+
+<% @voting.races.each do |race| %>
+
+  <%= race.name %>
+
+  <% race.nominations.sort.each do |nomination| %>
+
+    list nominees, link to second/vote
+
+  <% end %>
+
+  add new nomination (allow for `race.grouping` number of nominees)
+  todo: flag for "have to have this number" vs "may have this number"
+
+  <hr>
+
+<% end %>
+
+<!-- todo for admins only -->
+
+
+</article>
