@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120403052119) do
+ActiveRecord::Schema.define(:version => 20120404051153) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -145,7 +145,6 @@ ActiveRecord::Schema.define(:version => 20120403052119) do
     t.integer  "votes"
     t.boolean  "accepted"
     t.boolean  "winner"
-    t.string   "write_in_nominee"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -155,6 +154,7 @@ ActiveRecord::Schema.define(:version => 20120403052119) do
     t.integer  "nomination_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "write_in"
   end
 
   create_table "permissions", :force => true do |t|
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20120403052119) do
     t.integer  "grouping"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "write_in_available"
   end
 
   create_table "role_permissions", :force => true do |t|
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(:version => 20120403052119) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "voting_type"
+    t.date     "press_date"
   end
 
   create_table "watchers", :force => true do |t|
