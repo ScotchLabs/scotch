@@ -1,4 +1,6 @@
 class Nomination < ActiveRecord::Base
+  include Comparable
+  
   belongs_to :race
   has_many :nominees, :dependent => :destroy
   has_many :users, :through => :nominees

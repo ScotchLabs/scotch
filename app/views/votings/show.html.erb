@@ -35,26 +35,25 @@
 <%= link_to 'Edit', edit_voting_path(@voting) %> |
 <%= link_to 'Back', votings_path %>
 
-<hr>
+</article>
 
 <% @voting.races.each do |race| %>
+  <div>
+    <article>
+      <span class='fright'>
+        <a href='javascript:void(0)' onclick="$(this).parent().parent().parent().find('.collapsible').toggle('fast');$(this).find('.showhide').toggle()">
+          <span class='showhide hidden'>show</span><span class='showhide'>hide</span>
+        </a>
+      </span>
+      <h1><%= race.name %></h1>
+    </article>
+    <div class='collapsible'>
+      <% race.nominations.sort.each do |nomination| %>
 
-  <%= race.name %>
+        <%= render "nominations/as_grid_item", :object => nomination %>
 
-  <% race.nominations.sort.each do |nomination| %>
-
-    list nominees, link to second/vote
-
-  <% end %>
-
-  add new nomination (allow for `race.grouping` number of nominees)
-  todo: flag for "have to have this number" vs "may have this number"
-
-  <hr>
-
+      <% end %>
+      new nomination
+    </div>
+  </div>
 <% end %>
-
-<!-- todo for admins only -->
-
-
-</article>

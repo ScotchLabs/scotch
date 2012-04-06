@@ -1,37 +1,37 @@
 <article>
 
-<h1>Listing votings</h1>
-
-<table>
-  <tr>
-    <th>Voting Type</th>
-    <th>Name</th>
-    <th>Open date</th>
-    <th>Close date</th>
-    <th>Vote date</th>
-    <th>Press date</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @votings.each do |voting| %>
-  <tr>
-    <td><%= voting.voting_type %></td>
-    <td><%= voting.name %></td>
-    <td><%= voting.open_date %></td>
-    <td><%= voting.close_date %></td>
-    <td><%= voting.vote_date %></td>
-    <td><%= voting.press_date %></td>
-    <td><%= link_to 'Show', voting %></td>
-    <td><%= link_to 'Edit', edit_voting_path(voting) %></td>
-    <td><%= link_to 'Destroy', voting, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% open_elections = Voting.open.election
+if open_elections.count > 0 %>
+  <h1>Open Elections</h1>
+  <% open_elections.each do |e| %>
+    <%= render "as_line_item", :object => e %><br>
+  <% end %>
 <% end %>
-</table>
 
-<br />
+<% open_awards = Voting.open.award
+if open_awards.count > 0 %>
+  <h1>Open Awards</h1>
+  <% open_awards.each do |e| %>
+    <%= render "as_line_item", :object => e %><br>
+  <% end %>
+<% end %>
 
-<%= link_to 'New Voting', new_voting_path %>
+<% future_votings = Voting.future
+if future_votings.count > 0 %>
+  <h1>Future Elections and Awards</h1>
+  <% future_votings.each do |e| %>
+    <%= render "as_line_item", :object => e, :show_type => true %><br>
+  <% end %>
+<% end %>
+
+<% past_votings = Voting.past
+if past_votings.count > 0 %>
+  <h1>Past Elections and Awards</h1>
+  <% past_votings.each do |e| %>
+    <%= render "as_line_item", :object => e, :show_type => true %><br>
+  <% end %>
+<% end %>
+
+Admins: <%= link_to 'New Voting', new_voting_path %>
 
 </article>

@@ -4,4 +4,9 @@ class Nominee < ActiveRecord::Base
   has_one :race, :through => :nomination
   
   validates_presence_of :nomination, :user
+  
+  def to_s
+    return write_in if write_in
+    user.name
+  end
 end

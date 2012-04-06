@@ -11,13 +11,40 @@ class Voting < ActiveRecord::Base
   
   attr_accessible :voting_type, :name, :open_date, :close_date, :vote_date, :press_date
   
+  scope :future, where(["open_date > ?",Date.today])
+  scope :open, where(["open_date <= ? and close_date >= ?",Date.today,Date.today()])
+  scope :past, where(["close_date < ?",Date.today()])
+  
+  scope :election, where(:voting_type => 'election')
+  scope :award, where(:voting_type => "award")
+  
   validates_inclusion_of :voting_type, :in => VOTING_TYPES.map{|f| f[1]}, :message => "must be some value in #{VOTING_TYPES.map{|f| f[1]}}"
   validates_presence_of :name, :open_date, :close_date, :vote_date, :press_date
   validate :dates_are_sane
   
+  def future?
+    #,4)
+    open_date > Date.today
+  end
+  def open_for_nominations?
+    #[4,8)
+    open_date <= Date.today and vote_date > Date.today
+  end
+  def open_for_votes?
+    #[8,10)
+    vote_date <= Date.today and close_date > Date.today
+  end
+  def closed_for_votes?
+    #[10,12)
+    close_date <= Date.today and press_date > Date.today
+  end
+  def past?
+    #[12,
+    press_date <= Date.today
+  end
+  
 protected
   def dates_are_sane
-    errors[:open_date] << "must be in the future" unless open_date >= Date.today
     errors[:close_date] << "must be in the future" unless close_date > Date.today
     errors[:vote_date] << "must be in the future" unless vote_date > Date.today
     errors[:press_date] << "must be in the future" unless press_date > Date.today

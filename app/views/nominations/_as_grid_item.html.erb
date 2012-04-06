@@ -1,0 +1,27 @@
+<%
+#defaults
+object = object
+href = href
+h2 = h2
+link = link
+image = image
+
+string = ""
+if object.nominees.count > 2
+  object.nominees.count-2.times do |i|
+    string += "#{object.nominees[i].to_s}, "
+  end
+end
+string += object.nominees.last.to_s
+if object.nominees.count > 1
+  string += "and #{object.nominees[object.nominees.count-2].to_s}"
+end
+h1 = string
+h2 = object.tagline
+accepted = ""
+accepted = "Accepted" if object.accepted
+accepted = "Rejected" unless object.accepted.nil? or object.accepted
+p = object.platform
+
+%>
+<%= render "shared/as_grid_item", :link => false, :h1 => h1, :h2 => h2, :p => p, :image => image %>

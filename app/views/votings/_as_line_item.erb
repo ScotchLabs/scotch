@@ -1,0 +1,24 @@
+<%
+#defaults
+object = object
+link = link
+href = href
+h2 = h2
+h3 = h3
+p = p
+
+#model-specific
+show_type = show_type
+link = true
+href = url_for(object)
+h2 = "#{object.voting_type.humanize}: #{object.name}" if show_type
+h2 = object.name unless show_type
+
+h3 = "Opens #{object.open_date}" if object.future?
+h3 = "Nominations open until #{object.vote_date - 1.day} at midnight" if object.open_for_nominations?
+h3 = "Voting closes #{object.close_date - 1.day} at midnight" if object.open_for_votes?
+h3 = "Results available #{object.press_date - 1.day} at midnight" if object.closed_for_votes?
+h3 = "Results posted #{object.press_date}" if object.past?
+%>
+
+<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3 %>
