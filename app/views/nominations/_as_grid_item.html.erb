@@ -37,7 +37,10 @@ accept_link = "rejected" if rejected
 accept_link = "#{accept_link}accept" unless accepted
 accept_link = "#{accept_link}reject" unless rejected
 
-p = raw "#{object.platform}<div class='width:100%'><span class='fright'>#{vote_link}</span><span class='fleft'>#{accept_link}</span><div class='clearfix'></div></div>"
+#TODO truncate this
+platform = object.platform or ""
+
+p = raw "#{platform}<div class='width:100%'><span class='fright'>#{vote_link}</span><span class='fleft'>#{accept_link}</span><div class='clearfix'></div></div>"
 
 %>
 <%= render "shared/as_grid_item", :link => false, :h1 => h1, :h2 => h2, :p => p, :image => image %>
