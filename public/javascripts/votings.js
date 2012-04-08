@@ -18,4 +18,7 @@ $(document).ready(function(){
     $("a.reject").click(function(){
         
     })
+    $("a.newRace").click(function(){
+        
+    })
 })
