@@ -6,4 +6,16 @@ $(document).ready(function(){
     $("a.addNewNomination").click(function(){
         // stubbed TODO
     })
+    $("a.vote").click(function(){
+        
+    })
+    $("a.second").click(function(){
+        
+    })
+    $("a.accept").click(function(){
+        
+    })
+    $("a.reject").click(function(){
+        
+    })
 })

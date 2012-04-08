@@ -24,8 +24,8 @@ accepted = "Rejected" unless object.accepted.nil? or object.accepted
 
 # set up links
 vote_link = ""
-vote_link = "second" if object.race.voting.open_for_nominations?
-vote_link = "vote" if object.race.voting.open_for_votes?
+vote_link = "<a href='javascript:void(0)' class='second'>second</a>" if object.race.voting.open_for_nominations?
+vote_link = "<a href='javascript:void(0)' class='vote'>vote</a>" if object.race.voting.open_for_votes?
 #TODO and if current_user has privs to vote
 #ASK  and if ?
 
@@ -34,8 +34,8 @@ accepted = object.accepted===true
 rejected = object.accepted===false
 accept_link = "accepted" if accepted
 accept_link = "rejected" if rejected
-accept_link = "#{accept_link}accept" unless accepted
-accept_link = "#{accept_link}reject" unless rejected
+accept_link = "#{accept_link}<a href='javascript:void(0)' class='accept'>accept</a>" unless accepted
+accept_link = "#{accept_link}<a href='javascript:void(0)' class='reject'>reject" unless rejected
 
 #TODO truncate this
 platform = object.platform or ""
