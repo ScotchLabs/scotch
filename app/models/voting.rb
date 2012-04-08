@@ -45,9 +45,6 @@ class Voting < ActiveRecord::Base
   
 protected
   def dates_are_sane
-    errors[:close_date] << "must be in the future" unless close_date > Date.today
-    errors[:vote_date] << "must be in the future" unless vote_date > Date.today
-    errors[:press_date] << "must be in the future" unless press_date > Date.today
     errors[:close_date] << "must be after open date" if close_date < open_date
     errors[:vote_date] << "must be between open and closed dates" if vote_date < open_date or vote_date > close_date
     errors[:press_date] << "must be after close date" if press_date < close_date
