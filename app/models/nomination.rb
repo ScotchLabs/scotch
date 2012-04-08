@@ -6,6 +6,7 @@ class Nomination < ActiveRecord::Base
   has_many :users, :through => :nominees
   
   validates_presence_of :race
+  validates_numericality_of :votes, :minimum => 0
   
   def <=>(other)
     if self.accepted === other.accepted
@@ -19,5 +20,12 @@ class Nomination < ActiveRecord::Base
     else
       return -1
     end
+  end
+  
+  def accepted?
+    accepted===true
+  end
+  def rejected?
+    accepted===false
   end
 end
