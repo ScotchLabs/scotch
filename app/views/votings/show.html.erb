@@ -52,7 +52,13 @@ Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
         <%= render "nominations/as_grid_item", :object => nomination %>
 
       <% end %>
-      new nomination
+      
+      <%
+      # set up new nomination grid item
+      
+      #todo only show if privs allow
+      %>
+      <%= render "shared/as_grid_item", :h1 => "Add New Nomination", :link => true, :href => "javascript:void(0)", :link_class => "addNewNomination" %>
     </div>
   </div>
 <% end %>
