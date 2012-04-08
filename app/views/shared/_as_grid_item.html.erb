@@ -1,8 +1,10 @@
 <%
 #defaults
 object = object
+h2 = h2
 href = url_for(object) unless object.nil? or href
 link = link
+link_class = link_class
 image = image
 h1 = "#{object.to_s}" unless h1
 spanclass = 'three-grid-no-link'
@@ -13,21 +15,25 @@ edit = edit
 
 <% #FIXME this is not DRY.
 if link %>
-  <%= link_to href do %>
+  <%= link_to(href, :class => link_class) do %>
     <span class='<%= spanclass %>'>
       <% if image %>
-        <span class='fleft'><%= image %></span>
+        <span class='fleft'><%= image %></span><span class='fleft'>
+      <% else %>
+        <span class='fleft' style='width:100%'>
       <% end %>
-      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+      <h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
     </span>
   <% end %>
 <% else %>
   <span>
     <span class='<%= spanclass %>'>
       <% if image %>
-        <span class='fleft'><%= image %></span>
+        <span class='fleft'><%= image %></span><span class='fleft'>
+      <% else %>
+        <span class='fleft' style='width:100%'>
       <% end %>
-      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+      <h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
     <% unless edit.nil? %>
       <span class="edit_link"><%= edit %></span>
     <% end %>

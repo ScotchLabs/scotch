@@ -21,7 +21,26 @@ h2 = object.tagline
 accepted = ""
 accepted = "Accepted" if object.accepted
 accepted = "Rejected" unless object.accepted.nil? or object.accepted
-p = object.platform
+
+# set up links
+vote_link = ""
+vote_link = "<a href='javascript:void(0)' class='second'>second</a>" if object.race.voting.open_for_nominations?
+vote_link = "<a href='javascript:void(0)' class='vote'>vote</a>" if object.race.voting.open_for_votes?
+#TODO and if current_user has privs to vote
+#ASK  and if ?
+
+accept_link = ""
+accepted = object.accepted===true
+rejected = object.accepted===false
+accept_link = "accepted" if accepted
+accept_link = "rejected" if rejected
+accept_link = "#{accept_link}<a href='javascript:void(0)' class='accept'>accept</a>" unless accepted
+accept_link = "#{accept_link}<a href='javascript:void(0)' class='reject'>reject" unless rejected
+
+#TODO truncate this
+platform = object.platform or ""
+
+p = raw "#{platform}<div class='width:100%'><span class='fright'>#{vote_link}</span><span class='fleft'>#{accept_link}</span><div class='clearfix'></div></div>"
 
 %>
 <%= render "shared/as_grid_item", :link => false, :h1 => h1, :h2 => h2, :p => p, :image => image %>

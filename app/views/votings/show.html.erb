@@ -32,8 +32,7 @@
   <%= @voting.press_date %>
 </p>
 
-<%= link_to 'Edit', edit_voting_path(@voting) %> |
-<%= link_to 'Back', votings_path %>
+Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
 
 </article>
 
@@ -41,7 +40,7 @@
   <div>
     <article>
       <span class='fright'>
-        <a href='javascript:void(0)' onclick="$(this).parent().parent().parent().find('.collapsible').toggle('fast');$(this).find('.showhide').toggle()">
+        <a class='showhide' href='javascript:void(0)'>
           <span class='showhide hidden'>show</span><span class='showhide'>hide</span>
         </a>
       </span>
@@ -53,7 +52,18 @@
         <%= render "nominations/as_grid_item", :object => nomination %>
 
       <% end %>
-      new nomination
+      
+      <%
+      # set up new nomination grid item
+      
+      #todo only show if privs allow
+      %>
+      <%= render "shared/as_grid_item", :h1 => "Add New Nomination", :link => true, :href => "javascript:void(0)", :link_class => "addNewNomination" %>
     </div>
   </div>
 <% end %>
+
+<!-- todo if admin -->
+<a href='javascript:void(0)' class='newRace'><article>
+  <h1>New Race</h1>
+</article></a>

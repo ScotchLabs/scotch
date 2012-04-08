@@ -20,6 +20,16 @@
     <%= stylesheet_link_tag 'fullcalendar', 'cal' %>
     <%= javascript_include_tag 'fullcalendar.min', 'jquery-ui-timepicker-addon', 'cal' %>
   <% end %>
+  <% #FIXME there must be a better way to do this...
+  includevoting = false
+  begin
+    includevoting = true if current_page? voting_path
+  rescue ActionController::RoutingError
+    #See Above
+  end
+  if includevoting %>
+    <%= javascript_include_tag 'votings' %>
+  <% end %>
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
