@@ -16,18 +16,22 @@ if link %>
   <%= link_to href do %>
     <span class='<%= spanclass %>'>
       <% if image %>
-        <span class='fleft'><%= image %></span>
+        <span class='fleft'><%= image %></span><span class='fleft'>
+      <% else %>
+        <span class='fleft' style='width:100%'>
       <% end %>
-      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+      <h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
     </span>
   <% end %>
 <% else %>
   <span>
     <span class='<%= spanclass %>'>
       <% if image %>
-        <span class='fleft'><%= image %></span>
+        <span class='fleft'><%= image %></span><span class='fleft'>
+      <% else %>
+        <span class='fleft' style='width:100%'>
       <% end %>
-      <span class='fleft'><h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
+      <h1><%= h1 %></h1><h2><%= h2 %></h2><%= p %></span>
     <% unless edit.nil? %>
       <span class="edit_link"><%= edit %></span>
     <% end %>
