@@ -47,21 +47,40 @@ Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
       <h1><%= race.name %></h1>
     </article>
     <div class='collapsible'>
-      <% race.nominations.sort.each do |nomination| %>
-
-        <%= render "nominations/as_grid_item", :object => nomination %>
-
+      <% race.nominations.sort.each do |nomination|
+        show = true
+        # only seconded nominations get past the nominations round in elections
+        show = false if @voting.election? and nomination.votes < 2 and @voting.closed_for_nominations?
+        # only accepted nominations get past the nominations round in elections
+        show = false if @voting.election? and !nomination.accepted? and !nomination.rejected? and @voting.closed_for_nominations? %>
+        <% if show %>
+          <%= render "nominations/as_grid_item", :object => nomination %>
+        <% end %>
       <% end %>
       
       <%
       # set up new nomination grid item
-      
+      show = true
+      show = false if @voting.closed_for_nominations?
       #todo only show if privs allow
-      %>
-      <%= render "shared/as_grid_item", :h1 => "Add New Nomination", :link => true, :href => "javascript:void(0)", :link_class => "addNewNomination" %>
+      if show %>
+        <%= render "shared/as_grid_item", :h1 => "Add New Nomination", :link => true, :href => "javascript:void(0)", :link_class => "addNewNomination" %>
+      <% end %>
     </div>
   </div>
 <% end %>
+
+<div class='hidden'>
+  <div id='newRaceForm'>
+    new race form
+  </div>
+  <div id='newNominationForm'>
+    new nomination form
+  </div>
+  <div id='platformForm'>
+    platform form
+  </div>
+</div>
 
 <!-- todo if admin -->
 <a href='javascript:void(0)' class='newRace'><article>

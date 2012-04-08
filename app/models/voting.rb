@@ -34,6 +34,12 @@ class Voting < ActiveRecord::Base
     #[8,10)
     vote_date <= Date.today and close_date > Date.today
   end
+  def open?
+    open_for_nominations? or open_for_votes?
+  end
+  def closed_for_nominations?
+    !open_for_nominations?
+  end
   def closed_for_votes?
     #[10,12)
     close_date <= Date.today and press_date > Date.today
@@ -41,6 +47,13 @@ class Voting < ActiveRecord::Base
   def past?
     #[12,
     press_date <= Date.today
+  end
+  
+  def election?
+    voting_type=='election'
+  end
+  def award?
+    voting_type=='award'
   end
   
 protected

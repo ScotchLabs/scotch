@@ -4,21 +4,25 @@ $(document).ready(function(){
         $(this).find('.showhide').toggle();
     })
     $("a.addNewNomination").click(function(){
-        // stubbed TODO
-    })
-    $("a.vote").click(function(){
-        
-    })
-    $("a.second").click(function(){
-        
-    })
-    $("a.accept").click(function(){
-        
-    })
-    $("a.reject").click(function(){
-        
+        // open colorbox
     })
     $("a.newRace").click(function(){
-        
+        // open colorbox
+    })
+    $("a.vote").click(function(){
+        // post to update_nomination_path
+        // update nomination link (with response?)
+    })
+    $("a.second").click(function(){
+        // post to update_nomination_path
+        // update nomination link (with response?)
+    })
+    $("a.accept").click(function(){
+        // post to update_nomination_path
+        // update nomination link (with response?)
+    })
+    $("a.reject").click(function(){
+        // post to update_nomination_path
+        // update nomination link (with response?)
     })
 })
