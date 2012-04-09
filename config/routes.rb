@@ -1,6 +1,11 @@
 Scotch::Application.routes.draw do |map|
 
   resources :votings
+  resources :nominations, :only => [:create, :show, :edit, :update] do
+    member do
+      post :vote
+    end
+  end
 
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
