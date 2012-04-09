@@ -33,9 +33,9 @@ class Document < ActiveRecord::Base
   acts_as_taggable
 
   # FIXME use :hash in the url when it works again
-  has_attachment :file, :styles => { :thumb => "50x50" },
+  has_attachment :file, :styles => { :thumb => ["50x50", :png] },
     :default_url => nil,
-		:file_name => 'documents/:id_partition/:basename.:extension'
+		:file_name => 'documents/:id_partition/:basename_:style.:extension'
 
   validates_attachment_size :file, :less_than => 15.megabytes,
     :message => "must be less than 15 megabytes",
