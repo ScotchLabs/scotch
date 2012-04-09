@@ -9,7 +9,8 @@ h2 = object.to_s unless h2
 p = object.description unless p
 href = url_for(object) unless href
 unless image
-  if object.file_content_type == "image/jpeg" then
+  if (object.file_content_type == (
+	"image/jpeg" or "image/png" or "image/pdf")) then
     image = image_tag(object.file.url(:thumb), :size => "50x50")
   else
     image = image_tag("document_icon.png", :size => "50x50")
