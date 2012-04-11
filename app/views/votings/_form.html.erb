@@ -1,4 +1,4 @@
-<%= form_for(@voting) do |f| %>
+<%= nested_form_for(@voting) do |f| %>
   <% if @voting.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@voting.errors.count, "error") %> prohibited this voting from being saved:</h2>
@@ -35,6 +35,33 @@
     <%= f.label :press_date %><br />
     <%= f.date_select :press_date %>
   </div>
+	<%= f.fields_for :races do |race| %>
+	<div class="field">
+	  <%= race.label :name %>
+	  <%= race.text_field :name %>
+	</div>
+	<div class="field">
+		<%= race.label "Nominees per Nomination" %>
+		<%= race.text_field :grouping %>
+	</div>
+  	<div>
+		<%= race.fields_for :nominations do |nomination| %>
+			<div>
+			  <%= nomination.fields_for :nominees do |nominee| %>
+			    <div class="field">
+				  <%= nominee.label :andrew_id %>
+			  	  <%= nominee.text_field :andrew_id %>
+				  <%= nominee.link_to_remove "Remove" %>
+			    </div>
+			  <% end %>
+			</div>
+			<%= nomination.link_to_add "Add Nominee", :nominees %>
+			<%= nomination.link_to_remove "Remove Nomination" %>
+		<% end %>
+		<%= race.link_to_add "Add Nomination", :nominations %>
+	  </div>
+  <% end %>
+    <%= f.link_to_add "Add Race", :races %>
   <div class="actions">
     <%= f.submit %>
   </div>

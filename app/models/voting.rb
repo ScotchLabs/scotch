@@ -9,7 +9,9 @@ class Voting < ActiveRecord::Base
     VOTING_TYPES
   end
   
-  attr_accessible :voting_type, :name, :open_date, :close_date, :vote_date, :press_date
+  attr_accessible :voting_type, :name, :open_date, :close_date, :vote_date, :press_date, :races_attributes
+  
+  accepts_nested_attributes_for :races, :allow_destroy => true
   
   scope :future, where(["open_date > ?",Date.today])
   scope :open, where(["open_date <= ? and close_date >= ?",Date.today,Date.today()])

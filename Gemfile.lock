@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/ryanb/nested_form.git
+  revision: 486e0f0e93f3ca455d5d0fc7869053257b6afce2
+  specs:
+    nested_form (0.2.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -119,6 +125,7 @@ DEPENDENCIES
   htmlentities
   icalendar
   mysql
+  nested_form!
   paperclip
   rails (= 3.0.7)
   ruby-debug19
