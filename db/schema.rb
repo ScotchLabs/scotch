@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120404051153) do
+ActiveRecord::Schema.define(:version => 20120411203730) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -142,9 +142,9 @@ ActiveRecord::Schema.define(:version => 20120404051153) do
     t.integer  "race_id"
     t.text     "platform"
     t.string   "tagline"
-    t.integer  "votes"
-    t.boolean  "accepted"
-    t.boolean  "winner"
+    t.integer  "votes",      :default => 0
+    t.boolean  "accepted",   :default => false
+    t.boolean  "winner",     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

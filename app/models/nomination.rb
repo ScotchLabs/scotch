@@ -5,8 +5,6 @@ class Nomination < ActiveRecord::Base
   has_many :nominees, :dependent => :destroy
   has_many :users, :through => :nominees
   
-  before_create :nomination_full?
-  
   accepts_nested_attributes_for :nominees, :allow_destroy => true
   
   def <=>(other)
@@ -28,11 +26,5 @@ class Nomination < ActiveRecord::Base
   end
   def rejected?
     accepted===false
-  end
-  
-  private
-  
-  def nomination_full?
-    self.nominees.count >= self.race.grouping
   end
 end
