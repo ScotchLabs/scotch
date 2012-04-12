@@ -50,7 +50,7 @@ Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
       <% race.nominations.sort.each do |nomination|
         show = true
         # only seconded nominations get past the nominations round in elections
-        show = false if @voting.election? and nomination.votes < 2 and @voting.closed_for_nominations?
+        show = false if @voting.election? and nomination.votes.count < 2 and @voting.closed_for_nominations?
         # only accepted nominations get past the nominations round in elections
         show = false if @voting.election? and !nomination.accepted? and !nomination.rejected? and @voting.closed_for_nominations? %>
         <% if show %>
