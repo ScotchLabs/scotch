@@ -1,27 +1,17 @@
-<%
-#defaults
-object = object
-h3 = h3
-p = p
+<% position = object %>
 
-#model-specific
-link = url_for(object) unless link
-h2 = object.user unless h2
-image = image_tag object.user.headshot(:thumb) unless image
-unless h3
-  h3 = object.role.to_s
-  if object.role.to_s != object.display_name.to_s
-    h3 += " - #{object.display_name}"
-  end
-end
-href = url_for(object.user) unless href
-%>
+<%= render :layout => 'users/as_line_item', :locals => {:object => position.user, :style => 'display:inline-block; white-space:nowrap; float:left;'} do %>
+  <% if position.role.to_s != position.display_name.to_s %>
+    <%= position.display_name %> (<%= position.role %>)
+  <% else %>
+    <%= position.role %>
+  <% end %>
+<% end %>
 
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image, :style => {"display" => 'inline-block', 'white-space' => 'nowrap', 'float' => 'left'} %>
 <div style='display: inline-block; float: left; margin-left: 60px; margin-top: 3px;'>
-<% if has_permission?("adminPositions") || (object.role.crew? && has_permission?("adminCrew")) %>
-  <%= link_to image_tag("delete_icon.png", :size => "8x8"), position_path(object), :method => :delete, 
-    :confirm => "Are you sure you want to remove #{object.user} from the role of #{object}?" %>
+<% if has_permission?("adminPositions") || (position.role.crew? && has_permission?("adminCrew")) %>
+  <%= link_to image_tag("delete_icon.png", :size => "8x8"), position_path(position), :method => :delete, 
+    :confirm => "Are you sure you want to remove #{position.user} from the role of #{position}?" %>
 <% end %>
 </div>
 <div class='clearfix'></div>

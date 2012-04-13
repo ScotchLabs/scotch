@@ -1,23 +1,15 @@
-<%
-#defaults
-object = object
-href = url_for(object) unless href
-link = true unless link
-h3 = h3
-p = p
+<% group = object %>
 
-#model-specific
-h2 = object.to_s unless h2
-unless h3
-  h3 = ""
-  if object.archived?
-    h3 = "archived"
-  end
-  h3 << " " if h3
-  h3 << object.type.to_s
-end
-p = raw truncate(textilize_without_paragraph(object.description), :length => 250, :omission => "…")
-image = image_tag(object.image(:thumb)) unless image
-%>
-
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>
+<%= div_for group, :class => 'line-item' do %>
+    <div class='fleft line-item-image'>
+      <%= link_to image_tag(group.image(:thumb)), url_for(group) %>
+    </div>
+  <%= link_to url_for(group) do %>
+    <h2><%= group %></h2>
+    <h3><%= [group.archived? ? "archived" : nil, group.type.to_s].compact.join(" ")%></h3>
+    <span style='color:#333;font-weight:normal;'>
+      <%= truncate(raw(textilize_without_paragraph(group.description)), :length => 250, :omission => "…") %>
+    </span>
+  <% end %>
+<div class='clearfix'></div>
+<% end %>
