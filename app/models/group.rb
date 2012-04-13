@@ -86,7 +86,7 @@ class Group < Shared::Watchable
     g = Group.find(3)
 
     unless g and g.name == "Scotch'n'Soda"
-      logger.warn "Did the SNS group change?"
+      raise "Did the SNS group change?"
     end
     
     return g
