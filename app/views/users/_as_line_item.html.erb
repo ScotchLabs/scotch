@@ -1,15 +1,15 @@
-<%
-#defaults
-object = object
-href = url_for(object) unless href
-link = true unless link
-h3 = h3
-p = p
-
-#model-specific
-h2 = "#{object.to_s}" unless h2
-image = image_tag(object.headshot(:thumb)) unless image
-
+<% 
+  user = object 
+  style = style
 %>
 
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :p => p, :image => image %>
+<%= div_for user, :class => 'line-item line-item-user', :style => style do %>
+  <div class='fleft line-item-image'>
+    <%= link_to image_tag(user.headshot(:thumb)), url_for(user) %>
+  </div>
+  <%= link_to url_for(user) do %>
+    <h2><%= user %></h2>
+  <% end %>
+  <span style='color:#333;font-weight:normal;'><%= yield %></span>
+  <div class='clearfix'></div>
+<% end %>

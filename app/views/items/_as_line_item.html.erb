@@ -1,14 +1,9 @@
-<%
-#defaults
-object = object
-image = image
-
-#model-specific
-link = url_for(object) unless link
-h2 = object.to_s unless h2
-h3 = object.location unless h3
-href = url_for(object) unless href
-# FIXME add icon
-%>
-
-<%= render "shared/as_line_item", :link => link, :href => href, :h2 => h2, :h3 => h3, :image => image %>
+<% item = object %>
+<%= div_for item, :class => 'line-item' do %>
+  <%= link_to url_for(item) do %>
+    <h2><%= item %></h2>
+    <h3><%= item.location %></h3>
+    <span style='color:#333;font-weight:normal;'><%= item.description %></span>
+  <% end %>
+<div class='clearfix'></div>
+<% end %>
