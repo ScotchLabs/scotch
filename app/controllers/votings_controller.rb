@@ -1,4 +1,10 @@
 class VotingsController < ApplicationController
+  prepend_before_filter :locate_voting, :except => [:new, :create, :index]
+
+  before_filter :only => [:new, :create, :edit, :update, :destroy] do
+    require_permission "adminElection"
+  end
+
   # GET /votings
   # GET /votings.xml
   def index
@@ -13,9 +19,6 @@ class VotingsController < ApplicationController
   # GET /votings/1
   # GET /votings/1.xml
   def show
-    @voting = Voting.find(params[:id])
-    @group = @voting.group
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @voting }
@@ -36,7 +39,6 @@ class VotingsController < ApplicationController
 
   # GET /votings/1/edit
   def edit
-    @voting = Voting.find(params[:id])
   end
 
   # POST /votings
@@ -59,8 +61,6 @@ class VotingsController < ApplicationController
   # PUT /votings/1
   # PUT /votings/1.xml
   def update
-    @voting = Voting.find(params[:id])
-
     respond_to do |format|
       if @voting.update_attributes(params[:voting])
         format.html { redirect_to(@voting, :notice => 'Voting was successfully updated.') }
@@ -75,12 +75,18 @@ class VotingsController < ApplicationController
   # DELETE /votings/1
   # DELETE /votings/1.xml
   def destroy
-    @voting = Voting.find(params[:id])
     @voting.destroy
 
     respond_to do |format|
       format.html { redirect_to(votings_url) }
       format.xml  { head :ok }
     end
+  end
+
+  protected
+
+  def locate_voting
+    @voting = Voting.find(params[:id])
+    @group = @voting.group
   end
 end

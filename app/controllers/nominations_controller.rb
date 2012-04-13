@@ -1,12 +1,21 @@
 class NominationsController < ApplicationController
+  prepend_before_filter :locate_nomination
+
+  before_filter :only => [:edit, :update] do
+    unless @nomination.users.include? current_user
+      require_permision "adminElection"
+    end
+  end
+
+  before_filter :only => [:create, :vote] do
+    unless @group.users.include? current_user
+      require_global_permission "adminElection"
+    end
+  end
 
   # Nominate someone
   # Must pass a race_id
   def create
-    @nomination = Nomination.new(params[:nomination])
-    @race = @nomination.race
-    @voting = @race.voting
-
     @nomination.votes.build(:user_id => current_user.id)
     if @nomination.save 
       flash[:notice] = "Nomination successful."
@@ -21,10 +30,6 @@ class NominationsController < ApplicationController
   # awards, voting - vote for someone
   # if current user is the nominee this is accept
   def vote
-    @nomination = Nomination.find(params[:id])
-    @race = @nomination.race
-    @voting = @race.voting
-
     @vote = @nomination.votes.build(:user_id => current_user.id)
     if @vote.save
       flash[:notice] = "You've voted for #{@nomination} for #{@race}."
@@ -36,25 +41,28 @@ class NominationsController < ApplicationController
 
   # show a platform
   def show
-    @nomination = Nomination.find(params[:id])
-    @group = @nomination.voting.group
   end
 
   # edit a platform
   def edit
-    @nomination = Nomination.find(params[:id])
-    @group = @nomination.voting.group
   end
 
   # update a platform
   def update
-    @nomination = Nomination.find(params[:id])
-    @group = @nomination.voting.group
     if @nomination.update_attributes(params[:nomination])
         redirect_to(@nomination, :notice => 'Platform was successfully updated.')
     else
       render :action => "edit"
     end
+  end
+
+  protected
+
+  def locate_nomination
+    @nomination = Nomination.find(params[:id])
+    @race = @nomination.race
+    @voting = @race.voting
+    @group = @voting.group
   end
 
 end
