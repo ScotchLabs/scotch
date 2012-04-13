@@ -1,6 +1,7 @@
 <article>
-
-<p id="notice"><%= notice %></p>
+<% if has_permission? "adminElection" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_voting_path(@voting) %></div>
+<% end %>
 
 <h1><%= @voting.name %></h1>
 <h2><%= @voting.voting_type.capitalize %></h2>
@@ -19,8 +20,6 @@
   <b>Vote date:</b>
   <%= @voting.vote_date.strftime("%A, %B %-d") %>
 </p>
-
-Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
 
 </article>
 
