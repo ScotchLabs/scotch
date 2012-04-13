@@ -3,7 +3,6 @@ class CreateVoters < ActiveRecord::Migration
     create_table :voters do |t|
       t.integer :user_id
       t.integer :voting_id
-      t.integer :votes_count
       t.boolean :has_voted, :default => false
 
       t.timestamps

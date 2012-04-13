@@ -57,6 +57,10 @@
 				  <%= nominee.link_to_remove "Remove" %>
 			    </div>
 			  <% end %>
+			  <div class="field">
+				<%= nomination.label :votes_count, "Votes"%>
+				<%= nomination.text_field :votes_count %>
+			  </div>
 			<p><%= nomination.link_to_add "[+] Add Nominee", :nominees %></p>
 			<p><%= nomination.link_to_remove "[-] Remove Nomination" %></p>
 			</div>

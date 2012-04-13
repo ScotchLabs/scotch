@@ -142,10 +142,11 @@ ActiveRecord::Schema.define(:version => 20120412210617) do
     t.integer  "race_id"
     t.text     "platform"
     t.string   "tagline"
-    t.boolean  "accepted",   :default => false
-    t.boolean  "winner",     :default => false
+    t.boolean  "accepted",    :default => false
+    t.boolean  "winner",      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "votes_count", :default => 0
   end
 
   create_table "nominees", :force => true do |t|
@@ -267,8 +268,7 @@ ActiveRecord::Schema.define(:version => 20120412210617) do
   create_table "voters", :force => true do |t|
     t.integer  "user_id"
     t.integer  "voting_id"
-    t.integer  "votes_count"
-    t.boolean  "has_voted",   :default => false
+    t.boolean  "has_voted",  :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
