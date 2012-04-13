@@ -1,10 +1,12 @@
 class Nomination < ActiveRecord::Base
   include Comparable
   
-  belongs_to :race
-  has_many :nominees, :dependent => :destroy
+  belongs_to :race, :inverse_of => :nominations
+  validates_presence_of :race
+
+  has_many :nominees, :dependent => :destroy, :inverse_of => :nomination
   has_many :users, :through => :nominees
-  has_many :votes, :dependent => :destroy
+  has_many :votes, :dependent => :destroy, :inverse_of => :nomination
 
   accepts_nested_attributes_for :nominees, :allow_destroy => true
   
@@ -35,5 +37,9 @@ class Nomination < ActiveRecord::Base
 
   def needs_second?
     race.voting.election? and (votes.count <= 1)
+  end
+
+  def to_s
+    nominees.to_sentence
   end
 end

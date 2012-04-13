@@ -41,6 +41,7 @@
 
   <%= f.fields_for :races do |race| %>
     <h3>Race</h3>
+    <p><%= race.link_to_remove "[-] Remove Race" %></p>
     <div class="field">
       <%= race.label :name %><br>
       <%= race.text_field :name %>

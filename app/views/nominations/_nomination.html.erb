@@ -19,8 +19,8 @@
       <% elsif nomination.accepted? %>
         Accepted!
       <% elsif nomination.rejected? %>
-        <% if nomination.users.include?(current_user) or has_permission?(adminElections) %>
-          <%= link_to vote_nomination_path(nomination), "Accept!" %>
+        <% if nomination.users.include?(current_user) or has_permission?("adminElection") %>
+          <%= link_to "Accept this nomination", vote_nomination_path(nomination) %>
         <% else %>
           Not accepted.
         <% end %>
