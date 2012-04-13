@@ -44,4 +44,12 @@ class Document < ActiveRecord::Base
   def to_s
     name
   end
+
+  before_file_post_process :image_file?
+
+  def image_file?
+    if !(file.content_type =~ %r{^(image|(x-)?application)/(x-png|pjpeg|jpeg|jpg|png|gif|pdf)$})
+      return false
+    end
+  end
 end

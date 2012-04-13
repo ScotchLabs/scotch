@@ -19,8 +19,10 @@
   <div class="field">
     <%= f.label :tag_list %><br>
     <%= f.text_field :tag_list %><br>
+    <% unless @popular_tags.nil? %>
     <em>Popular tags include:</em>
     <%= @popular_tags.join(", ") %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :description %><br>

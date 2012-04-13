@@ -3,8 +3,8 @@
 <%= div_for document, :class => 'line-item' do %>
   <div class='fleft line-item-image'>
     <%
-      if %w(image/jpeg image/png application/pdf).include? object.file_content_type
-        image = image_tag(object.file.url(:thumb), :size => "50x50")
+      if document.image_file?
+        image = image_tag(document.file.url(:thumb), :size => "50x50")
       else  
         image = image_tag("document_icon.png", :size => "50x50")
       end
