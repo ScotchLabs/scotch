@@ -4,6 +4,9 @@ log/*.log
 tmp/**/*
 config/database.yml
 
+/vendor/bundle
+/db/sphinx
+
 # /
 /client
 /.bundle
@@ -12,8 +15,6 @@ config/database.yml
 # /config/
 /config/database.yml
 /config/production.sphinx.conf
-
-/db/sphinx
 
 # /log/
 /log/development.log
