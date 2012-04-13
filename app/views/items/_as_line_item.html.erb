@@ -2,8 +2,12 @@
 <%= div_for item, :class => 'line-item' do %>
   <%= link_to url_for(item) do %>
     <h2><%= item %></h2>
-    <h3><%= item.location %></h3>
-    <span style='color:#333;font-weight:normal;'><%= item.description %></span>
   <% end %>
+  <% if item.available? %>
+    <h3><%= item.location %></h3>
+  <% else %>
+    <h3>Checked out by <%= item.current_checkout.user %> on <%= format_date item.current_checkout.checkout_date %>.</h3><br />
+  <% end %>
+  <span style='color:#333;font-weight:normal;'><%= item.description %></span>
 <div class='clearfix'></div>
 <% end %>

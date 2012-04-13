@@ -1,11 +1,13 @@
 <% position = object %>
 
 <%= render :layout => 'users/as_line_item', :locals => {:object => position.user, :style => 'display:inline-block; white-space:nowrap; float:left;'} do %>
-  <% if position.role.to_s != position.display_name.to_s %>
-    <%= position.display_name %> (<%= position.role %>)
-  <% else %>
-    <%= position.role %>
-  <% end %>
+  <h3>
+    <% if position.role.to_s != position.display_name.to_s %>
+      <%= position.display_name %> (<%= position.role %>)
+    <% else %>
+      <%= position.role %>
+    <% end %>
+  </h3>
 <% end %>
 
 <div style='display: inline-block; float: left; margin-left: 60px; margin-top: 3px;'>
