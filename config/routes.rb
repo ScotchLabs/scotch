@@ -70,7 +70,7 @@ Scotch::Application.routes.draw do |map|
   resources :nominations, :only => [:create, :show, :edit, :update] do
     resources :feedposts, :only => [:index]
     member do
-      post :vote
+      match :vote
     end
   end
 
