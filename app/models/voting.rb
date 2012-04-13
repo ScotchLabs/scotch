@@ -66,10 +66,11 @@ class Voting < ActiveRecord::Base
 protected
   def dates_are_sane
     errors[:close_date] << "must be after open date" if close_date <= open_date
-    errors[:vote_date] << "must be between open and closed dates" if vote_date < open_date or vote_date >= close_date
     errors[:press_date] << "must be after close date" if press_date < close_date
     if election?
       errors[:vote_date] << "must be the same as the close date" if vote_date != close_date
+    elsif award?
+      errors[:vote_date] << "must be between open and closed dates" if vote_date < open_date or vote_date >= close_date
     end
   end
 end
