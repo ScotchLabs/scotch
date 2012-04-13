@@ -27,6 +27,6 @@ gem 'digest-whirlpool'
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 
 group :development do
-  gem 'ruby-debug19'
   gem 'annotate'
+  gem 'debugger'
 end
