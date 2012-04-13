@@ -24,52 +24,19 @@
 </article>
 
 <% @voting.races.each do |race| %>
+  <article>
+  <h1><%= race.name %></h1>
   <div>
-    <article>
-      <span class='fright'>
-        <a class='showhide' href='javascript:void(0)'>
-          <span class='showhide hidden'>show</span><span class='showhide'>hide</span>
-        </a>
-      </span>
-      <h1><%= race.name %></h1>
-    </article>
-    <div class='collapsible'>
-      <% race.nominations.sort.each do |nomination|
-        show = true
-        # only seconded nominations get past the nominations round in elections
-        show = false if @voting.election? and nomination.votes.count < 2 and @voting.closed_for_nominations?
-        # only accepted nominations get past the nominations round in elections
-        show = false if @voting.election? and !nomination.accepted? and !nomination.rejected? and @voting.closed_for_nominations? %>
-        <% if show %>
-          <%= render "nominations/as_grid_item", :object => nomination %>
-        <% end %>
+    <% race.nominations.sort.each do |nomination| %>
+      <% unless @voting.election? and @voting.closed_for_nominations? and 
+          (nomination.rejected? or (nomination.votes.count < 2)) %>
+          <%= render nomination %>
       <% end %>
-      
-      <%
-      # set up new nomination grid item
-      show = true
-      show = false if @voting.closed_for_nominations?
-      #todo only show if privs allow
-      if show %>
-        <%= render "shared/as_grid_item", :h1 => "Add New Nomination", :link => true, :href => "javascript:void(0)", :link_class => "addNewNomination" %>
-      <% end %>
-    </div>
+    <% end %>
+
+    <% unless @voting.closed_for_nominations? %>
+      Nominate someone!
+    <% end %>
   </div>
+  </article>
 <% end %>
-
-<div class='hidden'>
-  <div id='newRaceForm'>
-    new race form
-  </div>
-  <div id='newNominationForm'>
-    new nomination form
-  </div>
-  <div id='platformForm'>
-    platform form
-  </div>
-</div>
-
-<!-- todo if admin -->
-<a href='javascript:void(0)' class='newRace'><article>
-  <h1>New Race</h1>
-</article></a>

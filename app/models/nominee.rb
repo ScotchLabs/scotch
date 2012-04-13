@@ -3,7 +3,6 @@ class Nominee < ActiveRecord::Base
   belongs_to :nomination
   has_one :race, :through => :nomination
   
-  before_create :is_valid_user?
   before_create :nomination_full?
   
   def to_s
@@ -19,11 +18,11 @@ class Nominee < ActiveRecord::Base
     self.user_id = User.find_by_andrewid(andrew).try(:id)
   end
   
-  private
-  
   def is_valid_user?
-    !self.user_id.nil?
+    not self.user_id.nil?
   end
+
+  private
   
   def nomination_full?
     self.nomination.nominees.count < self.nomination.race.grouping

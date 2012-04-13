@@ -23,9 +23,17 @@ class Nomination < ActiveRecord::Base
   end
   
   def accepted?
-    accepted===true
+    race.voting.award? or (accepted == true)
   end
   def rejected?
-    accepted===false
+    race.voting.election? and (accepted == false)
+  end
+
+  def seconded?
+    race.voting.election? and (votes.count > 1)
+  end
+
+  def needs_second?
+    race.voting.election? and (votes.count <= 1)
   end
 end
