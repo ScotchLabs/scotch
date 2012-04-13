@@ -1,5 +1,6 @@
 class NominationsController < ApplicationController
-  prepend_before_filter :locate_nomination
+  prepend_before_filter :locate_nomination, :except => [:create]
+  prepend_before_filter :locate_group_race_voting, :only => [:create]
 
   before_filter :only => [:edit, :update] do
     unless @nomination.users.include? current_user
@@ -16,6 +17,7 @@ class NominationsController < ApplicationController
   # Nominate someone
   # Must pass a race_id
   def create
+    @nomination = Nomination.create(params[:nomination])
     @nomination.votes.build(:user_id => current_user.id)
     if @nomination.save 
       flash[:notice] = "Nomination successful."
@@ -33,6 +35,9 @@ class NominationsController < ApplicationController
     @vote = @nomination.votes.build(:user_id => current_user.id)
     if @vote.save
       flash[:notice] = "You've voted for #{@nomination} for #{@race}."
+      if @nomination.nominees.where(:user_id => current_user.id).count > 0
+        @vote.nomination.update_attribute(:accepted, true)
+      end
     else
       flash[:notice] = "There was an issue recording your vote: #{@vote.errors.full_messages.join("; ")}"
     end
@@ -63,6 +68,12 @@ class NominationsController < ApplicationController
     @race = @nomination.race
     @voting = @race.voting
     @group = @voting.group
+  end
+  
+  def locate_group_race_voting
+    @race = Race.find(params[:nomination][:race_id])
+    @voting = @race.voting
+    @group = @race.voting.group
   end
 
 end

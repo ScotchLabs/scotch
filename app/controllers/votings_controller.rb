@@ -1,5 +1,6 @@
 class VotingsController < ApplicationController
   prepend_before_filter :locate_voting, :except => [:new, :create, :index]
+  prepend_before_filter :locate_voting_group, :only => [:create]
 
   before_filter :only => [:new, :create, :edit, :update, :destroy] do
     require_permission "adminElection"
@@ -88,5 +89,9 @@ class VotingsController < ApplicationController
   def locate_voting
     @voting = Voting.find(params[:id])
     @group = @voting.group
+  end
+  
+  def locate_voting_group
+    @group = Group.find(params[:voting][:group_id])
   end
 end
