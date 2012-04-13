@@ -6,7 +6,7 @@
       </div>
     <% end %>
   <% end %>
-  <h2><%= link_to nomination.nominees.to_sentence, url_for(nomination) %></h2>
+  <h2><%= link_to nomination.names, url_for(nomination) %></h2>
   <h3><%= nomination.tagline %></h3><br/ >
   <span style='color:#333;font-weight:normal;'>
     <% if nomination.race.voting.election? %>
@@ -19,7 +19,7 @@
       <% elsif nomination.accepted? %>
         Accepted!
       <% elsif nomination.rejected? %>
-        <% if nomination.users.include?(current_user) or has_permission?("adminElection") %>
+        <% if nomination.users.include?(current_user) %>
           <%= link_to "Accept this nomination", vote_nomination_path(nomination) %>
         <% else %>
           Not accepted.

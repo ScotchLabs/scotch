@@ -68,6 +68,7 @@ Scotch::Application.routes.draw do |map|
   resources :votings, :only => [:show, :edit, :create, :update, :destroy]
 
   resources :nominations, :only => [:create, :show, :edit, :update] do
+    resources :feedposts, :only => [:index]
     member do
       post :vote
     end

@@ -3,11 +3,14 @@ class Nomination < ActiveRecord::Base
   
   belongs_to :race, :inverse_of => :nominations
   validates_presence_of :race
+  has_one :voting, :through => :race
 
   has_many :nominees, :dependent => :destroy, :inverse_of => :nomination
   has_many :users, :through => :nominees
   has_many :votes, :dependent => :destroy, :inverse_of => :nomination
 
+  has_many :feedposts, :as => :parent, :dependent => :destroy, :include => :user
+  
   accepts_nested_attributes_for :nominees, :allow_destroy => true
   
   def <=>(other)
@@ -39,7 +42,11 @@ class Nomination < ActiveRecord::Base
     race.voting.election? and (votes.count <= 1)
   end
 
-  def to_s
+  def names
     nominees.to_sentence
+  end
+
+  def to_s
+    return "#{names} for #{race}"
   end
 end

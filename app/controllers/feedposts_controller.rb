@@ -63,6 +63,7 @@ class FeedpostsController < ApplicationController
           format.html { redirect_to(url_for(:action => :show, :id => redirect.id, :ajax => true)) }
         end
       else
+        debugger
         unless params[:ajax]
           format.html { redirect_to(url_for(parent), :notice => 'Post was NOT successfully created.') }
           format.xml  { render :xml => @feedpost.errors, :status => :unprocessable_entity }

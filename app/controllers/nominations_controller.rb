@@ -36,14 +36,25 @@ class NominationsController < ApplicationController
 
   # show a platform
   def show
+    @nomination = Nomination.find(params[:id])
+    @group = @nomination.voting.group
   end
 
   # edit a platform
   def edit
+    @nomination = Nomination.find(params[:id])
+    @group = @nomination.voting.group
   end
 
   # update a platform
   def update
+    @nomination = Nomination.find(params[:id])
+    @group = @nomination.voting.group
+    if @nomination.update_attributes(params[:nomination])
+        redirect_to(@nomination, :notice => 'Platform was successfully updated.')
+    else
+      render :action => "edit"
+    end
   end
 
 end

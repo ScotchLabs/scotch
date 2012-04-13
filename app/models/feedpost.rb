@@ -46,7 +46,7 @@ class Feedpost < ActiveRecord::Base
     :message => "may not be more than 140 characters."
   validates_inclusion_of :post_type, :in => POST_TYPES.map{|e| e[0]}, 
     :message => "is not included in the list #{POST_TYPES.map{|e| e[0]}.inspect}"
-  validates_inclusion_of :parent_type, :in => %w(Item Group User Feedpost)
+  validates_inclusion_of :parent_type, :in => %w(Item Group User Feedpost Nomination)
 
   PRIVACY_OPTIONS = %w(Hidden Recipients Group All)
 

@@ -60,7 +60,7 @@ class Voting < ActiveRecord::Base
   end
 
   def to_s
-    name
+    "#{group} #{name}"
   end
   
 protected
