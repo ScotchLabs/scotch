@@ -2,7 +2,7 @@ class VotingsController < ApplicationController
   # GET /votings
   # GET /votings.xml
   def index
-    @votings = Voting.all
+    @votings = Voting.where(:group_id => @group.id).order("updated_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb

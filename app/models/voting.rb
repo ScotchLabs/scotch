@@ -1,5 +1,6 @@
 class Voting < ActiveRecord::Base
   has_many :races, :dependent => :destroy
+  belongs_to :group
   
   VOTING_TYPES = [
     ['Election','election'],

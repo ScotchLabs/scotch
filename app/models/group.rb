@@ -26,6 +26,7 @@ class Group < Shared::Watchable
   has_many :events, :dependent => :destroy
   has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
+  has_many :votings
 
   belongs_to :parent, :class_name => "Group"
 

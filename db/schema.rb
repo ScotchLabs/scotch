@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413054451) do
+ActiveRecord::Schema.define(:version => 20120413083246) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(:version => 20120413054451) do
     t.datetime "updated_at"
     t.string   "voting_type"
     t.date     "press_date"
+    t.integer  "group_id",    :null => false
   end
 
   create_table "watchers", :force => true do |t|

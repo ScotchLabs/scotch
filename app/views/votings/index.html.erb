@@ -1,38 +1,11 @@
 <article>
 <% if has_permission?("adminElection") %>
-  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a new voting', new_voting_path %></div>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a new voting', new_group_voting_path(@group) %></div>
 <% end %>
 
-<% open_elections = Voting.open.election
-if open_elections.count > 0 %>
-  <h1>Open Elections</h1>
-  <% open_elections.each do |e| %>
-    <%= render "as_line_item", :object => e %><br>
-  <% end %>
-<% end %>
-
-<% open_awards = Voting.open.award
-if open_awards.count > 0 %>
-  <h1>Open Awards</h1>
-  <% open_awards.each do |e| %>
-    <%= render "as_line_item", :object => e %><br>
-  <% end %>
-<% end %>
-
-<% future_votings = Voting.future
-if future_votings.count > 0 %>
-  <h1>Future Elections and Awards</h1>
-  <% future_votings.each do |e| %>
-    <%= render "as_line_item", :object => e, :show_type => true %><br>
-  <% end %>
-<% end %>
-
-<% past_votings = Voting.past
-if past_votings.count > 0 %>
-  <h1>Past Elections and Awards</h1>
-  <% past_votings.each do |e| %>
-    <%= render "as_line_item", :object => e, :show_type => true %><br>
-  <% end %>
+<h1>Elections and Awards</h1>
+<% @votings.each do |e| %>
+  <%= render "as_line_item", :object => e %><br>
 <% end %>
 
 </article>
