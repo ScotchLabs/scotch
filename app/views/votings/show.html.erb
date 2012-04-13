@@ -27,7 +27,7 @@
   <article>
   <h1><%= race.name %></h1>
   <div>
-    <% race.nominations.sort.each do |nomination| %>
+    <% race.nominations.select{|n|n.votes.count > 0}.sort.each do |nomination| %>
       <% unless @voting.election? and @voting.closed_for_nominations? and 
           (nomination.rejected? or (nomination.votes.count < 2)) %>
           <%= render nomination %>
