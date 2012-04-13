@@ -39,3 +39,5 @@ r.save
 r = Role.find_by_name("Production Staff")
 r.permissions << p
 r.save
+
+Permission.create(:name => "adminElection", :description => "User can admin elections.")
