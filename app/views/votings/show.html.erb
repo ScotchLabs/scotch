@@ -2,34 +2,22 @@
 
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Voting Type:</b>
-  <%= @voting.voting_type %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @voting.name %>
-</p>
+<h1><%= @voting.name %></h1>
+<h2><%= @voting.voting_type.capitalize %></h2>
 
 <p>
   <b>Open date:</b>
-  <%= @voting.open_date %>
+  <%= @voting.open_date.strftime("%A, %B %-d") %>
 </p>
 
 <p>
   <b>Close date:</b>
-  <%= @voting.close_date %>
+  <%= @voting.close_date.strftime("%A, %B %-d") %>
 </p>
 
 <p>
   <b>Vote date:</b>
-  <%= @voting.vote_date %>
-</p>
-
-<p>
-  <b>Press date:</b>
-  <%= @voting.press_date %>
+  <%= @voting.vote_date.strftime("%A, %B %-d") %>
 </p>
 
 Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
@@ -50,7 +38,7 @@ Admin: <%= link_to 'Edit', edit_voting_path(@voting) %>
       <% race.nominations.sort.each do |nomination|
         show = true
         # only seconded nominations get past the nominations round in elections
-        show = false if @voting.election? and nomination.votes < 2 and @voting.closed_for_nominations?
+        show = false if @voting.election? and nomination.votes.count < 2 and @voting.closed_for_nominations?
         # only accepted nominations get past the nominations round in elections
         show = false if @voting.election? and !nomination.accepted? and !nomination.rejected? and @voting.closed_for_nominations? %>
         <% if show %>

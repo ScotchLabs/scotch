@@ -1,4 +1,4 @@
-<%= form_for(@voting) do |f| %>
+<%= nested_form_for(@voting) do |f| %>
   <% if @voting.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@voting.errors.count, "error") %> prohibited this voting from being saved:</h2>
@@ -35,8 +35,42 @@
     <%= f.label :press_date %><br />
     <%= f.date_select :press_date %>
   </div>
+	<hr />
+	<%= f.fields_for :races do |race| %>
+	<h3>Race</h3>
+	<div class="field">
+	  <%= race.label :name %>
+	  <%= race.text_field :name %>
+	</div>
+	<div class="field">
+		<%= race.label "Nominees per Nomination" %>
+		<%= race.text_field :grouping %>
+	</div>
+	<h3>Nominations</h3>
+  	<div>
+		<%= race.fields_for :nominations do |nomination| %>
+			<div style="border-color:grey; border-width:1px; border-style:solid;padding:3px;">
+			  <%= nomination.fields_for :nominees do |nominee| %>
+			    <div class="field">
+				  <%= nominee.label :andrew_id, "Andrew ID" %>
+			  	  <%= nominee.text_field :andrew_id %>
+				  <%= nominee.link_to_remove "Remove" %>
+			    </div>
+			  <% end %>
+			  <div class="field">
+				<%= nomination.label :votes_count, "Votes"%>
+				<%= nomination.text_field :votes_count %>
+			  </div>
+			<p><%= nomination.link_to_add "[+] Add Nominee", :nominees %></p>
+			<p><%= nomination.link_to_remove "[-] Remove Nomination" %></p>
+			</div>
+		<% end %>
+		<p><%= race.link_to_add "[+] Add Nomination", :nominations %></p>
+	  </div>
+	<hr />
+  <% end %>
+    <p><%= f.link_to_add "[+] Add Race", :races %></p>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-

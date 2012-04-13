@@ -4,9 +4,9 @@ class Nomination < ActiveRecord::Base
   belongs_to :race
   has_many :nominees, :dependent => :destroy
   has_many :users, :through => :nominees
+  has_many :votes, :dependent => :destroy
   
-  validates_presence_of :race
-  validates_numericality_of :votes, :minimum => 0
+  accepts_nested_attributes_for :nominees, :allow_destroy => true
   
   def <=>(other)
     if self.accepted === other.accepted
