@@ -3,6 +3,14 @@ class NominationsController < ApplicationController
   # Nominate someone
   # Must pass a race_id
   def create
+    @nomination = Nomination.new(params[:nomination])
+    @nomination.votes.build(:user_id => current_user.id)
+    if @nomination.save 
+      flash[:notice] = "Nomination successful."
+    else
+      flash[:notice] = "There was a problem with your nomination: #{@nomination.errors}"
+    end
+    redirect_to @nomination.race.voting
   end
 
   # elections, nominations - second

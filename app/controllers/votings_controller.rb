@@ -14,6 +14,7 @@ class VotingsController < ApplicationController
   # GET /votings/1.xml
   def show
     @voting = Voting.find(params[:id])
+    @group = @voting.group
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,6 +26,7 @@ class VotingsController < ApplicationController
   # GET /votings/new.xml
   def new
     @voting = Voting.new
+    @voting.group = @group
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +43,7 @@ class VotingsController < ApplicationController
   # POST /votings.xml
   def create
     @voting = Voting.new(params[:voting])
+    @group = @voting.group
 
     respond_to do |format|
       if @voting.save

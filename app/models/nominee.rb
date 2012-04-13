@@ -3,6 +3,9 @@ class Nominee < ActiveRecord::Base
   belongs_to :nomination
   has_one :race, :through => :nomination
   
+  validates_associated :user
+  validates_presence_of :user_id, :if => Proc.new {|n| n.write_in.nil? || n.write_in.empty?}
+  validates_length_of :write_in, :minimum => 3, :if => Proc.new {|n| n.user.nil?}
   before_create :nomination_full?
   
   def to_s

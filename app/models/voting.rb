@@ -10,7 +10,7 @@ class Voting < ActiveRecord::Base
     VOTING_TYPES
   end
   
-  attr_accessible :voting_type, :name, :open_date, :close_date, :vote_date, :press_date, :races_attributes
+  attr_accessible :voting_type, :name, :open_date, :close_date, :vote_date, :press_date, :races_attributes, :group_id
   
   accepts_nested_attributes_for :races, :allow_destroy => true
   

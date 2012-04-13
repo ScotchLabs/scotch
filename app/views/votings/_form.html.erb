@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :group_id %>
+
   <div class="field">
     <%= f.label :voting_type %><br />
     <%= f.select :voting_type, Voting.VOTING_TYPES %>
@@ -52,6 +54,7 @@
       <%= race.text_field :grouping %>
     </div>
 
+    <% unless @voting.new_record? %>
     <table>
       <tr><th>Nomination</th><th>Votes</th><th>Accepted</th><th>Winner</th></tr>
       <%= race.fields_for :nominations do |nomination| %>
@@ -63,6 +66,7 @@
         </tr>
       <% end %>
     </table>
+    <% end %>
     <hr />
   <% end %>
   <p><%= f.link_to_add "[+] Add Race", :races %></p>
