@@ -6,6 +6,6 @@
 <% end %>
 
   <% @watchers.compact.each do |watcher| %>
-    <%= render "#{watcher.item.class.base_class.name.tableize}/as_line_item", :object => watcher.item %>
+    <%= as_line_item(watcher.time) %>
   <% end %>
 </article>

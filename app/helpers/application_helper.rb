@@ -172,4 +172,8 @@ end
   def base_class(object)
     object.class.to_s.classify.constantize.base_class.to_s
   end
+
+  def as_line_item(object)
+    render "#{object.class.base_class.name.tableize}/as_line_item", :object => object
+  end
 end
