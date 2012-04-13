@@ -1,4 +1,7 @@
 <article>
+<% if has_permission?("adminElection") %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a new voting', new_voting_path %></div>
+<% end %>
 
 <% open_elections = Voting.open.election
 if open_elections.count > 0 %>
@@ -31,7 +34,5 @@ if past_votings.count > 0 %>
     <%= render "as_line_item", :object => e, :show_type => true %><br>
   <% end %>
 <% end %>
-
-Admins: <%= link_to 'New Voting', new_voting_path %>
 
 </article>
