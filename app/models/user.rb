@@ -184,11 +184,7 @@ class User < Shared::Watchable
 ########################
   
   def active_member?
-    # what constitutes an active member?
-    # being in a position right now
-    return true unless positions.empty?
-    # being in a position for a show within the past year
-    #TODO
+    positions.where(["created_at > ?", 8.months.ago]).count > 0
   end
 
   # Get school years (actually Date ranges) in which the user
