@@ -1,0 +1,77 @@
+<%= nested_form_for(@voting) do |f| %>
+  <% if @voting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@voting.errors.count, "error") %> prohibited this voting from being saved:</h2>
+
+      <ul>
+      <% @voting.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :group_id %>
+
+  <div class="field">
+    <%= f.label :voting_type %><br />
+    <%= f.select :voting_type, Voting.VOTING_TYPES %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :open_date %><br />
+    <%= f.date_select :open_date %>
+  </div>
+  <div class="field">
+    <%= f.label :vote_date %><br />
+    <%= f.date_select :vote_date %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date %><br />
+    <%= f.date_select :close_date %>
+  </div>
+  <div class="field">
+    <%= f.label :press_date %><br />
+    <%= f.date_select :press_date %>
+  </div>
+  <hr />
+
+  <%= f.fields_for :races do |race| %>
+    <h3>Race</h3>
+    <p><%= race.link_to_remove "[-] Remove Race" %></p>
+    <div class="field">
+      <%= race.label :name %><br>
+      <%= race.text_field :name %>
+    </div>
+    <div class="field">
+      <%= race.label "Write-Ins Allowed" %><br>
+      <%= race.check_box :write_in_available, :disabled => true %>
+    </div>
+    <div class="field">
+      <%= race.label "Nominees per Nomination" %><br>
+      <%= race.text_field :grouping %>
+    </div>
+
+    <% unless @voting.new_record? %>
+    <table>
+      <tr><th>Nomination</th><th>Votes</th><th>Accepted</th><th>Winner</th></tr>
+      <%= race.fields_for :nominations do |nomination| %>
+        <tr>
+          <td><%= nomination.object.nominees.to_sentence %></td>
+          <td><%= nomination.object.votes.count %></td>
+          <td><%= nomination.check_box :accepted %></td>
+          <td><%= nomination.check_box :winner %></td>
+        </tr>
+      <% end %>
+    </table>
+    <% end %>
+    <hr />
+  <% end %>
+  <p><%= f.link_to_add "[+] Add Race", :races %></p>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

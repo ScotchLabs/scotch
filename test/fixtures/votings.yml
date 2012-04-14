@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: MyString
+  name: MyString
+  open_date: 2012-04-02
+  close_date: 2012-04-02
+  vote_date: 2012-04-02
+
+two:
+  type: MyString
+  name: MyString
+  open_date: 2012-04-02
+  close_date: 2012-04-02
+  vote_date: 2012-04-02

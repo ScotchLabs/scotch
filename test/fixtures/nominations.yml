@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  race: 
+  platform: MyText
+  tagline: MyString
+  votes: 1
+  accepted: false
+  winner: false
+  write_in_nominee: MyString
+
+two:
+  race: 
+  platform: MyText
+  tagline: MyString
+  votes: 1
+  accepted: false
+  winner: false
+  write_in_nominee: MyString

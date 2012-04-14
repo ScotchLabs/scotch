@@ -6,7 +6,7 @@
   <%= stylesheet_link_tag 'style', 'colorbox', 'jquery.autocomplete', 'jui-base', 'jui-custom', :cache => true %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" %>
-  <%= javascript_include_tag :defaults, :cache => true %>
+  <%= javascript_include_tag :defaults, "nested_form", :cache => true %>
   <%= csrf_meta_tag %>
   <% 
   includecal = false
@@ -19,6 +19,16 @@
   if includecal %>
     <%= stylesheet_link_tag 'fullcalendar', 'cal' %>
     <%= javascript_include_tag 'fullcalendar.min', 'jquery-ui-timepicker-addon', 'cal' %>
+  <% end %>
+  <% #FIXME there must be a better way to do this...
+  includevoting = false
+  begin
+    includevoting = true if current_page? voting_path
+  rescue ActionController::RoutingError
+    #See Above
+  end
+  if includevoting %>
+    <%= javascript_include_tag 'votings' %>
   <% end %>
   <script type="text/javascript">
 

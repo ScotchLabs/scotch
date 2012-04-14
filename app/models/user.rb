@@ -66,6 +66,8 @@ class User < Shared::Watchable
 
   has_many :checkouts
   
+  has_many :voters
+  
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
   #FIXME use :source_type instead of :conditions

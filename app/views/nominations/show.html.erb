@@ -1,0 +1,23 @@
+<article>
+  <% if has_permission?("adminElection") or @nomination.users.include?(current_user) %>
+    <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_nomination_path(@nomination) %></div>
+  <% end %>
+
+  <% @nomination.nominees.each do |n| %>
+    <% if n.is_valid_user? %>
+      <div class='fleft line-item-image'>
+        <%= link_to image_tag(n.user.headshot(:medium)), url_for(n.user) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <h1><%= @nomination %></h1>
+  <h2><%= @nomination.tagline %></h2>
+  <div>
+    <%= raw textilize(@nomination.platform) %>
+  </div>
+
+  <p>Back to <%= link_to @nomination.voting, voting_path(@nomination.voting) %>.
+  <div class="clearfix"></div>
+</article>
+<%= render "shared/feedposts", :object => @nomination %>

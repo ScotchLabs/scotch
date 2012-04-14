@@ -1,0 +1,33 @@
+<%= div_for nomination, :class => 'line-item' do %>
+  <% nomination.nominees.each do |n| %>
+    <% if n.is_valid_user? %>
+      <div class='fleft line-item-image'>
+        <%= link_to image_tag(n.user.headshot(:thumb)), url_for(n.user) %>
+      </div>
+    <% end %>
+  <% end %>
+  <h2><%= link_to nomination.names, url_for(nomination) %></h2>
+  <h3><%= nomination.tagline %></h3><br/ >
+  <span style='color:#333;font-weight:normal;'>
+    <% if nomination.race.voting.election? %>
+      <% if nomination.needs_second? %>
+        <% unless nomination.users.include?(current_user) %>
+          <%= link_to "Second this nomination", vote_nomination_path(nomination), :method => :post %>
+        <% else %>
+          You need to be seconded.
+        <% end %>
+      <% elsif nomination.accepted? %>
+        Accepted!
+      <% elsif nomination.rejected? %>
+        <% if nomination.users.include?(current_user) %>
+          <%= link_to "Accept this nomination", vote_nomination_path(nomination) %>
+        <% else %>
+          Not accepted.
+        <% end %>
+      <% end %>
+    <% elsif nomination.race.voting.award? %>
+      Bug the web team to finish awards...
+    <% end %>
+  </span>
+  <div class='clearfix'></div>
+<% end %>

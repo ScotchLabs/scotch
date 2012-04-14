@@ -1,5 +1,6 @@
 Scotch::Application.routes.draw do |map|
 
+
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
   resources :users, :except => [:new, :destroy] do
@@ -49,6 +50,7 @@ Scotch::Application.routes.draw do |map|
       resources :event_attendees, :only => [:index]
     end
     resources :documents, :only => [:index, :new]
+    resources :votings, :only => [:index, :new]
     member do
       post :join
       post :leave
@@ -63,6 +65,14 @@ Scotch::Application.routes.draw do |map|
   resources :positions, :only => [:destroy, :create]
   resources :documents, :only => [:index, :show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy, :new, :show]
+  resources :votings, :only => [:show, :edit, :create, :update, :destroy]
+
+  resources :nominations, :only => [:create, :show, :edit, :update] do
+    resources :feedposts, :only => [:index]
+    member do
+      match :vote
+    end
+  end
 
   # These things shouldn't ever really be accessed by someone other than the
   # webmaster.  They allow configuration of back-end type things.  Ideally,

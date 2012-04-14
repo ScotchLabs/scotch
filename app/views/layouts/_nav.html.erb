@@ -15,12 +15,13 @@
     <li><%= link_to "Events", group_events_path(@group), :class => nav_class(group_events_path(@group)) %></li>
     <li><%= link_to "Members", group_positions_path(@group), :class =>  nav_class(group_positions_path(@group)) %></li>
     <li><%= link_to "Documents", group_documents_path(@group), :class =>  nav_class(group_documents_path(@group)) %></li>
+    <li><%= link_to "Elections", group_votings_path(@group), :class =>  nav_class(group_votings_path(@group)) %></li>
     <% if @group.class.name == "Group" then %>
       <li>
       <% if @group.users.include? current_user then %>
-        <%= link_to image_tag("delete_icon.png") + " Leave this group", leave_group_url(@group), :method => :post %><br />
+        <%= link_to image_tag("delete_icon.png") + " Leave", leave_group_url(@group), :method => :post %><br />
       <% else %>
-        <%= link_to image_tag("add_icon.png") + " Join this group", join_group_url(@group), :method => :post %><br />
+        <%= link_to image_tag("add_icon.png") + " Join ", join_group_url(@group), :method => :post %><br />
       <% end %>
       </li>
     <% end %>
