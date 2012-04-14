@@ -1,0 +1,7 @@
+$("#feedposts").append("<% @feedposts.each do |post| %><%= escape_javascript(render 'feedposts/' + post.post_type, :post => post) %><% end %>");
+
+<% unless @feedposts.empty? %>
+$("#morebutton").replaceWith("<%= escape_javascript(link_to 'See 10 More', more_feedposts_path(:id => params[:id], :type => params[:type], :post_id => @feedposts.last.id), :remote => true, :id => 'morebutton', :class => 'button') %>");
+<% else %>
+$("#morebutton").replaceWith("");
+<% end %>

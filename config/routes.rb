@@ -84,6 +84,7 @@ Scotch::Application.routes.draw do |map|
 
   resources :feedbacks, :only => [:create, :new]
 
+  match 'feedposts/more' => 'feedposts#more', :as => :more_feedposts
   resources :feedposts, :except => [:index, :edit, :update, :new]
 
   get "dashboard/index"
