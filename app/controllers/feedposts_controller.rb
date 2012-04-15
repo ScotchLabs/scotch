@@ -92,6 +92,15 @@ class FeedpostsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  #Pass an id and post_id to this action to update a wall with more posts after that post_id.
+  def more
+    @feedposts = Feedpost.recent.after(params[:id], params[:type], params[:post_id])
+    
+    respond_to do |format|
+      format.js
+    end
+  end
 
   protected
 

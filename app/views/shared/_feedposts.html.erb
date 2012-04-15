@@ -6,6 +6,10 @@
 					$(button).hide();
 					$('#postform').show({speed:"slow"});
 				}
+				
+				$('#morebutton').live('ajax:before', function(){
+					$(this).addClass("disabled");
+				});
 			</script>
       <a class='button' onclick='return newPost(this);'>New Post</a>
 
@@ -86,6 +90,7 @@
         <%= render "feedposts/" + post.post_type, :post => post %>
       <% end %>
       </div>
+      <center><p><%= link_to 'See 10 More', more_feedposts_path(:id => object.id, :type => object.class.name, :post_id => object.feedposts.recent.last.id), :remote => true, :id => 'morebutton', :class => 'button' %></p></center>
       <p><%= link_to "See All Posts", url_for([object, Feedpost])%></p>
     <div class='clearfix'></div>
 </article>
