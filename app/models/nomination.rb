@@ -12,6 +12,8 @@ class Nomination < ActiveRecord::Base
   has_many :feedposts, :as => :parent, :dependent => :destroy, :include => :user
   
   accepts_nested_attributes_for :nominees, :allow_destroy => true
+
+  validates_length_of :tagline, :maximum => 90
   
   def <=>(other)
     if self.accepted === other.accepted
