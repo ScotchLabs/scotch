@@ -4,7 +4,7 @@ class NominationsController < ApplicationController
 
   before_filter :only => [:edit, :update] do
     unless @nomination.users.include? current_user
-      require_permision "adminElection"
+      require_permission "adminElection"
     end
   end
 
