@@ -13,11 +13,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    # Autocomplete uses the q param and the js format
-    # FIXME this loads all users from the database, ouch!
-    # FIXME the non-HTML views don't work without q=
-    if params[:q]
-      query = params[:q] + "%"
+    if params[:term]
+      query = params[:term] + "%"
       @users = User.where(["first_name LIKE ? OR last_name LIKE ? OR email LIKE ?",query,query,query])
     else
       # @users = User.paginate(:per_page => 20, :page => params[:page])
@@ -28,8 +25,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      #format.xml  { render :xml => @users } # FIXME, leaks information
-      format.js { render :text => @users.map{|u| "#{u.name} #{u.email}"}.join("\n") }
+      format.json { render :json => json_for_autocomplete(@users, :identifier) }
     end
   end
 

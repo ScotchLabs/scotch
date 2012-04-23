@@ -5,31 +5,12 @@
   <meta charset='utf-8'>
   <%= stylesheet_link_tag 'style', 'colorbox', 'jquery.autocomplete', 'jui-base', 'jui-custom', :cache => true %>
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
-  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" %>
-  <%= javascript_include_tag :defaults, "nested_form", :cache => true %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
+  <%= javascript_include_tag :defaults, :cache => true %>
   <%= csrf_meta_tag %>
-  <% 
-  includecal = false
-  includecal = true if current_page? dashboard_calendar_path
-  begin
-    includecal = true if current_page? group_events_path
-  rescue ActionController::RoutingError
-    #This Space Intentionally Left Blank
-  end
-  if includecal %>
-    <%= stylesheet_link_tag 'fullcalendar', 'cal' %>
-    <%= javascript_include_tag 'fullcalendar.min', 'jquery-ui-timepicker-addon', 'cal' %>
-  <% end %>
-  <% #FIXME there must be a better way to do this...
-  includevoting = false
-  begin
-    includevoting = true if current_page? voting_path
-  rescue ActionController::RoutingError
-    #See Above
-  end
-  if includevoting %>
-    <%= javascript_include_tag 'votings' %>
-  <% end %>
+
+  <%= yield :header %>
+
   <script type="text/javascript">
 
     var _gaq = _gaq || [];

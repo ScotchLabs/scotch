@@ -319,6 +319,10 @@ class User < Shared::Watchable
     User.find_by_email(email)
   end
 
+  def identifier
+    "#{name} #{email}"
+  end
+
   protected
 
   def create_watcher

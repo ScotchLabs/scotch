@@ -1,3 +1,8 @@
+<% content_for :header %>
+<%= stylesheet_link_tag 'fullcalendar', 'cal' %>
+<%= javascript_include_tag 'fullcalendar.min', 'jquery-ui-timepicker-addon', 'cal' %>
+<% end %>
+
 <article>
 <% if has_permission? "adminEvents" %>
   <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a New Event', "#new", :onclick => "newEvent(#{@group.id},undefined,false);" %></div>

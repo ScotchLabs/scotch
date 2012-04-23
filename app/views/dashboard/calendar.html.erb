@@ -1,3 +1,7 @@
+<% content_for :header do %>
+  <%= stylesheet_link_tag 'fullcalendar', 'cal' %>
+  <%= javascript_include_tag 'fullcalendar.min', 'jquery-ui-timepicker-addon', 'cal' %>
+<% end %>
 <article>
 <div id='calwrapper'>
   <h1>My Calendar</h1>

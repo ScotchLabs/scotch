@@ -73,4 +73,10 @@ class ApplicationController < ActionController::Base
     redirect_to :dashboard_index
   end
 
+  def json_for_autocomplete(items, method)
+    items.collect do |item|
+      {"id" => item.id.to_s, "label" => item.send(method), "value" => item.send(method)}
+    end
+  end
+
 end

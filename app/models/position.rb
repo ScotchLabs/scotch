@@ -45,6 +45,10 @@ class Position < ActiveRecord::Base
     {:position=>display_name, :role=>Role.find(role_id).name,:andrewid=>user.andrewid,:user_name=>user.name, :user_email=>user.email}
   end
 
+  def user_name
+    user.try(:name)
+  end
+
   protected
 
   def role_matches_group
