@@ -15,8 +15,6 @@ class FeedpostsController < ApplicationController
     else
       @feedposts = @parent.feedposts
     end
-    
-    @feedposts = @feedposts.paginate(:per_page => 30, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
