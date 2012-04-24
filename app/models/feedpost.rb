@@ -55,12 +55,8 @@ class Feedpost < ActiveRecord::Base
 
   default_scope order("created_at DESC")
   scope :recent, limit(10)
+  scope :after, lambda { |feedpost| where(:parent_id => feedpost.parent_id).where(:parent_type => feedpost.parent_type).where(["feedposts.id < ?",feedpost.id])}
   
-  #Class Method to get post after a certain ID, designed for use with a "Show More" button
-  def self.after(parent_id, parent_type, last_id)
-    where("parent_id = ? AND parent_type = ? AND id < ?", parent_id, parent_type, last_id)
-  end
-
   # from ActiveRecord:Associations:ClassMethods documentation.  Needed because
   # Groups uses STI.
   def parent_type=(sType)

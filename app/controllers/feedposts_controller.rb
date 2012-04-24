@@ -95,7 +95,9 @@ class FeedpostsController < ApplicationController
   
   #Pass an id and post_id to this action to update a wall with more posts after that post_id.
   def more
-    @feedposts = Feedpost.recent.after(params[:id], params[:type], params[:post_id])
+    fp = Feedpost.after(Feedpost.find(params[:id]))
+    @feedposts = fp.recent
+    @feedposts_count = @feedposts.count
     
     respond_to do |format|
       format.js
