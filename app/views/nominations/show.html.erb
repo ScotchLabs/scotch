@@ -11,7 +11,9 @@
     <% end %>
   <% end %>
 
-  <h1><%= @nomination %></h1>
+  <h1><%= raw @nomination.nominees.collect{|n| unless n.user_id.nil? then link_to n.user, n.user else n end}.to_sentence %>
+    for <%= @nomination.race %>
+  </h1>
   <h2><%= @nomination.tagline %></h2>
   <div>
     <%= raw textilize(@nomination.platform) %>
