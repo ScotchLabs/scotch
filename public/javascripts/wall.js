@@ -27,7 +27,6 @@ function expand_success(post_id, data) {
   // trim comment and add to output
   $(data).find("#recent_comments_"+post_id).children().each(function(){
     if (recent_comments.indexOf(this.id) == -1) {
-      trim(this)
       html += "<div id='"+this.id+"' class='comment'>"+$(this).html()+"</div>"
     }
   })
@@ -92,7 +91,6 @@ function submit_success(data, post_id) {
   // display new view
   $('#post_'+post_id+'_count').html(parseInt($('#post_'+post_id+'_count').html())+1)
   newComment = $(data).find("#recent_comments_"+post_id).children().last()
-  trim(newComment)
   newCommentHtml = "<div id='"+newComment.attr('id')+"' class='comment'>"+newComment.html()+"</div>"
   $(newCommentHtml).hide().appendTo('#recent_comments_'+post_id).show('fast')
 }
@@ -220,39 +218,6 @@ function addInvitees() { // fires when the -> arrow is clicked in the invite peo
     $("#email_names").html($("#email_names").html()+html)
     $("#user_identifier").attr('value','')
   }
-}
-
-/***************
-*** Trimming ***
-***************/
-$(document).ready(function(){
-  $(".comment").each(function(i,s){trim(s)})
-})
-function trim(s) {
-  if (s.id == undefined)
-    return
-  text = $(s).find('p').html()
-  var less = ''
-  var more = ''
-  if (text.split("<br>").length > 5) {
-    less = text.split("<br>").slice(0,5).join("<br>")
-    more = "<br>"+text.split("<br>").slice(5).join("<br>")
-  } else if (text.split(". ").length > 5) {
-    less = text.split(". ").slice(0,5).join(". ")+". "
-    more = text.split(". ").slice(5).join(". ")
-  } else if (text.split(" ").length > 50) {
-    less = text.split(" ").slice(0,50).join(" ")
-    more = " "+text.split(" ").slice(50).join(" ")
-  } else {
-    less = text
-  }
-  morelink = "<a id='more_link_"+s.id+"' href='javascript:void(0)' onclick=\"$(this).hide(); $('#comment_more_"+s.id+"').show('fast')\">more...</a>"
-  lesslink = "<a href='javascript:void(0)' onclick=\"$('#comment_more_"+s.id+"').hide('fast'); $('#more_link_"+s.id+"').show()\">...less</a>"
-  if (more) {
-    more = "<span id='comment_more_"+s.id+"' class='hidden'>"+more+"<br>"+lesslink+"</span>"
-    text = less+more+"<br>"+morelink
-  }
-  $(s).find('p').html(text)
 }
 
 /*************************
