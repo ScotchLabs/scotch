@@ -34,9 +34,11 @@ class NominationsController < ApplicationController
   def vote
     @vote = @nomination.votes.build(:user_id => current_user.id)
     if @vote.save
-      flash[:notice] = "You've voted for #{@nomination} for #{@race}."
       if @nomination.nominees.where(:user_id => current_user.id).count > 0
         @vote.nomination.update_attribute(:accepted, true)
+        flash[:notice] = "You've accepted your nomination for #{@race}."
+      else
+        flash[:notice] = "You've voted for #{@nomination}."
       end
     else
       flash[:notice] = "There was an issue recording your vote: #{@vote.errors.full_messages.join("; ")}"
