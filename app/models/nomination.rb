@@ -10,6 +10,9 @@ class Nomination < ActiveRecord::Base
   has_many :votes, :dependent => :destroy, :inverse_of => :nomination
 
   has_many :feedposts, :as => :parent, :dependent => :destroy, :include => :user
+
+  # FIXME: This is vulnerable to mass-assignment on winner and accepted
+  attr_accessible :race_id, :platform, :tagline, :nominees_attributes, :winner, :accepted
   
   accepts_nested_attributes_for :nominees, :allow_destroy => true
 

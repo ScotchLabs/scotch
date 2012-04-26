@@ -10,6 +10,8 @@ class Nominee < ActiveRecord::Base
   validates_length_of :write_in, :minimum => 3, :if => Proc.new {|n| n.user.nil?}
 
   before_create :nomination_full?
+
+  attr_accessible :user_id, :nomination_id, :write_in
   
   def to_s
     return write_in if write_in

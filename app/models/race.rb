@@ -5,6 +5,8 @@ class Race < ActiveRecord::Base
   
   validates_presence_of :name, :grouping
   validates_numericality_of :grouping, :minimum => 1
+
+  attr_accessible :nominations_attributes, :name, :grouping, :voting_id, :write_in_available
   
   accepts_nested_attributes_for :nominations, :allow_destroy => true
 
