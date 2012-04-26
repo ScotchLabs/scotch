@@ -57,13 +57,14 @@
 
     <% unless @voting.new_record? %>
     <table>
-      <tr><th>Nomination</th><th>Votes</th><th>Accepted</th><th>Winner</th></tr>
+      <tr><th>Nomination</th><th>Votes</th><th>Accepted</th><th>Winner</th><th>Delete</th></tr>
       <%= race.fields_for :nominations do |nomination| %>
         <tr>
           <td><%= nomination.object.nominees.to_sentence %></td>
           <td><%= nomination.object.votes.count %></td>
           <td><%= nomination.check_box :accepted %></td>
           <td><%= nomination.check_box :winner %></td>
+          <td><%= nomination.check_box :_destroy %></td>
         </tr>
       <% end %>
     </table>
