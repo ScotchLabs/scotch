@@ -42,9 +42,28 @@
 			<% if @kudo.nominations_open? %>
 		      <h2>Nominate</h2>
 		      <%= form_for [@kudo, a, a.knominations.build] do |f| %>
-		        <%= f.text_field :content %>
+		        <%= f.text_field :content, :class => 'knominations_input' %>
 		        <%= submit_tag "Nominate" %>
 		      <% end %>
 		    <% end %>
 	</article>
 <% end %>
+
+<script type="text/javascript">
+	$('.knominations_input').autocompleteTrigger({
+	  triggerStart : '@',
+	  triggerEnd: '',
+	  source: function( request, response ) {
+					$.ajax({
+						url: "<%= user_search_path %>.json",
+						data:
+						{
+							q: request.term
+						},
+						success: function( data ) {
+							response(data);
+						}
+					});
+				}
+	});
+</script>

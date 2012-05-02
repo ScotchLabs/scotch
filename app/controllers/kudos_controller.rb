@@ -34,7 +34,7 @@ class KudosController < ApplicationController
 
   # GET /kudos/1/edit
   def edit
-    @kudo = Kudos.find(params[:id])
+    @kudo = Kudo.find(params[:id])
   end
 
   # POST /kudos
