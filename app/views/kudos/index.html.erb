@@ -1,0 +1,16 @@
+<article>
+<% if has_permission?("adminElection") %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a New Kudos', new_kudo_path %></div>
+<% end %>
+
+<h1>Kudos</h1>
+<% @kudos.each do |k| %>
+  <div class="line-item">
+    <%= link_to k do %>
+        <h2><%= k.name %></h2>
+        <h3><%= k.status %></h3>
+    <% end %>
+  </div>
+<% end %>
+
+</article>

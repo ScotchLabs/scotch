@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413093405) do
+ActiveRecord::Schema.define(:version => 20120501215117) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -138,6 +138,26 @@ ActiveRecord::Schema.define(:version => 20120413093405) do
   add_index "items", ["catalog_number"], :name => "index_items_on_catalog_number"
   add_index "items", ["item_category_id"], :name => "index_items_on_item_category_id"
 
+  create_table "knominations", :force => true do |t|
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "knominations_users", :id => false, :force => true do |t|
+    t.integer "knomination_id"
+    t.integer "user_id"
+  end
+
+  create_table "kudos", :force => true do |t|
+    t.datetime "nominations_open"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "woodscotch"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "nominations", :force => true do |t|
     t.integer  "race_id"
     t.text     "platform"
@@ -147,6 +167,11 @@ ActiveRecord::Schema.define(:version => 20120413093405) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "votes_count", :default => 0
+  end
+
+  create_table "nominations_users", :id => false, :force => true do |t|
+    t.integer "nomination_id"
+    t.integer "user_id"
   end
 
   create_table "nominees", :force => true do |t|

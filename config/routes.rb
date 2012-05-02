@@ -1,6 +1,5 @@
 Scotch::Application.routes.draw do |map|
 
-
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
   resources :users, :except => [:new, :destroy] do
@@ -72,6 +71,10 @@ Scotch::Application.routes.draw do |map|
     member do
       match :vote
     end
+  end
+  
+  resources :kudos do
+    resources :knominations, :on => :member
   end
 
   # These things shouldn't ever really be accessed by someone other than the
