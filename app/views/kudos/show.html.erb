@@ -34,7 +34,7 @@
 		<div>
 			<% a.knominations.each do |k| %>
 				<div class="line-item">
-				  <h2><%= k.nomination %></h2>
+				  <h2><%= knomination_replace(k.content) %></h2>
 				  <div class='clearfix'></div>
 				</div>
 			<% end %>
