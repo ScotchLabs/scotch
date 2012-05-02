@@ -74,7 +74,9 @@ Scotch::Application.routes.draw do |map|
   end
   
   resources :kudos do
-    resources :knominations, :on => :member
+    resources :kawards do
+      resources :knominations
+    end
   end
 
   # These things shouldn't ever really be accessed by someone other than the

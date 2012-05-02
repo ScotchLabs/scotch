@@ -1,4 +1,4 @@
-<%= form_for(@kudo) do |f| %>
+<%= nested_form_for(@kudo) do |f| %>
   <% if @kudo.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@kudo.errors.count, "error") %> prohibited this kudo from being saved:</h2>
@@ -13,19 +13,34 @@
 
   <div class="field">
     <%= f.label :nominations_open %><br />
-    <%= f.datetime_select :nominations_open %>
+    <%= f.date_select :nominations_open %>
   </div>
   <div class="field">
     <%= f.label :start %><br />
-    <%= f.datetime_select :start %>
+    <%= f.date_select :start %>
   </div>
   <div class="field">
     <%= f.label :end %><br />
-    <%= f.datetime_select :end %>
+    <%= f.date_select :end %>
   </div>
   <div class="field">
     <%= f.label :woodscotch %><br />
-    <%= f.datetime_select :woodscotch %>
+    <%= f.date_select :woodscotch %>
+  </div>
+
+  <div class="field">
+    <%= f.fields_for :kawards do |k| %>
+       <div class="field">
+       <%= k.label :name %>
+       <%= k.text_field :name %>
+       </div>
+       <div class="field">
+	   <%= k.label :description %>
+	   <%= k.text_field :description %>
+	   </div>
+	   <%= k.link_to_remove "Remove" %>
+    <% end %>
+    <%= f.link_to_add "Add a Kudo", :kawards %>
   </div>
   <div class="actions">
     <%= f.submit %>

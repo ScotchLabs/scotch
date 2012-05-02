@@ -40,11 +40,11 @@ class KnominationsController < ApplicationController
   # POST /knominations
   # POST /knominations.xml
   def create
-    @knomination = Knomination.new(params[:knomination])
+    @knomination = Kaward.find(params[:kaward_id]).knominations.create(params[:knomination])
 
     respond_to do |format|
       if @knomination.save
-        format.html { redirect_to(@knomination, :notice => 'Knomination was successfully created.') }
+        format.html { redirect_to(@knomination.kudo, :notice => 'Knomination was successfully created.') }
         format.xml  { render :xml => @knomination, :status => :created, :location => @knomination }
       else
         format.html { render :action => "new" }

@@ -27,3 +27,24 @@
 </p>
 
 </article>
+
+<% @kudo.kawards.each do |a| %>
+	<article>
+		<h1><%= a.name %></h1>
+		<div>
+			<% a.knominations.each do |k| %>
+				<div class="line-item">
+				  <h2><%= k.nomination %></h2>
+				  <div class='clearfix'></div>
+				</div>
+			<% end %>
+			
+			<% if @kudo.nominations_open? %>
+		      <h2>Nominate</h2>
+		      <%= form_for [@kudo, a, a.knominations.build] do |f| %>
+		        <%= f.text_field :content %>
+		        <%= submit_tag "Nominate" %>
+		      <% end %>
+		    <% end %>
+	</article>
+<% end %>

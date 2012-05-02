@@ -1,6 +1,9 @@
 class Kudo < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   has_many :knominations
+  has_many :kawards
+  
+  accepts_nested_attributes_for :kawards
   
   #Nominations open, voting open, closed
   def status
@@ -17,5 +20,9 @@ class Kudo < ActiveRecord::Base
   
   def name
     "Kudos #{self.woodscotch.month < 6 ? 'Spring' : 'Fall'} #{self.woodscotch.year}"
+  end
+  
+  def nominations_open?
+    self.nominations_open < Time.now && Time.now < self.start
   end
 end
