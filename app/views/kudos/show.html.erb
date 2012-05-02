@@ -34,11 +34,16 @@
 		<div>
 			<% a.knominations.each do |k| %>
 				<div class="line-item">
+			    <% if @kudo.nominations_open? %>
+					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;' %>
+					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;' %>
+				<% elsif @kudo.voting_open? %>
+
+				<% end %>
 				  <h2><%= knomination_replace(k.content) %></h2>
 				  <div class='clearfix'></div>
 				</div>
 			<% end %>
-			
 			<% if @kudo.nominations_open? %>
 		      <h2>Nominate</h2>
 		      <%= form_for [@kudo, a, a.knominations.build] do |f| %>

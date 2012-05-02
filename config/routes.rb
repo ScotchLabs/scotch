@@ -77,7 +77,9 @@ Scotch::Application.routes.draw do |map|
   
   resources :kudos do
     resources :kawards do
-      resources :knominations
+      resources :knominations do
+        get 'vote', :on => :member, :as => 'vote'
+      end
     end
   end
 

@@ -25,4 +25,8 @@ class Kudo < ActiveRecord::Base
   def nominations_open?
     self.nominations_open < Time.now && Time.now < self.start
   end
+  
+  def voting_open?
+    self.start < Time.now && Time.now < self.end
+  end
 end
