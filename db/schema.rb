@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502193919) do
+ActiveRecord::Schema.define(:version => 20120502233229) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20120502193919) do
     t.string   "stage"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "nominations", :force => true do |t|

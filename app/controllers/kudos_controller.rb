@@ -1,4 +1,8 @@
 class KudosController < ApplicationController
+  before_filter :only => [:new, :create, :edit, :update, :destroy] do
+    require_permission "adminElection"
+  end
+  
   # GET /kudos
   # GET /kudos.xml
   def index

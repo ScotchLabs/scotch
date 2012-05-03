@@ -8,23 +8,26 @@
 
 <p>
   <b>Nominations Open Date:</b>
-  <%= @kudo.nominations_open %>
+  <%= @kudo.nominations_open.strftime("%A, %B %-d") %>
 </p>
 
 <p>
   <b>Start Date:</b>
-  <%= @kudo.start %>
+  <%= @kudo.start.strftime("%A, %B %-d") %>
 </p>
 
 <p>
   <b>End Date:</b>
-  <%= @kudo.end %>
+  <%= @kudo.end.strftime("%A, %B %-d") %>
 </p>
 
 <p>
   <b>Woodscotch Date:</b>
-  <%= @kudo.woodscotch %>
+  <%= @kudo.woodscotch.strftime("%A, %B %-d") %>
 </p>
+
+<br />
+<h2>Example:</h2> <strong>@wweiner for his role as Mr. Feldzieg in Drowsy</strong>
 
 </article>
 
@@ -34,9 +37,9 @@
 		<div>
 			<% a.knominations.each do |k| %>
 				<div class="line-item">
-			    <% if @kudo.nominations_open? %>
-					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;' %>
-					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;' %>
+			    <% if @kudo.nominations_open? && 1==0 %>
+					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :remote => true %>
+					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;', :id => k.id.to_s + '_down', :remote => true %>
 				<% elsif @kudo.voting_open? %>
 
 				<% end %>

@@ -1,4 +1,8 @@
 class KnominationsController < ApplicationController
+  before_filter :only => [:new, :edit, :update, :destroy] do
+    require_permission "adminElection"
+  end
+  
   # GET /knominations
   # GET /knominations.xml
   def index
@@ -18,6 +22,24 @@ class KnominationsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @knomination }
+    end
+  end
+  
+  def vote
+    @knomination = Knomination.find(params[:id])
+    if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id)
+      @vote = @knomination.kvotes.where(:user_id => current_user.id).first
+      @knomination.kvotes.delete(@vote) #I know this is leavin residue, it's a quickfix
+    end
+    
+    if params[:parity] == "1"
+      @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true)
+    elsif params[:parity] == "0"
+      @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => false)
+    end
+    
+    respond_to do |format|
+      format.js
     end
   end
 
