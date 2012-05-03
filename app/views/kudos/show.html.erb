@@ -1,0 +1,77 @@
+<article>
+<% if has_permission? "adminElection" %>
+  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_kudo_path(@kudo) %></div>
+<% end %>
+
+<h1><%= @kudo.name %></h1>
+<h2><%= @kudo.status %></h2>
+
+<p>
+  <b>Nominations Open Date:</b>
+  <%= @kudo.nominations_open.strftime("%A, %B %-d") %>
+</p>
+
+<p>
+  <b>Start Date:</b>
+  <%= @kudo.start.strftime("%A, %B %-d") %>
+</p>
+
+<p>
+  <b>End Date:</b>
+  <%= @kudo.end.strftime("%A, %B %-d") %>
+</p>
+
+<p>
+  <b>Woodscotch Date:</b>
+  <%= @kudo.woodscotch.strftime("%A, %B %-d") %>
+</p>
+
+<br />
+<h2>Example:</h2> <strong>@wweiner for his role as Mr. Feldzieg in Drowsy</strong>
+
+</article>
+
+<% @kudo.kawards.each do |a| %>
+	<article>
+		<h1><%= a.name %></h1>
+		<div>
+			<% a.knominations.each do |k| %>
+				<div class="line-item">
+			    <% if @kudo.nominations_open? && 1==0 %>
+					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :remote => true %>
+					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;', :id => k.id.to_s + '_down', :remote => true %>
+				<% elsif @kudo.voting_open? %>
+
+				<% end %>
+				  <h2><%= knomination_replace(k.content) %></h2>
+				  <div class='clearfix'></div>
+				</div>
+			<% end %>
+			<% if @kudo.nominations_open? %>
+		      <h2>Nominate</h2>
+		      <%= form_for [@kudo, a, a.knominations.build] do |f| %>
+		        <%= f.text_field :content, :class => 'knominations_input' %>
+		        <%= submit_tag "Nominate" %>
+		      <% end %>
+		    <% end %>
+	</article>
+<% end %>
+
+<script type="text/javascript">
+	$('.knominations_input').autocompleteTrigger({
+	  triggerStart : '@',
+	  triggerEnd: '',
+	  source: function( request, response ) {
+					$.ajax({
+						url: "<%= user_search_path %>.json",
+						data:
+						{
+							q: request.term
+						},
+						success: function( data ) {
+							response(data);
+						}
+					});
+				}
+	});
+</script>

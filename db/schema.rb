@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413093405) do
+ActiveRecord::Schema.define(:version => 20120502233229) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -138,6 +138,52 @@ ActiveRecord::Schema.define(:version => 20120413093405) do
   add_index "items", ["catalog_number"], :name => "index_items_on_catalog_number"
   add_index "items", ["item_category_id"], :name => "index_items_on_item_category_id"
 
+  create_table "kawards", :force => true do |t|
+    t.integer  "kudo_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "knominations", :force => true do |t|
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "kaward_id"
+  end
+
+  create_table "knominations_users", :id => false, :force => true do |t|
+    t.integer "knomination_id"
+    t.integer "user_id"
+  end
+
+  create_table "kudos", :force => true do |t|
+    t.datetime "nominations_open"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "woodscotch"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "kvoters", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "kudo_id"
+    t.boolean  "has_voted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "kvotes", :force => true do |t|
+    t.integer  "knomination_id"
+    t.boolean  "positive"
+    t.string   "stage"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
   create_table "nominations", :force => true do |t|
     t.integer  "race_id"
     t.text     "platform"
@@ -147,6 +193,16 @@ ActiveRecord::Schema.define(:version => 20120413093405) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "votes_count", :default => 0
+  end
+
+  create_table "nominations_users", :id => false, :force => true do |t|
+    t.integer "nomination_id"
+    t.integer "user_id"
+  end
+
+  create_table "nominators", :id => false, :force => true do |t|
+    t.integer "knomination_id"
+    t.integer "user_id"
   end
 
   create_table "nominees", :force => true do |t|
@@ -264,6 +320,11 @@ ActiveRecord::Schema.define(:version => 20120413093405) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "voters", :id => false, :force => true do |t|
+    t.integer "kaward_id"
+    t.integer "user_id"
+  end
 
   create_table "votes", :force => true do |t|
     t.integer  "nomination_id"

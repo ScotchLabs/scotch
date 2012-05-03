@@ -45,6 +45,19 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def search
+    if params[:q]
+      q = params[:q] + '%'
+      @users = User.where("first_name LIKE ? OR last_name LIKE ? OR andrewid LIKE ?", q, q, q)
+    else
+      @users = []
+    end
+    
+    respond_to do |format|
+      format.json
+    end
+  end
 
   # GET /users/1/edit
   def edit

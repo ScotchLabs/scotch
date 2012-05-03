@@ -66,7 +66,8 @@ class User < Shared::Watchable
 
   has_many :checkouts
   
-  has_many :voters
+  #Kudos
+  has_and_belongs_to_many :knominations
   
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
