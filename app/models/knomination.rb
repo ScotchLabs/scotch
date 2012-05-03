@@ -6,6 +6,7 @@ class Knomination < ActiveRecord::Base
   
   has_and_belongs_to_many :nominators, :class_name => 'User', :join_table => 'nominators', :uniq => true
   validates_presence_of :content
+  validates_uniqueness_of :content
   
   after_save :link_users
   
