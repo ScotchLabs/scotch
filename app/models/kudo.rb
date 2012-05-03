@@ -3,7 +3,7 @@ class Kudo < ActiveRecord::Base
   has_many :knominations
   has_many :kawards
   
-  accepts_nested_attributes_for :kawards
+  accepts_nested_attributes_for :kawards, :allow_destroy => true
   
   #Nominations open, voting open, closed
   def status

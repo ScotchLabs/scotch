@@ -6,7 +6,7 @@ class Knomination < ActiveRecord::Base
   
   has_and_belongs_to_many :nominators, :class_name => 'User', :join_table => 'nominators', :uniq => true
   
-  after_save :link_user
+  after_save :link_users
   
   def nomination
     self.content
