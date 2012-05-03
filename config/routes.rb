@@ -1,8 +1,9 @@
 Scotch::Application.routes.draw do |map|
 
-
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
+  
+  get 'users/search' => 'users#search', :as => 'user_search'
   resources :users, :except => [:new, :destroy] do
     resources :watchers, :only => [:index] #show items a user is following
     resources :feedposts, :only => [:index]
@@ -71,6 +72,14 @@ Scotch::Application.routes.draw do |map|
     resources :feedposts, :only => [:index]
     member do
       match :vote
+    end
+  end
+  
+  resources :kudos do
+    resources :kawards do
+      resources :knominations do
+        get 'vote', :on => :member, :as => 'vote'
+      end
     end
   end
 

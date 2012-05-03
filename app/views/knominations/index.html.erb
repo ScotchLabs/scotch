@@ -1,0 +1,23 @@
+<h1>Listing knominations</h1>
+
+<table>
+  <tr>
+    <th>Content</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @knominations.each do |knomination| %>
+  <tr>
+    <td><%= knomination.content %></td>
+    <td><%= link_to 'Show', knomination %></td>
+    <td><%= link_to 'Edit', edit_knomination_path(knomination) %></td>
+    <td><%= link_to 'Destroy', knomination, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Knomination', new_knomination_path %>
