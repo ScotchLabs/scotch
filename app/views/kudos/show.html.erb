@@ -34,6 +34,8 @@
 <% @kudo.kawards.each do |a| %>
 	<article>
 		<h1><%= a.name %></h1>
+		<h3><%= a.description %></h3>
+		<br /><br />
 		<div>
 			<% a.knominations.each do |k| %>
 				<div class="line-item">
