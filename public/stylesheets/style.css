@@ -75,6 +75,13 @@ section, article, nav, aside, header, footer {
   display: block;
 }
 
+/* kudos votes */
+.voted img
+{
+	opacity:0.4;
+	filter:alpha(opacity=40);
+}
+
 
 /* 420 Sticky Footer by Ryan Fait http://ryanfait.com/sticky-footer */
 * {

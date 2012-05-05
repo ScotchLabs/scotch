@@ -27,15 +27,23 @@ class KnominationsController < ApplicationController
   
   def vote
     @knomination = Knomination.find(params[:id])
+    @oldparity = nil
     if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id)
       @vote = @knomination.kvotes.where(:user_id => current_user.id).first
-      @knomination.kvotes.delete(@vote) #I know this is leavin residue, it's a quickfix
+      @oldparity = @vote.positive
+      #@knomination.kvotes.delete(@vote) #I know this is leavin residue, it's a quickfix
+      @vote.destroy
+      @vote = nil
     end
     
     if params[:parity] == "1"
-      @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true)
+      if @oldparity.nil? || !@oldparity
+        @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true)
+      end
     elsif params[:parity] == "0"
-      @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => false)
+      if @oldparity.nil? || @oldparity
+        @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => false)
+      end
     end
     
     respond_to do |format|

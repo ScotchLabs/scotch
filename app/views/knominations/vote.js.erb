@@ -1,10 +1,10 @@
 <% if @vote.nil? %>
-	$("<%= @knomination.id %>_up").removeClass("voted");
-	$("<%= @knomination.id %>_down").removeClass("voted");
+	$("#<%= @knomination.id %>_up").removeClass("voted");
+	$("#<%= @knomination.id %>_down").removeClass("voted");
 <% elsif @vote.positive %>
-	$("<%= @knomination.id %>_up").removeClass("voted");
-	$("<%= @knomination.id %>_down").addClass("voted");
+	$("#<%= @knomination.id %>_up").removeClass("voted");
+	$("#<%= @knomination.id %>_down").addClass("voted");
 <% else %>
-	$("<%= @knomination.id %>_up").addClass("voted");
-	$("<%= @knomination.id %>_down").removeClass("voted");
+	$("#<%= @knomination.id %>_up").addClass("voted");
+	$("#<%= @knomination.id %>_down").removeClass("voted");
 <% end %>
