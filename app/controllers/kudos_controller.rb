@@ -77,7 +77,7 @@ class KudosController < ApplicationController
   # DELETE /kudos/1.xml
   def destroy
     @kudo = Kudo.find(params[:id])
-    @kudo.destroy
+    #@kudo.destroy
 
     respond_to do |format|
       format.html { redirect_to(kudos_index_url) }

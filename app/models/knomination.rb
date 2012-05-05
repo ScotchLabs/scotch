@@ -6,12 +6,18 @@ class Knomination < ActiveRecord::Base
   
   has_and_belongs_to_many :nominators, :class_name => 'User', :join_table => 'nominators', :uniq => true
   validates_presence_of :content
-  validates_uniqueness_of :content
+  validates_uniqueness_of :content, :scope => [:kaward_id, :deleted], :if => :not_deleted?
+  
+  default_scope where(:deleted => false)
   
   after_save :link_users
   
   def nomination
     self.content
+  end
+  
+  def not_deleted?
+    !self.deleted
   end
   
   private

@@ -31,7 +31,6 @@ class KnominationsController < ApplicationController
     if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id)
       @vote = @knomination.kvotes.where(:user_id => current_user.id).first
       @oldparity = @vote.positive
-      #@knomination.kvotes.delete(@vote) #I know this is leavin residue, it's a quickfix
       @vote.destroy
       @vote = nil
     end
@@ -77,7 +76,7 @@ class KnominationsController < ApplicationController
         format.html { redirect_to(@knomination.kudo, :notice => 'Knomination was successfully created.') }
         format.xml  { render :xml => @knomination, :status => :created, :location => @knomination }
       else
-        format.html { render :action => "new" }
+        format.html { redirect_to Kudo.find(params[:kudo_id]) }
         format.xml  { render :xml => @knomination.errors, :status => :unprocessable_entity }
       end
     end
@@ -103,10 +102,12 @@ class KnominationsController < ApplicationController
   # DELETE /knominations/1.xml
   def destroy
     @knomination = Knomination.find(params[:id])
-    @knomination.destroy
+    @knomination.deleted = true
+    @knomination.save
 
     respond_to do |format|
-      format.html { redirect_to(knominations_url) }
+      format.html {head :ok}
+      format.js
       format.xml  { head :ok }
     end
   end

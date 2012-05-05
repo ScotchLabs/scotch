@@ -38,7 +38,12 @@
 		<br /><br />
 		<div>
 			<% a.knominations.each do |k| %>
-				<div class="line-item">
+				<div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
+					<span class='delete_link fright hidden'>
+				      <% if current_user.superuser? %>
+				        <%= link_to image_tag("delete_icon.png", :size => "8x8"), kudo_kaward_knomination_path(@kudo, a, k), :method => :delete, :remote => true, :confirm => "Are your sure?" %>
+				      <% end %>
+				      </span>
 			    <% if @kudo.nominations_open? %>
 					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "#{k.kvotes.where(:user_id => current_user.id, :positive => false).count > 0 ? 'voted' : ''}", :remote => true %>
 					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;', :id => k.id.to_s + '_down', :class => "#{k.kvotes.where(:user_id => current_user.id, :positive => true).count > 0 ? 'voted' : ''}", :remote => true %>
