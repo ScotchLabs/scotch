@@ -28,20 +28,31 @@ class KnominationsController < ApplicationController
   def vote
     @knomination = Knomination.find(params[:id])
     @oldparity = nil
-    if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id)
-      @vote = @knomination.kvotes.where(:user_id => current_user.id).first
-      @oldparity = @vote.positive
-      @vote.destroy
-      @vote = nil
-    end
     
-    if params[:parity] == "1"
-      if @oldparity.nil? || !@oldparity
-        @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true)
+    if @knomination.kudo.voting_open? #I know, the code is disgusting, it's temporary.
+      if !@knomination.nil? && @knomination.kaward.kvotes.exists?(:user_id => current_user.id, :stage => 'vote')
+        @vote = @knomination.kaward.kvotes.where(:user_id => current_user.id, :stage => 'vote').first
+        @vote.destroy
+        @vote = nil
       end
-    elsif params[:parity] == "0"
-      if @oldparity.nil? || @oldparity
-        @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => false)
+      @vote = @knomination.kvotes.create(:user_id => current_user.id, :stage => 'vote')
+      
+    elsif @knomination.kudo.nominations_open?
+      if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id, :stage => nil)
+        @vote = @knomination.kvotes.where(:user_id => current_user.id, :stage => nil).first
+        @oldparity = @vote.positive
+        @vote.destroy
+        @vote = nil
+      end
+    
+      if params[:parity] == "1"
+        if @oldparity.nil? || !@oldparity
+          @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true, :stage => nil)
+        end
+      elsif params[:parity] == "0"
+        if @oldparity.nil? || @oldparity
+          @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => false, :stage => nil)
+        end
       end
     end
     
