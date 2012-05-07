@@ -45,7 +45,7 @@
 		<br /><br />
 		<% knoms = a.knominations %>
 		<% if @kudo.voting_open? %>
-			<% knoms = a.knominations.sort{|a,b| a.votes <=> b.votes}[0..3].shuffle %>
+			<% knoms = a.knominations.sort{|a,b| a.votes <=> b.votes}[0..4].shuffle %>
 		<% end %>
 		<div id="kaward_<%= a.id %>">
 			<% knoms.each do |k| %>

@@ -21,7 +21,7 @@ class Knomination < ActiveRecord::Base
   end
   
   def votes
-    self.kvotes.where(:positive => true).count
+    self.kvotes.where(:positive => true, :stage => nil).count - self.kvotes.where(:positive => false, :stage => nil).count
   end
   
   private
