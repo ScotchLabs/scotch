@@ -44,7 +44,7 @@
 		<h3><%= a.description %></h3>
 		<br /><br />
 		<div id="kaward_<%= a.id %>">
-			<% a.knominations.each do |k| %>
+			<% a.knominations.shuffle.each do |k| %>
 				<div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
 					<span class='delete_link fright hidden'>
 				      <% if current_user.superuser? %>
