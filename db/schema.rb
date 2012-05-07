@@ -196,11 +196,6 @@ ActiveRecord::Schema.define(:version => 20120505184238) do
     t.integer  "votes_count", :default => 0
   end
 
-  create_table "nominations_users", :id => false, :force => true do |t|
-    t.integer "nomination_id"
-    t.integer "user_id"
-  end
-
   create_table "nominators", :id => false, :force => true do |t|
     t.integer "knomination_id"
     t.integer "user_id"
