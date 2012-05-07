@@ -43,8 +43,12 @@
 		<h1><%= a.name %></h1>
 		<h3><%= a.description %></h3>
 		<br /><br />
+		<% knoms = a.knominations %>
+		<% if @kudo.voting_open? %>
+			<% knoms = a.knominations.sort{|a,b| a.votes <=> b.votes}[0..3].shuffle %>
+		<% end %>
 		<div id="kaward_<%= a.id %>">
-			<% a.knominations.each do |k| %>
+			<% knoms.each do |k| %>
 				<div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
 					<span class='delete_link fright hidden'>
 				      <% if current_user.superuser? %>

@@ -20,6 +20,10 @@ class Knomination < ActiveRecord::Base
     !self.deleted
   end
   
+  def votes
+    self.kvotes.where(:positive => true).count
+  end
+  
   private
   
   def link_users
