@@ -13,9 +13,9 @@ class EventsController < ApplicationController
   # GET /group/1/events.json
   def index
     if @group
-      group_events = Event.where(:group_id => @group.id).order("start_time ASC")
+      group_events = @group.events.order("start_time ASC")
     elsif params[:group_ids]
-      group_events = Event.where(:group_id => params[:group_ids]).order("start_time ASC")
+      group_events = []
     end
     group_events = group_events.where(:title => params[:event_title]) unless params[:event_title].nil? or params[:event_title].empty?
     @events = group_events.where(["start_time > ?",Time.zone.now]).all

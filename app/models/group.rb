@@ -20,10 +20,10 @@
 class Group < Shared::Watchable
 	# Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
+	include Shared::Scheduling
 
   has_many :checkouts, :dependent => :destroy
   has_many :documents, :dependent => :destroy
-  has_many :events, :dependent => :destroy
   has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
   has_many :votings

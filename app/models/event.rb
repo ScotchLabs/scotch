@@ -45,6 +45,7 @@ class Event < ActiveRecord::Base
   validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
+  validate :has_conflicts?
   
   
   def self.periods
@@ -52,6 +53,16 @@ class Event < ActiveRecord::Base
   end
 
   scope :future, where("end_time > NOW()")
+  
+  def has_conflicts?
+    self.attendees.each do |a|
+      if a.has_conflicts?(self.start_time,self.end_time)
+        return false
+      end
+    end
+    
+    return true
+  end
 
   def repeat_children
     Event.where(:repeat_id => id)

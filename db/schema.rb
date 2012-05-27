@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120505184238) do
+ActiveRecord::Schema.define(:version => 20120525211453) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -39,18 +39,17 @@ ActiveRecord::Schema.define(:version => 20120505184238) do
 
   create_table "event_attendees", :force => true do |t|
     t.integer  "event_id"
-    t.integer  "user_id"
     t.string   "kind"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
 
   add_index "event_attendees", ["event_id"], :name => "index_event_attendees_on_event_id"
-  add_index "event_attendees", ["user_id"], :name => "index_event_attendees_on_user_id"
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.integer  "group_id"
     t.datetime "start_time"
     t.datetime "end_time"
     t.string   "location"
@@ -61,9 +60,9 @@ ActiveRecord::Schema.define(:version => 20120505184238) do
     t.string   "privacy_type"
     t.integer  "attendee_limit"
     t.integer  "repeat_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
-
-  add_index "events", ["group_id"], :name => "index_events_on_group_id"
 
   create_table "feedpost_attachments", :force => true do |t|
     t.integer  "feedpost_id"

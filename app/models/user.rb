@@ -46,6 +46,7 @@
 class User < Shared::Watchable
   # Coerce Paperclip into using custom storage
 	include Shared::AttachmentHelper
+	include Shared::Scheduling
 
   # Use User for authentication
   devise :database_authenticatable, :registerable, :confirmable,
@@ -61,8 +62,8 @@ class User < Shared::Watchable
   has_many :positions, :dependent => :destroy
   has_many :groups, :through => :positions
 
-  has_many :event_attendees, :dependent => :destroy
-  has_many :events, :through => :event_attendees
+  #has_many :event_attendees, :dependent => :destroy
+  #has_many :events, :through => :event_attendees
 
   has_many :checkouts
   
@@ -277,7 +278,7 @@ class User < Shared::Watchable
 
   def future_events
     es = events.future.all 
-    es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
+    #es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
     return es
   end
 
