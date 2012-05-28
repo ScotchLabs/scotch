@@ -16,12 +16,15 @@ module Shared::Scheduling
     self.events + self.attended_events
   end
   
+  def events_in_range(start_time, end_time)
+    self.events.where('(start_time > ? AND start_time < ?) OR (end_time > ? AND end_time < ?)', start_time, end_time, start_time, end_time) + 
+    self.attended_events.where('(start_time > ? AND start_time < ?) OR (end_time > ? AND end_time < ?)', start_time, end_time, start_time, end_time)
+  end
+  
   def has_conflicts?(start_time = nil, *end_time)
     if start_time
-      self.all_events.each do |e|
-        if (start_time < e.start_time && e.start_time < end_time[0]) || (start_time < e.end_time && e.end_time < end_time[0])
-          return true
-        end
+      if self.events_in_range(start_time, end_time).count > 0
+        return true
       end
     else
       self.all_events.each do |e|
@@ -32,5 +35,11 @@ module Shared::Scheduling
     end
     
     return false
+  end
+  
+  def get_conflicts(start_time, end_time)
+    result = self.events_in_range(start_time, end_time)
+    
+    result.empty? ? nil : result
   end
 end

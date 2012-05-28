@@ -1,18 +1,4 @@
 Scotch::Application.routes.draw do |map|
-  get "events/index"
-
-  get "events/show"
-
-  get "events/new"
-
-  get "events/create"
-
-  get "events/edit"
-
-  get "events/update"
-
-  get "events/destroy"
-
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
   

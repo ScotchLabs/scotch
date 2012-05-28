@@ -65,6 +65,14 @@ class Event < ActiveRecord::Base
     
     return false
   end
+  
+  def get_conflicts
+    conflicts = self.attendees.map do |a|
+      a.get_conflicts(self.start_time, self.end_time)
+    end
+    
+    conflicts.compact
+  end
 
   def repeat_children
     Event.where(:repeat_id => id)
