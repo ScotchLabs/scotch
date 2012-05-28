@@ -6,7 +6,6 @@ Scotch::Application.routes.draw do |map|
   resources :users, :except => [:new, :destroy] do
     resources :watchers, :only => [:index] #show items a user is following
     resources :feedposts, :only => [:index]
-    resources :schedule
   end
   resources :watchers, :only => [:new, :create, :destroy]
 
@@ -46,10 +45,7 @@ Scotch::Application.routes.draw do |map|
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection
     end
-    resources :events, :only => [:index]
-    resources :events, :only => [:show] do
-      resources :event_attendees, :only => [:index]
-    end
+    resources :events
     resources :documents, :only => [:index, :new]
     resources :votings, :only => [:index, :new]
     member do
