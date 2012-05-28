@@ -23,11 +23,10 @@
 
 class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
-  has_many :attendees, :through => :event_attendees, :source => :user
+  has_many :users, :through => :event_attendees, :source => :owner, :source_type => 'User'
+  has_many :groups, :through => :event_attendees, :source => :owner, :source_type => 'Group'
   
-  belongs_to :group
-
-  attr_protected :group_id
+  belongs_to :owner, :polymorphic => true
   
   PERIODS = [
     ['Minutes','minutes'],
@@ -39,13 +38,12 @@ class Event < ActiveRecord::Base
   ]
   
   validate :times_are_sane # rails3?
-  validates_presence_of :group, :title, :start_time, :end_time
+  validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   validate :attendee_limit_is_sane
   validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
-  validate :has_conflicts?
   
   
   def self.periods
@@ -54,14 +52,18 @@ class Event < ActiveRecord::Base
 
   scope :future, where("end_time > NOW()")
   
+  def attendees
+    self.users + self.groups
+  end
+  
   def has_conflicts?
     self.attendees.each do |a|
       if a.has_conflicts?(self.start_time,self.end_time)
-        return false
+        return true
       end
     end
     
-    return true
+    return false
   end
 
   def repeat_children

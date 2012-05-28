@@ -13,12 +13,9 @@
 class EventAttendee < ActiveRecord::Base
   #FIXME: do we need the kind column?
 
-  belongs_to :user
   belongs_to :event
+  belongs_to :owner, :polymorphic => true
 
-  validates_presence_of :event, :user
-
-  validate :no_duplicates
   validate :no_past_changes
 
   def <=>(other)
