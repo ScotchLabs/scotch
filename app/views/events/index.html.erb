@@ -1,2 +1,200 @@
-<h1>Events#index</h1>
-<p>Find me in app/views/events/index.html.erb</p>
+<article>
+<h1>Schedule</h1>
+
+<table>
+	<th>
+		<td>Name</td>
+		<td>Start</td>
+		<td>End</td>
+		<td>Edit</td>
+		<td>Destroy</td>
+	</th>
+	
+	<% @events.each do |e| %>
+		<tr>
+			<td><%= link_to e.title, e %></td>
+			<td><%= e.start_time.to_s %></td>
+			<td><%= e.end_time.to_s %></td>
+			<td><%= link_to 'Edit', edit_event_path(e) %></td>
+			<td><%= link_to 'Destroy', e, confirm: 'Are you sure?', method: :delete %></td>
+		</tr>
+	<% end %>
+</table>
+
+<div id="calendar"></div>
+
+<div id="event_edit_container" style="display:none;">
+	<form>
+		<input type="hidden" />
+		<ul>
+			<li>
+				<span>Date: </span><span class="date_holder"></span> 
+			</li>
+			<li>
+				<label for="start">Start Time: </label><select name="start"><option value="">Select Start Time</option></select>
+			</li>
+			<li>
+				<label for="end">End Time: </label><select name="end"><option value="">Select End Time</option></select>
+			</li>
+			<li>
+				<label for="title">Title: </label><input type="text" name="title" />
+			</li>
+			<li>
+				<label for="body">Body: </label><textarea name="body"></textarea>
+			</li>
+		</ul>
+	</form>
+</div>
+
+<p><%= link_to 'New Event', new_polymorphic_path([@parent, :event].compact) %>
+</article>
+
+<script type='text/javascript'>
+  var year = new Date().getFullYear();
+  var month = new Date().getMonth();
+  var day = new Date().getDate();
+
+  var eventData = {
+    /*events : [
+      {'id':1, 'start': new Date(year, month, day, 12), 'end': new Date(year, month, day, 13, 35),'title':'Lunch with Mike'},
+      {'id':2, 'start': new Date(year, month, day, 14), 'end': new Date(year, month, day, 14, 45),'title':'Dev Meeting'},
+      {'id':3, 'start': new Date(year, month, day + 1, 18), 'end': new Date(year, month, day + 1, 18, 45),'title':'Hair cut'},
+      {'id':4, 'start': new Date(year, month, day - 1, 8), 'end': new Date(year, month, day - 1, 9, 30),'title':'Team breakfast'},
+      {'id':5, 'start': new Date(year, month, day + 1, 14), 'end': new Date(year, month, day + 1, 15),'title':'Product showcase'}
+    ]*/
+	events: <%= @events.to_json.html_safe %>
+  };
+
+  $(document).ready(function() {
+	$calendar = $('#calendar');
+    $calendar.weekCalendar({
+      timeslotsPerHour: 4,
+      timeslotHeigh: 30,
+      hourLine: true,
+      data: eventData,
+      height: function($calendar) {
+        return $(window).height() - $('h1').outerHeight(true);
+      },
+      eventRender : function(calEvent, $event) {
+        if (calEvent.end.getTime() < new Date().getTime()) {
+          $event.css('backgroundColor', '#aaa');
+          $event.find('.time').css({'backgroundColor': '#999', 'border':'1px solid #888'});
+        }
+      },
+      eventNew: function(calEvent, $event) {
+        /*$.post('<%= polymorphic_path([@parent, :events]) %>', {
+			authenticity_token: '<%= form_authenticity_token %>',
+			event:{
+			title: calEvent.title,
+			start_time: calEvent.start,
+			end_time: calEvent.end
+			}
+		});*/
+		var $dialogContent = $("#event_edit_container");
+         var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
+         var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
+         var titleField = $dialogContent.find("input[name='title']").val("");
+         var bodyField = $dialogContent.find("textarea[name='body']").val("");
+
+
+         $dialogContent.dialog({
+            modal: true,
+            title: "New Calendar Event",
+            close: function() {
+               $dialogContent.dialog("destroy");
+               $dialogContent.hide();
+               $('#calendar').weekCalendar("removeUnsavedEvents");
+            },
+            buttons: {
+               save : function() {
+				  calEvent.start = new Date(startField.val());
+	              calEvent.end = new Date(endField.val());
+	              calEvent.title = titleField.val();
+	              calEvent.body = bodyField.val();
+				  $.post('<%= polymorphic_path([@parent, :events], format: :json) %>', {
+					authenticity_token: '<%= form_authenticity_token %>',
+					event:{
+					title: calEvent.title,
+					start_time: calEvent.start,
+					end_time: calEvent.end
+					}
+					}, function(data, textStatus, xhr){
+						if(xhr.status == 200)
+						{
+						calEvent.id = data.id;
+
+		                $calendar.weekCalendar("removeUnsavedEvents");
+		                $calendar.weekCalendar("updateEvent", calEvent);
+		                $dialogContent.dialog("close");
+						}
+						else
+						{
+							alert("Failed to create event!");
+							$dialogContent.dialog("close");
+						}
+					});
+               },
+               cancel : function() {
+                  $dialogContent.dialog("close");
+               }
+            }
+         }).show();
+
+         $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
+         setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+      },
+      eventDrop: function(calEvent, $event) {
+        displayMessage('<strong>Moved Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+      },
+      eventResize: function(calEvent, $event) {
+        displayMessage('<strong>Resized Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+      },
+      eventClick: function(calEvent, $event) {
+        displayMessage('<strong>Clicked Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+      },
+      eventMouseover: function(calEvent, $event) {
+        displayMessage('<strong>Mouseover Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+      },
+      eventMouseout: function(calEvent, $event) {
+        displayMessage('<strong>Mouseout Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+      },
+      noEvents: function() {
+        displayMessage('There are no events for this week');
+      }
+    });
+
+    function displayMessage(message) {
+      
+    }
+  });
+
+  var $timestampsOfOptions = {start:[],end:[]};
+
+  function setupStartAndEndTimeFields($startTimeField, $endTimeField, calEvent, timeslotTimes) {
+
+      $startTimeField.empty();
+      $endTimeField.empty();
+
+      for (var i = 0; i < timeslotTimes.length; i++) {
+         var startTime = timeslotTimes[i].start;
+         var endTime = timeslotTimes[i].end;
+         var startSelected = "";
+         if (startTime.getTime() === calEvent.start.getTime()) {
+            startSelected = "selected=\"selected\"";
+         }
+         var endSelected = "";
+         if (endTime.getTime() === calEvent.end.getTime()) {
+            endSelected = "selected=\"selected\"";
+         }
+         $startTimeField.append("<option value=\"" + startTime + "\" " + startSelected + ">" + timeslotTimes[i].startFormatted + "</option>");
+         $endTimeField.append("<option value=\"" + endTime + "\" " + endSelected + ">" + timeslotTimes[i].endFormatted + "</option>");
+
+         $timestampsOfOptions.start[timeslotTimes[i].startFormatted] = startTime.getTime();
+         $timestampsOfOptions.end[timeslotTimes[i].endFormatted] = endTime.getTime();
+
+      }
+      $endTimeOptions = $endTimeField.find("option");
+      $startTimeField.trigger("change");
+   }
+
+</script>

@@ -45,7 +45,7 @@ Scotch::Application.routes.draw do |map|
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection
     end
-    resources :events
+    resources :events, :on => :member
     resources :documents, :only => [:index, :new]
     resources :votings, :only => [:index, :new]
     member do
@@ -54,11 +54,8 @@ Scotch::Application.routes.draw do |map|
       post :archive
     end
   end
-  resources :events, :only => [:index] # for calendar to ajax a bunch of group's events at once
-  resources :events, :only => [:show, :update, :destroy, :create] do
-    resources :event_attendees, :only => [:create]
-  end
-  resources :event_attendees, :only => [:destroy]
+  
+  resources :events
   resources :positions, :only => [:destroy, :create]
   resources :documents, :only => [:index, :show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy, :new, :show]

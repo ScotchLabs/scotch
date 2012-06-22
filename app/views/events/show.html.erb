@@ -1,2 +1,12 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<article>
+	<p><%= link_to '<- Back', @owner %></p>
+	<br/>
+	<h1><%= @event.title %></h1>
+	
+	<p>Start: <%= @event.start_time.to_s %></p>
+	<p>End: <%= @event.end_time.to_s %></p>
+	<br/>
+	
+	<%= link_to 'Edit', edit_event_path(@event) %> | 
+	<%= link_to 'Delete', @event, method: :delete, confirm: 'Are you sure?' %>
+</article>

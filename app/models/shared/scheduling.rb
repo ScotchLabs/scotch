@@ -37,8 +37,14 @@ module Shared::Scheduling
     return false
   end
   
-  def get_conflicts(start_time, end_time)
-    result = self.events_in_range(start_time, end_time)
+  def get_conflicts(start_time, end_time, attendees = false)
+    if attendees
+      result = attendees.map do |a|
+        a.get_conflicts(start_time, end_time)
+      end
+    else
+      result = self.events_in_range(start_time, end_time)
+    end
     
     result.empty? ? nil : result
   end

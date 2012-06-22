@@ -41,7 +41,6 @@ class Event < ActiveRecord::Base
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   validate :attendee_limit_is_sane
-  validates_inclusion_of :all_day, :in => [true, false], :message => "must be either true or false"
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
   
@@ -51,6 +50,10 @@ class Event < ActiveRecord::Base
   end
 
   scope :future, where("end_time > NOW()")
+  
+  def parent
+    self.owner.type == 'User' ? nil : self.owner
+  end
   
   def attendees
     self.users + self.groups
@@ -123,6 +126,10 @@ class Event < ActiveRecord::Base
   end
   def className
     group.className
+  end
+  
+  def as_json(options = {})
+    {id: self.id, title: self.title, start: self.start_time, end: self.end_time}
   end
 protected
 
