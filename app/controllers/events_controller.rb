@@ -50,9 +50,11 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.update_attributes(params[:event])
-        format.html {redirect_to [@parent, @event].compact}
+        format.html {redirect_to @event}
+        format.json {render json: @event}
       else
         format.html {render action: 'edit'}
+        format.json {render json: @event, status: 218}
       end
     end
   end

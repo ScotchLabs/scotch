@@ -82,14 +82,6 @@
         }
       },
       eventNew: function(calEvent, $event) {
-        /*$.post('<%= polymorphic_path([@parent, :events]) %>', {
-			authenticity_token: '<%= form_authenticity_token %>',
-			event:{
-			title: calEvent.title,
-			start_time: calEvent.start,
-			end_time: calEvent.end
-			}
-		});*/
 		var $dialogContent = $("#event_edit_container");
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
@@ -144,13 +136,123 @@
          setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
       },
       eventDrop: function(calEvent, $event) {
-        displayMessage('<strong>Moved Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+        	$.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
+				authenticity_token: '<%= form_authenticity_token %>',
+				event:{
+				start_time: calEvent.start,
+				end_time: calEvent.end
+				}
+				}, success: function(data, textStatus, xhr){
+					if(xhr.status == 200)
+					{
+	                	$dialogContent.dialog("close");
+					}
+					else
+					{
+						calEvent.start = data.start;
+						calEvent.end = data.end;
+						alert("Failed to edit event!");
+						$calendar.weekCalendar("updateEvent", calEvent);
+						$dialogContent.dialog("close");
+					}
+				}, type: 'PUT'});
       },
       eventResize: function(calEvent, $event) {
-        displayMessage('<strong>Resized Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+        	$.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
+				authenticity_token: '<%= form_authenticity_token %>',
+				event:{
+				start_time: calEvent.start,
+				end_time: calEvent.end
+				}
+				}, success: function(data, textStatus, xhr){
+					if(xhr.status == 200)
+					{
+	                	$dialogContent.dialog("close");
+					}
+					else
+					{
+						calEvent.start = data.start;
+						calEvent.end = data.end;
+						alert("Failed to edit event!");
+						$calendar.weekCalendar("updateEvent", calEvent);
+						$dialogContent.dialog("close");
+					}
+				}, type: 'PUT'});
       },
       eventClick: function(calEvent, $event) {
-        displayMessage('<strong>Clicked Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
+        if (calEvent.readOnly) {
+            return;
+         }
+
+         var $dialogContent = $("#event_edit_container");
+         var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
+         var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
+         var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
+         var bodyField = $dialogContent.find("textarea[name='body']");
+         bodyField.val(calEvent.body);
+
+         $dialogContent.dialog({
+            modal: true,
+            title: "Edit - " + calEvent.title,
+            close: function() {
+               $dialogContent.dialog("destroy");
+               $dialogContent.hide();
+            },
+            buttons: {
+               save : function() {
+				calEvent.start = new Date(startField.val());
+	              calEvent.end = new Date(endField.val());
+	              calEvent.title = titleField.val();
+	              calEvent.body = bodyField.val();
+				  $.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
+					authenticity_token: '<%= form_authenticity_token %>',
+					event:{
+					title: calEvent.title,
+					start_time: calEvent.start,
+					end_time: calEvent.end
+					}
+					}, success: function(data, textStatus, xhr){
+						if(xhr.status == 200)
+						{
+		                $calendar.weekCalendar("updateEvent", calEvent);
+		                $dialogContent.dialog("close");
+						}
+						else
+						{
+							alert("Failed to edit event!");
+							$dialogContent.dialog("close");
+						}
+					}, type: 'PUT'});
+               },
+               "delete" : function() {
+				  $.ajax('<%= events_path %>' + calEvent.id + '.json',{
+				  data:{
+					authenticity_token: '<%= form_authenticity_token %>'
+				  },
+				  type: 'DELETE', success: function(data, textStatus, xhr){
+					if(xhr.status == 200)
+					{
+						$calendar.weekCalendar("removeEvent", calEvent.id);
+		                $dialogContent.dialog("close");
+					}
+					else
+					{
+						alert("Failed to delete event!");
+						$dialogContent.dialog("close");
+					}
+				  }});
+               },
+               cancel : function() {
+                  $dialogContent.dialog("close");
+               }
+            }
+         }).show();
+
+         var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
+         var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
+         $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
+         setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+         $(window).resize().resize(); //fixes a bug in modal overlay size ??
       },
       eventMouseover: function(calEvent, $event) {
         displayMessage('<strong>Mouseover Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
