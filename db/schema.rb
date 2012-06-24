@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525211453) do
+ActiveRecord::Schema.define(:version => 20120623020618) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20120525211453) do
     t.integer  "repeat_id"
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "event_type"
   end
 
   create_table "feedpost_attachments", :force => true do |t|

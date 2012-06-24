@@ -65,6 +65,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       format.html {redirect_to [@parent, :events]}
+      format.json {render json: @parent, status: 200}
     end
   end
   

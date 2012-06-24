@@ -19,7 +19,7 @@
 #  attendee_limit         :integer(4)
 #  stop_after_occurrences :integer(4)
 #  stop_on_date           :string(255)
-#
+#  type                   :string(255)
 
 class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
@@ -37,12 +37,23 @@ class Event < ActiveRecord::Base
     ['Years','years']
   ]
   
+  COLORS = {
+    'user' => {:main_background => '#000000', :time_background => '#0C0C0C', :time_border => '#101010'},
+    'rehearsal' => {:main_background => '#FF4540', :time_background => '#FF0700', :time_border => '#BF3330'},
+    'meeting' => {:main_background => '#36DF64', :time_background => '#00BF32', :time_border => '#248F40'},
+    'build' => {:main_background => '#4284D3', :time_background => '#0E53A7', :time_border => '#274E7D'},
+    'audition' => {:main_background => '#FF9640', :time_background => '#FF7400', :time_border => '#BF7130'},
+    'show' => {:main_background => '#9440D5', :time_background => '#660BAB', :time_border => '#592680'},
+    'social' => {:main_background => '#FF1300', :time_background => '#008500', :time_border => '#03899C'}
+  }
+  
   validate :times_are_sane # rails3?
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   validate :attendee_limit_is_sane
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
+  validates_inclusion_of :event_type, :in => COLORS.keys
   
   
   def self.periods
@@ -129,7 +140,8 @@ class Event < ActiveRecord::Base
   end
   
   def as_json(options = {})
-    {id: self.id, title: self.title, start: self.start_time, end: self.end_time}
+    {id: self.id, title: self.title, start: self.start_time, end: self.end_time, body: self.description, 
+      event_type: self.event_type}.merge COLORS[self.event_type]
   end
 protected
 

@@ -37,6 +37,13 @@
 				<label for="end">End Time: </label><select name="end"><option value="">Select End Time</option></select>
 			</li>
 			<li>
+				<label for="event_type">Type: </label><select name="event_type">
+					<% Event::COLORS.keys[1..-1].each do |c| %>
+						<option value ="<%= c %>"><%= c.capitalize %></option>
+					<% end %>
+				</select>
+			</li>
+			<li>
 				<label for="title">Title: </label><input type="text" name="title" />
 			</li>
 			<li>
@@ -76,16 +83,19 @@
         return $(window).height() - $('h1').outerHeight(true);
       },
       eventRender : function(calEvent, $event) {
-        if (calEvent.end.getTime() < new Date().getTime()) {
-          $event.css('backgroundColor', '#aaa');
-          $event.find('.time').css({'backgroundColor': '#999', 'border':'1px solid #888'});
-        }
+          $event.css('backgroundColor', calEvent.main_background);
+          $event.find('.wc-time').css({'backgroundColor': calEvent.time_background, 'border':'1px solid ' + calEvent.time_border});
       },
+	  changedate : function($calendar, newDate)
+	  {
+		alert("New Date: " + newDate);
+	  },
       eventNew: function(calEvent, $event) {
-		var $dialogContent = $("#event_edit_container");
+		 var $dialogContent = $("#event_edit_container");
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
          var titleField = $dialogContent.find("input[name='title']").val("");
+		 var typeField = $dialogContent.find("select[name='event_type']").val("rehearsal");
          var bodyField = $dialogContent.find("textarea[name='body']").val("");
 
 
@@ -103,17 +113,23 @@
 	              calEvent.end = new Date(endField.val());
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
+				  calEvent.event_type = typeField.val();
 				  $.post('<%= polymorphic_path([@parent, :events], format: :json) %>', {
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
 					title: calEvent.title,
 					start_time: calEvent.start,
-					end_time: calEvent.end
+					end_time: calEvent.end,
+					description: calEvent.body,
+					event_type: calEvent.event_type
 					}
 					}, function(data, textStatus, xhr){
 						if(xhr.status == 200)
 						{
 						calEvent.id = data.id;
+						calEvent.main_background = data.main_background;
+						calEvent.time_background = data.time_background;
+						calEvent.time_border = data.time_border;
 
 		                $calendar.weekCalendar("removeUnsavedEvents");
 		                $calendar.weekCalendar("updateEvent", calEvent);
@@ -188,6 +204,7 @@
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
+		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
          bodyField.val(calEvent.body);
 
@@ -204,16 +221,22 @@
 	              calEvent.end = new Date(endField.val());
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
+				  calEvent.event_type = typeField.val();
 				  $.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
 					title: calEvent.title,
 					start_time: calEvent.start,
-					end_time: calEvent.end
+					end_time: calEvent.end,
+					description: calEvent.body,
+					event_type: calEvent.event_type
 					}
 					}, success: function(data, textStatus, xhr){
 						if(xhr.status == 200)
 						{
+						calEvent.main_background = data.main_background;
+						calEvent.time_background = data.time_background;
+						calEvent.time_border = data.time_border;
 		                $calendar.weekCalendar("updateEvent", calEvent);
 		                $dialogContent.dialog("close");
 						}
@@ -225,7 +248,7 @@
 					}, type: 'PUT'});
                },
                "delete" : function() {
-				  $.ajax('<%= events_path %>' + calEvent.id + '.json',{
+				  $.ajax('<%= events_path %>/' + calEvent.id + '.json',{
 				  data:{
 					authenticity_token: '<%= form_authenticity_token %>'
 				  },
