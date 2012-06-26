@@ -92,7 +92,7 @@ class User < Shared::Watchable
 
   has_attachment :headshot, 
     :styles => {:medium => "150x150#", :thumb => "50x50#"},
-    :default_url => '/images/missing/:class_:style.png',
+    :default_url => '/assets/missing/:class_:style.png',
 		:file_name => 'headshots/:aid_initial/:andrew_:style.:extension'
 
   validates_attachment_size :headshot, :less_than => 10.megabytes,

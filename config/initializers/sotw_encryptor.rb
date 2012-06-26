@@ -1,4 +1,4 @@
-require 'digest/whirlpool'
+=begin require 'digest/whirlpool'
 
 module Devise
   module Models
@@ -27,3 +27,4 @@ module Devise
     end
   end
 end
+=end

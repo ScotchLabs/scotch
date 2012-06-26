@@ -35,7 +35,7 @@ class Group < Shared::Watchable
 
   has_attachment :image, :styles => 
     { :medium => "150x150#", :thumb => "50x50#" },
-    :default_url => '/images/missing/:class_:style.png',
+    :default_url => '/assets/missing/:class_:style.png',
 		:file_name => ':class/:groupname_:style.:extension'
 
   validates_attachment_size :image, :less_than => 10.megabytes,

@@ -69,6 +69,7 @@
 <p><%= link_to 'New Event', new_polymorphic_path([@parent, :event].compact) %>
 </article>
 
+<%= content_for(:javascripts) do %>
 <script type='text/javascript'>
   var year = new Date().getFullYear();
   var month = new Date().getMonth();
@@ -346,3 +347,4 @@
   $("#attendee_select").multiselect();
 
 </script>
+<% end %>

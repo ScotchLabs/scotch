@@ -186,7 +186,7 @@ p {
 /* use these classes on divs inside an article */
 .thirds-split-left {
   /* wrap this around div.left-third and div.right-two-thirds and put a clearfix before the close */
-  background: transparent url('/images/layout/thirds-border.png') repeat-y 303px top;
+  background: transparent image-url('layout/thirds-border.png') repeat-y 303px top;
 }
 .left-third {
   float: left;
@@ -200,7 +200,7 @@ p {
 }
 .dashboard-split {
   /* wrap this around div.dashboard-left and div.dashboard-right and put a clearfix before the close */
-  background: transparent url('/images/layout/thirds-border.png') repeat-y 277px top;
+  background: transparent image-url('layout/thirds-border.png') repeat-y 277px top;
 }
 .dashboard-left {
   float: left;
@@ -214,7 +214,7 @@ p {
 }
 .halves-split {
   /* wrap this around div.half and put a clearfix before the close */
-  background: transparent url('/images/layout/thirds-border.png') repeat-y 429px top;
+  background: transparent image-url('layout/thirds-border.png') repeat-y 429px top;
 }
 .half {
   /* use with fleft or fright */
@@ -467,7 +467,7 @@ input[type="submit"][disabled], input[type="reset"][disabled], a.button.disabled
  * These styles define the layout (positioning, backgrounds etc)
  * and should not affect the views */
 body {
-  background: #eeb url("/images/layout/header.png") repeat-x scroll left top;  /* beige */
+  background: #eeb image-url("layout/header.png") repeat-x scroll left top;  /* beige */
 }
 
 #logout-menu {
