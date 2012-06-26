@@ -192,6 +192,7 @@ class Group < Shared::Watchable
   def archived?
     archive_date && archive_date <= Date.today
   end
+  
   def active?
     not self.archived?
   end

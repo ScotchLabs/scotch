@@ -66,8 +66,24 @@ class Event < ActiveRecord::Base
     self.owner.type == 'User' ? nil : self.owner
   end
   
-  def attendees
+  def all_attendees
     self.users + self.groups
+  end
+  
+  def attendees=(andrew_ids)
+    old_attendees = self.event_attendees
+    self.event_attendees.clear
+    if !andrew_ids.nil? && andrew_ids.kind_of?(Array)
+      andrew_ids.uniq.each do |a|
+        self.event_attendees.create(:owner => User.find_by_andrewid(a))
+      end
+    end
+  end
+  
+  def attendees
+    self.event_attendees.map do |a|
+      a.owner.andrewid
+    end
   end
   
   def has_conflicts?
@@ -141,7 +157,7 @@ class Event < ActiveRecord::Base
   
   def as_json(options = {})
     {id: self.id, title: self.title, start: self.start_time, end: self.end_time, body: self.description, 
-      event_type: self.event_type}.merge COLORS[self.event_type]
+      event_type: self.event_type, attendees: self.attendees}.merge COLORS[self.event_type]
   end
 protected
 

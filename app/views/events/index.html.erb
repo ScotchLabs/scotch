@@ -39,7 +39,7 @@
 			<li>
 				<label for="event_type">Type: </label><select name="event_type">
 					<% Event::COLORS.keys[1..-1].each do |c| %>
-						<option value ="<%= c %>"><%= c.capitalize %></option>
+						<option value="<%= c %>"><%= c.capitalize %></option>
 					<% end %>
 				</select>
 			</li>
@@ -49,6 +49,19 @@
 			<li>
 				<label for="body">Body: </label><textarea name="body"></textarea>
 			</li>
+			<% if @parent.class.model_name == 'Group'%>
+			<li>
+				<label for="attendees">Attendees:</label><select id="attendee_select" name="attendees" multiple="multiple">
+					<% @parent.calendar_positions.each do |c| %>
+						<optgroup label="<%= c[:name] %>">
+						<% c[:positions].each do |p| %>
+							<option value="<%= p[:andrewid] %>"><%= p[:user_name] %></option>
+						<% end %>
+						</optgroup>
+					<% end %>
+				</select>
+			</li>
+			<% end %>
 		</ul>
 	</form>
 </div>
@@ -97,6 +110,9 @@
          var titleField = $dialogContent.find("input[name='title']").val("");
 		 var typeField = $dialogContent.find("select[name='event_type']").val("rehearsal");
          var bodyField = $dialogContent.find("textarea[name='body']").val("");
+		 var attendeeField = $dialogContent.find("select[name='attendees']");
+		 attendeeField.find("option:selected").removeAttr("selected");
+		 attendeeField.multiselect('refresh');
 
 
          $dialogContent.dialog({
@@ -114,6 +130,7 @@
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
+				  calEvent.attendees = attendeesField.val();
 				  $.post('<%= polymorphic_path([@parent, :events], format: :json) %>', {
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
@@ -121,7 +138,8 @@
 					start_time: calEvent.start,
 					end_time: calEvent.end,
 					description: calEvent.body,
-					event_type: calEvent.event_type
+					event_type: calEvent.event_type,
+					attendees: calEvent.attendees
 					}
 					}, function(data, textStatus, xhr){
 						if(xhr.status == 200)
@@ -207,6 +225,7 @@
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
          bodyField.val(calEvent.body);
+		 var attendeeField = $dialogContent.find("select[name='attendees']").val(calEvent.attendees).multiselect('refresh');
 
          $dialogContent.dialog({
             modal: true,
@@ -222,6 +241,7 @@
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
+				  calEvent.attendees = attendeeField.val();
 				  $.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
@@ -229,7 +249,8 @@
 					start_time: calEvent.start,
 					end_time: calEvent.end,
 					description: calEvent.body,
-					event_type: calEvent.event_type
+					event_type: calEvent.event_type,
+					attendees: calEvent.attendees
 					}
 					}, success: function(data, textStatus, xhr){
 						if(xhr.status == 200)
@@ -321,5 +342,7 @@
       $endTimeOptions = $endTimeField.find("option");
       $startTimeField.trigger("change");
    }
+
+  $("#attendee_select").multiselect();
 
 </script>

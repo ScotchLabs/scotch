@@ -53,6 +53,7 @@ class EventsController < ApplicationController
         format.html {redirect_to @event}
         format.json {render json: @event}
       else
+        logger.info @event.errors.to_s
         format.html {render action: 'edit'}
         format.json {render json: @event, status: 218}
       end

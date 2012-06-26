@@ -17,6 +17,7 @@ class EventAttendee < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
 
   validate :no_past_changes
+  validate :no_duplicates
 
   def <=>(other)
     user <=> other.user
@@ -25,7 +26,7 @@ class EventAttendee < ActiveRecord::Base
   protected
 
   def no_duplicates
-    if EventAttendee.where(:event_id => event_id, :user_id => user_id).count > 0 then
+    if EventAttendee.where(:event_id => event_id, :owner_id => owner.id, :owner_type => owner.class.model_name).count > 0 then
       errors.add(:user, "is already attending this event")
     end
   end
