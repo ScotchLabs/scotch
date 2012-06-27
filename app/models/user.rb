@@ -139,7 +139,6 @@ class User < Shared::Watchable
   scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
   scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
   scope :newest, unscoped.order("created_at DESC").limit(10)
-  scope :birthday, where(:birthday => (1..100).to_a.collect{|n|n.years.ago.to_date})
 
 ####################
 # OBJECT OVERRIDES #

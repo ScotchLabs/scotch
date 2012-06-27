@@ -91,28 +91,6 @@
       <% end %>
     </div>
     <hr>
-    <div class="dashboard-item">
-      <h1>Today's Birthdays</h1>
-      <% bday = User.birthday.all %>
-      <% if bday.count > 0 %>
-      <table>
-        <% c = 0 %>
-        <% bday.each do |u| %>
-          <% if c%4==0 %>
-          <tr>
-          <% end %>
-          <td style='vertical-align:top'><%= raw as_icon(u, nil) %></td>
-          <% if c%4==3 %>
-          </tr>
-          <% end %>
-          <% c = c+1 %>
-        <% end %>
-      </table>
-      <% else %>
-        No one has a birthday today. You should celebrate someone's half-birthday instead.
-      <% end %>
-    </div>
-  </div>
   <div class='dashboard-right'>
     <h1>Recent Activity</h1>
     <small>See the list of <%= link_to "things I follow", user_watchers_path(current_user) %></small><br><br>
