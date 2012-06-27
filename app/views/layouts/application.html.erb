@@ -25,59 +25,69 @@
   </script>
 </head>
 <body>
-  <% if current_user and controller_name != 'feedbacks' %>
-    <%= render :partial => "layouts/feedback" %>
-  <% end %>
-  <div id='wrapper'>
-    <a name='top'></a>
-    <section>
-      <header id='header'>
-        <h1><%= link_to "Scotch on the Web", dashboard_index_path %></h1>
-        <h2><%= flavortext %></h2>
-        <% if current_user %>
-        <span id='logout' style='color:white;'>
-          Logged in as <%= link_to current_user, current_user, :style => 'color:white' %> | <%= link_to "Log Out", destroy_user_session_path, :style => 'color:white' %><br>
-        </span>
-        <span id='search'>
-          <%= form_tag '/dashboard/search', :method => 'get' do %>
-            <%= search_field_tag "q", nil, :placeholder => "Search", :class => "placeholder-shim" %>
-          <% end %>
-        </span>
-        <% end %>
-      </header>
-      <% if current_user then %>
-        <%= render "layouts/nav" %>
-      <% else %>
-        <div id='login'><%= render "layouts/login" %></div>
-      <% end %>
-      <noscript>
-        <article>
-          <p>Hey there! It looks like you've got JavaScript turned off.
-            Unfortunately, the Powers of the Internet don't work so well without it.
-            We've tried to accommodate people in your boat, but the truth is there
-            are some landlocked lakes, if you follow the way I've been drifting.
-            No guarantees.</p>
-        </article>
-      </noscript>
-      <% if current_user and (!notice.nil? or !alert.nil?) %>
-        <article>
-          <%= notice %>
-          <% if notice and alert %>
-          <br>
-          <% end %>
-          <%= alert %>
-        </article>
-      <% end %>
-      <%= yield %>
-      <div id='push'></div>
-    </section>
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+          <div class="container">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+		  <%= link_to 'Scotch', dashboard_index_path, :class => 'brand' %>
+          <div class="container nav-collapse">
+			<% if user_signed_in? %>
+            <ul class="nav">
+                <li><%= link_to "Schedule", events_path %></li>
+		        <li><%= link_to "Groups", groups_path %></li>
+		        <li><%= link_to "Inventory", item_categories_path %></li>
+            </ul>
+			<%= form_tag '/dashboard/search', :class => 'navbar-search pull-left', :method => 'get' do %>
+	            <%= search_field_tag "q", nil, :placeholder => "Search" %>
+			<% end %>
+			<ul class="nav pull-right">
+			<li class="dropdown">
+				<%= link_to "#{current_user.name} <b class='caret'></b>".html_safe, '#', :class => 'dropdown-toggle', 'data-toggle' => 'dropdown' %>
+			    <ul class="dropdown-menu">
+			      <li><%= link_to 'Profile', current_user %></li>
+			      <li><%= link_to 'Settings', '#' %></li>
+			      <li class="divider"></li>
+			      <li><%= link_to 'Logout', destroy_user_session_path %></li>
+			    </ul>
+			</li>
+	        <% else %>
+			<%= form_for :user, :url => login_path, :html=>{:class => 'navbar-form'} do |ft| %>
+
+			<%= ft.email_field :email, :placeholder => 'Email' %>
+			<%= ft.password_field :password, :placeholder => 'Password' %>
+
+			<%= submit_tag 'Login' %>
+			<% end %>
+			<% end %>
+			</ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+  <div class="container">
+	<div class="content">
+		<% if alert %>
+		<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Oops!</strong> <%= alert %></p></div>
+		<% end %>
+		<% if notice %>
+		<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
+		<% end %>
+        <div class="row">
+            <%= yield %>
+          <div class="span1">&nbsp;</div>
+        </div><!--/row-->
+		<footer id='footer'>
+		    <b>Scotch on the Web</b> is designed and developed by the <%= link_to "Scotch'n'Soda Web Team", Group.system_group %><br>
+		    &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
+		    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %><br>
+		    <%= link_to "Terms of Use & Privacy Policy", dashboard_terms_url %> | <%= link_to "Back to Top", '#top' %>
+		</footer>
+    </div><!--/content-->
   </div>
-  <footer id='footer'>
-    <b>Scotch on the Web</b> is designed and developed by the <%= link_to "Scotch'n'Soda Web Team", Group.system_group %><br>
-    &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
-    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %><br>
-    <%= link_to "Terms of Use & Privacy Policy", dashboard_terms_url %> | <%= link_to "Back to Top", '#top' %>
-  </footer>
   <%= render :partial => 'layouts/sodabar' %>
   <%= javascript_include_tag "application" %>
 

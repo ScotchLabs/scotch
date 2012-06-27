@@ -49,7 +49,7 @@
 			<li>
 				<label for="body">Body: </label><textarea name="body"></textarea>
 			</li>
-			<% if @parent.class.model_name == 'Group'%>
+			<% if @owner.class.model_name == 'Group'%>
 			<li>
 				<label for="attendees">Attendees:</label><select id="attendee_select" name="attendees" multiple="multiple">
 					<% @parent.calendar_positions.each do |c| %>
