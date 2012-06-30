@@ -1,0 +1,6 @@
+[1m[37m      invoke[0m  active_record
+[1m[32m      create[0m    db/migrate/20120630181843_create_threads_users.rb
+[1m[32m      create[0m    app/models/threads_users.rb
+[1m[37m      invoke[0m    test_unit
+[1m[32m      create[0m      test/unit/threads_users_test.rb
+[1m[32m      create[0m      test/fixtures/threads_users.yml
