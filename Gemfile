@@ -12,7 +12,7 @@ gem 'jquery-rails'
 
 gem 'twitter-bootstrap-rails'
 
-gem 'mysql'
+gem 'mysql2'
 
 gem 'devise'
 
