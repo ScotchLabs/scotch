@@ -1,0 +1,32 @@
+<% content_for(:content) do%>
+<div class="row">
+	<div class="span3">
+		<div class="row">
+			<% if has_permission? "adminGroup" %>
+			  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_group_path(@group) %></div>
+			<% end %>
+		</div>
+		<div class="row">
+			<center>
+				<h2><%= @group %></h2>
+			</center>
+		</div>
+		<div class="row">
+			<center>
+				<%= image_tag @group.image.url(:medium) %>
+			</center>
+		</div>
+	</div>
+	<div class="span9">
+		<div class="row">
+			<div class="nav nav-tabs">
+				<li class="active"><%= link_to 'Thingmading', @group %></li>
+				<li><%= link_to 'Members', group_positions_path(@group) %></li>
+				<li><%= link_to 'Documents', group_documents_path(@group) %></li>
+			</div>
+		</div>
+		<%= yield %>
+	</div>
+</div>
+<% end %>
+<%= render :file => 'layouts/application'%>
