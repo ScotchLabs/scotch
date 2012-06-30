@@ -55,6 +55,8 @@ class Event < ActiveRecord::Base
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
   validates_inclusion_of :event_type, :in => COLORS.keys
   
+  default_scope order('start_time ASC')
+  
   
   def self.periods
     PERIODS.clone
@@ -87,8 +89,8 @@ class Event < ActiveRecord::Base
   end
   
   def has_conflicts?
-    self.attendees.each do |a|
-      if a.has_conflicts?(self.start_time,self.end_time)
+    self.all_attendees.each do |a|
+      if a.has_conflicts?(self.start_time, self.end_time, self.id)
         return true
       end
     end
@@ -97,8 +99,24 @@ class Event < ActiveRecord::Base
   end
   
   def get_conflicts
-    conflicts = self.attendees.map do |a|
-      a.get_conflicts(self.start_time, self.end_time)
+    conflicts = self.all_attendees.map do |a|
+      a.get_conflicts(self.start_time, self.end_time, self.id)
+    end
+    
+    conflicts.compact
+  end
+  
+  def freebusys
+    self.all_attendees.map do |a|
+      {id: a.id, type: a.class.model_name, freebusys: a.freebusys}
+    end
+  end
+  
+  def get_conflictors
+    conflicts = self.all_attendees.map do |a|
+      if a.has_conflicts?(self.start_time, self.end_time, self.id)
+        a.name
+      end
     end
     
     conflicts.compact

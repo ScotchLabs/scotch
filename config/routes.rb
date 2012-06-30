@@ -45,7 +45,9 @@ Scotch::Application.routes.draw do
     resources :positions, :only => [:index, :new] do
       post :bulk_create, :on => :collection
     end
-    resources :events, :on => :member
+    resources :events, :on => :member do
+      get 'schedule', :on => :collection, :as => 'schedule'
+    end
     resources :documents, :only => [:index, :new]
     resources :votings, :only => [:index, :new]
     member do

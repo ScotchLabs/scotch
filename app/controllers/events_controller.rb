@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
-  before_filter :get_owner, :only => [:index, :new, :create]
-  before_filter :get_events, :only => [:index]
-  before_filter :get_event, :except => [:index, :new, :create]
+  before_filter :get_owner, :only => [:index, :new, :create, :schedule]
+  before_filter :get_events, :only => [:index, :schedule]
+  before_filter :get_event, :except => [:index, :new, :create, :schedule]
   
   def index
     
@@ -24,6 +24,13 @@ class EventsController < ApplicationController
       format.html
     end
   end
+  
+  def schedule
+    
+    respond_to do |format|
+      format.html
+    end
+  end
 
   def create
     @event = @owner.events.new(params[:event])
@@ -33,6 +40,7 @@ class EventsController < ApplicationController
         format.html {redirect_to @event}
         format.json {render json: @event}
       else
+        logger.info @event.errors.to_s
         format.html {redirect_to @parent}
         format.json {render json: @event, status: 218}
       end
