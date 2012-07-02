@@ -1,4 +1,5 @@
 class PositionsController < ApplicationController
+  layout 'group'
   # populate @position
   prepend_before_filter :locate_position, :only => [:destroy, :create]
 

@@ -29,7 +29,7 @@
 				</a>
 				<% end %>
 			</td>
-			<td><%= link_to 'Edit', edit_event_path(e), class: 'btn btn-primary' %></td>
+			<td><%= link_to 'Edit', edit_event_path(e), class: 'btn btn-info' %></td>
 			<td><%= link_to 'Delete', e, class: 'btn btn-danger', confirm: 'Are you sure?', method: :delete %></td>
 		</tr>
 	<% end %>
@@ -115,10 +115,6 @@
           $event.css('backgroundColor', calEvent.main_background);
           $event.find('.wc-time').css({'backgroundColor': calEvent.time_background, 'border':'1px solid ' + calEvent.time_border});
       },
-	  changedate : function($calendar, newDate)
-	  {
-		alert("New Date: " + newDate);
-	  },
       eventNew: function(calEvent, $event) {
 		 var $dialogContent = $("#event_edit_container");
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);

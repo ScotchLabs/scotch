@@ -1,8 +1,10 @@
-<% if has_permission? "adminPositions" %>
-  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Show Members", new_group_position_path(@group) %></div>
-<% elsif has_permission? "adminCrew" %>
-  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Crew Members", new_group_position_path(@group) %></div>
-<% end %>
+<div class="span2 offset7">
+	<% if has_permission? "adminPositions" %>
+	  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Show Members", new_group_position_path(@group) %></div>
+	<% elsif has_permission? "adminCrew" %>
+	  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+" Add Crew Members", new_group_position_path(@group) %></div>
+	<% end %>
+</div>
 
 <% @positions.group_by {|p| p.role}.sort.each do |role,positions| %>
   <h3><%= role.name %></h3>
