@@ -51,13 +51,13 @@
 			      <li><%= link_to 'Profile', current_user %></li>
 			      <li><%= link_to 'Settings', '#' %></li>
 			      <li class="divider"></li>
-			      <li><%= link_to 'Logout', destroy_user_session_path %></li>
+			      <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
 			    </ul>
 			</li>
 	        <% else %>
-			<%= form_for :user, :url => 'login', :html=>{:class => 'navbar-form'} do |ft| %>
+			<%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-form'} do |ft| %>
 
-			<%= ft.email_field :email, :placeholder => 'Email' %>
+			<%= ft.text_field :andrewid, :placeholder => 'Andrew ID' %>
 			<%= ft.password_field :password, :placeholder => 'Password' %>
 
 			<%= submit_tag 'Login' %>
