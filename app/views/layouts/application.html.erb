@@ -55,7 +55,7 @@
 			    </ul>
 			</li>
 	        <% else %>
-			<%= form_for :user, :url => 'users/login', :html=>{:class => 'navbar-form'} do |ft| %>
+			<%= form_for :user, :url => 'login', :html=>{:class => 'navbar-form'} do |ft| %>
 
 			<%= ft.email_field :email, :placeholder => 'Email' %>
 			<%= ft.password_field :password, :placeholder => 'Password' %>
