@@ -18,7 +18,7 @@
 		</div>
 		<br />
 		<div class="row">
-			<% @group.positions.includes(:role).where("roles.name = 'Production Staff'").order('positions.display_name DESC').each do |p| %>
+			<% @group.positions.includes(:role).where("roles.name = 'Production Staff'").sort_by{|n| n}.each do |p| %>
 				<p><strong><%= p.display_name %></strong> <%= link_to p.user, p.user %></p>
 			<% end %>
 		</div>
