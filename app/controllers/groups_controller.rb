@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  layout 'group'
+  layout 'group', :except => [:index, :new]
 
   before_filter :only => [:new, :create] do
     if params[:group_type] == "Show" then

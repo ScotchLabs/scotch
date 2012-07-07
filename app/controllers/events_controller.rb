@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  layout 'group'
   before_filter :get_owner, :only => [:index, :new, :create, :schedule]
   before_filter :get_events, :only => [:index, :schedule]
   before_filter :get_event, :except => [:index, :new, :create, :schedule]
