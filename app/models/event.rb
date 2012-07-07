@@ -54,8 +54,11 @@ class Event < ActiveRecord::Base
   validate :repeat_id_is_sane
   validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
   validates_inclusion_of :event_type, :in => COLORS.keys
+  after_save :save_attendees
   
   default_scope order('start_time ASC')
+  
+  attr_accessor :temp_attendees
   
   
   def self.periods
@@ -72,19 +75,13 @@ class Event < ActiveRecord::Base
     self.users + self.groups
   end
   
-  def attendees=(andrew_ids)
-    old_attendees = self.event_attendees
-    self.event_attendees.clear
-    if !andrew_ids.nil? && andrew_ids.kind_of?(Array)
-      andrew_ids.uniq.each do |a|
-        self.event_attendees.create(:owner => User.find_by_andrewid(a))
-      end
-    end
+  def attendees=(ids)
+    self.temp_attendees = ids
   end
   
   def attendees
     self.event_attendees.map do |a|
-      a.owner.andrewid
+      a.owner.id.to_s + ':' + a.owner.class.model_name
     end
   end
   
@@ -190,6 +187,17 @@ protected
   
   def repeat_id_is_sane
     errors[:repeat_id] << "points to an invalid Event" if repeat_id and !Event.find(repeat_id)
+  end
+  
+  def save_attendees
+    if !temp_attendees.nil? && temp_attendees.kind_of?(Array)
+      old_attendees = self.event_attendees
+      self.event_attendees.clear
+      temp_attendees.uniq.each do |a|
+        split_id = a.split(':')
+        self.event_attendees.create(:owner_id => split_id[0], :owner_type => split_id[1])
+      end
+    end
   end
 
 end

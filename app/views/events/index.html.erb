@@ -70,7 +70,7 @@
 					<% @owner.calendar_positions.each do |c| %>
 						<optgroup label="<%= c[:name] %>">
 						<% c[:positions].each do |p| %>
-							<option value="<%= p[:andrewid] %>"><%= p[:user_name] %></option>
+							<option value="<%= p[:id].to_s + ':' + p[:type] %>"><%= p[:user_name] %></option>
 						<% end %>
 						</optgroup>
 					<% end %>
@@ -145,7 +145,7 @@
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
 				  try{
-				  calEvent.attendees = attendeesField.val();
+				  calEvent.attendees = attendeeField.val();
 			  	  }catch(err){}
 				  $.post('<%= polymorphic_path([@parent, :events], format: :json) %>', {
 					authenticity_token: '<%= form_authenticity_token %>',

@@ -36,6 +36,22 @@
 	</tbody>
 </table>
 
+<% if @owner.class.model_name == 'Group' %>
+<center>
+<label for="attendees">Select Attendees:</label><select id="attendee_view" name="attendeeview" multiple="multiple">
+		<% @owner.calendar_positions.each do |c| %>
+			<optgroup label="<%= c[:name] %>">
+			<% c[:positions].each do |p| %>
+				<option value="<%= p[:id].to_s + ':' + p[:type] %>"><%= p[:user_name] %></option>
+			<% end %>
+			</optgroup>
+		<% end %>
+</select>
+</cetner>
+<% end %>
+
+<br />
+
 <div id="calendar"></div>
 
 <div id="event_edit_container" style="display:none;">
@@ -70,7 +86,7 @@
 					<% @owner.calendar_positions.each do |c| %>
 						<optgroup label="<%= c[:name] %>">
 						<% c[:positions].each do |p| %>
-							<option value="<%= p[:andrewid] %>"><%= p[:user_name] %></option>
+							<option value="<%= p[:id].to_s + ':' + p[:type] %>"><%= p[:user_name] %></option>
 						<% end %>
 						</optgroup>
 					<% end %>
@@ -93,7 +109,7 @@
   var events = <%= @events.to_json.html_safe %>;
 
   var freebusys = <%= @owner.freebusys.to_json.html_safe %>;
-  var activeUsers = [206];
+  var activeUsers = [];
 
   $(document).ready(function() {
 	$calendar = $('#calendar');
@@ -101,17 +117,19 @@
       timeslotsPerHour: 4,
       timeslotHeigh: 30,
       hourLine: true,
+	  displayFreeBusys: true,
+	  defaultFreeBusy: {free: true},
       data: function(start, end , callback)
 	  {
-		var result = [];
+		var result = new Array();
 		var r = 0;
 		for(var i = 0; i < activeUsers.length; i++)
 		{
 			for(var n = 0; n < freebusys.length; n++)
 			{
-				if(freebusys[n].id == activeUsers[i] || 1==1)
+				if('' + freebusys[n].id + ':' + freebusys[n].type  == activeUsers[i])
 				{
-					result[r] = freebusys[n].freebusys;
+					result.push.apply(result, fixFreeBusys(freebusys[n].freebusys));
 					r++;
 				}
 			}
@@ -155,6 +173,7 @@
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']");
 		 attendeeField.find("option:selected").removeAttr("selected");
+		 attendeeField.val($('#attendee_view').val());
 		 attendeeField.multiselect('refresh');
 	 	 }catch(err){}
 
@@ -364,6 +383,11 @@
     }
   });
 
+  $('#attendee_view').change(function(){
+	activeUsers = $('#attendee_view').val() || [];
+	$('#calendar').weekCalendar("refresh");
+  });
+
   var $timestampsOfOptions = {start:[],end:[]};
 
   function setupStartAndEndTimeFields($startTimeField, $endTimeField, calEvent, timeslotTimes) {
@@ -393,6 +417,18 @@
       $startTimeField.trigger("change");
    }
 
+  function fixFreeBusys(busyArray)
+  {
+	var result = new Array();
+	for(var i=0; i < busyArray.length; i++)
+	{
+		result.push({start: new Date(busyArray[i].start), end: new Date(busyArray[i].end), free: busyArray[i].free})
+	}
+	
+	return result;
+  }
+
   $("#attendee_select").multiselect();
+  $("#attendee_view").multiselect();
 </script>
 <% end %>

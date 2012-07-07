@@ -42,7 +42,8 @@ class Position < ActiveRecord::Base
   
   def simple
     return nil if user.nil?
-    {:position=>display_name, :role=>Role.find(role_id).name,:andrewid=>user.andrewid,:user_name=>user.name, :user_email=>user.email}
+    {:position=>display_name, :role=>Role.find(role_id).name,:andrewid=>user.andrewid,:user_name=>user.name, :user_email=>user.email, :id => user.id,
+      :type => 'User'}
   end
 
   def user_name
