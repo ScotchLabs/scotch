@@ -23,6 +23,7 @@ module Shared::Scheduling
   end
   
   def events_in_range(start_time, end_time, event_id)
+    event = Event.find(event_id)
     self.events.where('((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?', start_time, end_time, 
     start_time, end_time, event_id) + 
     self.attended_events.where('((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?', start_time, 

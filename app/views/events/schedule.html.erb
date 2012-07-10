@@ -1,4 +1,3 @@
-<% if @owner.class.model_name == 'Group' %>
 <center class="hidden-phone">
 <label for="attendees">Select Attendees:</label><select id="attendee_view" name="attendeeview" multiple="multiple">
 		<% @owner.calendar_positions.each do |c| %>
@@ -10,7 +9,6 @@
 		<% end %>
 </select>
 </center>
-<% end %>
 
 <br />
 

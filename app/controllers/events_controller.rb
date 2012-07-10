@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  layout 'group'
+  layout :get_layout
   before_filter :get_owner, :only => [:index, :new, :create, :schedule]
   before_filter :get_events, :only => [:index, :schedule]
   before_filter :get_event, :except => [:index, :new, :create, :schedule]
@@ -99,6 +99,14 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @owner = @event.owner
     @parent = @event.owner.class == 'User' ? nil : @owner
+  end
+  
+  def get_layout
+    if params[:group_id]
+      'group'
+    else
+      'application'
+    end
   end
 
 end
