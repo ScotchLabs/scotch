@@ -11,14 +11,10 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  description            :text
-#  repeat_id              :integer(4)
-#  repeat_frequency       :integer(4)
-#  repeat_period          :string(255)
+#  session                :string(255)
 #  all_day                :boolean(1)
 #  privacy_type           :string(255)
 #  attendee_limit         :integer(4)
-#  stop_after_occurrences :integer(4)
-#  stop_on_date           :string(255)
 #  type                   :string(255)
 
 class Event < ActiveRecord::Base
