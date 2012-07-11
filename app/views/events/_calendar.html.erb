@@ -24,6 +24,17 @@
 				<label for="title">Title: </label><input type="text" name="title" />
 			</li>
 			<li>
+				<label for ="period">Session: </label><select name="period">
+					<option value='none'>No Repeat</option>
+					<option value='mini 1'>Mini 1</option>
+					<option value='mini 2'>Mini 2</option>
+					<option value='mini 3'>Mini 3</option>
+					<option value='mini 4'>Mini 4</option>
+					<option value='semester 1'>Semester 1</option>
+					<option value='semester 2'>Semester 2</option>
+				</select>
+			</li>
+			<li>
 				<label for="body">Body: </label><textarea name="body"></textarea>
 			</li>
 			<% if @owner.class.model_name == 'Group' %>

@@ -21,7 +21,7 @@
 	$calendar = $('#calendar');
     $calendar.weekCalendar({
       timeslotsPerHour: 4,
-      timeslotHeigh: 30,
+      timeslotHeight: 15,
       hourLine: true,
       data: eventData,
       height: function($calendar) {
@@ -38,6 +38,7 @@
          var titleField = $dialogContent.find("input[name='title']").val("");
 		 var typeField = $dialogContent.find("select[name='event_type']").val("rehearsal");
          var bodyField = $dialogContent.find("textarea[name='body']").val("");
+		 var periodField = $dialogContent.find("select[name='period']").val("none");
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']");
 		 attendeeField.find("option:selected").removeAttr("selected");
@@ -60,6 +61,7 @@
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
+				  calEvent.period = periodField.val();
 				  try{
 				  calEvent.attendees = attendeeField.val();
 			  	  }catch(err){}
@@ -71,7 +73,8 @@
 					end_time: calEvent.end,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
-					attendees: calEvent.attendees
+					attendees: calEvent.attendees,
+					period: calEvent.period
 					}
 					}, function(data, textStatus, xhr){
 						if(xhr.status == 200)
@@ -156,6 +159,7 @@
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
+		 var periodField = $dialogContent.find("select[name='period']").val("none");
          bodyField.val(calEvent.body);
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']").val(calEvent.attendees).multiselect('refresh');
@@ -175,6 +179,7 @@
 	              calEvent.title = titleField.val();
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
+				  calEvent.period = periodField.val();
 				  try{
 				  calEvent.attendees = attendeeField.val();
 			  	  }catch(err){}
@@ -186,7 +191,8 @@
 					end_time: calEvent.end,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
-					attendees: calEvent.attendees
+					attendees: calEvent.attendees,
+					period: calEvent.period
 					}
 					}, success: function(data, textStatus, xhr){
 						if(xhr.status == 200)
