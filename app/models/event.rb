@@ -257,8 +257,8 @@ class Event < ActiveRecord::Base
 protected
 
   def times_are_sane
-    errors[:start_time] << "cannot be in the past" if start_time and start_time.past?
-    errors[:end_time] << "cannot be before start time" if end_time and end_time < start_time
+    errors[:start_time] << "cannot be in the past" if start_time && start_time.past? && self.session == 'none'
+    errors[:end_time] << "cannot be before start time" if end_time && end_time < start_time && self.session == 'none'
   end
   
   def save_attendees

@@ -86,7 +86,7 @@ module Shared::Scheduling
       conflicts = self.get_conflicts(start_time, end_time, 0)
     
       conflicts.map do |c|
-        {start: c.start_time, end: c.end_time, free: false}
+        {start: c.start_time, end: c.end_time, free: false, period: c.period}
       end
     else
       year = self.school_year

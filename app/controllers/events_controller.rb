@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @parent = @event.owner
+    @parent = @event.owner.class.model_name == 'Group' ? @event.owner : nil
     @event.destroy
     
     respond_to do |format|

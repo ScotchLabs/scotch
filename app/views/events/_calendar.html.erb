@@ -15,7 +15,8 @@
 			</li>
 			<li>
 				<label for="event_type">Type: </label><select name="event_type">
-					<% Event::COLORS.keys[1..-1].each do |c| %>
+					<% event_types = @parent ? Event::COLORS.keys[1..-1] : [Event::COLORS.keys[0]] %>
+					<% event_types.each do |c| %>
 						<option value="<%= c %>"><%= c.capitalize %></option>
 					<% end %>
 				</select>

@@ -49,27 +49,7 @@
 			}
 		}
 		callback({events: events, freebusys: result});
-	  }
-/* {
-		events: events,
-		freebusys: function()
-		{
-			var result = <%= @owner.freebusys[5][:freebusys].to_json.html_safe %>;
-			var r = 0;
-			for(var i = 0; i < activeUsers.length; i++)
-			{
-				for(var n = 0; n < freebusys.length; n++)
-				{
-					if(freebusys[n].id == activeUsers[i])
-					{
-						result[r] = freebusys[n].freebusys;
-						r++;
-					}
-				}
-			}
-			return result;
-		}
-	  }*/,
+	  },
       height: function($calendar) {
         return $(window).height() - $('h1').outerHeight(true);
       },
@@ -347,7 +327,24 @@
 	var result = new Array();
 	for(var i=0; i < busyArray.length; i++)
 	{
-		result.push({start: new Date(busyArray[i].start), end: new Date(busyArray[i].end), free: busyArray[i].free})
+		if(busyArray[i].period)
+		{
+			var freeb = owl.deepCopy(busyArray[i]);
+			freeb.start = new Date(freeb.start);
+			freeb.end = new Date(freeb.end);
+			var period_end = new Date(freeb.period[freeb.period.length - 1]);
+			
+			while(freeb.end < period_end)
+			{
+				result.push(owl.deepCopy(freeb));
+				freeb.start = freeb.start.add({days: 7});
+				freeb.end = freeb.end.add({days: 7});
+			}
+		}
+		else
+		{
+			result.push({start: new Date(busyArray[i].start), end: new Date(busyArray[i].end), free: busyArray[i].free});
+		}
 	}
 	
 	return result;
