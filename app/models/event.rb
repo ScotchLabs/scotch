@@ -128,9 +128,10 @@ class Event < ActiveRecord::Base
     conflicts.compact
   end
   
-  def period=(session_name)
+  def period=(session_id)
     sesh = false
-    case session_name
+    self.session_name = session_id
+    case session_id
     when 'semester 1'
       sesh = Event.sessions(self.start_time)[:semester][0]
       self.session = 'semester'
@@ -251,7 +252,7 @@ class Event < ActiveRecord::Base
   
   def as_json(options = {})
     {id: self.id, title: self.title, start: self.start_time, end: self.end_time, body: self.description, 
-      event_type: self.event_type, period: self.period, attendees: self.attendees}.merge COLORS[self.event_type]
+      event_type: self.event_type, period: self.period, session_name: self.session_name, attendees: self.attendees}.merge COLORS[self.event_type]
   end
 protected
 

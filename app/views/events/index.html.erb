@@ -6,16 +6,7 @@
   var month = new Date().getMonth();
   var day = new Date().getDate();
 
-  var eventData = {
-    /*events : [
-      {'id':1, 'start': new Date(year, month, day, 12), 'end': new Date(year, month, day, 13, 35),'title':'Lunch with Mike'},
-      {'id':2, 'start': new Date(year, month, day, 14), 'end': new Date(year, month, day, 14, 45),'title':'Dev Meeting'},
-      {'id':3, 'start': new Date(year, month, day + 1, 18), 'end': new Date(year, month, day + 1, 18, 45),'title':'Hair cut'},
-      {'id':4, 'start': new Date(year, month, day - 1, 8), 'end': new Date(year, month, day - 1, 9, 30),'title':'Team breakfast'},
-      {'id':5, 'start': new Date(year, month, day + 1, 14), 'end': new Date(year, month, day + 1, 15),'title':'Product showcase'}
-    ]*/
-	events: <%= @events.to_json.html_safe %>
-  };
+  var events = <%= @events.to_json.html_safe %>;
 
   $(document).ready(function() {
 	$calendar = $('#calendar');
@@ -23,7 +14,34 @@
       timeslotsPerHour: 4,
       timeslotHeight: 15,
       hourLine: true,
-      data: eventData,
+      data: function(start, end , callback)
+	  {
+		var result = [];
+		
+		for(var i = 0; i < events.length; i++)
+		{
+			if(events[i].period)
+			{
+				var event_copy = owl.deepCopy(events[i]);
+				event_copy.start = new Date(event_copy.start);
+				event_copy.end = new Date(event_copy.end);
+				var end_period = new Date(events[i].period[events[i].period.length - 1]);
+				
+				while(event_copy.end < end_period)
+				{
+					result.push(owl.deepCopy(event_copy));
+					event_copy.start = event_copy.start.add({days: 7});
+					event_copy.end = event_copy.end.add({days: 7});
+				}
+			}
+			else
+			{
+				result.push(events[i]);
+			}
+		}
+		
+		callback({events: result});
+	  },
       height: function($calendar) {
         return $(window).height() - $('h1').outerHeight(true);
       },
@@ -83,6 +101,8 @@
 						calEvent.main_background = data.main_background;
 						calEvent.time_background = data.time_background;
 						calEvent.time_border = data.time_border;
+						calEvent.period = data.period;
+						calEvent.session_name = data.session_name;
 
 		                $calendar.weekCalendar("removeUnsavedEvents");
 		                $calendar.weekCalendar("updateEvent", calEvent);
@@ -159,7 +179,7 @@
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
-		 var periodField = $dialogContent.find("select[name='period']").val("none");
+		 var periodField = $dialogContent.find("select[name='period']").val(calEvent.session_name);
          bodyField.val(calEvent.body);
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']").val(calEvent.attendees).multiselect('refresh');

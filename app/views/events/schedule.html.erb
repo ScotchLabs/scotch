@@ -130,6 +130,8 @@
 						calEvent.main_background = data.main_background;
 						calEvent.time_background = data.time_background;
 						calEvent.time_border = data.time_border;
+						calEvent.period = data.period;
+						calEvent.session_name = data.session_name;
 
 		                $calendar.weekCalendar("removeUnsavedEvents");
 		                $calendar.weekCalendar("updateEvent", calEvent);
@@ -206,7 +208,7 @@
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
-		 var periodField = $dialogContent.find("select[name='period']").val("none");
+		 var periodField = $dialogContent.find("select[name='period']").val(calEvent.session_name);
          bodyField.val(calEvent.body);
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']").val(calEvent.attendees).multiselect('refresh');
@@ -247,6 +249,9 @@
 						calEvent.main_background = data.main_background;
 						calEvent.time_background = data.time_background;
 						calEvent.time_border = data.time_border;
+						calEvent.period = data.period;
+						calEvent.session_name = data.session_name;
+						
 		                $calendar.weekCalendar("updateEvent", calEvent);
 		                $dialogContent.dialog("close");
 						}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120710160114) do
+ActiveRecord::Schema.define(:version => 20120712222704) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20120710160114) do
     t.string   "owner_type"
     t.string   "event_type"
     t.string   "session"
+    t.string   "session_name"
   end
 
   create_table "feedpost_attachments", :force => true do |t|

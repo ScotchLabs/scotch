@@ -23,9 +23,9 @@ module Shared::Scheduling
   end
   
   def events_in_range(start_time, end_time, event_id)
-    event = Event.find(event_id).first
+    event = Event.where(id: event_id).first
     
-    if event.session == 'semester' && event.mini
+    if event && event.session == 'semester' && event.mini
       self.events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
       OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
       OR (session = 'semester' AND start_time BETWEEN ? AND ?) 
@@ -36,7 +36,7 @@ module Shared::Scheduling
       OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
       OR (session = 'semester' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
       start_time, end_time, event.mini.first, event.mini.last, event.semester.first, event.semester.last, event_id)
-    elsif event.mini
+    elsif event && event.mini
       self.events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
       OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
       OR (session = 'semester' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
