@@ -1,0 +1,92 @@
+<div id="calendar" class="hidden-phone"></div>
+
+<div id="event_edit_container" style="display:none;">
+	<form>
+		<input type="hidden" />
+		<ul>
+			<li>
+				<span>Date: </span><span class="date_holder"></span> 
+			</li>
+			<li>
+				<label for="start">Start Time: </label><select name="start"><option value="">Select Start Time</option></select>
+			</li>
+			<li>
+				<label for="end">End Time: </label><select name="end"><option value="">Select End Time</option></select>
+			</li>
+			<li>
+				<label for="event_type">Type: </label><select name="event_type">
+					<% event_types = @parent ? Event::COLORS.keys[1..-1] : [Event::COLORS.keys[0]] %>
+					<% event_types.each do |c| %>
+						<option value="<%= c %>"><%= c.capitalize %></option>
+					<% end %>
+				</select>
+			</li>
+			<li>
+				<label for="title">Title: </label><input type="text" name="title" />
+			</li>
+			<li>
+				<label for ="period">Session: </label><select name="period">
+					<option value='none'>No Repeat</option>
+					<option value='mini 1'>Mini 1</option>
+					<option value='mini 2'>Mini 2</option>
+					<option value='mini 3'>Mini 3</option>
+					<option value='mini 4'>Mini 4</option>
+					<option value='semester 1'>Semester 1</option>
+					<option value='semester 2'>Semester 2</option>
+				</select>
+			</li>
+			<li>
+				<label for="body">Body: </label><textarea name="body"></textarea>
+			</li>
+			<% if @owner.class.model_name == 'Group' %>
+			<li>
+				<label for="attendees">Attendees:</label><select id="attendee_select" name="attendees" multiple="multiple">
+					<% @owner.calendar_positions.each do |c| %>
+						<optgroup label="<%= c[:name] %>">
+						<% c[:positions].each do |p| %>
+							<option value="<%= p[:id].to_s + ':' + p[:type] %>"><%= p[:user_name] %></option>
+						<% end %>
+						</optgroup>
+					<% end %>
+				</select>
+			</li>
+			<% end %>
+		</ul>
+	</form>
+</div><br />
+
+<%= link_to 'New Event', new_polymorphic_path([@parent, :event].compact), class: 'btn btn-success' %>
+<table class="table table-condensed">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Start</th>
+			<th>End</th>
+			<th>Conflict?</th>
+			<th>Edit</th>
+			<th>Destroy</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @events.each do |e| %>
+		<tr>
+			<td><%= link_to e.title, e %></td>
+			<td><%= e.start_time.strftime("%a, %b %-d %l:%M %p") %></td>
+			<td><%= e.end_time.strftime("%a, %b %-d %l:%M %p") %></td>
+			<td>
+				<% if e.has_conflicts? %>
+				<a href="#" rel="tooltip" title="<%= e.get_conflictors.join(', ') %>">
+					<span class="label label-important">Conflict</span>
+				</a>
+				<% else %>
+				<a href="#" rel="tooltip" title="No Conflicts">
+					<span class="label label-success">Clear</span>
+				</a>
+				<% end %>
+			</td>
+			<td><%= link_to 'Edit', edit_event_path(e), class: 'btn btn-info' %></td>
+			<td><%= link_to 'Delete', e, class: 'btn btn-danger', confirm: 'Are you sure?', method: :delete %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>

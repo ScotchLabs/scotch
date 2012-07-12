@@ -8,7 +8,7 @@
 
 <% @positions.group_by {|p| p.role}.sort.each do |role,positions| %>
   <h3><%= role.name %></h3>
-  <ul>
+  <ul class="unstyled">
     <% positions.group_by{|p| p.display_name}.sort_by{|dn,x| dn.gsub("Assistant ","")}.each do |title,ps| %>
       <li><strong><%= ps.first %></strong>
         <% for i in (0...ps.length)

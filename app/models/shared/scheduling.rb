@@ -23,10 +23,34 @@ module Shared::Scheduling
   end
   
   def events_in_range(start_time, end_time, event_id)
-    self.events.where('((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?', start_time, end_time, 
-    start_time, end_time, event_id) + 
-    self.attended_events.where('((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?', start_time, 
-    end_time, start_time, end_time, event_id)
+    event = Event.where(id: event_id).first
+    
+    if event && event.session == 'semester' && event.mini
+      self.events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
+      OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
+      OR (session = 'semester' AND start_time BETWEEN ? AND ?) 
+      OR (session = 'mini' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
+      start_time, end_time, event.mini.first, event.mini.last, event.semester.first, 
+      event.semester.last, event.mini.last, event.semester.last, event_id) + 
+      self.attended_events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
+      OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
+      OR (session = 'semester' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
+      start_time, end_time, event.mini.first, event.mini.last, event.semester.first, event.semester.last, event_id)
+    elsif event && event.mini
+      self.events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
+      OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
+      OR (session = 'semester' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
+      start_time, end_time, event.mini.begin, event.mini.end, event.semester.begin, event.semester.end, event_id) + 
+      self.attended_events.where("(((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) 
+      OR (session = 'mini' AND start_time BETWEEN ? AND ?) 
+      OR (session = 'semester' AND start_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
+      start_time, end_time, event.mini.begin, event.mini.end, event.semester.begin, event.semester.end, event_id)
+    else
+      self.events.where("((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?", 
+      start_time, end_time, start_time, end_time, event_id) + 
+      self.attended_events.where("((start_time BETWEEN ? AND ?) OR (end_time BETWEEN ? AND ?)) AND events.id != ?", start_time, end_time, 
+      start_time, end_time, event_id)
+    end
   end
   
   def has_conflicts?(start_time = nil, end_time = nil, *event_id)
@@ -62,7 +86,7 @@ module Shared::Scheduling
       conflicts = self.get_conflicts(start_time, end_time, 0)
     
       conflicts.map do |c|
-        {start: c.start_time, end: c.end_time, free: false}
+        {start: c.start_time, end: c.end_time, free: false, period: c.period}
       end
     else
       year = self.school_year

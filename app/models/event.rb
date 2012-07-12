@@ -11,14 +11,10 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  description            :text
-#  repeat_id              :integer(4)
-#  repeat_frequency       :integer(4)
-#  repeat_period          :string(255)
+#  session                :string(255)
 #  all_day                :boolean(1)
 #  privacy_type           :string(255)
 #  attendee_limit         :integer(4)
-#  stop_after_occurrences :integer(4)
-#  stop_on_date           :string(255)
 #  type                   :string(255)
 
 class Event < ActiveRecord::Base
@@ -50,16 +46,32 @@ class Event < ActiveRecord::Base
   validate :times_are_sane # rails3?
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
-  validate :attendee_limit_is_sane
-  validate :repeat_id_is_sane
-  validates_inclusion_of :privacy_type, :in => ['open','limited','closed'], :allow_nil => true
+  validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
   validates_inclusion_of :event_type, :in => COLORS.keys
+  after_save :save_attendees
   
   default_scope order('start_time ASC')
+  
+  attr_accessor :temp_attendees
   
   
   def self.periods
     PERIODS.clone
+  end
+  
+  def self.sessions(today = DateTime.now)
+        
+    if today.month > 6
+      result = {mini:[DateTime.new(today.year, 8, 27)..DateTime.new(today.year, 10, 19), DateTime.new(today.year, 10, 22)..DateTime.new(today.year, 12, 20),
+        DateTime.new(today.year + 1, 1, 14)..DateTime.new(today.year + 1, 3, 11), DateTime.new(today.year + 1, 3, 18)..DateTime.new(today.year + 1, 5, 16)],
+        semester: [DateTime.new(today.year, 8, 27)..DateTime.new(today.year, 12, 20), DateTime.new(today.year + 1, 1, 14)..DateTime.new(today.year + 1, 5, 16)]}
+    else
+      result = {mini:[DateTime.new(today.year + 1, 1, 14)..DateTime.new(today.year, 3, 11), DateTime.new(today.year + 1, 3, 18)..DateTime.new(today.year, 5, 16),
+        DateTime.new(today.year, 8, 27)..DateTime.new(today.year, 10, 19), DateTime.new(today.year, 10, 22)..DateTime.new(today.year, 12, 20)],
+        semester: [DateTime.new(today.year, 1, 14)..DateTime.new(today.year, 5, 16), DateTime.new(today.year, 8, 27)..DateTime.new(today.year, 12, 20)]}
+    end
+    
+    result
   end
 
   scope :future, where("end_time > NOW()")
@@ -72,19 +84,13 @@ class Event < ActiveRecord::Base
     self.users + self.groups
   end
   
-  def attendees=(andrew_ids)
-    old_attendees = self.event_attendees
-    self.event_attendees.clear
-    if !andrew_ids.nil? && andrew_ids.kind_of?(Array)
-      andrew_ids.uniq.each do |a|
-        self.event_attendees.create(:owner => User.find_by_andrewid(a))
-      end
-    end
+  def attendees=(ids)
+    self.temp_attendees = ids
   end
   
   def attendees
     self.event_attendees.map do |a|
-      a.owner.andrewid
+      a.owner.id.to_s + ':' + a.owner.class.model_name
     end
   end
   
@@ -120,6 +126,77 @@ class Event < ActiveRecord::Base
     end
     
     conflicts.compact
+  end
+  
+  def period=(session_id)
+    sesh = false
+    self.session_name = session_id
+    case session_id
+    when 'semester 1'
+      sesh = Event.sessions(self.start_time)[:semester][0]
+      self.session = 'semester'
+    when 'semester 2'
+      sesh = Event.sessions(self.start_time)[:semester][1]
+      self.session = 'semester'
+    when 'mini 1'
+      sesh = Event.sessions(self.start_time)[:mini][0]
+      self.session = 'mini'
+    when 'mini 2'
+      sesh = Event.sessions(self.start_time)[:mini][1]
+      self.session = 'mini'
+    when 'mini 3'
+      sesh = Event.sessions(self.start_time)[:mini][2]
+      self.session = 'mini'
+    when 'mini 4'
+      sesh = Event.sessions(self.start_time)[:mini][3]
+      self.session = 'mini'
+    else
+      self.session = 'none'
+      return
+    end
+    
+    weekday = self.start_time.wday
+    delta = self.end_time.to_i - self.start_time.to_i
+    
+    new_start = sesh.first
+    while new_start.wday != weekday
+      new_start = new_start.advance(days: 1)
+    end
+    
+    self.start_time = self.start_time.change(year: new_start.year, month: new_start.month, day: new_start.day)
+    self.end_time = self.start_time.advance(seconds: delta)
+  end
+  
+  def period
+    if !self.session.nil? && self.session != 'none'
+      Event.sessions(self.start_time)[self.session.to_sym].each do |s|
+        if s.cover? self.start_time
+          return s
+        end
+      end
+    else
+      false
+    end
+  end
+  
+  def mini
+    Event.sessions(self.start_time)[:mini].each do |s|
+      if s.cover? self.start_time
+        return s
+      end
+    end
+    
+    false
+  end
+  
+  def semester
+    Event.sessions(self.start_time)[:semester].each do |s|
+      if s.cover? self.start_time
+        return s
+      end
+    end
+    
+    false
   end
 
   def repeat_children
@@ -175,21 +252,24 @@ class Event < ActiveRecord::Base
   
   def as_json(options = {})
     {id: self.id, title: self.title, start: self.start_time, end: self.end_time, body: self.description, 
-      event_type: self.event_type, attendees: self.attendees}.merge COLORS[self.event_type]
+      event_type: self.event_type, period: self.period, session_name: self.session_name, attendees: self.attendees}.merge COLORS[self.event_type]
   end
 protected
 
-  def attendee_limit_is_sane
-    errors[:attendee_limit] << "must be an integer" if privacy_type == "limited" and not attendee_limit
-  end
-
   def times_are_sane
-    errors[:start_time] << "cannot be in the past" if start_time and start_time.past?
-    errors[:end_time] << "cannot be before start time" if end_time and end_time < start_time
+    errors[:start_time] << "cannot be in the past" if start_time && start_time.past? && self.session == 'none'
+    errors[:end_time] << "cannot be before start time" if end_time && end_time < start_time && self.session == 'none'
   end
   
-  def repeat_id_is_sane
-    errors[:repeat_id] << "points to an invalid Event" if repeat_id and !Event.find(repeat_id)
+  def save_attendees
+    if !temp_attendees.nil? && temp_attendees.kind_of?(Array)
+      old_attendees = self.event_attendees
+      self.event_attendees.clear
+      temp_attendees.uniq.each do |a|
+        split_id = a.split(':')
+        self.event_attendees.create(:owner_id => split_id[0], :owner_type => split_id[1])
+      end
+    end
   end
 
 end

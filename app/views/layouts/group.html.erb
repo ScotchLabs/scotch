@@ -18,7 +18,7 @@
 		</div>
 		<br />
 		<div class="row">
-			<% @group.positions.includes(:role).where("roles.name = 'Production Staff'").order('positions.display_name DESC').each do |p| %>
+			<% @group.positions.includes(:role).where("roles.name = 'Production Staff'").sort_by{|n| n}.each do |p| %>
 				<p><strong><%= p.display_name %></strong> <%= link_to p.user, p.user %></p>
 			<% end %>
 		</div>
@@ -29,6 +29,13 @@
 				<li class="<%= 'active' if controller.controller_name == 'groups' %>"><%= link_to 'Home', @group %></li>
 				<li class="<%= 'active' if controller.controller_name == 'positions' %>"><%= link_to 'Members', group_positions_path(@group) %></li>
 				<li class="<%= 'active' if controller.controller_name == 'documents' %>"><%= link_to 'Documents', group_documents_path(@group) %></li>
+				<li class="dropdown <%= 'active' if controller.controller_name == 'events' %>">
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule<b class="caret"></b></a>
+				    <ul class="dropdown-menu">
+				      <li><%= link_to 'Standard', group_events_path(@group) %></li>
+					  <li><%= link_to 'Conflict-Aware', schedule_group_events_path(@group) %></li>
+				    </ul>
+				</li>
 			</div>
 		</div>
 		<%= yield %>

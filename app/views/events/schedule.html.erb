@@ -1,88 +1,18 @@
-<article>
-<h1>Schedule</h1>
-
-<table class="table">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Start</th>
-			<th>End</th>
-			<th>Conflict?</th>
-			<th>Edit</th>
-			<th>Destroy</th>
-		</tr>
-	</thead>
-	<tbody>
-	<% @events.each do |e| %>
-		<tr>
-			<td><%= link_to e.title, e %></td>
-			<td><%= e.start_time.strftime("%a, %b %-d %l:%M %p") %></td>
-			<td><%= e.end_time.strftime("%a, %b %-d %l:%M %p") %></td>
-			<td>
-				<% if e.has_conflicts? %>
-				<a href="#" rel="tooltip" title="<%= e.get_conflictors.join(', ') %>">
-					<span class="label label-important">Conflict</span>
-				</a>
-				<% else %>
-				<a href="#" rel="tooltip" title="No Conflicts">
-					<span class="label label-success">Clear</span>
-				</a>
-				<% end %>
-			</td>
-			<td><%= link_to 'Edit', edit_event_path(e), class: 'btn btn-info' %></td>
-			<td><%= link_to 'Delete', e, class: 'btn btn-danger', confirm: 'Are you sure?', method: :delete %></td>
-		</tr>
-	<% end %>
-	</tbody>
-</table>
-
-<div id="calendar"></div>
-
-<div id="event_edit_container" style="display:none;">
-	<form>
-		<input type="hidden" />
-		<ul>
-			<li>
-				<span>Date: </span><span class="date_holder"></span> 
-			</li>
-			<li>
-				<label for="start">Start Time: </label><select name="start"><option value="">Select Start Time</option></select>
-			</li>
-			<li>
-				<label for="end">End Time: </label><select name="end"><option value="">Select End Time</option></select>
-			</li>
-			<li>
-				<label for="event_type">Type: </label><select name="event_type">
-					<% Event::COLORS.keys[1..-1].each do |c| %>
-						<option value="<%= c %>"><%= c.capitalize %></option>
-					<% end %>
-				</select>
-			</li>
-			<li>
-				<label for="title">Title: </label><input type="text" name="title" />
-			</li>
-			<li>
-				<label for="body">Body: </label><textarea name="body"></textarea>
-			</li>
-			<% if @owner.class.model_name == 'Group' %>
-			<li>
-				<label for="attendees">Attendees:</label><select id="attendee_select" name="attendees" multiple="multiple">
-					<% @owner.calendar_positions.each do |c| %>
-						<optgroup label="<%= c[:name] %>">
-						<% c[:positions].each do |p| %>
-							<option value="<%= p[:andrewid] %>"><%= p[:user_name] %></option>
-						<% end %>
-						</optgroup>
-					<% end %>
-				</select>
-			</li>
+<center class="hidden-phone">
+<label for="attendees">Select Attendees:</label><select id="attendee_view" name="attendeeview" multiple="multiple">
+		<% @owner.calendar_positions.each do |c| %>
+			<optgroup label="<%= c[:name] %>">
+			<% c[:positions].each do |p| %>
+				<option value="<%= p[:id].to_s + ':' + p[:type] %>"><%= p[:user_name] %></option>
 			<% end %>
-		</ul>
-	</form>
-</div>
+			</optgroup>
+		<% end %>period
+</select>
+</center>
 
-<p><%= link_to 'New Event', new_polymorphic_path([@parent, :event].compact) %>
-</article>
+<br />
+
+<%= render partial: 'calendar' %>
 
 <%= content_for(:javascripts) do %>
 <script type='text/javascript'>
@@ -93,51 +23,33 @@
   var events = <%= @events.to_json.html_safe %>;
 
   var freebusys = <%= @owner.freebusys.to_json.html_safe %>;
-  var activeUsers = [206];
+  var activeUsers = [];
 
   $(document).ready(function() {
 	$calendar = $('#calendar');
     $calendar.weekCalendar({
       timeslotsPerHour: 4,
-      timeslotHeigh: 30,
+      timeslotHeight: 15,
       hourLine: true,
+	  displayFreeBusys: true,
+	  defaultFreeBusy: {free: true},
       data: function(start, end , callback)
 	  {
-		var result = [];
+		var result = new Array();
 		var r = 0;
 		for(var i = 0; i < activeUsers.length; i++)
 		{
 			for(var n = 0; n < freebusys.length; n++)
 			{
-				if(freebusys[n].id == activeUsers[i] || 1==1)
+				if('' + freebusys[n].id + ':' + freebusys[n].type  == activeUsers[i])
 				{
-					result[r] = freebusys[n].freebusys;
+					result.push.apply(result, fixFreeBusys(freebusys[n].freebusys));
 					r++;
 				}
 			}
 		}
 		callback({events: events, freebusys: result});
-	  }
-/* {
-		events: events,
-		freebusys: function()
-		{
-			var result = <%= @owner.freebusys[5][:freebusys].to_json.html_safe %>;
-			var r = 0;
-			for(var i = 0; i < activeUsers.length; i++)
-			{
-				for(var n = 0; n < freebusys.length; n++)
-				{
-					if(freebusys[n].id == activeUsers[i])
-					{
-						result[r] = freebusys[n].freebusys;
-						r++;
-					}
-				}
-			}
-			return result;
-		}
-	  }*/,
+	  },
       height: function($calendar) {
         return $(window).height() - $('h1').outerHeight(true);
       },
@@ -152,9 +64,11 @@
          var titleField = $dialogContent.find("input[name='title']").val("");
 		 var typeField = $dialogContent.find("select[name='event_type']").val("rehearsal");
          var bodyField = $dialogContent.find("textarea[name='body']").val("");
+		 var periodField = $dialogContent.find("select[name='period']").val("none");
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']");
 		 attendeeField.find("option:selected").removeAttr("selected");
+		 attendeeField.val($('#attendee_view').val());
 		 attendeeField.multiselect('refresh');
 	 	 }catch(err){}
 
@@ -177,6 +91,7 @@
 				  try{
 				  calEvent.attendees = attendeesField.val();
 			  	  }catch(err){}
+				  calEvent.period = periodField.val();
 				  $.post('<%= polymorphic_path([@parent, :events], format: :json) %>', {
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
@@ -185,7 +100,8 @@
 					end_time: calEvent.end,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
-					attendees: calEvent.attendees
+					attendees: calEvent.attendees,
+					period: calEvent.period
 					}
 					}, function(data, textStatus, xhr){
 						if(xhr.status == 200)
@@ -194,6 +110,8 @@
 						calEvent.main_background = data.main_background;
 						calEvent.time_background = data.time_background;
 						calEvent.time_border = data.time_border;
+						calEvent.period = data.period;
+						calEvent.session_name = data.session_name;
 
 		                $calendar.weekCalendar("removeUnsavedEvents");
 		                $calendar.weekCalendar("updateEvent", calEvent);
@@ -270,6 +188,7 @@
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
          var bodyField = $dialogContent.find("textarea[name='body']");
+		 var periodField = $dialogContent.find("select[name='period']").val(calEvent.session_name);
          bodyField.val(calEvent.body);
 		 try{
 		 var attendeeField = $dialogContent.find("select[name='attendees']").val(calEvent.attendees).multiselect('refresh');
@@ -292,6 +211,7 @@
 				  try{
 				  calEvent.attendees = attendeeField.val();
 			  	  }catch(err){}
+				  calEvent.period = periodField.val();
 				  $.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
 					authenticity_token: '<%= form_authenticity_token %>',
 					event:{
@@ -300,7 +220,8 @@
 					end_time: calEvent.end,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
-					attendees: calEvent.attendees
+					attendees: calEvent.attendees,
+					period: calEvent.period
 					}
 					}, success: function(data, textStatus, xhr){
 						if(xhr.status == 200)
@@ -308,6 +229,9 @@
 						calEvent.main_background = data.main_background;
 						calEvent.time_background = data.time_background;
 						calEvent.time_border = data.time_border;
+						calEvent.period = data.period;
+						calEvent.session_name = data.session_name;
+						
 		                $calendar.weekCalendar("updateEvent", calEvent);
 		                $dialogContent.dialog("close");
 						}
@@ -364,6 +288,11 @@
     }
   });
 
+  $('#attendee_view').change(function(){
+	activeUsers = $('#attendee_view').val() || [];
+	$('#calendar').weekCalendar("refresh");
+  });
+
   var $timestampsOfOptions = {start:[],end:[]};
 
   function setupStartAndEndTimeFields($startTimeField, $endTimeField, calEvent, timeslotTimes) {
@@ -393,6 +322,35 @@
       $startTimeField.trigger("change");
    }
 
+  function fixFreeBusys(busyArray)
+  {
+	var result = new Array();
+	for(var i=0; i < busyArray.length; i++)
+	{
+		if(busyArray[i].period)
+		{
+			var freeb = owl.deepCopy(busyArray[i]);
+			freeb.start = new Date(freeb.start);
+			freeb.end = new Date(freeb.end);
+			var period_end = new Date(freeb.period[freeb.period.length - 1]);
+			
+			while(freeb.end < period_end)
+			{
+				result.push(owl.deepCopy(freeb));
+				freeb.start = freeb.start.add({days: 7});
+				freeb.end = freeb.end.add({days: 7});
+			}
+		}
+		else
+		{
+			result.push({start: new Date(busyArray[i].start), end: new Date(busyArray[i].end), free: busyArray[i].free});
+		}
+	}
+	
+	return result;
+  }
+
   $("#attendee_select").multiselect();
+  $("#attendee_view").multiselect();
 </script>
 <% end %>

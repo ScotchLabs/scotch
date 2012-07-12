@@ -63,6 +63,7 @@ class Group < Shared::Watchable
   # sets model_name for all subclasses to be "Group"
   def self.inherited(child)
     child.instance_eval do
+      alias :original_model_name :model_name
       def model_name
         Group.model_name
       end
