@@ -13,7 +13,7 @@ module Shared
 				filename = options[:file_name] or "#{now.to_i}#{now.usec}_:style.:extension"
 
         if Rails.env.production?
-					options[:path]	||= "/data/upload/scotch/#{filename}"
+					options[:path]	||= ":rails_root/../../upload/scotch/#{filename}"
 					options[:url]		||= "http://upload.snstheatre.org/scotch/#{filename}"
         else
           options[:path]  ||= ":rails_root/public/system/#{filename}"
