@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 set :user, 'deploy'
 set :domain, 'snstheatre.org'
 set :application, "scotch"
@@ -23,4 +25,10 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
 	run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+  desc "Make symlink for database yaml" 
+  task :symlink_config do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
+  end
 end
+
+after "deploy:symlink", "deploy:symlink_config"
