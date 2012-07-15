@@ -38,6 +38,8 @@ gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 
 gem 'rabl'
 
+gem 'capistrano'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
