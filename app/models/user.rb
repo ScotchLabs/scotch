@@ -70,6 +70,11 @@ class User < Shared::Watchable
   #Kudos
   has_and_belongs_to_many :knominations
   
+  #Messaging
+  has_one :setting
+  has_and_belongs_to_many :message_threads
+  has_many :messages
+  
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
   #FIXME use :source_type instead of :conditions
