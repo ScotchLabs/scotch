@@ -1,0 +1,21 @@
+<h1>Listing threads</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @threads.each do |thread| %>
+  <tr>
+    <td><%= link_to 'Show', thread %></td>
+    <td><%= link_to 'Edit', edit_thread_path(thread) %></td>
+    <td><%= link_to 'Destroy', thread, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Thread', new_polymorphic_path([@parent, :thread].compact) %>
