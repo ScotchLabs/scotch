@@ -36,6 +36,8 @@ gem 'digest-whirlpool'
 
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 
+gem 'simple_form'
+
 gem 'rabl'
 
 gem 'capistrano'
