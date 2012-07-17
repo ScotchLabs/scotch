@@ -54,3 +54,52 @@
 		clear:both;
 	}
 }
+
+.thread-title
+{
+	border-bottom-style:dotted;
+	border-bottom-color:#B0B0B0;
+	border-bottom-width:1px;
+	margin-bottom:20px;
+	max-width:200px;
+}
+
+.message-container
+{
+	.message
+	{
+		margin-bottom:10px;
+		
+		.message-sender-headshot
+		{
+			float:left;
+			clear:left;
+		}
+		
+		.message-sender
+		{
+			font-style:bold;
+			font-size:16px;
+			padding-top:8px;
+			margin-bottom:10px;
+		}
+		
+		.message-text
+		{
+			margin-left:50px;
+			margin-right:50px;
+		}
+		
+		.message-time
+		{
+			float:right;
+		}
+	}
+	
+	textarea
+	{
+		overflow:hidden;
+		height:auto;
+		max-width:400px;
+	}
+}

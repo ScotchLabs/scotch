@@ -29,6 +29,7 @@
 				<li class="<%= 'active' if controller.controller_name == 'groups' %>"><%= link_to 'Home', @group %></li>
 				<li class="<%= 'active' if controller.controller_name == 'positions' %>"><%= link_to 'Members', group_positions_path(@group) %></li>
 				<li class="<%= 'active' if controller.controller_name == 'documents' %>"><%= link_to 'Documents', group_documents_path(@group) %></li>
+				<li class="<%= 'active' if controller.controller_name == 'message_threads' %>"><%= link_to 'Messages', group_message_threads_path(@group) %>
 				<li class="dropdown <%= 'active' if controller.controller_name == 'events' %>">
 				    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule<b class="caret"></b></a>
 				    <ul class="dropdown-menu">

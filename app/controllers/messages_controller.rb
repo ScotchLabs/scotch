@@ -47,6 +47,7 @@ class MessagesController < ApplicationController
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
       else
+        logger.info @message.errors.full_messages.to_s
         format.html { render action: "new" }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end

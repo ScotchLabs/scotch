@@ -4,7 +4,7 @@
 	<div class="thread">
 		<div class="thread-recent-time"><%= message ? time_ago_in_words(message.created_at) : 'never' %></div>
 		<div class="thread-subject"><%= link_to thread.subject, thread %></div>
-		<div class="thread-recent-sender"><%= message ? message.user.name : '' %></div>
+		<div class="thread-recent-sender"><%= message ? link_to(message.user, message.user.name) : '' %></div>
 		<div class="thread-buttons">
 			<%= link_to "<i class='icon-envelope'></i> View Thread".html_safe, thread, class: 'btn' %>
 		</div>
