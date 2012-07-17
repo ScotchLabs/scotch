@@ -1,0 +1,15 @@
+<%= simple_form_for(@thread) do |f| %>
+  <%= f.error_notification %>
+
+  <% if @parent %>
+    <%= f.hidden_field :group_id, value: @parent.id %>
+  <% end %>
+
+  <div class="form-inputs">
+	<%= f.input :subject %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Create Thread" %>
+  </div>
+<% end %>

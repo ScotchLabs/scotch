@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120712222704) do
+ActiveRecord::Schema.define(:version => 20120717164525) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -200,12 +200,12 @@ ActiveRecord::Schema.define(:version => 20120712222704) do
   end
 
   create_table "messages", :force => true do |t|
-    t.integer  "thread_id"
     t.integer  "user_id"
     t.text     "text"
     t.string   "priority"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "message_thread_id"
   end
 
   create_table "nominations", :force => true do |t|

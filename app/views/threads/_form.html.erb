@@ -1,17 +1,6 @@
-<%= form_for(@thread) do |f| %>
-  <% if @thread.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@thread.errors.count, "error") %> prohibited this thread from being saved:</h2>
-
-      <ul>
-      <% @thread.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<center>
+<%= simple_form_for @thread, url: threads_path do |f| %>
+	<%= f.input :subject %>
+	<%= f.button :submit %>
 <% end %>
+</center>

@@ -1,0 +1,19 @@
+<div class="thread-container">
+<% @threads.each do |thread| %>
+	<% message = thread.recent_message %>
+	<div class="thread">
+		<div class="thread-recent-time"><%= message ? time_ago_in_words(message.created_at) : 'never' %></div>
+		<div class="thread-subject"><%= link_to thread.subject, thread %></div>
+		<div class="thread-recent-sender"><%= message ? message.user.name : '' %></div>
+		<div class="thread-buttons">
+			<%= link_to "<i class='icon-envelope'></i> View Thread".html_safe, thread, class: 'btn' %>
+		</div>
+		<div class="thread-recent-message"><%= message ? message.text : 'Thread Empty' %></div>
+	</div>
+	<div class="thread-clear"></div>
+<% end %>
+</div>
+
+<br />
+
+<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_polymorphic_path([@parent, :message_thread].compact), class: 'btn btn-success' %>

@@ -1,0 +1,56 @@
+.thread-container
+{
+	.thread
+	{
+		border-bottom-style:inset;
+		border-bottom-width:1px;
+		border-bottom-color:#D9D9D9;
+		
+		.thread-subject
+		{
+			font-size:35px;
+			margin-bottom:10px;
+			padding-top:10px;
+			padding-left:5px;
+			
+			a
+			{
+				color:black;
+			}
+			
+			a:hover
+			{
+				text-decoration:none;
+			}
+		}
+		
+		.thread-recent-sender
+		{
+			font-size:18px;
+			margin-bottom:5px;
+			margin-left:10px;
+		}
+		
+		.thread-recent-message
+		{
+			color:#9F9F9F;
+			margin-bottom:15px;
+			margin-left:20px;
+		}
+		
+		.thread-recent-time
+		{
+			float:right;
+			color:#A7A7A7;
+		}
+		
+		.thread-buttons
+		{
+			float:right;
+		}
+	}
+	.thread-clear
+	{
+		clear:both;
+	}
+}
