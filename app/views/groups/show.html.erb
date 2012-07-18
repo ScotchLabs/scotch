@@ -1,42 +1,56 @@
-<div class="span3">
-	<div class="row">
-		<div class="span1">
-			<p><strong>Abbreviation</strong></p>
-			<p><strong>Script</strong></p>
-			<p><strong>Slot</strong></p>
-			<p><strong>Performances</strong></p>
-			<p><strong>Prices</strong></p>
-			<p><strong>Location</strong></p>
-		</div>
-		<div class="span2">
-			<p><%= @group.short_name %></p>
-			<p><a href="#">Available</a></p>
-			<p>Halloween 2012</p>
-			<p>October 29 @ 8:00pm</p>
-			<p>$2/$5</p>
-			<p>McConomy</p>
-		</div>
-	</div>
+<div class="span6">
+	<table class="table table-condensed">
+		<tr>
+			<td><strong>Abbreviation</strong></td>
+			<td><%= @group.short_name %></td>
+		</tr>
+		<tr>
+			<td><strong>Script</strong></td>
+			<td><a href="#">Available</a></td>
+		</tr>
+		<tr>
+			<td><strong>Slot</strong></td>
+			<td>Halloween 2012</td>
+		</tr>
+		<tr>
+			<td><strong>Performances</strong></td>
+			<td>October 29 @ 8:00pm</td>
+		</tr>
+		<tr>
+			<td><strong>Prices</strong></td>
+			<td>$2/$5</td>
+		</tr>
+		<tr>
+			<td><strong>Location</strong></td>
+			<td>McConomy</td>
+		</tr>
+	</table>
 </div>
-<div class="span5">
-	<div class="row">
-		<div class="span2">
-			<p><strong>Cast Size</strong></p>
-			<p><strong>Crew Size</strong></p>
-			<p><strong>Tech Interest</strong></p>
-			<p><strong>Tech Week</strong></p>
-			<p><strong>Strike</strong></p>
-			<p><strong>Show Budget</strong></p>
-			<p><strong>Tickets Available</strong></p>
-		</div>
-		<div class="span3">
-			<p><%= @group.positions.includes(:role).where("roles.name = 'Cast'").count %></p>
-			<p><%= @group.positions.includes(:role).where("roles.name = 'Crew'").count %></p>
-			<p>September 9 @ 5:00pm PH220</p>
-			<p>October 25-30</p>
-			<p>October 31</p>
-			<p>$16,000</p>
-			<p>300</p>
-		</div>
-	</div>
+<div class="span6">
+	<table class="table table-condensed">
+		<tr>
+			<td><strong>Cast Size</strong></td>
+			<td><%= @group.positions.includes(:role).where("roles.name = 'Cast'").count %></td>
+		</tr>
+		<tr>
+			<td><strong>Crew Size</strong></td>
+			<td><%= @group.positions.includes(:role).where("roles.name = 'Crew'").count %></td>
+		</tr>
+		<tr>
+			<td><strong>Tech Interest</strong></td>
+			<td>September 9 @ 5:00pm PH220</td>
+		</tr>
+		<tr>
+			<td><strong>Tech Week</strong></td>
+			<td>October 25-30</td>
+		</tr>
+		<tr>
+			<td><strong>Show Budget</strong></td>
+			<td>$16,000</td>
+		</tr>
+		<tr>
+			<td><strong>Tickets Available</strong></td>
+			<td>300</td>
+		</tr>
+	</table>
 </div>
