@@ -1,0 +1,7 @@
+$('.message-container').append("<%= escape_javascript(render 'message', message: @message) %>");
+$("textarea[name='message[text]']").val("");
+
+if($('.message-container').scrollTop() >= $('.message-container').height() - 5)
+{
+	$(".message-container").animate({ scrollTop: $('.message-container').prop('scrollHeight') - $('.message-container').height()}, 1000);
+}

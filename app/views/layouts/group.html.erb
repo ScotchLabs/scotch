@@ -25,7 +25,7 @@
 	</div>
 	<div class="span9">
 		<div class="row">
-			<div class="nav nav-tabs">
+			<div class="nav nav-tabs" style="margin-bottom:0;">
 				<li class="<%= 'active' if controller.controller_name == 'groups' %>"><%= link_to 'Home', @group %></li>
 				<li class="<%= 'active' if controller.controller_name == 'positions' %>"><%= link_to 'Members', group_positions_path(@group) %></li>
 				<li class="<%= 'active' if controller.controller_name == 'documents' %>"><%= link_to 'Documents', group_documents_path(@group) %></li>
@@ -39,7 +39,9 @@
 				</li>
 			</div>
 		</div>
+		<div class="row-fluid">
 		<%= yield %>
+		</div>
 	</div>
 </div>
 <% end %>

@@ -82,15 +82,8 @@
             <%= content_for?(:content) ? yield(:content) : yield %>
           <div class="span1">&nbsp;</div>
         </div><!--/row-->
-		<footer id='footer'>
-		    <b>Scotch on the Web</b> is designed and developed by the <%= link_to "Scotch'n'Soda Web Team", Group.system_group %><br>
-		    &copy; 2008-2010 <%= link_to "Scotch'n'Soda Theatre", "http://snstheatre.org" %> at <b>Carnegie Mellon University</b><br>
-		    Current Version <%= render "layouts/version" %> | <%= mail_to current_webmaster.email, "Help build Scotch on the Web!" %><br>
-		    <%= link_to "Terms of Use & Privacy Policy", dashboard_terms_url %> | <%= link_to "Back to Top", '#top' %>
-		</footer>
     </div><!--/content-->
   </div>
-  <%= render :partial => 'layouts/sodabar' %>
   <%= javascript_include_tag "application" %>
 
   <%= yield(:javascripts) %>

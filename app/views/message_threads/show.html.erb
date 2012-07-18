@@ -1,25 +1,27 @@
-<center>
-<div class="thread-title">
-<h2><%= @thread.subject %></h2>
-</div>
-</center>
+<div class="span8">
 <div class="message-container">
 <% @thread.messages.each do |message| %>
-	<div class="message">
-		<%= image_tag message.user.headshot(:thumb), class: 'message-sender-headshot' %>
-		<div class="message-time"><%= time_ago_in_words(message.created_at) %></div>
-		<div class="message-sender"><%= link_to message.user, message.user.name %></div>
-		<div class="message-text"><%= simple_format(message.text) %></div>
-	</div>
+	<%= render 'messages/message', message: message %>
 <% end %>
-
+</div>
+<div class="message-form">
 <%= simple_form_for [@thread, Message.new], remote: true do |f| %>
-	<%= f.hidden_field :message_thread_id, value: @thread.id %>
 	<%= f.hidden_field :user_id, value: current_user.id %>
 	<%= f.hidden_field :priority, value: 'none' %>
-	<%= f.input :text, label: 'Message', input_html: {rows: 1, cols: 80, style: 'resize:none;'} %>
-	<%= f.button :submit %>
+	<%= f.input :text, label: false, input_html: {rows: 1, cols: 60, style: 'resize:none;', onKeyPress: 'submitMe()'}, class: 'message-textarea' %>
+	<%= f.button :submit, value: 'Send', class: 'message-submit' %>
 <% end %>
+</div>
+</div>
+
+<div class="span4">
+	<center>
+	<div class="thread-title">
+	<h2><%= @thread.subject %></h2>
+	</div>
+	
+	<p>Messages: <%= @thread.messages.count %></p>
+	</center>
 </div>
 
 <%= content_for(:javascripts) do %>
@@ -27,5 +29,18 @@
 	$(document).ready(function(){
 		$("textarea[name='message[text]']").autoGrow();
 	});
+	
+	var shifted = false;
+	
+	$(document).bind('keyup keydown', function(e){shifted = e.shiftKey} );
+	
+	function submitMe() { 
+		if (window.event.keyCode == 13 && !shifted) 
+		{ 
+			$('.message-form > form').submit();
+		} 
+	}
+	
+	$(".message-container").animate({ scrollTop: $('.message-container').prop('scrollHeight') - $('.message-container').height()}, 1000);
 </script>
 <% end %>

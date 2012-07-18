@@ -66,6 +66,8 @@
 
 .message-container
 {
+	height:420px;
+	overflow:scroll;
 	.message
 	{
 		margin-bottom:10px;
@@ -95,11 +97,24 @@
 			float:right;
 		}
 	}
+}
+
+.message-form
+{
+	border-top-style:double;
+	border-top-color:#EBEBEB;
+	border-top-width:1px;
+	padding-top:10px;
+}
+
+.message-submit
+{
 	
-	textarea
-	{
-		overflow:hidden;
-		height:auto;
-		max-width:400px;
-	}
+}
+
+.message-textarea
+{
+	overflow:hidden;
+	height:auto;
+	max-width:400px;
 }

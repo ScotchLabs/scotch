@@ -1,0 +1,6 @@
+<div class="message">
+	<%= image_tag message.user.headshot(:thumb), class: 'message-sender-headshot' %>
+	<div class="message-time"><%= time_ago_in_words(message.created_at) %></div>
+	<div class="message-sender"><%= link_to message.user, message.user.name %></div>
+	<div class="message-text"><%= simple_format(message.text) %></div>
+</div>
