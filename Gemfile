@@ -42,6 +42,10 @@ gem 'rabl'
 
 gem 'capistrano'
 
+gem 'private_pub'
+
+gem 'thin'
+
 group :development do
   gem 'annotate'
   gem 'debugger'

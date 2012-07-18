@@ -8,6 +8,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery-ui
+//= require private_pub
 //= require_tree .
 
 $(function(){

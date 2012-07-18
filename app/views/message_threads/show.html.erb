@@ -43,4 +43,5 @@
 	
 	$(".message-container").animate({ scrollTop: $('.message-container').prop('scrollHeight') - $('.message-container').height()}, 1000);
 </script>
+<%= subscribe_to '/messages/' + @thread.id.to_s %>
 <% end %>

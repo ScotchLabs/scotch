@@ -37,6 +37,7 @@ GEM
       multi_json (~> 1.0)
     acts-as-taggable-on (2.3.1)
       rails (~> 3.0)
+    addressable (2.2.8)
     annotate (2.4.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
@@ -57,6 +58,8 @@ GEM
     coffee-script-source (1.3.3)
     columnize (0.3.6)
     commonjs (0.2.6)
+    cookiejar (0.3.0)
+    daemons (1.1.6)
     debugger (1.1.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -70,12 +73,31 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     digest-whirlpool (1.0.1)
+    em-http-request (1.0.2)
+      addressable (>= 2.2.3)
+      cookiejar
+      em-socksify
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (>= 0.5.3)
+    em-socksify (0.2.0)
+      eventmachine (>= 1.0.0.beta.4)
     erubis (2.7.0)
+    eventmachine (1.0.0.rc.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faye (0.8.3)
+      cookiejar (>= 0.3.0)
+      em-http-request (>= 0.3.0)
+      eventmachine (>= 0.12.0)
+      faye-websocket (>= 0.4.0)
+      rack (>= 1.0.0)
+      yajl-ruby (>= 1.0.0)
+    faye-websocket (0.4.6)
+      eventmachine (>= 0.12.0)
     highline (1.6.13)
     hike (1.2.1)
     htmlentities (4.3.1)
+    http_parser.rb (0.5.3)
     i18n (0.6.0)
     icalendar (1.1.6)
     journey (1.0.4)
@@ -111,6 +133,8 @@ GEM
       cocaine (>= 0.0.2)
       mime-types
     polyglot (0.3.3)
+    private_pub (1.0.1)
+      faye
     rabl (0.6.13)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
@@ -154,6 +178,10 @@ GEM
       tilt (~> 1.1, != 1.3.0)
     therubyracer (0.10.1)
       libv8 (~> 3.3.10)
+    thin (1.4.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thinking-sphinx (2.0.12)
       activerecord (>= 3.0.3)
       builder (>= 2.1.2)
@@ -175,6 +203,7 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (3.0.3)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -194,10 +223,12 @@ DEPENDENCIES
   mysql2
   nested_form!
   paperclip
+  private_pub
   rabl
   rails (= 3.2.2)
   sass-rails (~> 3.2.3)
   simple_form
+  thin
   thinking-sphinx
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
