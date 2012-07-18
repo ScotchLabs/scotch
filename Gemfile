@@ -44,9 +44,10 @@ gem 'capistrano'
 
 gem 'private_pub'
 
-gem 'thin'
+gem 'squeel'
 
 group :development do
   gem 'annotate'
   gem 'debugger'
+  gem 'thin'
 end
