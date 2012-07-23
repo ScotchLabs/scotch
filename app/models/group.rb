@@ -26,7 +26,7 @@ class Group < Shared::Watchable
   has_many :documents, :dependent => :destroy
   has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
-  has_many :members, :source => :user, :through => :positions, :select => 'DISTINCT users.*'
+  has_many :members, :source => :user, :through => :positions, :uniq => true
   has_many :votings
   has_many :message_threads
 

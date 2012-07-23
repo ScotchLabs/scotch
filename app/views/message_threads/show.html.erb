@@ -21,6 +21,13 @@
 	</div>
 	
 	<p>Messages: <%= @thread.messages.count %></p>
+	<p>Privacy: <span class="label label-<%= MessageThread::COLORS[@thread.privacy] %>"><%= @thread.privacy.capitalize %></span></p>
+	<p>Members:</p>
+	<ul class="unstyled member-list">
+		<% @thread.members.each do |m| %>
+			<li><%= render partial: 'users/user', locals: {user: m} %></li>
+		<% end %>
+	</ul>
 	</center>
 </div>
 

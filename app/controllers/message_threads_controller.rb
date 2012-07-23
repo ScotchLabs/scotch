@@ -61,7 +61,7 @@ class MessageThreadsController < ApplicationController
   def update
 
     respond_to do |format|
-      if @message_thread.update_attributes(params[:message_thread])
+      if @thread.update_attributes(params[:message_thread])
         format.html { redirect_to [@parent, @thread].compact, notice: 'Message thread was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,7 +96,7 @@ class MessageThreadsController < ApplicationController
   end
   
   def get_threads
-    @threads = @owner.message_threads
+    @threads = @group ? MessageThread.visible(current_user, @owner) : MessageThread.visible(current_user)
   end
   
   def get_thread
