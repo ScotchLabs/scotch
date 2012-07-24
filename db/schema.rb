@@ -277,13 +277,6 @@ ActiveRecord::Schema.define(:version => 20120718183208) do
     t.datetime "updated_at"
   end
 
-  create_table "settings", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "default_priority"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
