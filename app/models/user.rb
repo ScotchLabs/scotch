@@ -71,7 +71,7 @@ class User < Shared::Watchable
   has_and_belongs_to_many :knominations
   
   #Messaging
-  has_one :setting
+  has_settings
   has_and_belongs_to_many :message_threads
   has_many :messages
   

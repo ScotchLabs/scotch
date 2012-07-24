@@ -1,4 +1,5 @@
 $("textarea[name='message[text]']").val("");
+$("select[name='message[priority]']").val("none");
 <% publish_to '/messages/' + @thread.id.to_s do %>
 $('.message-container').append("<%= escape_javascript(render 'message', message: @message) %>");
 

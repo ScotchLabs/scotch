@@ -48,8 +48,11 @@ gem 'squeel'
 
 gem 'ledermann-rails-settings', :require => 'rails-settings'
 
+gem 'sidekiq'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
   gem 'thin'
+  gem 'letter_opener'
 end
