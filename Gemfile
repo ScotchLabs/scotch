@@ -46,6 +46,8 @@ gem 'private_pub'
 
 gem 'squeel'
 
+gem 'ledermann-rails-settings', :require => 'rails-settings'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
