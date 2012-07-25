@@ -2,6 +2,11 @@ class MessageThreadsController < ApplicationController
   before_filter :get_owner, :only => [:index, :new, :create]
   before_filter :get_threads, :only => [:index]
   before_filter :get_thread, :except => [:index, :new, :create]
+  
+  before_filter :only => [:new, :create] do
+    require_permission "adminGroup"
+  end
+  
   layout :get_layout
   
   # GET /message_threads
@@ -17,6 +22,7 @@ class MessageThreadsController < ApplicationController
   # GET /message_threads/1
   # GET /message_threads/1.json
   def show
+    @nomargin = true
 
     respond_to do |format|
       format.html # show.html.erb

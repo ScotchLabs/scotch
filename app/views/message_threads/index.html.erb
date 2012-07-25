@@ -16,4 +16,7 @@
 
 <br />
 
-<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_polymorphic_path([@parent, :message_thread].compact), class: 'btn btn-success' %>
+<% if @parent.nil? || has_permission?('adminGroup') %>
+<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_polymorphic_path([@parent, :message_thread].compact), 
+class: 'btn btn-success' %>
+<% end %>

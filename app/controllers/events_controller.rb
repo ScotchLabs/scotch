@@ -4,6 +4,10 @@ class EventsController < ApplicationController
   before_filter :get_events, :only => [:index, :schedule]
   before_filter :get_event, :except => [:index, :new, :create, :schedule]
   
+  before_filter :only => [:new, :edit, :update, :create, :destroy, :schedule] do
+    require_permission 'adminCrew'
+  end
+  
   def index
     
     respond_to do |format|

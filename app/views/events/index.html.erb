@@ -50,6 +50,7 @@
           $event.find('.wc-time').css({'backgroundColor': calEvent.time_background, 'border':'1px solid ' + calEvent.time_border});
       },
       eventNew: function(calEvent, $event) {
+		<% if @parent.nil? || has_permission?('adminCrew') %>
 		 var $dialogContent = $("#event_edit_container");
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
@@ -123,8 +124,10 @@
 
          $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
          setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+		<% end %>
       },
       eventDrop: function(calEvent, $event) {
+		<% if @parent.nil? || has_permission?('adminCrew') %>
         	$.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
 				authenticity_token: '<%= form_authenticity_token %>',
 				event:{
@@ -145,8 +148,10 @@
 						$dialogContent.dialog("close");
 					}
 				}, type: 'PUT'});
+		<% end %>
       },
       eventResize: function(calEvent, $event) {
+		<% if @parent.nil? || has_permission?('adminCrew') %>
         	$.ajax('<%= events_path %>/' + calEvent.id + '.json', {data:{
 				authenticity_token: '<%= form_authenticity_token %>',
 				event:{
@@ -167,12 +172,10 @@
 						$dialogContent.dialog("close");
 					}
 				}, type: 'PUT'});
+		<% end %>
       },
       eventClick: function(calEvent, $event) {
-        if (calEvent.readOnly) {
-            return;
-         }
-
+		<% if @parent.nil? || has_permission?('adminCrew') %>
          var $dialogContent = $("#event_edit_container");
          var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
@@ -259,15 +262,7 @@
          $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
          setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
          $(window).resize().resize(); //fixes a bug in modal overlay size ??
-      },
-      eventMouseover: function(calEvent, $event) {
-        displayMessage('<strong>Mouseover Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
-      },
-      eventMouseout: function(calEvent, $event) {
-        displayMessage('<strong>Mouseout Event</strong><br/>Start: ' + calEvent.start + '<br/>End: ' + calEvent.end);
-      },
-      noEvents: function() {
-        displayMessage('There are no events for this week');
+		<% end %>
       }
     });
 
