@@ -7,7 +7,7 @@
 <div class="message-form">
 <%= simple_form_for [@thread, Message.new], remote: true do |f| %>
 	<%= f.hidden_field :user_id, value: current_user.id %>
-	<%= f.input :text, label: false, input_html: {rows: 1, cols: 60, style: 'resize:none;', onKeyPress: 'submitMe()'}, class: 'message-textarea' %>
+	<%= f.input :text, label: false, input_html: {rows: 1, cols: 60, style: 'resize:none;', onKeyUp: 'submitMe()'}, class: 'message-textarea' %>
 	<%= f.input :priority, collection: {'None' => 'none', 'Email' => 'email', 'Text Message' => 'text_message'}, value: 'none', include_blank: false %>
 <% end %>
 </div>
@@ -40,12 +40,14 @@
 	
 	$(document).bind('keyup keydown', function(e){shifted = e.shiftKey} );
 	
-	function submitMe() { 
-		if (window.event.keyCode == 13 && !shifted) 
+	$("textarea[name='message[text]']").keyup(function(event) { 
+		if (event.which == 13 && !shifted) 
 		{ 
 			$('.message-form > form').submit();
+			$("textarea[name='message[text]']").val("");
+			$("select[name='message[priority]']").val("none");
 		} 
-	}
+	});
 	
 	$(".message-container").animate({ scrollTop: $('.message-container').prop('scrollHeight') - $('.message-container').height()}, 400);
 </script>

@@ -247,6 +247,7 @@ DEPENDENCIES
   jquery-rails
   ledermann-rails-settings
   letter_opener
+  mail
   mysql2
   nested_form!
   paperclip

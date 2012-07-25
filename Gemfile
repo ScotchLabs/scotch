@@ -50,6 +50,8 @@ gem 'ledermann-rails-settings', :require => 'rails-settings'
 
 gem 'sidekiq'
 
+gem 'mail'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
