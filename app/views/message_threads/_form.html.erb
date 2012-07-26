@@ -7,10 +7,25 @@
 
   <div class="form-inputs">
 	<%= f.input :subject %>
-	<%= f.input :privacy, collection: ['none', 'group', 'closed'] %>
+	<%= f.input :privacy, collection: ['none', 'group', 'private'] %>
+	<label for="message_thread[user_ids][]">Select Attendees:</label><select id="member_select" name="message_thread[user_ids][]" multiple="multiple">
+		<% @group.calendar_positions.each do |c| %>
+			<optgroup label="<%= c[:name] %>">
+				<% c[:positions].each do |p| %>
+					<option value="<%= p[:id] %>" <%= "selected='selected'" if @thread.user_ids.include? p[:id] %>><%= p[:user_name] %></option>
+				<% end %>
+			</optgroup>
+		<% end %>
+	</select>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, "Create Thread" %>
   </div>
+<% end %>
+
+<%= content_for(:javascripts) do %>
+	<script type="text/javascript">
+		$("#member_select").multiselect();
+	</script>
 <% end %>

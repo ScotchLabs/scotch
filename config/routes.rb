@@ -64,7 +64,7 @@ Scotch::Application.routes.draw do
   #resources :documents, :only => [:show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy, :new, :show]
   resources :votings, :only => [:show, :edit, :create, :update, :destroy]
-  resources :message_threads, :except => [:edit] do
+  resources :message_threads do
     resources :messages, :only => [:create, :update, :destroy], :on => :member
   end
 

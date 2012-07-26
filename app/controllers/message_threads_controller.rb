@@ -68,7 +68,7 @@ class MessageThreadsController < ApplicationController
 
     respond_to do |format|
       if @thread.update_attributes(params[:message_thread])
-        format.html { redirect_to [@parent, @thread].compact, notice: 'Message thread was successfully updated.' }
+        format.html { redirect_to @thread, notice: 'Message thread was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

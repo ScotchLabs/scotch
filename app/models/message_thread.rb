@@ -1,6 +1,6 @@
 class MessageThread < ActiveRecord::Base
   belongs_to :group
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :users, uniq: true
   has_many :messages, dependent: :destroy
   has_many :participants, through: :messages, source: :user, uniq: true
   

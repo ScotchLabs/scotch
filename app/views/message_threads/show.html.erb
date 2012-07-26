@@ -8,7 +8,7 @@
 <%= simple_form_for [@thread, Message.new], remote: true do |f| %>
 	<%= f.hidden_field :user_id, value: current_user.id %>
 	<%= f.input :text, label: false, input_html: {rows: 1, cols: 60, style: 'resize:none;'}, class: 'message-textarea' %>
-	<% if @parent.nil? || has_permission?('adminPositions') || has_permission?('adminCrew') %>
+	<% if @parent.nil? || has_permission?('adminCrew') %>
 	<%= f.input :priority, collection: {'None' => 'none', 'Email' => 'email', 'Text Message' => 'text_message'}, value: 'none', include_blank: false %>
 	<% else %>
 	<%= f.hidden_field :priority, value: 'none' %>
@@ -22,6 +22,10 @@
 	<div class="thread-title">
 	<h2><%= @thread.subject %></h2>
 	</div>
+	
+	<% if @parent.nil? || has_permission?('adminCrew') %>
+		<%= link_to 'Update', edit_message_thread_path(@thread), class: 'btn btn-info', style: 'margin-bottom:10px;' %>
+	<% end %>
 	
 	<p>Messages: <%= @thread.messages.count %></p>
 	<p>Privacy: <span class="label label-<%= MessageThread::COLORS[@thread.privacy] %>"><%= @thread.privacy.capitalize %></span></p>
