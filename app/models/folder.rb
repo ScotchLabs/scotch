@@ -7,4 +7,12 @@ class Folder < ActiveRecord::Base
   def contents
     self.folders + self.documents
   end
+  
+  def breadcrumbs
+    if self.folder
+      self.folder.breadcrumbs + [self]
+    else
+      [self]
+    end
+  end
 end

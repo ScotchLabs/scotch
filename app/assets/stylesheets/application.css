@@ -5,3 +5,8 @@
  *= require_self
  *= require_tree . 
 */
+
+.edit_link
+{
+	float:right;
+}

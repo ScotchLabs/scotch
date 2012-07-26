@@ -1,5 +1,21 @@
+<% if @breadcrumbs %>
+<ul class="breadcrumb crumbs">
+	<li><%= link_to 'Documents', group_documents_path(@group) %> <span class="divider">/</span></li>
+	<% @breadcrumbs.each_with_index do |f, i| %>
+		<% if i < @breadcrumbs.count - 1 %>
+			<li><%= link_to f.name, f %> <span class="divider">/</span></li>
+		<% else %>
+			<li class="active"><%= f.name %></li>
+		<% end %>
+	<% end %>
+</ul>
+<% end %>
+
 <% if has_permission?("uploadDocument") && @group %>
   <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Upload a New document', new_group_document_path(@group) %></div>
+<% end %>
+<% if has_permission?("uploadDocument") && @group %>
+  <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Create a New folder', new_group_folder_path(@group) %></div>
 <% end %>
 
 <% @documents.each do |container| %>

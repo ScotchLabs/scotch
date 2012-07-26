@@ -18,6 +18,8 @@ class FoldersController < ApplicationController
   # GET /folders/1.json
   def show
     @documents = @folder.contents
+    
+    @breadcrumbs = @folder.breadcrumbs
 
     respond_to do |format|
       format.html { render 'documents/index' }

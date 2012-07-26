@@ -29,6 +29,12 @@ class DocumentsController < ApplicationController
   # GET /documents/1
   # GET /documents/1.xml
   def show
+    unless @document.folder.nil?
+      @breadcrumbs = @document.folder.breadcrumbs
+    else
+      @breadcrumbs = false
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @document }

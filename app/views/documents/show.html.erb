@@ -1,5 +1,14 @@
-<article>
-
+<% if @breadcrumbs %>
+<ul class="breadcrumb crumbs">
+	<% @breadcrumbs.each_with_index do |f, i| %>
+		<li><%= link_to f.name, f %>
+			<% if i < @breadcrumbs.count - 1 %>
+			<span class="divider">/</span>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+<% end %>
 <% if has_permission? "uploadDocument" %>
   <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_document_path(@document) %></div>
 <% end %>
@@ -16,5 +25,3 @@
   Oops, this document went missing!
 <% end %>
 </p>
-
-</article>

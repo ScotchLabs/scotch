@@ -28,6 +28,8 @@
     <%= f.label :file, "New Document" %>:
       <%= f.file_field :file %>
   </div>
+  <br />
+  <label>Folder: </label>
   <div class="folder_select">
   	<%= link_to 'None', '#', class: 'btn btn-mini btn-danger', id: 'deselect_btn' %>
   	<div id="tree"></div>
