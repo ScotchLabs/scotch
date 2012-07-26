@@ -24,6 +24,7 @@ class Group < Shared::Watchable
 
   has_many :checkouts, :dependent => :destroy
   has_many :documents, :dependent => :destroy
+  has_many :folders, :dependent => :destroy
   has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
   has_many :members, :source => :user, :through => :positions, :uniq => true
@@ -164,6 +165,64 @@ class Group < Shared::Watchable
       end
     end
     return a
+  end
+  
+  def main_folder
+    self.folders.where(:folder_id => nil) + self.documents.where(:folder_id => nil)
+  end
+  
+  def folder_select
+    tree = self.folders.group_by {|f| f.folder_id}
+    result = []
+    queue = []
+    current_folder = {}
+    level = -1
+    
+    if tree[nil]
+      queue += tree[nil]
+    else
+      return result
+    end
+    
+    while !queue.empty?
+      current = queue.shift
+      queue.unshift *tree[current.id] unless tree[current.id].nil?
+      if current_folder[current.folder_id].nil?
+        level++
+        current_folder[current.folder_id] = level
+      else
+        level = current_folder[current.folder_id]
+      end
+      current_folder = current.folder_id
+      level_text = ""
+      level.times{ level_text += '-' }
+      result << level_text + current.name
+    end
+    
+    result
+  end
+  
+  def folder_tree(folder_id = false, *child_list)
+    folder_list = folder_id ? child_list : self.folders.group_by{|f| f.folder_id}
+    result = []
+    current = {}
+    
+    return result if folder_list.empty?
+    
+    unless folder_id
+      current = folder_list[nil]
+    else
+      current = folder_list.first[folder_id]
+      #puts folder_list.type.to_s
+    end
+    
+    unless current.nil?
+      current.each do |c|
+        result << {data: c.name, metadata: {id: c.id}, children: folder_tree(c.id, folder_list)}
+      end
+    end
+    
+    result
   end
 
 	#TODO this isn't actually quite right for groups (I think)

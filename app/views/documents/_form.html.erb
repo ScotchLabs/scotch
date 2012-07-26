@@ -1,4 +1,4 @@
-<%= form_for @document, :html => { :multipart => true } do |f| %>
+<%= form_for [@group, @document], :html => { :multipart => true } do |f| %>
   <% if @document.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved:</h2>
@@ -10,32 +10,48 @@
   </div>
   <% end %>
 
-  <%= f.hidden_field :group_id %>
+  <%= f.hidden_field :folder_id, value: nil %>
 
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :tag_list %><br>
-    <%= f.text_field :tag_list %><br>
-    <% unless @popular_tags.nil? %>
-    <em>Popular tags include:</em>
-    <%= @popular_tags.join(", ") %>
-    <% end %>
-  </div>
+
   <div class="field">
     <%= f.label :description %><br>
     <%= f.text_area :description, :rows => 4 %>
   </div>
-  <div cliss="field">
+  <div class="field">
     <% if @document.file_file_name %>
       Current document: <%= link_to @document.file_file_name, @document.file.url %><br>
     <% end %>
     <%= f.label :file, "New Document" %>:
       <%= f.file_field :file %>
   </div>
+  <div class="folder_select">
+  	<%= link_to 'None', '#', class: 'btn btn-mini btn-danger', id: 'deselect_btn' %>
+  	<div id="tree"></div>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>
+
+<%= content_for(:javascripts) do %>
+	<script type="text/javascript">
+	
+		$('#tree').jstree({
+			json_data:{
+				data: <%= @group.folder_tree.to_json.html_safe %>
+			},
+			plugins:["themes", "json_data", "ui"]
+		}).bind("select_node.jstree", function (e, data){
+			$("input[name='document[folder_id]']").val(data.rslt.obj.data("id"));
+		});
+	
+		$('#deselect_btn').click(function(){
+			$('#tree').jstree('deselect_all');
+		});
+		
+	</script>
 <% end %>

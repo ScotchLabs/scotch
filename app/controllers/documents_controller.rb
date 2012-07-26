@@ -1,4 +1,6 @@
 class DocumentsController < ApplicationController
+  layout 'group'
+  
   prepend_before_filter :locate_document, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
   append_before_filter :get_popular_tags, :only => [:edit, :new, :create]
@@ -16,17 +18,8 @@ class DocumentsController < ApplicationController
   # GET /groups/1/documents
   # GET /groups/1/documents.xml
   def index
-    @documents = Document.order("documents.created_at DESC")
-    @documents = @documents.where(:group_id => @group.id) if @group
-
-    @tag_counts = @documents.tag_counts_on(:tags)
-
-    # filter by tag
-    @documents = @documents.tagged_with(params[:tag]) if params.has_key? :tag
-
-    # paginate
-    @documents = @documents.paginate(:per_page => 20, :page => params[:page])
-
+    @documents = @group.main_folder
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @documents }
@@ -61,10 +54,7 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.xml
   def create
-    @document = Document.new(params[:document])
-    @group = Group.find(params[:document][:group_id]) unless @group
-
-    @document.group = @group
+    @document = @group.documents.new(params[:document])
 
     respond_to do |format|
       if @document.save

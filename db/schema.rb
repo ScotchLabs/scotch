@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120724184040) do
+ActiveRecord::Schema.define(:version => 20120726005004) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20120724184040) do
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
     t.text     "description"
+    t.integer  "folder_id"
   end
 
   create_table "event_attendees", :force => true do |t|
@@ -88,6 +89,14 @@ ActiveRecord::Schema.define(:version => 20120724184040) do
   end
 
   add_index "feedposts", ["parent_id", "parent_type"], :name => "index_feedposts_on_parent_id_and_parent_type"
+
+  create_table "folders", :force => true do |t|
+    t.string   "name"
+    t.integer  "group_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "folder_id"
+  end
 
   create_table "groups", :force => true do |t|
     t.string   "name"

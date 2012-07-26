@@ -1,0 +1,16 @@
+<div class="document">
+	<div class="document-image">
+		<%
+			if document.image_file?
+				image = image_tag(document.file.url(:thumb), size: '50x50')
+			else  
+				image = image_tag("document_icon.png", size: '50x50')
+			end
+		%>
+		<%= link_to image, document %>
+	</div>
+
+	<h2 class="document-title"><%= link_to document.to_s, document %></h2>
+	<div class="document-desc" style='color:#333;font-weight:normal;'><%= document.description %></div>
+	<div class='clearfix'></div>
+</div>

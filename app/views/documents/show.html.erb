@@ -10,13 +10,6 @@
 
 <br>
 <p>
-  <b>Tag List:</b>
-  <% @document.tag_list.each do |tag| %>
-    <%= link_to tag, group_documents_path(@group, :tag => tag) %>
-  <% end %>
-</p>
-
-<p>
 <% if @document.file? %>
   <%= image_tag "attachment_icon.png", :size => "16x16" %> <%= link_to @document.name, @document.file.url %>
 <% else %>

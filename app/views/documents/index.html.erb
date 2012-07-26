@@ -1,25 +1,11 @@
-<article>
 <% if has_permission?("uploadDocument") && @group %>
   <div class="edit_link"><%= link_to image_tag("add_icon.png", :size => "10x10")+' Upload a New document', new_group_document_path(@group) %></div>
 <% end %>
 
-<h2>Popular Tags</h2>
-<% tag_cloud(@tag_counts, %w(tag1 tag2 tag3 tag4)) do |tag, css_class| %>
-  <% if params[:tag] == tag.name %>
-    <span class="<%= css_class %>"><%=tag.name%></span>
-  <% elsif @group.nil? %>
-    <%= link_to tag.name, documents_path(:tag => tag.name), :class => css_class %>
+<% @documents.each do |container| %>
+  <% if container.class.model_name == 'Document' %>
+  	<%= render 'documents/document', document: container %>
   <% else %>
-    <%= link_to tag.name, group_documents_path(@group, :tag => tag.name), :class => css_class %>
+	<%= render 'folders/folder', folder: container %>
   <% end %>
 <% end %>
-
-<h2>Documents</h2>
-
-<%= will_paginate @documents %>
-
-<% @documents.each do |document| %>
-  <%= render "as_line_item", :object => document %>
-<% end %>
-
-</article>

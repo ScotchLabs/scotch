@@ -19,10 +19,10 @@ class Document < ActiveRecord::Base
 	include Shared::AttachmentHelper
   
   belongs_to :group
+  belongs_to :folder
 
   attr_protected :group_id
-
-  validates_presence_of :group_id
+  
   validates_presence_of :name
 
   define_index do
