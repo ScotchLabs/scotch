@@ -251,7 +251,7 @@ class Event < ActiveRecord::Base
   end
   
   def as_json(options = {})
-    {id: self.id, title: self.title, start: self.start_time, end: self.end_time, body: self.description, 
+    {id: self.id, title: self.title, start: self.start_time, end: self.end_time, location: self.location, body: self.description, 
       event_type: self.event_type, period: self.period, session_name: self.session_name, attendees: self.attendees}.merge COLORS[self.event_type]
   end
 protected

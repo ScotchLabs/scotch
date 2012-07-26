@@ -31,7 +31,8 @@ class Group < Shared::Watchable
   has_many :votings
   has_many :message_threads
 
-  belongs_to :parent, :class_name => "Group"
+  belongs_to :parent, class_name: 'Group'
+  belongs_to :script, class_name: 'Document'
 
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120726005004) do
+ActiveRecord::Schema.define(:version => 20120726215416) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -111,6 +111,13 @@ ActiveRecord::Schema.define(:version => 20120726005004) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "script_id"
+    t.string   "slot"
+    t.integer  "price_with_id"
+    t.integer  "price_without_id"
+    t.string   "location"
+    t.date     "tech_start"
+    t.date     "tech_end"
   end
 
   create_table "help_items", :force => true do |t|

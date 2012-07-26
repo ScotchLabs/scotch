@@ -56,6 +56,7 @@
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
          var titleField = $dialogContent.find("input[name='title']").val("");
 		 var typeField = $dialogContent.find("select[name='event_type']").val("rehearsal");
+		 var locationField = $dialogContent.find("input[name='location']").val("");
          var bodyField = $dialogContent.find("textarea[name='body']").val("");
 		 var periodField = $dialogContent.find("select[name='period']").val("none");
 		 try{
@@ -81,6 +82,7 @@
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
 				  calEvent.period = periodField.val();
+				  calEvent.location = locationField.val();
 				  try{
 				  calEvent.attendees = attendeeField.val();
 			  	  }catch(err){}
@@ -90,6 +92,7 @@
 					title: calEvent.title,
 					start_time: calEvent.start,
 					end_time: calEvent.end,
+					location: calEvent.location,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
 					attendees: calEvent.attendees,
@@ -181,7 +184,8 @@
          var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
 		 var typeField = $dialogContent.find("select[name='event_type']").val(calEvent.event_type);
-         var bodyField = $dialogContent.find("textarea[name='body']");
+		 var locationField = $dialogContent.find("input[name='location']").val(calEvent.location);
+         var bodyField = $dialogContent.find("textarea[name='body']").val(calEvent.description);
 		 var periodField = $dialogContent.find("select[name='period']").val(calEvent.session_name);
          bodyField.val(calEvent.body);
 		 try{
@@ -200,6 +204,7 @@
 				calEvent.start = new Date(startField.val());
 	              calEvent.end = new Date(endField.val());
 	              calEvent.title = titleField.val();
+				  calEvent.location = locationField.val();
 	              calEvent.body = bodyField.val();
 				  calEvent.event_type = typeField.val();
 				  calEvent.period = periodField.val();
@@ -212,6 +217,7 @@
 					title: calEvent.title,
 					start_time: calEvent.start,
 					end_time: calEvent.end,
+					location: calEvent.location,
 					description: calEvent.body,
 					event_type: calEvent.event_type,
 					attendees: calEvent.attendees,

@@ -5,11 +5,9 @@
 </article>
 
 <% if @group and not @group.archived? then %>
-  <article>
     <% if @group.class.name == "Board" then %>
       <%= render 'archive_board' %>
     <% else %>
       <%= render 'archive_group' %>
     <% end %> 
-  </article>
 <% end %>

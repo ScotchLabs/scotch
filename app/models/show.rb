@@ -18,6 +18,8 @@
 #
 
 class Show < Group
+  
+  LOCATIONS = ['McConomy Auditorium', 'Rangos Auditorium', 'Peter/Wright/McKenna', 'UC Connan']
 
   before_create :set_parent
 
@@ -36,6 +38,14 @@ class Show < Group
       a.push(:name=>"#{crew}",:positions=>pos.select{|e| e[:position]==crew})
     end
     a
+  end
+  
+  def tech_interest
+    self.events.where{title =~ "%tech%interest%"}.first
+  end
+  
+  def board_preview
+    self.events.where{title =~ "%board%preview%"}.first
   end
   
   private
