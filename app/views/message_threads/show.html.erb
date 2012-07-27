@@ -24,7 +24,8 @@
 	</div>
 	
 	<% if @parent.nil? || has_permission?('adminCrew') %>
-		<%= link_to 'Update', edit_message_thread_path(@thread), class: 'btn btn-info', style: 'margin-bottom:10px;' %>
+		<p><%= link_to 'Delete', @thread, class: 'btn btn-mini btn-danger', method: :delete %></p>
+		<p><%= link_to 'Update', edit_message_thread_path(@thread), class: 'btn btn-info', style: 'margin-bottom:10px;' %></p>
 	<% end %>
 	
 	<p>Messages: <%= @thread.messages.count %></p>

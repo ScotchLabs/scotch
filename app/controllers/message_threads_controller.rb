@@ -1,9 +1,9 @@
 class MessageThreadsController < ApplicationController
-  before_filter :get_owner, :only => [:index, :new, :create]
+  before_filter :get_owner, :only => [:index, :new, :create, :destroy]
   before_filter :get_threads, :only => [:index]
   before_filter :get_thread, :except => [:index, :new, :create]
   
-  before_filter :only => [:new, :create] do
+  before_filter :only => [:new, :create, :destroy] do
     require_permission "adminGroup"
   end
   
@@ -80,11 +80,10 @@ class MessageThreadsController < ApplicationController
   # DELETE /message_threads/1
   # DELETE /message_threads/1.json
   def destroy
-    
-    @thread.destroy
+    @thread.update_attribute(:deleted, true)
 
     respond_to do |format|
-      format.html { redirect_to message_threads_url }
+      format.html { redirect_to group_message_threads_url(@owner) }
       format.json { head :no_content }
     end
   end

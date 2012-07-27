@@ -11,6 +11,8 @@ class MessageThread < ActiveRecord::Base
   before_update :record_old_members
   after_commit :notify_new_members
   
+  default_scope where(deleted: false)
+  
   attr_accessor :old_members
   
   #Returns all threads that should be visible to user/group
