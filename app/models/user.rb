@@ -75,6 +75,9 @@ class User < Shared::Watchable
   has_and_belongs_to_many :message_threads
   has_many :messages
   
+  #Notifications
+  has_many :notifications, as: :target
+  
   has_many :watchees, :class_name => "Watcher", :dependent => :destroy
 
   #FIXME use :source_type instead of :conditions
@@ -327,6 +330,13 @@ class User < Shared::Watchable
 
   def identifier
     "#{name} #{email}"
+  end
+  
+  def notify(source, subject, action, text)
+    if self.notifications.unread.where(subject_id: subject.id, subject_type: subject.class.to_s, action: action).count == 0
+      self.notifications.create(source_id: source.id, source_type: source.class.to_s, subject_id: subject.id,
+      subject_type: subject.class.to_s, action: action, text: text)
+    end
   end
 
   protected

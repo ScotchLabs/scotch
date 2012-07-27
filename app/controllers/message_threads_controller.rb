@@ -49,11 +49,11 @@ class MessageThreadsController < ApplicationController
   # POST /message_threads
   # POST /message_threads.json
   def create
-    @thread = MessageThread.new(params[:message_thread])
+    @thread = @parent.message_threads.new(params[:message_thread])
 
     respond_to do |format|
       if @thread.save
-        format.html { redirect_to [@parent, @thread].compact, notice: 'Message thread was successfully created.' }
+        format.html { redirect_to @thread, notice: 'Message thread was successfully created.' }
         format.json { render json: @thread, status: :created, location: @thread }
       else
         format.html { render action: "new" }

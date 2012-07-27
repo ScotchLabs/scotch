@@ -39,6 +39,12 @@
           <div class="container nav-collapse">
 			<% if user_signed_in? %>
             <ul class="nav">
+				<li class="dropdown notification-dropdown">
+					<%= link_to "N", '#', :class => 'dropdown-toggle', 'data-toggle' => 'dropdown' %>
+				    <ul class="dropdown-menu notification-menu">
+				      <%= render 'notifications/notification', notifications: current_user.notifications %>
+				    </ul>
+				</li>
                 <li><%= link_to "Schedule", events_path %></li>
 		        <li><%= link_to "Groups", groups_path %></li>
 		        <li><%= link_to "Inventory", item_categories_path %></li>

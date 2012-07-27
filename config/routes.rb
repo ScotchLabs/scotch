@@ -1,4 +1,5 @@
 Scotch::Application.routes.draw do
+
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
   
@@ -67,6 +68,7 @@ Scotch::Application.routes.draw do
   resources :message_threads do
     resources :messages, :only => [:create, :update, :destroy], :on => :member
   end
+  resources :notifications, :only => [:index]
 
   resources :nominations, :only => [:create, :show, :edit, :update] do
     resources :feedposts, :only => [:index]

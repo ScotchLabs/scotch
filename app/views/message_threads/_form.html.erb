@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <% if @parent %>
-    <%= f.hidden_field :group_id, value: @parent.id %>
+    <%= hidden_field_tag :group_id, @parent.id %>
   <% end %>
 
   <div class="form-inputs">

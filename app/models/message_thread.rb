@@ -8,6 +8,11 @@ class MessageThread < ActiveRecord::Base
   
   validates_inclusion_of :privacy, in: ['none', 'group', 'private']
   
+  before_update :record_old_members
+  after_commit :notify_new_members
+  
+  attr_accessor :old_members
+  
   #Returns all threads that should be visible to user/group
   def self.visible(user, vis_group = false)
     where do
@@ -39,7 +44,23 @@ class MessageThread < ActiveRecord::Base
     end
   end
   
-  def members=(user_ids)
+  protected
+  
+  def record_old_members
+    if self.privacy == 'private'
+      self.old_members = self.members
+    end
+  end
+  
+  def notify_new_members
+    new_members = []
     
+    if self.privacy == 'private'
+      new_members = self.old_members ? self.members - self.old_members : self.members
+      notification_text = "<i class='icon-envelope'></i> You have been added to #{self.subject} in #{self.group.short_name}."
+      new_members.each do |m|
+        m.notify(self.group, self, 'new_member', notification_text)
+      end
+    end
   end
 end

@@ -1,0 +1,8 @@
+<% notifications.each do |n| %>
+	<li><%= link_to n.text.html_safe, n.subject %></li>
+<% end %>
+<% if notifications.empty? %>
+	<center><p>No Notifications</p></center>
+<% end %>
+<li class="divider"></li>
+<li><%= link_to 'See All', notifications_path %></li>

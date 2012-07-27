@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120726215416) do
+ActiveRecord::Schema.define(:version => 20120726235737) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -247,6 +247,21 @@ ActiveRecord::Schema.define(:version => 20120726215416) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "write_in"
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.integer  "source_id"
+    t.string   "source_type"
+    t.integer  "subject_id"
+    t.string   "subject_type"
+    t.string   "action"
+    t.string   "link"
+    t.string   "text"
+    t.boolean  "read",         :default => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "permissions", :force => true do |t|
