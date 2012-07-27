@@ -28,6 +28,4 @@
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New Notification', new_notification_path %>
+<% @notifications.unread.update_all(read: true) %>

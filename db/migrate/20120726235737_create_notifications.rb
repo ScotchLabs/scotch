@@ -5,7 +5,6 @@ class CreateNotifications < ActiveRecord::Migration
       t.references :source, polymorphic: true
       t.references :subject, polymorphic: true
       t.string :action
-      t.string :link
       t.string :text
       t.boolean :read, default: false
 

@@ -257,7 +257,6 @@ ActiveRecord::Schema.define(:version => 20120726235737) do
     t.integer  "subject_id"
     t.string   "subject_type"
     t.string   "action"
-    t.string   "link"
     t.string   "text"
     t.boolean  "read",         :default => false
     t.datetime "created_at",                      :null => false

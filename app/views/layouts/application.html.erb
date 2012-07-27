@@ -40,7 +40,7 @@
 			<% if user_signed_in? %>
             <ul class="nav">
 				<li class="dropdown notification-dropdown">
-					<%= link_to "N", '#', :class => 'dropdown-toggle', 'data-toggle' => 'dropdown' %>
+					<%= link_to "N", '#', :class => 'dropdown-toggle notification-button', 'data-toggle' => 'dropdown' %>
 				    <ul class="dropdown-menu notification-menu">
 				      <%= render 'notifications/notification', notifications: current_user.notifications %>
 				    </ul>
@@ -93,5 +93,10 @@
   <%= javascript_include_tag "application" %>
 
   <%= yield(:javascripts) %>
+  <script type="text/javascript">
+	$('.notification-button').click(function(){
+		$.get("<%= read_notifications_path %>");
+	});
+  </script>
 </body>
 </html>

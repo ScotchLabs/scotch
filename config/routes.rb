@@ -68,7 +68,9 @@ Scotch::Application.routes.draw do
   resources :message_threads do
     resources :messages, :only => [:create, :update, :destroy], :on => :member
   end
-  resources :notifications, :only => [:index]
+  resources :notifications, :only => [:index] do
+    get 'read', :on => :collection, :as => 'read'
+  end
 
   resources :nominations, :only => [:create, :show, :edit, :update] do
     resources :feedposts, :only => [:index]

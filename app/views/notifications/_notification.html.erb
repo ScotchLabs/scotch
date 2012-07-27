@@ -1,5 +1,10 @@
-<% notifications.each do |n| %>
-	<li><%= link_to n.text.html_safe, n.subject %></li>
+<% notifications.recent.each do |n| %>
+	<li><%= link_to n.subject do %>
+			<% unless n.read %>
+				<div class="blue-dot"></div>
+			<% end %>
+			<%= n.text.html_safe %>
+		<% end %></li>
 <% end %>
 <% if notifications.empty? %>
 	<center><p>No Notifications</p></center>
