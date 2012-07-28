@@ -1,60 +1,68 @@
-<div class="span6">
-	<table class="table table-condensed">
-		<tr>
-			<td><strong>Abbreviation</strong></td>
-			<td><%= @group.short_name %></td>
-		</tr>
-		<tr>
-			<td><strong>Script</strong></td>
-			<td><%= @group.script ? link_to('Available', @group.script) : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Slot</strong></td>
-			<td><%= @group.slot ? @group.slot : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Performances</strong></td>
-			<td>October 29 @ 8:00pm</td>
-		</tr>
-		<tr>
-			<td><strong>Prices</strong></td>
-			<td><%= @group.price_with_id ? '$'+@group.price_with_id.to_s : 'N/A' %> / 
-			<%= @group.price_without_id ? '$'+@group.price_without_id.to_s : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Location</strong></td>
-			<td><%= @group.location ? @group.location : 'N/A' %></td>
-		</tr>
-	</table>
+<div class="row">
+	<div class="span6">
+		<table class="table table-condensed">
+			<tr>
+				<td><strong>Abbreviation</strong></td>
+				<td><%= @group.short_name %></td>
+			</tr>
+			<tr>
+				<td><strong>Script</strong></td>
+				<td><%= @group.script ? link_to('Available', @group.script) : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Slot</strong></td>
+				<td><%= @group.slot ? @group.slot : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Performances</strong></td>
+				<td>October 29 @ 8:00pm</td>
+			</tr>
+			<tr>
+				<td><strong>Prices</strong></td>
+				<td><%= @group.price_with_id ? '$'+@group.price_with_id.to_s : 'N/A' %> / 
+				<%= @group.price_without_id ? '$'+@group.price_without_id.to_s : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Location</strong></td>
+				<td><%= @group.location ? @group.location : 'N/A' %></td>
+			</tr>
+		</table>
+	</div>
+	<div class="span6">
+		<table class="table table-condensed">
+			<tr>
+				<td><strong>Cast Size</strong></td>
+				<td><%= @group.positions.includes(:role).where("roles.name = 'Cast'").count %></td>
+			</tr>
+			<tr>
+				<td><strong>Crew Size</strong></td>
+				<td><%= @group.positions.includes(:role).where("roles.name = 'Crew'").count %></td>
+			</tr>
+			<tr>
+				<td><strong>Tech Interest</strong></td>
+				<td><%= @group.tech_interest ? @group.tech_interest.start_time.strftime('%b %-d @ %l:%M %P') + ' ' + 
+				@group.tech_interest.location : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Board Preview</strong></td>
+				<td><%= @group.board_preview ? @group.board_preview.start_time.strftime('%b %-d @ %l:%M %P') + ' ' +
+				@group.board_preview.location : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Tech Week</strong></td>
+				<td><%= @group.tech_start ? @group.tech_start.strftime('%b %-d') : 'N/A' %> - 
+				<%= @group.tech_end ? @group.tech_end.strftime('%b %-d') : 'N/A' %></td>
+			</tr>
+			<tr>
+				<td><strong>Tickets Available</strong></td>
+				<td>N/A</td>
+			</tr>
+		</table>
+	</div>
 </div>
-<div class="span6">
-	<table class="table table-condensed">
-		<tr>
-			<td><strong>Cast Size</strong></td>
-			<td><%= @group.positions.includes(:role).where("roles.name = 'Cast'").count %></td>
-		</tr>
-		<tr>
-			<td><strong>Crew Size</strong></td>
-			<td><%= @group.positions.includes(:role).where("roles.name = 'Crew'").count %></td>
-		</tr>
-		<tr>
-			<td><strong>Tech Interest</strong></td>
-			<td><%= @group.tech_interest ? @group.tech_interest.start_time.strftime('%b %-d @ %l:%M %P') + ' ' + 
-			@group.tech_interest.location : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Board Preview</strong></td>
-			<td><%= @group.board_preview ? @group.board_preview.start_time.strftime('%b %-d @ %l:%M %P') + ' ' +
-			@group.board_preview.location : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Tech Week</strong></td>
-			<td><%= @group.tech_start ? @group.tech_start.strftime('%b %-d') : 'N/A' %> - 
-			<%= @group.tech_end ? @group.tech_end.strftime('%b %-d') : 'N/A' %></td>
-		</tr>
-		<tr>
-			<td><strong>Tickets Available</strong></td>
-			<td>N/A</td>
-		</tr>
-	</table>
+<div class="row">
+	<%= render 'events/dashboard', events: @group.events %>
+</div>
+<div class="row">
+	<%= render 'message_threads/dashboard', threads: @group.message_threads %>
 </div>

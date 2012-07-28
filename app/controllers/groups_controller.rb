@@ -54,6 +54,11 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     respond_to do |format|
+      if @group.type.to_s == 'Show'
+        format.html
+      else
+        format.html { render 'show_generic' }
+      end
       format.html # show.html.erb
       format.xml  { render :xml => @group }
     end

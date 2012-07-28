@@ -1,4 +1,10 @@
-<% unless @group %><div class="page"><% end %>
+<% unless @group %>
+	<div class="dashboard">
+		<div class="dashboard-header">
+			<h1>Messages</h2>
+		</div>
+		<div class="dashboard-container">
+<% end %>
 <div class="thread-container">
 <% @threads.each do |thread| %>
 	<% message = thread.recent_message %>
@@ -21,4 +27,7 @@
 	<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_group_message_thread_path(@group), 
 	class: 'btn btn-success' %>
 <% end %>
-<% unless @group %><div class="clearfix"></div><% end %>
+<% unless @group %>
+		</div>
+	</div>
+<% end %>

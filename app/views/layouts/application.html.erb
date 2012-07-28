@@ -47,6 +47,7 @@
 				</li>
                 <li><%= link_to "Schedule", events_path %></li>
 		        <li><%= link_to "Groups", groups_path %></li>
+				<li><%= link_to "Messaging", message_threads_path %></li>
 		        <li><%= link_to "Inventory", item_categories_path %></li>
             </ul>
 			<%= form_tag '/dashboard/search', :class => 'navbar-search', :method => 'get' do %>
@@ -62,16 +63,19 @@
 			      <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
 			    </ul>
 			</li>
+			</ul>
 	        <% else %>
-			<%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-form'} do |ft| %>
+			<%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-search'} do |ft| %>
 
 			<%= ft.text_field :andrewid, :placeholder => 'Andrew ID' %>
 			<%= ft.password_field :password, :placeholder => 'Password' %>
 
-			<%= submit_tag 'Login' %>
+			<%= submit_tag 'Login', class: 'btn' %>
 			<% end %>
-			<% end %>
+			<ul class="nav pull-right">
+				<li><%= link_to "Register", new_registration_path(resource_name) %></li>
 			</ul>
+			<% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>

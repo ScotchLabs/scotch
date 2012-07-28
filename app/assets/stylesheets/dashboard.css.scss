@@ -17,10 +17,17 @@
 	.dashboard-header
 	{
 		background-color:#525252;
+		text-align:center;
 		color:white;
 		font-weight:bold;
 		font-size:18px;
-		text-align:center;
+		
+		a
+		{
+			color:white;
+			font-weight:bold;
+			font-size:18px;
+		}
 		border-top-left-radius:20px;
 		border-top-right-radius:20px;
 		padding-top:3px;
@@ -33,6 +40,8 @@
 		background-color:white;
 		border-bottom-left-radius:10px;
 		border-bottom-right-radius:10px;
+		max-height:500px;
+		overflow:scroll;
 	}
 	
 	.dashboard-title

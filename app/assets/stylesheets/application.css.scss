@@ -23,3 +23,12 @@ body
 	padding:5px;
 	margin-bottom:10px;
 }
+
+.hero-unit
+{
+	background-image: url(image-path('bg-orange.png'));
+	border-color:white;
+	border-width:2px;
+	border-style:double;
+	color:#ECECEC;
+}
