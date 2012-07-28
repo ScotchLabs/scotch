@@ -1,3 +1,6 @@
+<% if @group.new_record? %>
+	<div class="page">
+<% end %>
 <%= simple_form_for(@group, :html => { :multipart => true }) do |f| %>
 
   <%= hidden_field_tag :group_type, (params[:group_type] or "Group") %>
@@ -27,8 +30,13 @@
   <%= f.input :description, inner_html: {:cols => '80', :rows => '4'} %>
 
   <% if @group.new_record? %>
-    <%= f.input :manager_id, collection: User.all.sort, label_method: :name, value_method: :id %>
+    <%= select_tag :manager_id, options_from_collection_for_select(User.all.sort, :id, :name) %>
+	<br/><br/>
   <% end %>
 
   <%= f.button :submit %>
+<% end %>
+<% if @group.new_record? %>
+	<div class="clearfix"></div>
+	</div>
 <% end %>

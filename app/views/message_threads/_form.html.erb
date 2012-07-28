@@ -4,6 +4,7 @@
   <div class="form-inputs">
 	<%= f.input :subject %>
 	<%= f.input :privacy, collection: ['none', 'group', 'private'] %>
+	<div id="member-select-contain" class='member-select-hide'>
 	<label for="message_thread[user_ids][]">Select Attendees:</label><select id="member_select" name="message_thread[user_ids][]" multiple="multiple">
 		<% @group.calendar_positions.each do |c| %>
 			<optgroup label="<%= c[:name] %>">
@@ -13,6 +14,7 @@
 			</optgroup>
 		<% end %>
 	</select>
+	</div>
   </div>
 
   <div class="form-actions">
@@ -23,5 +25,15 @@
 <%= content_for(:javascripts) do %>
 	<script type="text/javascript">
 		$("#member_select").multiselect();
+		$("select[name='message_thread[privacy]']").change(function(){
+			if ($(this).find(":selected").text() == 'private')
+			{
+				$("#member-select-contain").removeClass('member-select-hide');
+			}
+			else
+			{
+				$("#member-select-contain").addClass('member-select-hide');
+			}
+		});
 	</script>
 <% end %>

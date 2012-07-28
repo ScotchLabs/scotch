@@ -5,7 +5,7 @@
 	<div class="dashboard-container">
 		<% notifications.each do |n| %>
 			<div class="dashboard-item">
-				<% if n.read %>
+				<% unless n.read %>
 					<div class="blue-dot"></div>
 				<% end %>
 				<div class="dashboard-notification">
