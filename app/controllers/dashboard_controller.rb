@@ -31,7 +31,7 @@ class DashboardController < ApplicationController
   end
 
   def search
-      @results = ThinkingSphinx.search params[:q]
+    @results = User.search params[:q]
   end
 
   private

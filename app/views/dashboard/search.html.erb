@@ -1,6 +1,6 @@
 <article>
 <h1>Results for <%= params[:q] %></h1>
   <% @results.each do |result| %>
-    <%= as_line_item(result) %>
+    <%= render 'users/user', user: result %>
   <% end %>
 </article>

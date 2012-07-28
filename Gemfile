@@ -26,8 +26,6 @@ gem 'htmlentities'
 
 gem 'paperclip'
 
-gem 'thinking-sphinx', :require => 'thinking_sphinx'
-
 gem 'icalendar'
 
 gem 'acts-as-taggable-on'

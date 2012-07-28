@@ -338,6 +338,10 @@ class User < Shared::Watchable
       subject_type: subject.class.to_s, action: action, text: text)
     end
   end
+  
+  def self.search(q)
+    find_by_sql ["SELECT * FROM users WHERE MATCH(andrewid, last_name, first_name) AGAINST(? IN BOOLEAN MODE)", "#{q}*"]
+  end
 
   protected
 
