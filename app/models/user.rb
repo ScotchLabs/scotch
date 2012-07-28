@@ -111,21 +111,6 @@ class User < Shared::Watchable
     :message => "must be an image (JPEG, GIF or PNG)",
     :unless => lambda { |user| !user.headshot.nil? }  
 
-  define_index do
-    indexes :email
-    indexes :first_name
-    indexes :last_name
-    indexes :phone
-    indexes :residence
-    indexes :andrewid
-    indexes :majors
-    indexes :minors
-    indexes :other_activities
-    indexes :about
-
-    where 'public_profile = 1'
-  end
-
   validates_presence_of :first_name, :last_name, :encrypted_password, :andrewid
 
   validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
@@ -340,7 +325,12 @@ class User < Shared::Watchable
   end
   
   def self.search(q)
-    find_by_sql ["SELECT * FROM users WHERE MATCH(andrewid, last_name, first_name) AGAINST(? IN BOOLEAN MODE)", "#{q}*"]
+    query = "#{q}%"
+    where do
+      (first_name =~ query) |
+      (last_name =~ query) |
+      (andrewid =~ query)
+    end
   end
 
   protected
