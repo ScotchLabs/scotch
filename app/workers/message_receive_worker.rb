@@ -17,8 +17,9 @@ class MessageReceiveWorker
       filtered_message = MailExtract.new(message).body
     end
     
-    #TODO: Implement a check for whether they are allowed to post in this thread
-    thread.messages.create(user_id: user.id, text: filtered_message, priority: 'none')
+    if thread.privacy == 'open' || thread.members.include?(user)
+      thread.messages.create(user_id: user.id, text: filtered_message, priority: 'none')
+    end
     
     #TODO: Push to users via Faye
   end
