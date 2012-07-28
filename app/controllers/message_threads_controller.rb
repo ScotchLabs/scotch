@@ -1,5 +1,4 @@
 class MessageThreadsController < ApplicationController
-  before_filter :get_owner, :only => [:index, :new, :create, :destroy]
   before_filter :get_threads, :only => [:index]
   before_filter :get_thread, :except => [:index, :new, :create]
   
@@ -49,7 +48,7 @@ class MessageThreadsController < ApplicationController
   # POST /message_threads
   # POST /message_threads.json
   def create
-    @thread = @parent.message_threads.new(params[:message_thread])
+    @thread = @group.message_threads.new(params[:message_thread])
 
     respond_to do |format|
       if @thread.save
@@ -83,32 +82,20 @@ class MessageThreadsController < ApplicationController
     @thread.update_attribute(:deleted, true)
 
     respond_to do |format|
-      format.html { redirect_to group_message_threads_url(@owner) }
+      format.html { redirect_to group_message_threads_url(@group) }
       format.json { head :no_content }
     end
   end
   
   protected
   
-  def get_owner
-    if params[:group_id]
-      @owner = Group.find(params[:group_id])
-      @parent = @owner
-    else
-      @owner = current_user
-      @parent = nil
-    end
-  end
-  
   def get_threads
-    @threads = @group ? MessageThread.visible(current_user, @owner) : MessageThread.visible(current_user)
+    @threads = @group ? MessageThread.visible(current_user, @group) : MessageThread.visible(current_user)
   end
   
   def get_thread
     @thread = MessageThread.find(params[:id])
-    @owner = @thread.group ? @thread.group : current_user
-    @parent = @owner.class == 'User' ? nil : @owner
-    @group = @parent if @parent
+    @group ||= @thread.group
   end
   
   def get_layout

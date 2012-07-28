@@ -49,7 +49,7 @@ Scotch::Application.routes.draw do
     resources :events, :on => :member do
       get 'schedule', :on => :collection, :as => 'schedule'
     end
-    resources :message_threads, :except => [:edit]
+    resources :message_threads
     resources :documents
     resources :folders, :except => [:index]
     resources :votings, :only => [:index, :new]
@@ -65,7 +65,7 @@ Scotch::Application.routes.draw do
   #resources :documents, :only => [:show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy, :new, :show]
   resources :votings, :only => [:show, :edit, :create, :update, :destroy]
-  resources :message_threads do
+  resources :message_threads, :only => [:index] do
     resources :messages, :only => [:create, :update, :destroy], :on => :member
   end
   resources :notifications, :only => [:index] do

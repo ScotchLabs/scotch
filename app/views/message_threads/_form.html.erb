@@ -1,9 +1,5 @@
-<%= simple_form_for(@thread) do |f| %>
+<%= simple_form_for([@group, @thread]) do |f| %>
   <%= f.error_notification %>
-
-  <% if @parent %>
-    <%= hidden_field_tag :group_id, @parent.id %>
-  <% end %>
 
   <div class="form-inputs">
 	<%= f.input :subject %>
