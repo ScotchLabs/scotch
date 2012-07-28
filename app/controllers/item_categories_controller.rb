@@ -1,4 +1,7 @@
 class ItemCategoriesController < ApplicationController
+  
+  #temporarily disable
+  before_filter :temp_redirect
 
   before_filter :only => [:new, :edit, :create, :update, :destroy] do
     require_global_permission "adminItemCategories"
@@ -90,5 +93,11 @@ class ItemCategoriesController < ApplicationController
       format.html { redirect_to(item_categories_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  protected
+  
+  def temp_redirect
+    redirect_to root_path, notice: 'The Inventory system is not yet operational. Please check back when the school year starts!'
   end
 end
