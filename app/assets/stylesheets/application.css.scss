@@ -6,7 +6,19 @@
  *= require_tree . 
 */
 
-.edit_link
+body
 {
-	float:right;
+	background-image: url(image-path('bg_pattern.png'));
+	background-repeat:repeat;
+}
+
+.page
+{
+	display:block;
+	background-color:white;
+	border-radius:30px;
+	-webkit-box-shadow: 0px 0px 21px rgba(50, 50, 50, 0.58);
+	-moz-box-shadow:    0px 0px 21px rgba(50, 50, 50, 0.58);
+	box-shadow:         0px 0px 21px rgba(50, 50, 50, 0.58);
+	padding:5px;
 }

@@ -1,10 +1,11 @@
+<% unless @group %><div class="page"><% end %>
 <div class="thread-container">
 <% @threads.each do |thread| %>
 	<% message = thread.recent_message %>
 	<div class="thread">
 		<div class="thread-recent-time"><%= message ? time_ago_in_words(message.created_at) : 'never' %></div>
 		<div class="thread-subject"><%= link_to thread.subject, thread %></div>
-		<div class="thread-recent-sender"><%= message ? link_to(message.user, message.user.name) : '' %></div>
+		<div class="thread-recent-sender"><%= message ? link_to(message.user.name, message.user) : '' %></div>
 		<div class="thread-buttons">
 			<%= link_to "<i class='icon-envelope'></i> View Thread".html_safe, thread, class: 'btn' %>
 		</div>
@@ -20,3 +21,4 @@
 	<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_group_message_thread_path(@group), 
 	class: 'btn btn-success' %>
 <% end %>
+<% unless @group %><div class="clearfix"></div><% end %>

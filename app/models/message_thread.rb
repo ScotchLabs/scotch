@@ -23,7 +23,10 @@ class MessageThread < ActiveRecord::Base
         ((privacy != 'closed') |
         (id.in user.message_threads.select(:id)))
       else
-        (id.in user.message_threads.select(:id))
+        (((privacy == 'open') | (privacy == 'group')) &
+        (group_id.in user.groups.select(:id))) |
+        ((privacy != 'closed') |
+        (id.in user.message_threads.select(:id)))
       end
     end
   end

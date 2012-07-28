@@ -49,12 +49,6 @@ class Group < Shared::Watchable
     :message => "must be an image (JPEG, GIF or PNG)",
 		:unless => lambda { |group| !group.image.nil? }
 
-  define_index do
-    indexes :name
-    indexes :description
-    indexes :short_name
-  end
-
   # I think names should be unique too, but that hasn't been the case
   validates_uniqueness_of :short_name
   validates_length_of :short_name, :minimum => 1, :maximum => 20

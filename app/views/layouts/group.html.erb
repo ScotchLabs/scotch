@@ -1,9 +1,10 @@
-<% content_for(:content) do%>
+<% content_for(:content) do %>
 <div class="row">
+	<div class="page">
 	<div class="span3">
 		<div class="row">
 			<% if has_permission? "adminGroup" %>
-			  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_group_path(@group) %></div>
+			  <div class="group_edit_link"><%= link_to "<i class='icon-pencil'></i> Edit".html_safe, edit_group_path(@group) %></div>
 			<% end %>
 		</div>
 		<div class="row">
@@ -42,6 +43,8 @@
 		<div class="row-fluid">
 		<%= yield %>
 		</div>
+	</div>
+	<div class="clearfix"></div>
 	</div>
 </div>
 <% end %>

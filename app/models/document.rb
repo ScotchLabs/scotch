@@ -25,11 +25,6 @@ class Document < ActiveRecord::Base
   
   validates_presence_of :name
 
-  define_index do
-    indexes :name
-    indexes :description
-  end
-
   acts_as_taggable
 
   # FIXME use :hash in the url when it works again
