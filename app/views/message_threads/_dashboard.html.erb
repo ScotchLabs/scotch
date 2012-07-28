@@ -1,0 +1,31 @@
+<div class="dashboard">
+	<div class="dashboard-header">
+		Recent Threads
+	</div>
+	<div class="dashboard-container">
+	<% threads.each do |t| %>
+		<div class="dashboard-item">
+			<div class="dashboard-time">
+				<% if t.recent_message %>
+					<%= time_ago_in_words(t.recent_message.created_at) %>
+				<% else %>
+					never
+				<% end %>
+			</div>
+			<div class="dashboard-title">
+				<%= link_to t.subject, t %>
+			</div>
+			<div class="dashboard-secondary">
+				<%= link_to "<i class='icon-envelope'></i>".html_safe, t, class: 'btn btn-mini' %>
+			</div>
+			<div class="dashboard-description">
+				<% if t.recent_message %>
+					<%= link_to t.recent_message.user.name + ':' + t.recent_message.text, t %>
+				<% else %>
+					Thread Empty
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+	</div>
+</div>

@@ -1,18 +1,23 @@
-<div id="row">
-	<ul class="thumbnails">
+<div class="row">
+	<div class="dashboard">
+	<div class="dashboard-header">
+		Active Shows
+	</div>
+	<div class="dashboard-container">
+	<ul class="thumbnails" style="padding:5px;">
 		<% Show.active.each do |s| %>
 			<div class="span3">
 				<div class="thumbnail">
 					<%= image_tag s.image(:medium), size: '260x180'%>
 					<div class="caption">
 						<h5><%= s.name %></h5>
-						<p>Call Time: 7:00PM today</p>
+						<p>Call Time: Coming Soon</p>
 						<p>
-							Tech Week
-							<div class="progress progress-danger">
-								<div class="bar" style="width:95%;"></div>
+							Pre-Production
+							<div class="progress progress-info">
+								<div class="bar" style="width:10%;"></div>
 							</div>
-							3 Days till Curtains Up
+							Show dates not yet set
 						</p>
 						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
 					</div>
@@ -20,4 +25,17 @@
 			</div>
 		<% end %>
 	</ul>
+	</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+		<%= render 'message_threads/dashboard', threads: @threads %>
+	</div>
+	<div class="span4">
+		<%= render 'events/dashboard', events: @events %>
+	</div>
+	<div class="span4">
+		<%= render 'notifications/dashboard', notifications: current_user.notifications %>
+	</div>
 </div>

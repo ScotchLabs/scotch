@@ -8,7 +8,7 @@
 
 body
 {
-	background-image: url(image-path('bg_pattern.png'));
+	background-image: url(image-path('bg-solid.png'));
 	background-repeat:repeat;
 }
 
@@ -17,8 +17,9 @@ body
 	display:block;
 	background-color:white;
 	border-radius:30px;
-	-webkit-box-shadow: 0px 0px 21px rgba(50, 50, 50, 0.58);
-	-moz-box-shadow:    0px 0px 21px rgba(50, 50, 50, 0.58);
-	box-shadow:         0px 0px 21px rgba(50, 50, 50, 0.58);
+	-webkit-box-shadow: 3px 3px 6px 2px #C5C5C5;
+	-moz-box-shadow: 3px 3px 6px 2px #C5C5C5;
+	box-shadow: 3px 3px 6px 2px #C5C5C5;
 	padding:5px;
+	margin-bottom:10px;
 }

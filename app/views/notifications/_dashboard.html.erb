@@ -1,0 +1,17 @@
+<div class="dashboard">
+	<div class="dashboard-header">
+		Notifications
+	</div>
+	<div class="dashboard-container">
+		<% notifications.each do |n| %>
+			<div class="dashboard-item">
+				<% if n.read %>
+					<div class="blue-dot"></div>
+				<% end %>
+				<div class="dashboard-notification">
+					<%= link_to n.text.html_safe, n.subject %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>

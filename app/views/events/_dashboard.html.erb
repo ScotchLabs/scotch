@@ -1,0 +1,27 @@
+<div class="dashboard">
+	<div class="dashboard-header">
+		Upcoming Events
+	</div>
+	<div class="dashboard-container">
+		<% events.each do |e| %>
+			<div class="dashboard-item">
+				<div class="dashboard-time">
+					<%= e.start_time.strftime("%a, %b %-d %l:%M %p") %>
+				</div>
+				<div class="dashboard-title">
+					<%= link_to e.title, e %>
+				</div>
+				<div class="dashboard-secondary">
+					<%= link_to e.owner, e %>
+				</div>
+				<div class="dashboard-description">
+					<% if e.description.length > 0 %>
+						<%= link_to e.description, e %>
+					<% else %>
+						<%= link_to time_ago_in_words(e.start_time), e %>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
