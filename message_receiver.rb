@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'redis'
 require 'sidekiq'
+require 'mail'
 require File.expand_path('./app/workers/message_receive_worker.rb')
 
 class MessageReceive

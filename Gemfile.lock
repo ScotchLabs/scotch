@@ -124,6 +124,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mail_extract (0.1.4)
     mime-types (1.19)
     multi_json (1.3.6)
     mysql2 (0.3.11)
@@ -248,6 +249,7 @@ DEPENDENCIES
   ledermann-rails-settings
   letter_opener
   mail
+  mail_extract
   mysql2
   nested_form!
   paperclip

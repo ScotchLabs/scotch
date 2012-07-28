@@ -52,6 +52,8 @@ gem 'sidekiq'
 
 gem 'mail'
 
+gem 'mail_extract'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
