@@ -1,110 +1,112 @@
-<article>
-  <h1>Create Your Scotch on the Web Account!</h1>
-  <p>
-    Creating an account will allow you to register for auditions,
-    browse our online tech equipment inventory, see our technical resources,
-    sign up for tech crews and easily contact any other member of
-    Scotch'n'Soda.
-  </p>
-</article>
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-<article>
-  <div class='halves-split'>
-    <div class='fleft half'>
-      <h1>Required Information</h1>
-      <p>We've gotta have something in our big black book y'know.</p>
+<div class="dashboard">
+	<div class="dashboard-header">
+  		<h1>Create Your Scotch on the Web Account!</h1>
+	</div>
+	<div class="dashboard-container">
+		<p>
+	    	Creating an account will allow you to register for auditions,
+		    browse our online tech equipment inventory, see our technical resources,
+		    sign up for tech crews and easily contact any other member of
+		    Scotch'n'Soda.
+		</p>
+		<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+		  <div class='halves-split'>
+		    <div class='fleft half'>
+		      <h1>Required Information</h1>
+		      <p>We've gotta have something in our big black book y'know.</p>
       
-      <%= devise_error_messages! %>
+		      <%= devise_error_messages! %>
       
-      <div class='field'>
-      <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		      <%= f.label :first_name %><span class='fright'><%= f.text_field :first_name %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-      <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		      <%= f.label :last_name %><span class='fright'><%= f.text_field :last_name %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-      <%= f.label :andrewid, "Andrew ID" %><span class='fright'><%= f.text_field :andrewid %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		      <%= f.label :andrewid, "Andrew ID" %><span class='fright'><%= f.text_field :andrewid %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-      <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		      <%= f.label :password %><span class='fright'><%= f.password_field :password %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-      <%= f.label :password_confirmation, "Again..." %><span class='fright'><%= f.password_field :password_confirmation %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		      <%= f.label :password_confirmation, "Again..." %><span class='fright'><%= f.password_field :password_confirmation %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-    </div>
-    <div class='fright half'>
-      <h1>Optional Information</h1>
-      <p>Tell us a little about yourself.</p>
+		    </div>
+		    <div class='fright half'>
+		      <h1>Optional Information</h1>
+		      <p>Tell us a little about yourself.</p>
       
-      <div class='field'>
-        <%= f.label :smc, "SMC" %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-smc").full) %>)</span>
-        <span class='fright'><%= f.text_field :smc %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :smc, "SMC" %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-smc").full) %>)</span>
+		        <span class='fright'><%= f.text_field :smc %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-        <%= f.label :graduation_year %>
-        <span class='fright'>
-          <%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %>
-        </span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :graduation_year %>
+		        <span class='fright'>
+		          <%= f.select :graduation_year, (Time.now.year.to_i...Time.now.year.to_i+6), :prompt => "Select a year" %>
+		        </span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-        <%= f.label :residence %>
-        <span class='fright'><%= f.text_field :residence %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :residence %>
+		        <span class='fright'><%= f.text_field :residence %></span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-        <%= f.label :gender %>
-        <span class='fright'>
-          <%= f.radio_button :gender, "male" %> Male
-          <%= f.radio_button :gender, "female" %> Female
-        </span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :gender %>
+		        <span class='fright'>
+		          <%= f.radio_button :gender, "male" %> Male
+		          <%= f.radio_button :gender, "female" %> Female
+		        </span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-        <%= f.label :birthday %>
-        <span class='fright'>
-          <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
-        </span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :birthday %>
+		        <span class='fright'>
+		          <%= f.date_select :birthday, :start_year => Time.now.year.to_i-80, :end_year => Time.now.year.to_i-10, :prompt => true %>
+		        </span>
+		      </div>
+		      <div class='clearfix'></div>
       
-      <div class='field'>
-        <%= f.label :phone %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-phone").full) %>)</span>
-        <span class='fright'><%= f.text_field :phone %></span>
-      </div>
-      <div class='clearfix'></div>
+		      <div class='field'>
+		        <%= f.label :phone %> <span  class='colorboxlink'>(<%= raw(HelpItem.get("why-phone").full) %>)</span>
+		        <span class='fright'><%= f.text_field :phone %></span>
+		      </div>
+		      <div class='clearfix'></div>
         
-      <p>That's enough for now. You can tell us more once you're inside.</p>
-    </div>
-    <div class='clearfix'></div>
-  </div>
-  <h1>Everything In Order?</h1>
-  <p>
-    Please make sure the information you've entered is correct. Once you submit this form,
-    check your email for a confirmation. <!--TODO Oh, and one more thing:<br>
-    Yes, I want to be added to the Scotch'n'Soda d-list, which will send out occasional e-mail
-    updates on S'n'S shows and programs.--><br>
-    <div style='width:100%;text-align:center'>
-      <%= f.submit "Create My Account!" %>
-    </div>
-  </p>
-</article>
-<% end %>
+		      <p>That's enough for now. You can tell us more once you're inside.</p>
+		    </div>
+		    <div class='clearfix'></div>
+		  </div>
+		  <h1>Everything In Order?</h1>
+		  <p>
+		    Please make sure the information you've entered is correct. Once you submit this form,
+		    check your email for a confirmation. <!--TODO Oh, and one more thing:<br>
+		    Yes, I want to be added to the Scotch'n'Soda d-list, which will send out occasional e-mail
+		    updates on S'n'S shows and programs.--><br>
+		    <div style='width:100%;text-align:center'>
+		      <%= f.submit "Create My Account!" %>
+		    </div>
+		  </p>
+		<% end %>
+	</div>
+</div>
 
   
   

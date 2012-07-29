@@ -12,6 +12,7 @@
 		
 	</div>
 	<div class="dashboard-container">
+		<div class="row">
 		<div class='span4'>
 				<h1>FAQ</h1>
 				<p>
@@ -35,17 +36,28 @@
 				<p>
 		</div>
 		<div class='span7'>
-				<h1>What's New in 3.0?</h1>
-				
-				<p>So get your Andrew ID in hand and
-				<%= link_to "create an account", new_registration_path(resource_name) %>!</p>
-				<div style='width:100%; text-align:center; margin-top:2em'>
-				<%= link_to "Register", new_registration_path(resource_name), :class => "button" -%>
-				<% if devise_mapping.confirmable?  -%>
-				<br>
+				<h1>What's New in 3.0? <small>Theatrical Management Solution</small></h1>
+				<dl>
+					<dt>Conflict-Aware Scheduling</dt>
+					<dd>The new scheduling system allows for the scheduling of rehearsals and meetings while automatically 
+						taking into account member's conflicts.</dd>
+					<dt>Messaging</dt>
+					<dd>A comprehensive thread-based messaging system has been added to the site to allow for integrated 
+						communications for S'n'S's productions.</dd>
+					<dt>Notifications</dt>
+					<dd>The notification system allows members to keep up to date with all of their interests across the site.</dd>
+					<dt>New Styles</dt>
+					<dd>The site has been re-styled for compatibility with the new features.</dd>
+					<dt>Minor Enhancements</dt>
+					<dd>A bunch of minor enhancements and features have been added to the site.</dd>
+					<dt>Coming Soon: Public Site Revamp</dt>
+					<dd>The public site will be more closely integrated with Scotch and will contain a lot more information about 
+						S'n'S and it's productions.</dd>
+				</dl>
 				<%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), 
-				:class => "button", :style => "margin-right:5px;" %>
-				<% end %>
+				:class => "btn btn-primary", :style => "float:right;margin-right:5px;" %>
 		</div>
+		</div>
+		<div class="clearfix"></div>
 	</div>
 </div>
