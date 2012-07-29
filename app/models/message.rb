@@ -11,13 +11,11 @@ class Message < ActiveRecord::Base
   protected
   
   def send_message
-    self.message_thread.members.each do |member|
-      if self.priority == 'text_message'
-        #Send a text with Twilio, GitHub Issue #86
-        logger.info 'Would send out TEXT'
-      elsif member.settings.default_priority == 'email' || self.priority == 'email'
-        MessageSendWorker.perform_async(self.message_thread.members.pluck('users.id'), self.id, 'email')
-      end
+    if self.priority == 'text_message'
+      #Send a text with Twilio, GitHub Issue #86
+      logger.info 'Would send out TEXT'
+    elsif self.priority == 'email'
+      MessageSendWorker.perform_async(self.message_thread.members.pluck('users.id'), self.id, 'email')
     end
   end
   

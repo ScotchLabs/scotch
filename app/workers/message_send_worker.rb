@@ -6,20 +6,12 @@ class MessageSendWorker
     @thread = @message.message_thread
     @users = User.where(id: user_ids)
     
-    if delivery == 'email'
-      sendEmail
-    elsif delivery == 'text_message'
-      sendText
-    end
-  end
-  
-  def sendEmail
     @users.each do |user|
-      MessageMailer.message_email(user, @message, @thread).deliver
+      if delivery == 'text_message'
+        
+      elsif user.settings.default_priority == 'email' || delivery == 'email'
+        MessageMailer.message_email(user, @message, @thread).deliver
+      end
     end
-  end
-  
-  def sendText
-    
   end
 end
