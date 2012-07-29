@@ -2,7 +2,7 @@
 	<div class="dashboard-header">
 		<%= link_to 'Notifications', notifications_path %>
 	</div>
-	<div class="dashboard-container">
+	<div class="dashboard-container <%= 'dashboard-scroll' if scroll %>">
 		<% notifications.each do |n| %>
 			<div class="dashboard-item">
 				<% unless n.read %>
@@ -12,6 +12,9 @@
 					<%= link_to n.text.html_safe, n.subject %>
 				</div>
 			</div>
+		<% end %>
+		<% if notifications.count < 1 %>
+			<center><p style="color:#C1C1C1;">No Notifications</p></center>
 		<% end %>
 	</div>
 </div>

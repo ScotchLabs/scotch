@@ -2,7 +2,7 @@
 	<div class="dashboard-header">
 		<%= link_to 'Recent Threads', message_threads_path %>
 	</div>
-	<div class="dashboard-container">
+	<div class="dashboard-container <%= 'dashboard-scroll' if scroll %>">
 	<% threads.each do |t| %>
 		<div class="dashboard-item">
 			<div class="dashboard-time">
@@ -26,6 +26,9 @@
 				<% end %>
 			</div>
 		</div>
+	<% end %>
+	<% if threads.count < 1 %>
+		<center><p style="color:#C1C1C1;">No Threads</p></center>
 	<% end %>
 	</div>
 </div>

@@ -30,12 +30,12 @@
 </div>
 <div class="row">
 	<div class="span4">
-		<%= render 'message_threads/dashboard', threads: @threads %>
+		<%= render 'message_threads/dashboard', threads: @threads, scroll: true %>
 	</div>
 	<div class="span4">
-		<%= render 'events/dashboard', events: @events %>
+		<%= render 'events/dashboard', events: @events, scroll: true %>
 	</div>
 	<div class="span4">
-		<%= render 'notifications/dashboard', notifications: current_user.notifications %>
+		<%= render 'notifications/dashboard', notifications: current_user.notifications, scroll: true %>
 	</div>
 </div>

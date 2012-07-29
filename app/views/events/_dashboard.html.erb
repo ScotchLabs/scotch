@@ -2,7 +2,7 @@
 	<div class="dashboard-header">
 		<%= link_to 'Upcoming Events', events_path %>
 	</div>
-	<div class="dashboard-container">
+	<div class="dashboard-container <%= 'dashboard-scroll' if scroll %>">
 		<% events.each do |e| %>
 			<div class="dashboard-item">
 				<div class="dashboard-time">
@@ -22,6 +22,9 @@
 					<% end %>
 				</div>
 			</div>
+		<% end %>
+		<% if events.count < 1 %>
+			<center><p style="color:#C1C1C1;">No Upcoming Events</p></center>
 		<% end %>
 	</div>
 </div>

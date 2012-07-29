@@ -40,6 +40,11 @@
 		background-color:white;
 		border-bottom-left-radius:10px;
 		border-bottom-right-radius:10px;
+		min-height:50px;
+	}
+	
+	.dashboard-scroll
+	{
 		max-height:500px;
 		overflow:scroll;
 	}

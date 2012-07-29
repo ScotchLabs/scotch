@@ -61,8 +61,8 @@
 	</div>
 </div>
 <div class="row">
-	<%= render 'events/dashboard', events: @group.events %>
+	<%= render 'events/dashboard', events: @group.events, scroll: true %>
 </div>
 <div class="row">
-	<%= render 'message_threads/dashboard', threads: @group.message_threads %>
+	<%= render 'message_threads/dashboard', threads: @group.message_threads, scroll: true %>
 </div>
