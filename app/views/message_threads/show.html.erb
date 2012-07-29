@@ -7,7 +7,7 @@
 <div class="message-form">
 <%= simple_form_for [@thread, Message.new], remote: true do |f| %>
 	<%= f.hidden_field :user_id, value: current_user.id %>
-	<%= f.input :text, label: false, input_html: {rows: 1, cols: 60, style: 'resize:none;'}, class: 'message-textarea' %>
+	<%= f.input :text, label: false, input_html: {rows: 1, cols: 50, style: 'resize:none;'}, class: 'message-textarea' %>
 	<% if @parent.nil? || has_permission?('adminCrew') %>
 	<%= f.input :priority, collection: {'None' => 'none', 'Email' => 'email', 'Text Message' => 'text_message'}, value: 'none', include_blank: false %>
 	<% else %>
