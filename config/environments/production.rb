@@ -52,7 +52,7 @@ Scotch::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
   
   config.action_mailer.default_url_options = { :host => 'snstheatre.org' }
-  config.action_mailer.smtp_settings[:enable_starttls_auto] = false
+  ActionMailer::Base::smtp_settings[:enable_starttls_auto] = false
 
   # Enable threaded mode
   # config.threadsafe!
