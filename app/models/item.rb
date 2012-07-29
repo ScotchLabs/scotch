@@ -28,12 +28,12 @@ class Item < Shared::Watchable
 
   scope :outstanding, joins(:current_checkout)
 
-  define_index do
-    indexes :name
-    indexes :location
-    indexes :description
-    indexes :catalog_number
-  end
+  #define_index do
+    #indexes :name
+    #indexes :location
+    #indexes :description
+    #indexes :catalog_number
+  #end
   
   # some item names are super long
   def shortname
