@@ -1,6 +1,6 @@
 <div id="message_<%= message.id %>"class="message">
 	<%= image_tag message.user.headshot(:thumb), class: 'message-sender-headshot' %>
 	<div class="message-time"><abbr class="timeago" title="<%= message.created_at.getutc.iso8601 %>"></abbr></div>
-	<div class="message-sender"><%= link_to message.user, message.user.name %></div>
+	<div class="message-sender"><%= link_to message.user, message.user %></div>
 	<div class="message-text"><%= simple_format(message.text) %></div>
 </div>
