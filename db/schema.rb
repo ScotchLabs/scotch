@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120727232124) do
+ActiveRecord::Schema.define(:version => 20120729051733) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -337,16 +337,16 @@ ActiveRecord::Schema.define(:version => 20120727232124) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                :default => "",   :null => false
-    t.string   "encrypted_password",    :limit => 128, :default => "",   :null => false
-    t.string   "password_salt",                        :default => ""
+    t.string   "email",                                 :default => "",   :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",   :null => false
+    t.string   "password_salt",                         :default => ""
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        :default => 0
+    t.integer  "sign_in_count",                         :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(:version => 20120727232124) do
     t.string   "residence"
     t.string   "gender"
     t.date     "birthday"
-    t.boolean  "public_profile",                       :default => true, :null => false
+    t.boolean  "public_profile",                        :default => true, :null => false
     t.string   "headshot_file_name"
     t.string   "headshot_content_type"
     t.integer  "headshot_file_size"
@@ -374,7 +374,8 @@ ActiveRecord::Schema.define(:version => 20120727232124) do
     t.string   "minors"
     t.string   "other_activities"
     t.text     "about"
-    t.boolean  "email_notifications",                  :default => true, :null => false
+    t.boolean  "email_notifications",                   :default => true, :null => false
+    t.datetime "reset_password_sent_at"
   end
 
   add_index "users", ["andrewid"], :name => "index_users_on_andrewid", :unique => true
