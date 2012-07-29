@@ -5,5 +5,5 @@ class Notification < ActiveRecord::Base
   
   default_scope order('created_at DESC')
   scope :unread, where(read: false)
-  scope :recent, lambda{ where(read: false) + where(read: true).limit(10 - where(read: false).count) }
+  scope :recent, lambda{ where(read: false) + where(read: true).limit(where(read: false).count % 10) }
 end
