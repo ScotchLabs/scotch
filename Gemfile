@@ -54,6 +54,8 @@ gem 'mail'
 
 gem 'mail_extract'
 
+gem 'exception_notification'
+
 group :development do
   gem 'annotate'
   gem 'debugger'

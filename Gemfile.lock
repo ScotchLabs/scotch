@@ -86,6 +86,8 @@ GEM
       eventmachine (>= 1.0.0.beta.4)
     erubis (2.7.0)
     eventmachine (1.0.0.rc.4)
+    exception_notification (2.5.2)
+      actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faye (0.8.3)
@@ -238,6 +240,7 @@ DEPENDENCIES
   debugger
   devise
   digest-whirlpool
+  exception_notification
   htmlentities
   icalendar
   jquery-rails
