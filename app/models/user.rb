@@ -121,7 +121,6 @@ class User < Shared::Watchable
   validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
-  acts_as_phone_number :phone
   before_validation :downcase_email
   after_create :create_watcher
   after_create :create_sns_membership
