@@ -1,4 +1,5 @@
 require 'bundler/capistrano'
+require 'sidekiq/capistrano'
 
 set :user, 'deploy'
 set :domain, 'snstheatre.org'
