@@ -23,6 +23,8 @@ class Event < ActiveRecord::Base
   has_many :groups, :through => :event_attendees, :source => :owner, :source_type => 'Group'
   
   belongs_to :owner, :polymorphic => true
+
+  scope :auditions, where(event_type: 'audition')
   
   PERIODS = [
     ['Minutes','minutes'],
@@ -44,6 +46,7 @@ class Event < ActiveRecord::Base
   }
   
   validate :times_are_sane # rails3?
+  validate :audition_has_one_attendee
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
@@ -269,6 +272,17 @@ protected
         split_id = a.split(':')
         self.event_attendees.create(:owner_id => split_id[0], :owner_type => split_id[1])
       end
+    elsif temp_attendees.kind_of?(User)
+      self.event_attendees.clear
+      self.event_attendees.create(:owner_id => temp_attendees.id, :owner_type => 'User')
+    end
+  end
+
+  def audition_has_one_attendee
+    if self.event_type == 'audition'
+      self.event_attendees.count <= 1
+    else
+      true
     end
   end
 

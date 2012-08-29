@@ -1,0 +1,21 @@
+<h1>Auditions<br><small>Sign up for one slot only please.</small></h1><br>
+<table class="table table-striped">
+  <tr>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>SignUp</th>
+  </tr>
+  <% @auditions.each do |a| %>
+    <tr>
+      <td><%= a.start_time.strftime("%a, %b %-d %l:%M %p") %></td>
+      <td><%= a.end_time.strftime("%a, %b %-d %l:%M %p") %></td>
+      <% if a.event_attendees.count < 1 %>
+        <td><%= link_to 'Sign Up', signup_audition_path(a) %></td>
+      <% elsif a.users.first == current_user %>
+        <td><%= link_to 'Cancel', signup_audition_path(a) %></td>
+      <% else %>
+        <td><i>Slot Full</i></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

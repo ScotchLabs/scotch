@@ -53,6 +53,9 @@ Scotch::Application.routes.draw do
     resources :documents
     resources :folders, :except => [:index]
     resources :votings, :only => [:index, :new]
+    resources :auditions, :on => :member do
+      get 'signup', on: :member, as: 'signup'
+    end
     member do
       post :join
       post :leave
