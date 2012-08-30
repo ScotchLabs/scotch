@@ -1,6 +1,8 @@
 <article>
 <h1>Results for <%= params[:q] %></h1>
   <% @results.each do |result| %>
-    <%= render 'users/user', user: result %>
+    <ul class="unstyled">
+      <li><%= render 'users/user', user: result %></li>
+    </ul>
   <% end %>
 </article>
