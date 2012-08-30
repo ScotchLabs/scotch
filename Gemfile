@@ -56,9 +56,10 @@ gem 'mail_extract'
 
 gem 'exception_notification'
 
+gem 'thin', :require => false
+
 group :development do
   gem 'annotate'
   gem 'debugger'
-  gem 'thin'
   gem 'letter_opener'
 end
