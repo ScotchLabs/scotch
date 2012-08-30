@@ -20,8 +20,14 @@
 
 .notification-button:hover
 {
+	display:block;
+	height:20px;
+	width:45px;
 	background:transparent url(image-path('scotchbottle_hover.svg')) no-repeat;
 	background-position:-8px 0;
+	background-position:-8px 0;
+	-o-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
 }
 
 .blue-dot
