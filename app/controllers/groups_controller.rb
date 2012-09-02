@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
     end
   end
 
-  prepend_before_filter :locate_our_group, :only => [:show, :edit, :update, :destroy, :join, :leave, :archive]
+  prepend_before_filter :locate_our_group, :only => [:show, :edit, :update, :destroy, :join, :leave, :archive, :tokens]
 
   # GET /groups
   # GET /groups.xml
@@ -193,6 +193,22 @@ class GroupsController < ApplicationController
     end
 
     redirect_to group_path(@group)
+  end
+
+  def tokens
+    @users = @group.members.where("first_name LIKE ? OR last_name LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    
+    @groupings = [] #REPLACE WITH Production Staff/Tech Heads/etc.
+
+    @results = []
+
+    @users.each do |u|
+      @results << {id: "user:#{u.id}", name: u.name}
+    end
+
+    respond_to do |format|
+      format.json {render json: @results.to_json}
+    end
   end
 
   protected

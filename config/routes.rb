@@ -60,6 +60,7 @@ Scotch::Application.routes.draw do
       post :join
       post :leave
       post :archive
+      get :tokens
     end
   end
   
