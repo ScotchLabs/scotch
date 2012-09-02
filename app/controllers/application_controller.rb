@@ -45,6 +45,10 @@ class ApplicationController < ActionController::Base
       return true
     end
 
+    if @group.nil?
+      return true
+    end
+
     if @group.user_has_permission? current_user,permission
       return true
     end
