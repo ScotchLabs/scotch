@@ -29,6 +29,6 @@
 				$("#member-select-contain").addClass('member-select-hide');
 			}
 		});
-                $("#recipients").tokenInput("<%= group_path(@group) %>/tokens", {theme: 'facebook', prePopulate:<%= @thread.new_record? ? '' : @thread.recipients.to_json.html_safe %>});
+                $("#recipients").tokenInput("<%= group_path(@group) %>/tokens", {theme: 'facebook', prePopulate:<%= @thread.new_record? ? '{}' : @thread.recipients.to_json.html_safe %>});
 	</script>
 <% end %>
