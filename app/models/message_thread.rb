@@ -9,11 +9,12 @@ class MessageThread < ActiveRecord::Base
   validates_inclusion_of :privacy, in: ['none', 'group', 'private']
   
   before_update :record_old_members
+  after_commit :add_new_members
   after_commit :notify_new_members
   
   default_scope where(deleted: false)
   
-  attr_accessor :old_members
+  attr_accessor :old_members, :new_members
   
   #Returns all threads that should be visible to user/group
   def self.visible(user, vis_group = false)
@@ -48,12 +49,45 @@ class MessageThread < ActiveRecord::Base
       self.participants
     end
   end
+
+  def recipients
+    result = []
+
+    self.users.each do |u|
+      result << {id: "user:#{u.id}", name: u.name}
+    end
+
+    result
+  end
+
+  def recipients=(recipient_ids)
+    recipient_ids = recipient_ids.split(',')
+    self.new_members = []
+
+    recipient_ids.each do |r|
+      ident_type, ident_id = r.split(':')
+      if ident_type = 'user'
+        self.new_members << ident_id
+      else
+
+      end
+    end
+  end
   
   protected
   
   def record_old_members
     if self.privacy == 'private'
       self.old_members = self.members
+    end
+  end
+
+  def add_new_members
+    if !new_members.nil? && new_members.count > 0
+      self.users.clear
+      new_members.each do |m|
+        self.users << User.find(m)
+      end
     end
   end
   

@@ -1,19 +1,13 @@
-<%= simple_form_for([@group, @thread]) do |f| %>
+<% form_path = @thread.new_record? ? [@group, @thread] : @thread %>
+<%= simple_form_for(form_path) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
 	<%= f.input :subject %>
 	<%= f.input :privacy, collection: ['none', 'group', 'private'] %>
-	<div id="member-select-contain" class='member-select-hide'>
-	<label for="message_thread[user_ids][]">Select Attendees:</label><select id="member_select" name="message_thread[user_ids][]" multiple="multiple">
-		<% @group.calendar_positions.each do |c| %>
-			<optgroup label="<%= c[:name] %>">
-				<% c[:positions].each do |p| %>
-					<option value="<%= p[:id] %>" <%= "selected='selected'" if @thread.user_ids.include? p[:id] %>><%= p[:user_name] %></option>
-				<% end %>
-			</optgroup>
-		<% end %>
-	</select>
+        <div id="member-select-contain" class="<%= @thread.new_record? || @thread.privacy != 'private' ? 'member-select-hide' : '' %>">
+          <label for="recipients">Select Recipients: </label>
+          <input type="text" id="recipients" name="message_thread[recipients]">
 	</div>
   </div>
 
@@ -35,5 +29,6 @@
 				$("#member-select-contain").addClass('member-select-hide');
 			}
 		});
+                $("#recipients").tokenInput("<%= group_path(@group) %>/tokens", {theme: 'facebook', prePopulate:<%= @thread.new_record? ? '' : @thread.recipients.to_json.html_safe %>});
 	</script>
 <% end %>
