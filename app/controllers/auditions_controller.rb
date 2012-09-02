@@ -4,7 +4,7 @@ class AuditionsController < ApplicationController
   before_filter :get_audition, except: [:index, :new, :create]
 
   def index
-    @auditions = @group.events.auditions
+    @auditions = @group.events.auditions.group_by{ |a| a.start_time.wday}
   end
 
   def new
