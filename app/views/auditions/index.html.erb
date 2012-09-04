@@ -5,6 +5,7 @@
     <tr>
       <th>Start Time</th>
       <th>End Time</th>
+      <th>Location</th>
       <th>SignUp</th>
       <% if has_permission?("adminCrew") %>
         <th>Name</th>
@@ -14,6 +15,7 @@
       <tr>
         <td><%= a.start_time.strftime("%l:%M %p") %></td>
         <td><%= a.end_time.strftime("%l:%M %p") %></td>
+        <td><b><%= a.location %></b></td>
         <% if a.event_attendees.count < 1 %>
           <td><%= link_to 'Sign Up', signup_audition_path(a) %></td>
         <% elsif a.users.first == current_user %>
