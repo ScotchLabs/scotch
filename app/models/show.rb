@@ -47,6 +47,10 @@ class Show < Group
   def board_preview
     self.events.where{title =~ "%board%preview%"}.first
   end
+
+  def auditions?
+    self.events.future.auditions.count > 0
+  end
   
   private
   def set_parent
