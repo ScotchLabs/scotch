@@ -31,6 +31,7 @@ class EventsController < ApplicationController
   end
   
   def schedule
+    @events = @group.events.where("event_type != 'audition'")
     
     respond_to do |format|
       format.html
