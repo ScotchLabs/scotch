@@ -23,12 +23,10 @@
         <% else %>
           <td><i>Slot Full</i></td>
         <% end %>
-        <% if has_permission?("adminCrew") %>
-          <% if a.event_attendees.count > 0 %>
-            <td><%= link_to a.users.first.name, a.users.first %></td>
-          <% else %>
-            <td><i>None</i></td>
-          <% end %>
+        <% if a.event_attendees.count > 0 %>
+          <td><%= link_to a.users.first.name, a.users.first %></td>
+        <% else %>
+          <td><i>None</i></td>
         <% end %>
       </tr>
     <% end %>
