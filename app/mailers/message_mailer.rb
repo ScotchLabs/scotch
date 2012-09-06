@@ -6,7 +6,7 @@ class MessageMailer < ActionMailer::Base
     @message = message
     @thread = thread
     
-    from = "\"Scotch Messaging\" <thread+#{@thread.id.to_s}-#{@user.id.to_s}@snstheatre.org>"
+    from = "\"#{@message.user.name}\" <thread+#{@thread.id.to_s}-#{@user.id.to_s}@snstheatre.org>"
     
     mail(
       from: from,

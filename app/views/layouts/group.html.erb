@@ -38,6 +38,9 @@
 					  <li><%= link_to 'Conflict-Aware', schedule_group_events_path(@group) %></li>
 				    </ul>
 				</li>
+                                <% if @group.type.to_s == 'Show' && @group.auditions? %>
+                                  <li class="<%= 'active' if controller.controller_name == 'auditions' %>"><%= link_to 'Auditions', group_auditions_path(@group) %></li>
+                                <% end %>
 			</div>
 		</div>
 		<div class="row-fluid">

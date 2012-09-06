@@ -66,7 +66,7 @@ class MessageThread < ActiveRecord::Base
 
     recipient_ids.each do |r|
       ident_type, ident_id = r.split(':')
-      if ident_type = 'user'
+      if ident_type == 'user'
         self.new_members << ident_id
       else
 
