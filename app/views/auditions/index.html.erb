@@ -1,4 +1,7 @@
 <h1>Auditions<br><small>Sign up for one slot only please.</small></h1><br>
+<% if has_permission?("adminCrew") %>
+  <%= link_to "Auditions Sheet", group_auditions_path(@group, :pdf), style: "float:right;", class: 'btn btn-success' %>
+<% end %>
 <% @auditions.each_key do |day| %>
   <h2><%= @auditions[day].first.start_time.strftime("%A, %B %-d") %></h2>
   <table class="table table-striped">

@@ -58,6 +58,8 @@ gem 'exception_notification'
 
 gem 'thin', :require => false
 
+gem 'prawn_rails'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
