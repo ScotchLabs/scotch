@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'redis'
 require 'sidekiq'
+require 'securerandom'
 require 'mail'
 require File.join(File.dirname(__FILE__), '/app/workers/message_receive_worker.rb')
 
