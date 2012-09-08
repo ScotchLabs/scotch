@@ -4,11 +4,23 @@
 
   <div class="form-inputs">
 	<%= f.input :subject %>
-	<%= f.input :privacy, collection: ['none', 'group', 'private'] %>
+	<%= f.input :privacy, collection: [['Entire Group','group'], ['Certain People','private']], label: 'Recipients', include_blank: false %>
+        <%= f.input :reply_type, collection: [['Replies only go to Me', 'self'],['Replies only go to Scotch', 'none'],['Replies go to everyone', 'all']], label: 'Reply Method', include_blank: false, value: 'self' %>
         <div id="member-select-contain" class="<%= @thread.new_record? || @thread.privacy != 'private' ? 'member-select-hide' : '' %>">
-          <label for="recipients">Select Recipients: </label>
-          <input type="text" id="recipients" name="message_thread[recipients]">
+          <ul class="unstyled">
+            <% @group.calendar_positions.each do |c| %>
+              <li>
+                <%= link_to c[:name], '#', onClick: "addPositions('#{c[:name]}')" %>
+                <%= link_to '(-)', '#', onClick: "removePositions('#{c[:name]}')" %>
+              </li>
+            <% end %>
+          </ul>
+          <%= f.input :recipients, id: 'recipients', label: 'Select Recipients' %>
 	</div>
+        <% if @thread.new_record? %>
+          <%= f.input :message, label: 'Message', as: :text, input_html: {rows: 5, style: 'resize: none;'} %>
+          <%= f.input :priority, collection: [['Email', 'email'], ['Within Scotch', 'none'], ['Text Message', 'text_message']], label: 'Message Type', include_blank: false %>
+        <% end %>
   </div>
 
   <div class="form-actions">
@@ -18,9 +30,10 @@
 
 <%= content_for(:javascripts) do %>
 	<script type="text/javascript">
+		$("textarea[name='message_thread[message]']").autoGrow();
 		$("#member_select").multiselect();
 		$("select[name='message_thread[privacy]']").change(function(){
-			if ($(this).find(":selected").text() == 'private')
+			if ($(this).find(":selected").val() == 'private')
 			{
 				$("#member-select-contain").removeClass('member-select-hide');
 			}
@@ -29,6 +42,36 @@
 				$("#member-select-contain").addClass('member-select-hide');
 			}
 		});
-                $("#recipients").tokenInput("<%= group_path(@group) %>/tokens", {theme: 'facebook', prePopulate:<%= @thread.new_record? ? '{}' : @thread.recipients.to_json.html_safe %>});
+$("#message_thread_recipients").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @thread.new_record? ? '' : ", prePopulate: #{@thread.recipients.to_json}".html_safe %>});
+
+          $posmembers = <%= @group.calendar_positions.to_json.html_safe %>; 
+
+          function addPositions(position)
+          {
+            $.each($posmembers, function()
+            {
+              if(position == this.name)
+              {
+                $.each(this.positions, function()
+                {
+                  $("#message_thread_recipients").tokenInput("add", {id: this.id, name: this.user_name});
+                });
+              }
+            });
+          }
+
+          function removePositions(position)
+          {
+            $.each($posmembers, function()
+            {
+              if(position == this.name)
+              {
+                $.each(this.positions, function()
+                {
+                  $("#message_thread_recipients").tokenInput("remove", {id: this.id});
+                });
+              }
+            });
+          }
 	</script>
 <% end %>

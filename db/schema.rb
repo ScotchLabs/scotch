@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120729165454) do
+ActiveRecord::Schema.define(:version => 20120907153525) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(:version => 20120729165454) do
     t.datetime "updated_at",                     :null => false
     t.string   "privacy",    :default => "none"
     t.boolean  "deleted",    :default => false
+    t.string   "reply_type", :default => "self"
   end
 
   create_table "message_threads_users", :id => false, :force => true do |t|

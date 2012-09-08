@@ -7,6 +7,7 @@ class Message < ActiveRecord::Base
   after_commit :notify
   
   validates_inclusion_of :priority, in: ['none', 'email', 'text_message']
+  validates_presence_of :text
   
   protected
   

@@ -7,14 +7,17 @@ class MessageThread < ActiveRecord::Base
   COLORS = {'none' => 'success', 'group' => 'info', 'private' => 'inverse'}
   
   validates_inclusion_of :privacy, in: ['none', 'group', 'private']
+  validates_inclusion_of :reply_type, in: ['none', 'self', 'all']
+  validates_presence_of :message, :subject
   
   before_update :record_old_members
   after_commit :add_new_members
   after_commit :notify_new_members
+  after_commit :send_first_message
   
   default_scope where(deleted: false)
   
-  attr_accessor :old_members, :new_members
+  attr_accessor :old_members, :new_members, :first_message, :first_message_priority, :first_message_sender
   
   #Returns all threads that should be visible to user/group
   def self.visible(user, vis_group = false)
@@ -30,6 +33,22 @@ class MessageThread < ActiveRecord::Base
         (id.in user.message_threads.select(:id)))
       end
     end
+  end
+
+  def message=(message_text)
+    self.first_message = message_text
+  end
+
+  def message
+    self.messages.count > 0 ? self.messages.first.text : nil
+  end
+
+  def priority=(message_priority)
+    self.first_message_priority = message_priority
+  end
+
+  def priority
+    self.messages.count > 0 ? self.messages.first.priority : nil
   end
   
   def recent_message
@@ -100,6 +119,12 @@ class MessageThread < ActiveRecord::Base
       new_members.each do |m|
         m.notify(self.group, self, 'new_member', notification_text)
       end
+    end
+  end
+
+  def send_first_message
+    if self.first_message && self.first_message_priority
+      self.messages.create(text: self.first_message, priority: self.first_message_priority, user: self.first_message_sender)
     end
   end
 end

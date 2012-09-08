@@ -49,6 +49,7 @@ class MessageThreadsController < ApplicationController
   # POST /message_threads.json
   def create
     @thread = @group.message_threads.new(params[:message_thread])
+    @thread.first_message_sender = current_user
 
     respond_to do |format|
       if @thread.save
