@@ -8,7 +8,7 @@ class MessageThread < ActiveRecord::Base
   
   validates_inclusion_of :privacy, in: ['none', 'group', 'private']
   validates_inclusion_of :reply_type, in: ['none', 'self', 'all']
-  validates_presence_of :message, :subject
+  validates_presence_of :subject
   
   before_update :record_old_members
   after_commit :add_new_members
@@ -32,6 +32,16 @@ class MessageThread < ActiveRecord::Base
         ((privacy != 'closed') |
         (id.in user.message_threads.select(:id)))
       end
+    end
+  end
+
+  def <=>(other)
+    if !self.recent_message
+      return 1 
+    elsif !other.recent_message
+      return -1
+    else
+      return other.recent_message.created_at <=> self.recent_message.created_at
     end
   end
 
@@ -84,12 +94,7 @@ class MessageThread < ActiveRecord::Base
     self.new_members = []
 
     recipient_ids.each do |r|
-      ident_type, ident_id = r.split(':')
-      if ident_type == 'user'
-        self.new_members << ident_id
-      else
-
-      end
+        self.new_members << r
     end
   end
   

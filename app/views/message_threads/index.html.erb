@@ -6,7 +6,7 @@
 		<div class="dashboard-container">
 <% end %>
 <div class="thread-container">
-<% @threads.each do |thread| %>
+<% @threads.sort.each do |thread| %>
 	<% message = thread.recent_message %>
 	<div class="thread">
 		<div class="thread-recent-time"><%= message ? time_ago_in_words(message.created_at) : 'never' %></div>
