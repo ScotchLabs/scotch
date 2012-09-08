@@ -34,6 +34,17 @@ class MessageThreadsController < ApplicationController
   def new
     @thread = MessageThread.new
 
+    if params[:recipients]
+      @prepop = params[:recipients].split(',').map do |r|
+        u = User.find_by_andrewid(r)
+        if u
+          {id: u.id, name: u.name}
+        else
+          nil
+        end
+      end.compact
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @thread }

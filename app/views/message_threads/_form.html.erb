@@ -7,14 +7,18 @@
 	<%= f.input :privacy, collection: [['Entire Group','group'], ['Certain People','private']], label: 'Recipients', include_blank: false %>
         <%= f.input :reply_type, collection: [['Replies only go to Me', 'self'],['Replies only go to Scotch', 'none'],['Replies go to everyone', 'all']], label: 'Reply Method', include_blank: false, value: 'self' %>
         <div id="member-select-contain" class="<%= @thread.new_record? || @thread.privacy != 'private' ? 'member-select-hide' : '' %>">
-          <ul class="unstyled">
-            <% @group.calendar_positions.each do |c| %>
+          <div class="control-group optional">
+          <label class="control-label">Select groups/crews or just type in names</label>
+          <ul class="position-selectors controls unstyled">
+            <% @group.calendar_positions.each_with_index do |c, i| %>
               <li>
-                <%= link_to c[:name], '#', onClick: "addPositions('#{c[:name]}')" %>
-                <%= link_to '(-)', '#', onClick: "removePositions('#{c[:name]}')" %>
+                <%= link_to c[:name], '#', onClick: "addPositions('#{c[:name]}'); return false;" %>
+                <%= link_to '(remove)', '#', onClick: "removePositions('#{c[:name]}'); return false;" %>
               </li>
             <% end %>
-          </ul>
+            <br />
+            <%= link_to 'Remove All', '#', onClick: "removePositions('all'); return false;" %>
+          </ul></div>
           <%= f.input :recipients, id: 'recipients', label: 'Select Recipients' %>
 	</div>
         <% if @thread.new_record? %>
@@ -30,6 +34,12 @@
 
 <%= content_for(:javascripts) do %>
 	<script type="text/javascript">
+                <% if @prepop %>
+                  $(document).ready(function(){
+                      $("select[name='message_thread[privacy]']").val('private');
+                      $("#member-select-contain").removeClass('member-select-hide');
+                    });
+                <% end %>
 		$("textarea[name='message_thread[message]']").autoGrow();
 		$("#member_select").multiselect();
 		$("select[name='message_thread[privacy]']").change(function(){
@@ -42,7 +52,7 @@
 				$("#member-select-contain").addClass('member-select-hide');
 			}
 		});
-$("#message_thread_recipients").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @thread.new_record? ? '' : ", prePopulate: #{@thread.recipients.to_json}".html_safe %>});
+$("#message_thread_recipients").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @thread.new_record? ? '' : ", prePopulate: #{@thread.recipients.to_json}".html_safe %><%= @prepop ? ", prePopulate: #{@prepop.to_json}".html_safe : '' %>});
 
           $posmembers = <%= @group.calendar_positions.to_json.html_safe %>; 
 
@@ -64,7 +74,7 @@ $("#message_thread_recipients").tokenInput("<%= group_path(@group) %>/tokens", {
           {
             $.each($posmembers, function()
             {
-              if(position == this.name)
+              if(position == this.name || position == 'all')
               {
                 $.each(this.positions, function()
                 {
