@@ -18,7 +18,7 @@ class MessageReceive
         message = part.body.decoded
       end
     else
-      message = part.body.decoded
+      message = email.body.decoded
     end
     
     Sidekiq::Client.enqueue(MessageReceiveWorker, to, from, message)
