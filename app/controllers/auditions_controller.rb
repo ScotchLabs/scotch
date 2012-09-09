@@ -5,6 +5,12 @@ class AuditionsController < ApplicationController
 
   def index
     @auditions = @group.events.auditions.group_by{ |a| a.start_time.wday}
+
+    @auditioners = []
+
+    @group.events.auditions.each do |a|
+      @auditioners << a.users.first.andrewid if a.users.count > 0
+    end
   end
 
   def new
