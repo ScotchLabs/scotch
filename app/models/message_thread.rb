@@ -11,8 +11,8 @@ class MessageThread < ActiveRecord::Base
   validates_presence_of :subject
   
   before_update :record_old_members
-  after_commit :add_new_members
-  after_commit :notify_new_members
+  after_save :add_new_members
+  after_save :notify_new_members
   after_commit :send_first_message
   
   default_scope where(deleted: false)

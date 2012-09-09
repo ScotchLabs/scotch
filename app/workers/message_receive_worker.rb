@@ -18,7 +18,8 @@ class MessageReceiveWorker
     end
     
     if thread.privacy == 'open' || thread.members.include?(user)
-      thread.messages.create(user_id: user.id, text: filtered_message, priority: 'none')
+      priority = thread.reply_type != 'none' ? 'email' : 'none'
+      thread.messages.create(user_id: user.id, text: filtered_message, priority: priority)
     end
     
     #TODO: Push to users via Faye

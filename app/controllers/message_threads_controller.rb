@@ -24,7 +24,11 @@ class MessageThreadsController < ApplicationController
     @nomargin = true
 
     if @thread.reply_type == 'self'
-      @messages = [@thread.messages.first] + @thread.messages.where('user_id = ? OR target_id = ?', current_user, current_user)
+      if @thread.messages.first.user == current_user
+        @messages = @thread.messages
+      else
+        @messages = [@thread.messages.first] + @thread.messages.where('user_id = ? OR target_id = ?', current_user, current_user)
+      end
       @messages.uniq!
     else @thread.reply_type == 'all'
       @messages = @thread.messages
