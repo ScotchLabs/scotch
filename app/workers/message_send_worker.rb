@@ -9,8 +9,8 @@ class MessageSendWorker
     @users.each do |user|
       if delivery == 'text_message'
         
-      elsif delivery == 'email' || @thread.reply_type == 'all' || 
-        (@thread.reply_type == 'self' && ((@thread.messages.first.user == user && !@message.target) || (!@message.target.nil? && @message.target == user)))
+      elsif delivery == 'email' || @thread.reply_type == 'all' 
+        #|| (@thread.reply_type == 'self' && ((@thread.messages.first.user == user && !@message.target) || (!@message.target.nil? && @message.target == user)))
         MessageMailer.message_email(user, @message, @thread).deliver
       end
     end
