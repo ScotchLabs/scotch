@@ -45,6 +45,10 @@ class MessageThread < ActiveRecord::Base
     end
   end
 
+  def visible_messages(u_id)
+    ([self.messages.first] + self.messages.where('user_id = ? OR target_id = ? OR (user_id = ? AND target_id = NULL)', u_id, u_id, self.messages.first.user)).uniq
+  end
+
   def message=(message_text)
     self.first_message = message_text
   end
@@ -61,9 +65,13 @@ class MessageThread < ActiveRecord::Base
     self.messages.count > 0 ? self.messages.first.priority : nil
   end
   
-  def recent_message
+  def recent_message(u_id = false)
     if self.messages.count > 0
-      self.messages.last
+      unless self.reply_type == 'self' && u_id
+        self.messages.last
+      else
+        self.messages.where('user_id = ? OR target_id = ? OR (user_id = ? AND target_id = NULL)', u_id, u_id, self.messages.first.user)
+      end
     else
       false
     end
