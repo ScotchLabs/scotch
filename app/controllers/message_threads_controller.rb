@@ -27,7 +27,7 @@ class MessageThreadsController < ApplicationController
       if @thread.messages.first.user == current_user
         @messages = @thread.messages
       else
-        @messages = [@thread.messages.first] + @thread.messages.where('user_id = ? OR target_id = ?', current_user, current_user)
+        @messages = [@thread.messages.first] + @thread.messages.where('user_id = ? OR target_id = ? OR (user_id = ? AND target_id = NULL)', current_user, current_user, @thread.messages.first.user)
       end
       @messages.uniq!
     else @thread.reply_type == 'all'
