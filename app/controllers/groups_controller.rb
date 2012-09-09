@@ -198,12 +198,10 @@ class GroupsController < ApplicationController
   def tokens
     @users = @group.members.where("first_name LIKE ? OR last_name LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
     
-    @groupings = [] #REPLACE WITH Production Staff/Tech Heads/etc.
-
     @results = []
 
     @users.each do |u|
-      @results << {id: "user:#{u.id}", name: u.name}
+      @results << {id: u.id, name: u.name}
     end
 
     respond_to do |format|

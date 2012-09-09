@@ -23,6 +23,13 @@ class MessageThreadsController < ApplicationController
   def show
     @nomargin = true
 
+    if @thread.reply_type == 'self'
+      @messages = [@thread.messages.first] + @thread.messages.where('user_id = ? OR target_id = ?', current_user, current_user)
+      @messages.uniq!
+    else @thread.reply_type == 'all'
+      @messages = @thread.messages
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @thread }

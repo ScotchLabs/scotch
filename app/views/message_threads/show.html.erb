@@ -1,12 +1,15 @@
 <div class="span8">
 <div class="message-container">
-<% @thread.messages.each do |message| %>
+  <% @messages.each do |message| %>
 	<%= render 'messages/message', message: message %>
 <% end %>
 </div>
 <div class="message-form">
 <%= simple_form_for [@thread, Message.new], remote: true do |f| %>
 	<%= f.hidden_field :user_id, value: current_user.id %>
+        <% if @thread.reply_type == 'self' && (@thread.messages.first.user == current_user || has_permission?('adminCrew')) %>
+          <%= f.input :target_id, collection: @thread.members, labelMethod: :name, valueMethod: :id %>
+        <% end %>
 	<%= f.input :text, label: false, input_html: {rows: 1, cols: 50, style: 'resize:none;'}, class: 'message-textarea' %>
 	<% if @parent.nil? || has_permission?('adminCrew') %>
 	<%= f.input :priority, collection: {'None' => 'none', 'Email' => 'email', 'Text Message' => 'text_message'}, value: 'none', include_blank: false %>

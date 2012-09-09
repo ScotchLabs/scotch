@@ -1,6 +1,7 @@
 class Message < ActiveRecord::Base
   belongs_to :message_thread
   belongs_to :user
+  belongs_to :target, class_name: 'User'
   has_one :group, through: :message_thread
   
   after_commit :send_message
@@ -15,7 +16,7 @@ class Message < ActiveRecord::Base
     if self.priority == 'text_message'
       #Send a text with Twilio, GitHub Issue #86
       logger.info 'Would send out TEXT'
-    elsif self.priority == 'email'
+    elsif self.priority == 'email' || self.message_thread.reply_type != 'none'
       MessageSendWorker.perform_async(self.message_thread.members.pluck('users.id'), self.id, 'email')
     end
   end

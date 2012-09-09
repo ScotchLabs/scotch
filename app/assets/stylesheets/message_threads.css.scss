@@ -85,6 +85,16 @@
 			padding-top:8px;
 			margin-bottom:10px;
 		}
+
+                .message-target
+                {
+                  float:right;
+                  
+                  a
+                  {
+                    color:#BAB3B6;
+                  }
+                }
 		
 		.message-text
 		{
@@ -139,4 +149,9 @@
 {
 	border-bottom:none !important;
 	cursor:default !important;
+}
+
+.position-selectors
+{
+  max-width: 400px;
 }
