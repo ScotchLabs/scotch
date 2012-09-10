@@ -21,7 +21,9 @@
 							Show dates not yet set
 						</p>
 						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
+                                                <% if s.auditions? %>
                                                 <p><%= link_to 'Auditions', group_auditions_path(s), class: 'btn btn-success' %></p>
+                                                <% end %>
 					</div>
 				</div>
 			</div>
