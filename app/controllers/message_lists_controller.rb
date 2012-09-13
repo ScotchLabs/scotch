@@ -1,8 +1,13 @@
 class MessageListsController < ApplicationController
+  layout 'group'
+
+  before_filter :get_lists, only: [:index]
+  before_filter :get_list, except: [:index, :new, :create]
+  before_filter :get_group, except: [:index, :new, :create]
+
   # GET /message_lists
   # GET /message_lists.json
   def index
-    @message_lists = MessageList.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +18,6 @@ class MessageListsController < ApplicationController
   # GET /message_lists/1
   # GET /message_lists/1.json
   def show
-    @message_list = MessageList.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,13 +38,12 @@ class MessageListsController < ApplicationController
 
   # GET /message_lists/1/edit
   def edit
-    @message_list = MessageList.find(params[:id])
   end
 
   # POST /message_lists
   # POST /message_lists.json
   def create
-    @message_list = MessageList.new(params[:message_list])
+    @message_list = @group.message_lists.new(params[:message_list])
 
     respond_to do |format|
       if @message_list.save
@@ -56,7 +59,6 @@ class MessageListsController < ApplicationController
   # PUT /message_lists/1
   # PUT /message_lists/1.json
   def update
-    @message_list = MessageList.find(params[:id])
 
     respond_to do |format|
       if @message_list.update_attributes(params[:message_list])
@@ -72,12 +74,25 @@ class MessageListsController < ApplicationController
   # DELETE /message_lists/1
   # DELETE /message_lists/1.json
   def destroy
-    @message_list = MessageList.find(params[:id])
     @message_list.destroy
 
     respond_to do |format|
       format.html { redirect_to message_lists_url }
       format.json { head :no_content }
     end
+  end
+
+  protected
+
+  def get_group
+    @group = @message_list.group
+  end
+
+  def get_lists
+    @message_lists = @group.message_lists
+  end
+
+  def get_list
+    @message_list = MessageList.find(params[:id])
   end
 end

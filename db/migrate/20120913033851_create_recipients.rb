@@ -3,8 +3,7 @@ class CreateRecipients < ActiveRecord::Migration
     create_table :recipients do |t|
       t.integer :message_list_id
       t.integer :message_id
-      t.integer :target_id
-      t.string :target_type
+      t.integer :user_id
       t.boolean :message_sent
 
       t.timestamps

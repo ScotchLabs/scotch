@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120913033851) do
+ActiveRecord::Schema.define(:version => 20120913040621) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -201,6 +201,25 @@ ActiveRecord::Schema.define(:version => 20120913033851) do
     t.integer  "user_id"
   end
 
+  create_table "list_members", :force => true do |t|
+    t.integer  "message_list_id"
+    t.integer  "member_id"
+    t.string   "member_type"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "message_lists", :force => true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.string   "address"
+    t.string   "distribution", :default => "email"
+    t.boolean  "entire_group", :default => false
+    t.string   "security"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
   create_table "message_threads", :force => true do |t|
     t.string   "subject"
     t.integer  "group_id"
@@ -220,10 +239,11 @@ ActiveRecord::Schema.define(:version => 20120913033851) do
 
   create_table "messages", :force => true do |t|
     t.text     "text"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "subject"
-    t.string   "distribution", :default => "scotch"
+    t.string   "distribution",    :default => "scotch"
+    t.integer  "message_list_id"
   end
 
   create_table "nominations", :force => true do |t|
@@ -294,8 +314,7 @@ ActiveRecord::Schema.define(:version => 20120913033851) do
   create_table "recipients", :force => true do |t|
     t.integer  "message_list_id"
     t.integer  "message_id"
-    t.integer  "target_id"
-    t.string   "target_type"
+    t.integer  "user_id"
     t.boolean  "message_sent"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
