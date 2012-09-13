@@ -1,14 +1,16 @@
 class Message < ActiveRecord::Base
-  belongs_to :message_thread
-  belongs_to :user
-  belongs_to :target, class_name: 'User'
-  has_one :group, through: :message_thread
+  belongs_to :message_list
+  belongs_to :sender, class_name: 'User'
+  belongs_to :original, class_name: 'Message'
+  has_many :recipients
+
+  DISTRIBUTION_TYPES = ['scotch', 'email', 'email_all', 'text_message']
   
   after_commit :send_message
   after_commit :notify
   
-  validates_inclusion_of :priority, in: ['none', 'email', 'text_message']
-  validates_presence_of :text
+  validates_presence_of :text, :subject
+  validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES
   
   protected
   

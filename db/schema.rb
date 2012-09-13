@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120908210217) do
+ActiveRecord::Schema.define(:version => 20120913033851) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -219,13 +219,11 @@ ActiveRecord::Schema.define(:version => 20120908210217) do
   end
 
   create_table "messages", :force => true do |t|
-    t.integer  "user_id"
     t.text     "text"
-    t.string   "priority"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.integer  "message_thread_id"
-    t.integer  "target_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "subject"
+    t.string   "distribution", :default => "scotch"
   end
 
   create_table "nominations", :force => true do |t|
@@ -291,6 +289,16 @@ ActiveRecord::Schema.define(:version => 20120908210217) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "write_in_available"
+  end
+
+  create_table "recipients", :force => true do |t|
+    t.integer  "message_list_id"
+    t.integer  "message_id"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.boolean  "message_sent"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "role_permissions", :force => true do |t|

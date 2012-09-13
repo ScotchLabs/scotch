@@ -1,0 +1,33 @@
+<h1>Listing message_lists</h1>
+
+<table>
+  <tr>
+    <th>Group</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Distribution</th>
+    <th>Entire group</th>
+    <th>Security</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @message_lists.each do |message_list| %>
+  <tr>
+    <td><%= message_list.group_id %></td>
+    <td><%= message_list.name %></td>
+    <td><%= message_list.address %></td>
+    <td><%= message_list.distribution %></td>
+    <td><%= message_list.entire_group %></td>
+    <td><%= message_list.security %></td>
+    <td><%= link_to 'Show', message_list %></td>
+    <td><%= link_to 'Edit', edit_message_list_path(message_list) %></td>
+    <td><%= link_to 'Destroy', message_list, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Message list', new_message_list_path %>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Group:</b>
+  <%= @message_list.group_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @message_list.name %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @message_list.address %>
+</p>
+
+<p>
+  <b>Distribution:</b>
+  <%= @message_list.distribution %>
+</p>
+
+<p>
+  <b>Entire group:</b>
+  <%= @message_list.entire_group %>
+</p>
+
+<p>
+  <b>Security:</b>
+  <%= @message_list.security %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_list_path(@message_list) %> |
+<%= link_to 'Back', message_lists_path %>
