@@ -6,7 +6,7 @@
 		<div class="dashboard-container">
 <% end %>
 <div class="thread-container">
-<% if @group && has_permission?('adminGroup') %>
+<% if @group && has_permission?('adminCrew') %>
 	<%= link_to "<i class='icon-plus'></i> Create New Thread".html_safe, new_group_message_thread_path(@group), 
           class: 'btn btn-success pull-right' %> <br /> <br />
 <% end %>

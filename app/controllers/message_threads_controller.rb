@@ -3,7 +3,7 @@ class MessageThreadsController < ApplicationController
   before_filter :get_thread, :except => [:index, :new, :create]
   
   before_filter :only => [:new, :create, :destroy] do
-    require_permission "adminGroup"
+    require_permission "adminCrew"
   end
   
   layout :get_layout
