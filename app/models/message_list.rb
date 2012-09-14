@@ -8,11 +8,19 @@ class MessageList < ActiveRecord::Base
   validates_uniqueness_of :address, scope: [:group_id]
   validates_inclusion_of :distribution, in: Message::DISTRIBUTION_TYPES
 
+  attr_accessor :new_recipiemts, :new_members
+
   def recipients
     self.users
   end
 
   def recipients=(ids)
+    ids = ids.split(',')
+    self.new_recipients = []
+    ids.each do |i|
+      r = User.find_by_id(i)
+      self.new_recipients << r if r
+    end
   end
 
   def members
