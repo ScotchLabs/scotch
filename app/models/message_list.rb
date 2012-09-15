@@ -8,6 +8,9 @@ class MessageList < ActiveRecord::Base
   validates_uniqueness_of :address, scope: [:group_id]
   validates_inclusion_of :distribution, in: Message::DISTRIBUTION_TYPES
 
+  after_commit :add_new_recipients
+  after_commit :add_new_members
+
   attr_accessor :new_recipients, :new_members
 
   def recipients
@@ -38,8 +41,24 @@ class MessageList < ActiveRecord::Base
   protected
 
   def add_new_recipients
+    unless self.new_recipients.nil?
+      self.recipients.clear
+      self.new_recipients.each do |r|
+        recipient = Recipient.new
+        recipient.user = r
+        self.recipients << r
+      end
+    end
   end
 
   def add_new_members
+    unless self.new_members.nil?
+      self.list_members.clear
+      self.new_members.each do |m|
+        member = ListMember.new
+        member.member = m
+        self.list_members << member
+      end
+    end
   end
 end

@@ -21,13 +21,17 @@
 </p>
 
 <p>
-  <b>Entire group:</b>
-  <%= @message_list.entire_group %>
+  <b>Security:</b>
+  <%= @message_list.security %>
 </p>
 
 <p>
-  <b>Security:</b>
-  <%= @message_list.security %>
+  <b>Recipients:</b>
+  <ul class="unstyled">
+    <% @message_list.users.each do |u| %>
+      <li><%= link_to u, u %></li>
+    <% end %>
+  </ul>
 </p>
 
 
