@@ -3,9 +3,11 @@ class Message < ActiveRecord::Base
   belongs_to :sender, class_name: 'User'
   belongs_to :original, class_name: 'Message'
   has_many :recipients
+  has_many :users, through: :recipients
 
   DISTRIBUTION_TYPES = ['scotch', 'email', 'email_all', 'text_message']
   
+  after_commit :add_recipients
   after_commit :send_message
   after_commit :notify
   
@@ -13,13 +15,20 @@ class Message < ActiveRecord::Base
   validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES
   
   protected
-  
+
+  def add_recipients
+    unless self.message_list_id.nil?
+      self.message_list.recipients.each do |r|
+        recipient = Recipient.new
+        recipient.user = r.user
+        self.recipients << recipient
+      end
+    end
+  end
+
   def send_message
-    if self.priority == 'text_message'
-      #Send a text with Twilio, GitHub Issue #86
-      logger.info 'Would send out TEXT'
-    elsif self.priority == 'email' || self.message_thread.reply_type != 'none'
-      MessageSendWorker.perform_async(self.message_thread.members.pluck('users.id'), self.id, 'email')
+    if self.distribution == 'email' || self.distribution == 'email_all'
+      MessageSendWorker.perform_async(self.users.pluck('users.id'), self.id, 'email')
     end
   end
   
