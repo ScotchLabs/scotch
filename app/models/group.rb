@@ -245,6 +245,10 @@ class Group < Shared::Watchable
     end
   end
 
+  def short_name=(value)
+    super(value.downcase)
+  end
+
   def archived?
     archive_date && archive_date <= Date.today
   end
