@@ -1,4 +1,5 @@
 class MessageList < ActiveRecord::Base
+  require 'letter_opener' if Rails.env.development?
   belongs_to :group
   has_many :recipients
   has_many :list_members
@@ -14,6 +15,17 @@ class MessageList < ActiveRecord::Base
 
   attr_accessor :new_recipients, :new_members
 
+  def self.error_reply(to, message)
+    mail = Mail.new
+    mail.from = "errors@snstheatre.org"
+    mail.to = to
+    mail.subject = "[Scotch] Message Error"
+    mail.body = "You're last message generated an error: \r\n\r\n #{message}"
+
+    mail.delivery_method LetterOpener::DeliveryMethod, location: File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development? 
+    mail.deliver
+  end
+
   def recipients
     self.users
   end
@@ -28,6 +40,7 @@ class MessageList < ActiveRecord::Base
   end
 
   def members
+    User.where(id: self.list_members.pluck('member_id'))
   end
 
   def members=(ids)

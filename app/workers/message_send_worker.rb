@@ -3,6 +3,7 @@ class MessageSendWorker
   require 'letter_opener' if Rails.env.development?
   
   def perform(message_id)
+    logger.info "Message id: #{message_id}"
     @message = Message.find(message_id)
     @users = @message.distribution == 'email_all' ? @message.message_list.group.members : @message.users
     @list = @message.message_list ? @message.message_list : false

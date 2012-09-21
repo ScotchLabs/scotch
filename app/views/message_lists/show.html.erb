@@ -34,6 +34,14 @@
   </ul>
 </p>
 
+<p>
+  <b>Members:</b>
+  <ul class="unstyled">
+    <% @message_list.members.each do |u| %>
+      <li><%= link_to u, u %></li>
+    <% end %>
+  </ul>
+</p>
 
 <%= link_to 'Edit', edit_message_list_path(@message_list) %> |
-<%= link_to 'Back', message_lists_path %>
+<%= link_to 'Back', group_message_lists_path(@group) %>

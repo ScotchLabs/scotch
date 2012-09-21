@@ -24,7 +24,7 @@ class MessageReceive
       text_part = email.body.decoded
     end
     
-    Sidekiq::Client.enqueue(MessageReceiveWorker, to, from, text_message, html_message)
+    Sidekiq::Client.enqueue(MessageReceiveWorker, to, from, email.subject, text_message, html_message)
   end
 end
 

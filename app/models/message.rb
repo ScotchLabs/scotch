@@ -12,7 +12,7 @@ class Message < ActiveRecord::Base
   # after_commit :notify
   
   validates_presence_of :text, :subject
-  validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES
+  validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES, default: 'email'
 
   def multipart?
     !self.html_part.nil?
@@ -30,7 +30,6 @@ class Message < ActiveRecord::Base
 
   def add_recipients
     unless self.message_list.nil?
-      logger.info "**YES IT IS**"
       self.message_list.recipients.each do |r|
         recipient = self.recipients.new
         recipient.user = r
@@ -40,9 +39,8 @@ class Message < ActiveRecord::Base
   end
 
   def send_message
-    logger.info "***in function***"
     if self.distribution == 'email' || self.distribution == 'email_all'
-      logger.info "***if passed***"
+      logger.info "My ID: #{self.id}"
       MessageSendWorker.perform_async(self.id)
     end
   end
