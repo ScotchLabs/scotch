@@ -1,17 +1,18 @@
 class MessageMailer < ActionMailer::Base
   default from: "no-reply@snstheatre.org"
   
-  def message_email(user, message, thread)
+  def message_email(user, message, list)
     @user = user
     @message = message
-    @thread = thread
-    
-    from = "\"#{@message.user.name}\" <thread+#{@thread.id.to_s}-#{@user.id.to_s}@snstheatre.org>"
-    
-    mail(
-      from: from,
-      to: @user.email,
-      subject: @thread.subject
-    )
+    @list = list
+
+    if @list
+      headers['List-ID'] = "reefer+production@snstheatre.org"
+      headers['List-Post'] = "reefer+production@snstheatre.org"
+    end
+
+    mail(from: @message.sender.email,
+         to: @user.email,
+         subject: @message.subject)
   end
 end

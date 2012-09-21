@@ -1,17 +1,22 @@
 class MessageSendWorker
   include Sidekiq::Worker
+  require 'letter_opener' if Rails.env.development?
   
-  def perform(user_ids, message_id, delivery)
+  def perform(message_id)
     @message = Message.find(message_id)
-    @thread = @message.message_thread
-    @users = User.where(id: user_ids)
-    logger.info @thread.reply_type
+    @users = @message.distribution == 'email_all' ? @message.message_list.group.members : @message.users
+    @list = @message.message_list ? @message.message_list : false
     
     @users.each do |user|
-      if delivery == 'text_message'
-        
-      elsif delivery == 'email' && (@thread.reply_type == 'all' || (@thread.reply_type == 'self' && ((@thread.messages.first.user == user && @message.target.nil?) || (!@message.target.nil? && @message.target == user) || (@thread.messages.first.user == @message.user && @message.target.nil?))))
-        MessageMailer.message_email(user, @message, @thread).deliver
+      if ['email', 'email_all'].include? @message.distribution
+        mail = Mail.new
+        mail.from = @message.sender.email
+        mail.to = @list ? "#{@list.group.short_name}+#{@list.address}@snstheatre.org" : user.email
+        mail.subject = @list ? "[#{@list.group.short_name.capitalize} #{@list.name}] " + @message.subject : @message.subject
+        mail.envelope_recipient = user.email
+
+        mail.delivery_method LetterOpener::DeliveryMethod, :location => File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development?
+        mail.deliver
       end
     end
   end

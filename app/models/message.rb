@@ -7,28 +7,39 @@ class Message < ActiveRecord::Base
 
   DISTRIBUTION_TYPES = ['scotch', 'email', 'email_all', 'text_message']
   
-  after_commit :add_recipients
   after_commit :send_message
-  after_commit :notify
+  after_commit :add_recipients
+  # after_commit :notify
   
   validates_presence_of :text, :subject
   validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES
+
+  def distribution
+    unless self.message_list.nil?
+      self.message_list.distribution
+    else
+      super
+    end
+  end
   
   protected
 
   def add_recipients
-    unless self.message_list_id.nil?
+    unless self.message_list.nil?
+      logger.info "**YES IT IS**"
       self.message_list.recipients.each do |r|
-        recipient = Recipient.new
-        recipient.user = r.user
-        self.recipients << recipient
+        recipient = self.recipients.new
+        recipient.user = r
+        recipient.save
       end
     end
   end
 
   def send_message
+    logger.info "***in function***"
     if self.distribution == 'email' || self.distribution == 'email_all'
-      MessageSendWorker.perform_async(self.users.pluck('users.id'), self.id, 'email')
+      logger.info "***if passed***"
+      MessageSendWorker.perform_async(self.id)
     end
   end
   

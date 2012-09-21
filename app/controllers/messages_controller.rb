@@ -1,11 +1,26 @@
 class MessagesController < ApplicationController
-  before_filter :get_thread
-  before_filter :get_message, :except => [:create]
+  layout :get_layout
+  before_filter :get_list
+  before_filter :get_group
+  before_filter :get_message, :except => [:new, :index, :create]
+
+  def index
+    @messages = @list ? @list.messages : []
+  end
+
+  def new
+    @message = Message.new
+
+    respond_to do |format|
+      format.html
+    end
+  end
 
   # POST /messages
   # POST /messages.json
   def create
-    @message = @thread.messages.new(params[:message])
+    @message = @list.messages.new(params[:message])
+    @message.sender = current_user
 
     respond_to do |format|
       if @message.save
@@ -46,9 +61,22 @@ class MessagesController < ApplicationController
   end
   
   protected
-  
-  def get_thread
-    @thread = MessageThread.find(params[:message_thread_id])
+
+  def get_layout
+    if @group
+      'group'
+    else
+      'application'
+    end
+  end
+
+  def get_group
+    @group = @list.group if @list
+  end
+
+  def get_list
+    @list = MessageList.find(params[:message_list_id]) if params[:message_list_id]
+    @list = @message.message_list if @message && @message.message_list
   end
   
   def get_message

@@ -1,25 +1,8 @@
-<%= form_for [MessageThread.find(1), @message]  do |f| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
-
-      <ul>
-      <% @message.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= simple_form_for [@list, @message].compact do |f| %>
+  <% if @list %>
+    <%= hidden_field_tag :message_list_id, value: @list.id %>
   <% end %>
-
-  <div class="field">
-    <%= f.label :text %><br />
-    <%= f.text_area :text %>
-  </div>
-  <div class="field">
-    <%= f.label :priority %><br />
-    <%= f.text_field :priority %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.input :subject %>
+  <%= f.input :text %>
+  <%= f.button :submit %>
 <% end %>

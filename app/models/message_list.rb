@@ -3,6 +3,7 @@ class MessageList < ActiveRecord::Base
   has_many :recipients
   has_many :list_members
   has_many :users, through: :recipients
+  has_many :messages
 
   validates_presence_of :name, :address, :security
   validates_uniqueness_of :address, scope: [:group_id]

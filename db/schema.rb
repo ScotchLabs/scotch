@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120913040621) do
+ActiveRecord::Schema.define(:version => 20120919022210) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -244,6 +244,7 @@ ActiveRecord::Schema.define(:version => 20120913040621) do
     t.string   "subject"
     t.string   "distribution",    :default => "scotch"
     t.integer  "message_list_id"
+    t.integer  "sender_id"
   end
 
   create_table "nominations", :force => true do |t|

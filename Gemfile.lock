@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/carlosdp/mail.git
+  revision: a3b0bfdc02ea43299c10efe29179ad5393402a61
+  specs:
+    mail (2.4.4)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+
+GIT
   remote: https://github.com/ryanb/nested_form.git
   revision: 504985118c2205f36e42417e6d99cecf23385290
   specs:
@@ -105,7 +114,7 @@ GEM
     hike (1.2.1)
     htmlentities (4.3.1)
     http_parser.rb (0.5.3)
-    i18n (0.6.0)
+    i18n (0.6.1)
     icalendar (1.1.6)
     journey (1.0.4)
     jquery-rails (2.0.2)
@@ -124,10 +133,6 @@ GEM
     letter_opener (0.0.2)
       launchy
     libv8 (3.3.10.4)
-    mail (2.4.4)
-      i18n (>= 0.4.0)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
     mail_extract (0.1.4)
     mime-types (1.19)
     multi_json (1.3.6)
@@ -260,7 +265,7 @@ DEPENDENCIES
   jquery-rails
   ledermann-rails-settings
   letter_opener
-  mail
+  mail!
   mail_extract
   mysql2
   nested_form!

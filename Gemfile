@@ -50,7 +50,7 @@ gem 'ledermann-rails-settings', :require => 'rails-settings'
 
 gem 'sidekiq'
 
-gem 'mail'
+gem 'mail', :git => 'https://github.com/carlosdp/mail.git'
 
 gem 'mail_extract'
 
