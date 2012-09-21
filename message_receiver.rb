@@ -11,18 +11,20 @@ class MessageReceive
     to = email.to.first
     from = email.from.first
     
-    message = ""
+    text_part = ""
+    html_part = ""
     
     if email.multipart?
-      part = email.parts.select { |p| p.content_type =~ /text\/plain/ }.first rescue nil
-      unless part.nil?
-        message = part.body.decoded
-      end
+      text_part = email.parts.select { |p| p.content_type =~ /text\/plain/ }.first rescue nil
+      html_part = email.parts.select { |p| p.content_type =~ /text\/html/ }.first rescue nil
+
+      text_message = text_part.body.decoded unless text_part.nil?
+      html_message = html_part.body.decoded unless html_part.nil?
     else
-      message = email.body.decoded
+      text_part = email.body.decoded
     end
     
-    Sidekiq::Client.enqueue(MessageReceiveWorker, to, from, message)
+    Sidekiq::Client.enqueue(MessageReceiveWorker, to, from, text_message, html_message)
   end
 end
 

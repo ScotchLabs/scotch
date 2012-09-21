@@ -14,6 +14,10 @@ class Message < ActiveRecord::Base
   validates_presence_of :text, :subject
   validates_inclusion_of :distribution, in: DISTRIBUTION_TYPES
 
+  def multipart?
+    !self.html_part.nil?
+  end
+
   def distribution
     unless self.message_list.nil?
       self.message_list.distribution

@@ -15,6 +15,17 @@ class MessageSendWorker
         mail.subject = @list ? "[#{@list.group.short_name.capitalize} #{@list.name}] " + @message.subject : @message.subject
         mail.envelope_recipient = user.email
 
+        text_part = Mail::Part.new
+        text_part.body  = @message.text
+        mail.text_part = text_part
+
+        if @message.multipart?
+          html_part = Mail::Part.new
+          html_part.content_type = 'text/html; charset=UTF-8'
+          html_part.body = @message.html_part
+          mail.html_part = html_part
+        end
+
         mail.delivery_method LetterOpener::DeliveryMethod, :location => File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development?
         mail.deliver
       end
