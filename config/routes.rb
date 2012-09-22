@@ -39,6 +39,8 @@ Scotch::Application.routes.draw do
     end
   end
 
+  resources :messages
+
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
   resources :groups, :except => [:destroy], :shallow => true do
@@ -66,8 +68,6 @@ Scotch::Application.routes.draw do
     end
   end
 
-  resources :messages
-  
   resources :events
   resources :positions, :only => [:destroy, :create]
   #resources :documents, :only => [:show, :edit, :update, :destroy, :create]

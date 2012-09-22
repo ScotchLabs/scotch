@@ -1,11 +1,11 @@
-<%= simple_form_for([@group, @message_list]) do |f| %>
+<%= simple_form_for(@message_list) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :address %>
     <%= f.input :distribution, collection: [['Scotch', 'scotch'],['Email', 'email'],['Email Entire Group', 'email_all']], label: "Distribution Method", include_blank: false %>
-    <div id="member-select-contain" class="<%= !@message_list.new_record? && @message_list.distribution != 'email_all' ? 'member-select-hide' : '' %>">
+    <div id="recipient-select-contain" class="<%= !@message_list.new_record? && @message_list.distribution == 'email_all' ? 'member-select-hide' : '' %>">
       <div class="control-group optional">
       <label class="control-label">Select groups/crews or just type in names</label>
       <ul class="position-selectors controls unstyled">
@@ -16,11 +16,12 @@
           </li>
         <% end %>
         <br />
-        <%= link_to 'Remove All', '#', onClick: "removePositions('all'); return false;" %>
+        <%= link_to 'Remove All', '#', onClick: "removePositions('recipients','all'); return false;" %>
       </ul></div>
       <%= f.input :recipients, id: 'recipients', label: 'Select Recipients' %>
     </div>
-    <%= f.input :security, collection: [['Anyone can use', 'anyone'],['Only recipients can use','recipients'],['Only certain people can use','private']], include_blank: false %>
+    <%= f.input :security, collection: [['Anyone can use', 'anyone'],['Only recipients can use','recipients'],['Only certain people can use','members']], include_blank: false %>
+    <div id="member-select-contain" class="<%= !@message_list.new_record? && @message_list.security != 'members' ? 'member-select-hide' : '' %>">
       <div class="control-group optional">
       <label class="control-label">Select groups/crews or just type in names</label>
       <ul class="position-selectors controls unstyled">
@@ -31,9 +32,10 @@
           </li>
         <% end %>
         <br />
-        <%= link_to 'Remove All', '#', onClick: "removePositions('all'); return false;" %>
+        <%= link_to 'Remove All', '#', onClick: "removePositions('members','all'); return false;" %>
       </ul></div>
       <%= f.input :members, label: 'Select Members' %>
+    </div>
   </div>
 
   <div class="form-actions">
@@ -46,11 +48,21 @@
     <% if @prepop %>
       $(document).ready(function(){
           $("select[name='message_list[distribution]']").val('<%= @message_list.distribution %>');
-          $("#member-select-contain").removeClass('member-select-hide');
+          $("#recipient-select-contain").removeClass('member-select-hide');
         });
     <% end %>
     $("select[name='message_list[distribution]']").change(function(){
             if ($(this).find(":selected").val() != 'email_all')
+            {
+                    $("#recipient-select-contain").removeClass('member-select-hide');
+            }
+            else
+            {
+                    $("#recipient-select-contain").addClass('member-select-hide');
+            }
+    });
+    $("select[name='message_list[security]']").change(function(){
+            if ($(this).find(":selected").val() == 'members')
             {
                     $("#member-select-contain").removeClass('member-select-hide');
             }
@@ -59,9 +71,9 @@
                     $("#member-select-contain").addClass('member-select-hide');
             }
     });
-    $("#message_list_recipients").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @message_list.new_record? ? '' : ", prePopulate: #{@message_list.recipients.to_json}".html_safe %><%= @prepop ? ", prePopulate: #{@prepop.to_json}".html_safe : '' %>});
+    $("#message_list_recipients").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @message_list.new_record? ? '' : ", prePopulate: #{@message_list.recipient_list.to_json}".html_safe %>});
 
-    $("#message_list_members").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @message_list.new_record? ? '' : ", prePopulate: #{@message_list.members.to_json}".html_safe %><%= @prepop ? ", prePopulate: #{@prepop.to_json}".html_safe : '' %>});
+    $("#message_list_members").tokenInput("<%= group_path(@group) %>/tokens", {preventDuplicates: true, theme: 'facebook'<%= @message_list.new_record? ? '' : ", prePopulate: #{@message_list.member_list.to_json}".html_safe %>});
 
     $posmembers = <%= @group.calendar_positions.to_json.html_safe %>; 
 

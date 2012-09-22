@@ -1,5 +1,13 @@
-<h1>New message</h1>
-
+<% unless @group %>
+	<div class="dashboard">
+		<div class="dashboard-header">
+			<h1>Messages</h2>
+		</div>
+		<div class="dashboard-container">
+<% end %>
 <%= render 'form' %>
-
-<%= link_to 'Back', messages_path %>
+<%= link_to 'Back', polymorphic_path([@list, :messages].compact) %>
+<% unless @group %>
+		</div>
+	</div>
+<% end %>

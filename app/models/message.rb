@@ -25,6 +25,10 @@ class Message < ActiveRecord::Base
       super
     end
   end
+
+  def preview
+    "#{self.text[0..150]}#{self.text.length > 150 ? '...' : ''}"
+  end
   
   protected
 

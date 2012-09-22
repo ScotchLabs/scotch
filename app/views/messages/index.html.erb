@@ -1,25 +1,32 @@
-<h1>Listing messages</h1>
-
-<table>
-  <tr>
-    <th>Text</th>
-    <th>Subject</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @messages.each do |message| %>
-  <tr>
-    <td><%= message.text %></td>
-    <td><%= message.subject %></td>
-    <td><%= link_to 'Show', message %></td>
-    <td><%= link_to 'Edit', edit_message_path(message) %></td>
-    <td><%= link_to 'Destroy', message, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<% unless @group %>
+	<div class="dashboard">
+		<div class="dashboard-header">
+			<h1>Messages</h2>
+		</div>
+		<div class="dashboard-container">
 <% end %>
-</table>
+<div class="thread-container">
+<% if (@group && has_permission?('adminCrew')) || !@group %>
+	<%= link_to "<i class='icon-plus'></i> Create New Message".html_safe, new_polymorphic_path([@list, :message].compact), 
+          class: 'btn btn-success pull-right' %> <br /> <br />
+<% end %>
+<% @messages.reverse.each do |message| %>
+	<div class="thread">
+		<div class="thread-recent-time"><%= time_ago_in_words(message.created_at) %></div>
+		<div class="thread-subject"><%= link_to message.subject, message %></div>
+		<div class="thread-recent-sender"><%= link_to message.sender, message.sender %></div>
+		<div class="thread-buttons">
+			<%= link_to "<i class='icon-envelope'></i> View Message".html_safe, message, class: 'btn' %>
+		</div>
+		<div class="thread-recent-message"><%= message.preview %></div>
+	</div>
+	<div class="thread-clear"></div>
+<% end %>
+</div>
 
 <br />
 
-<%= link_to 'New Message', new_message_path %>
+<% unless @group %>
+		</div>
+	</div>
+<% end %>

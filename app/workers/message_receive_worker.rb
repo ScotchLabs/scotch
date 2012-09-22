@@ -17,7 +17,7 @@ class MessageReceiveWorker
       MessageList.error_reply(from, "This email address is not recognized by Scotch. Please make sure you are using the same email you use on Scotch.")
     elsif list.nil?
       MessageList.error_reply(from, "This message list #{group_name}+#{list_name} does not exist. Please check the email list name.")
-    elsif !list.members.include? user
+    elsif !list.can_post?(user)
       MessageList.error_reply(from, "You are not authorized to transmit on this email list")
     else
       message = list.messages.new(text: text_part, subject: subject, html_part: html_part)

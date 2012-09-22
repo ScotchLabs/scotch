@@ -28,7 +28,7 @@ class MessageListsController < ApplicationController
   # GET /message_lists/new
   # GET /message_lists/new.json
   def new
-    @message_list = MessageList.new
+    @message_list = [@group, MessageList.new]
 
     respond_to do |format|
       format.html # new.html.erb

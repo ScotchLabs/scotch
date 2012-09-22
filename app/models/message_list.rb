@@ -26,8 +26,24 @@ class MessageList < ActiveRecord::Base
     mail.deliver
   end
 
+  def can_post?(user)
+    if security == 'anyone'
+      true
+    elsif security == 'recipients'
+      self.users.include? user
+    elsif security == 'members'
+      self.members.include? user
+    end
+  end
+
   def recipients
     self.users
+  end
+
+  def recipient_list
+    self.users.map do |user|
+      {id: user.id, name: user.name}
+    end
   end
 
   def recipients=(ids)
@@ -41,6 +57,12 @@ class MessageList < ActiveRecord::Base
 
   def members
     User.where(id: self.list_members.pluck('member_id'))
+  end
+
+  def member_list
+    self.members.map do |member|
+      {id: member.id, name: member.name}
+    end
   end
 
   def members=(ids)
