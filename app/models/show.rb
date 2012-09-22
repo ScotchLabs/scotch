@@ -51,6 +51,10 @@ class Show < Group
   def auditions?
     self.events.future.auditions.count > 0
   end
+
+  def performances
+    self.events.where(event_type: 'show')
+  end
   
   private
   def set_parent

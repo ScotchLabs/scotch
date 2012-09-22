@@ -15,7 +15,13 @@
 			</tr>
 			<tr>
 				<td><strong>Performances</strong></td>
-				<td>October 29 @ 8:00pm</td>
+                                <td>
+                                  <ul class='unstyled'>
+                                    <% @group.performances.each do |show| %>
+                                      <li><%= show.start_time.strftime('%A %b %-d @ %l:%M %P') %></li>
+                                    <% end %>
+                                  </ul>
+                                </td>
 			</tr>
 			<tr>
 				<td><strong>Prices</strong></td>
