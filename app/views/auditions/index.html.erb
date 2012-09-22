@@ -1,7 +1,6 @@
 <h1>Auditions<br><small>Sign up for one slot only please.</small></h1><br>
 <% if has_permission?("adminCrew") %>
   <%= link_to "Auditions Sheet", group_auditions_path(@group, :pdf), style: "float:right;", class: 'btn btn-success' %>
-  <%= link_to "Send Message to All", new_group_message_thread_path(@group, recipients: @auditioners.join(",")), class: 'btn btn-info' %>
 <% end %>
 <% @auditions.each_key do |day| %>
   <h2><%= @auditions[day].first.start_time.strftime("%A, %B %-d") %></h2>
