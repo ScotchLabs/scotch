@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
     end
     
     @threads = MessageThread.visible(current_user)
-    @events = current_user.attended_events
+    @events = current_user.attended_events.future
   end
 
   def calendar
