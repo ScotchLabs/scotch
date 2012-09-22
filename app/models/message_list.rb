@@ -23,6 +23,7 @@ class MessageList < ActiveRecord::Base
     mail.body = "You're last message generated an error: \r\n\r\n #{message}"
 
     mail.delivery_method LetterOpener::DeliveryMethod, location: File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development? 
+    mail.delivery_method :smtp, ssl: false, tls: false if Rails.env.production?
     mail.deliver
   end
 
