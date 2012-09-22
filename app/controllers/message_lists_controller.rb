@@ -83,7 +83,7 @@ class MessageListsController < ApplicationController
     @message_list.destroy
 
     respond_to do |format|
-      format.html { redirect_to message_lists_url }
+      format.html { redirect_to group_message_lists_url(@group) }
       format.json { head :no_content }
     end
   end
