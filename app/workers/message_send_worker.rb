@@ -11,7 +11,7 @@ class MessageSendWorker
     @users.each do |user|
       if ['email', 'email_all'].include? @message.distribution
         mail = Mail.new
-        mail.from = @message.sender.email
+        mail.from = "#{@message.sender.name} <#{@message.sender.email}>"
         mail.to = @list ? "#{@list.group.short_name}+#{@list.address}@snstheatre.org" : user.email
         mail.subject = @list ? "[#{@list.group.short_name.capitalize} #{@list.name}] " + @message.subject : @message.subject
         mail.envelope_recipient = user.email
