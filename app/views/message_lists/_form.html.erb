@@ -21,7 +21,7 @@
       <%= f.input :recipients, id: 'recipients', label: 'Select Recipients' %>
     </div>
     <%= f.input :security, collection: [['Anyone can use', 'anyone'],['Only recipients can use','recipients'],['Only certain people can use','members']], include_blank: false %>
-    <div id="member-select-contain" class="<%= !@message_list.new_record? && @message_list.security != 'members' ? 'member-select-hide' : '' %>">
+    <div id="member-select-contain" class="<%= !@message_list.new_record? && @message_list.security != 'members' ? '' : 'member-select-hide' %>">
       <div class="control-group optional">
       <label class="control-label">Select groups/crews or just type in names</label>
       <ul class="position-selectors controls unstyled">
