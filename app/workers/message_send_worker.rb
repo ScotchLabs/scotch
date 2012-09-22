@@ -27,8 +27,8 @@ class MessageSendWorker
           mail.html_part = html_part
         end
 
+        mail.delivery_method :smtp, {enable_starttls_auto: false}
         mail.delivery_method LetterOpener::DeliveryMethod, :location => File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development?
-        mail.delivery_method :smtp, ssl: false, tls: false if Rails.env.production?
         mail.deliver
       end
     end
