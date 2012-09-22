@@ -32,7 +32,8 @@ class MessageListsController < ApplicationController
   # GET /message_lists/new
   # GET /message_lists/new.json
   def new
-    @message_list = [@group, MessageList.new]
+    @message_list = MessageList.new
+    @list = [@group, MessageList.new]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +43,7 @@ class MessageListsController < ApplicationController
 
   # GET /message_lists/1/edit
   def edit
+    @list = @message_list
   end
 
   # POST /message_lists
