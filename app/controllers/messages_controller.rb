@@ -4,6 +4,24 @@ class MessagesController < ApplicationController
   before_filter :get_group
   before_filter :get_message, :except => [:new, :index, :create]
 
+  before_filter :only => [:index, :show] do
+    if @list && !@list.recipients.include?(current_user) && !has_permission?("adminGroup")
+      redirect_to root_path
+    end
+  end
+
+  before_filter :only => [:new, :create] do
+    if @list && !@list.can_post?(current_user)
+      redirect_to root_path
+    end
+  end
+
+  before_filter :only => [:edit, :update, :destroy] do
+    if @message.sender != current_user
+      redirect_to root_path
+    end
+  end
+
   def index
     @messages = @list ? @list.messages : []
   end

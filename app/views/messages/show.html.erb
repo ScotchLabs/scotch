@@ -1,19 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Text:</b>
-  <%= @message.text %>
-</p>
+<h3><%= @message.subject %></h3>
 
-<p>
-  <b>Subject:</b>
-  <%= @message.subject %>
-</p>
+<p><%= @message.text %></p>
 
-<p>
-  <b>Distribution</b>
-  <%= @message.distribution %>
-</p>
+<p class='muted'>Distribution Method: <%= @message.distribution.capitalize %></p>
 
 <%= link_to 'Edit', edit_message_path(@message) %> |
 <%= link_to 'Back', messages_path %>

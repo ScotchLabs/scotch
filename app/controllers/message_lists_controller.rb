@@ -5,6 +5,10 @@ class MessageListsController < ApplicationController
   before_filter :get_list, except: [:index, :new, :create]
   before_filter :get_group, except: [:index, :new, :create]
 
+  before_filter :except => [:index, :show] do
+    require_permission "adminCrew"
+  end
+
   # GET /message_lists
   # GET /message_lists.json
   def index
