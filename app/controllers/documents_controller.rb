@@ -47,6 +47,8 @@ class DocumentsController < ApplicationController
     @document = Document.new
     @document.group = @group
 
+    @form_doc = [@group, @document]
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @document }
@@ -55,6 +57,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1/edit
   def edit
+    @form_doc = @document
   end
 
   # POST /documents
