@@ -16,5 +16,5 @@ $(function(){
   $('.placeholder-shim').placeholder();
   $('#user_identifier').autocomplete({source: "/users.json"});
   $('.user_identifier').autocomplete({source: "/users.json"});
+  var $.jstree.THEMES_DIR = '/assets/jstree/themes/';
 });
-var $.jstree.THEMES_DIR = '/assets/jstree/themes/';
