@@ -46,7 +46,12 @@
 			json_data:{
 				data: <%= @group.folder_tree.to_json.html_safe %>
 			},
-			plugins:["themes", "json_data", "ui"]
+                  plugins:["themes", "json_data", "ui"],
+                  "themes": {
+                    "theme":"default",
+                    "dots": false,
+                    "icons": true
+                  }
 		}).bind("select_node.jstree", function (e, data){
 			$("input[name='document[folder_id]']").val(data.rslt.obj.data("id"));
 		});
