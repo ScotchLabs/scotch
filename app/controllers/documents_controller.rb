@@ -96,7 +96,7 @@ class DocumentsController < ApplicationController
     @document.destroy
 
     respond_to do |format|
-      format.html { redirect_to(documents_url) }
+      format.html { redirect_to(group_documents_url(@group)) }
       format.xml  { head :ok }
     end
   end
