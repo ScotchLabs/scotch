@@ -42,6 +42,7 @@
 <%= content_for(:javascripts) do %>
 	<script type="text/javascript">
 	
+                var $.jstree.THEMES_DIR = '/assets/jstree/themes/';
 		$('#tree').jstree({
 			json_data:{
 				data: <%= @group.folder_tree.to_json.html_safe %>
