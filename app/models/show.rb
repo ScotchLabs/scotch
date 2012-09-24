@@ -83,7 +83,7 @@ class Show < Group
     if !self.performances.empty? && Time.now < self.performances.first.start_time
       amount = 45 - (((self.tech_start.to_date - Date.today)/(self.tech_start.to_date - self.created_at.to_date))*45).to_i
     elsif Date.today - self.created_at.to_date < 45
-      amount = Date.today - self.created_at.to_date
+      amount = (Date.today - self.created_at.to_date).to_i
     end
 
     if self.board_preview && Date.today == self.board_preview.start_time.to_date
