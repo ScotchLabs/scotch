@@ -1,7 +1,7 @@
 class MessageReceiveWorker
   include Sidekiq::Worker
   
-  def perform(to, from, subject, text_part, html_part)
+  def perform(to, from, subject, text_part, html_part = nil)
     group_name = to.scan(/^(\w+)+/).first
     list_name = to.scan(/\+(\w+)@/).first
 
@@ -10,8 +10,6 @@ class MessageReceiveWorker
     
     user = User.find_by_email(from)
     list = MessageList.where(address: list_name.downcase, group_id: Group.find_by_short_name(group_name)).first if list_name && group_name
-
-    html_part = html_part == "" ? nil : html_part
 
     if user.nil?
       MessageList.error_reply(from, "This email address is not recognized by Scotch. Please make sure you are using the same email you use on Scotch.")
