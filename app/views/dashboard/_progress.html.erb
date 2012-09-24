@@ -1,0 +1,15 @@
+<% progress = show.progress %>
+<p>
+  <%= progress.last[:stage] %>
+  <div class="progress">
+  <% progress.each do |p| %>
+    <div class="bar <%= p[:color] %>" style="width:<%= p[:amount] %>%;"></div>
+  <% end %>
+  </div>
+  <h6>Performances:</h6>
+  <ul class='unstyled'>
+    <% show.performances.each do |p| %>
+      <li><%= p.start_time.strftime('%A %b %-d @ %l:%M %P') %></li>
+    <% end %>
+  </ul>
+</p>

@@ -55,6 +55,47 @@ class Show < Group
   def performances
     self.events.where(event_type: 'show')
   end
+
+  def progress
+    result = []
+
+    if self.performances.count > 0 
+      # TODO: add check if strike is happening
+      if Time.now > self.performances.last.end_time
+        result << {stage: 'Post-Production', color: 'bar-success', amount: 5}
+      end
+
+      if Time.now > self.performances.first.start_time
+        amount = 20
+        amount = 20 - (((self.performances.last.start_time.to_date - Date.today)/(self.performances.last.end_time.to_date - self.performances.first.start_time.to_date))*20).to_i if Time.now < self.performances.last.end_time
+
+        result << {stage: 'Production', color: 'bar-warning', amount: amount}
+      end
+    end
+
+    if Time.now > self.tech_start
+      amount = 30
+      amount = 30 - (((self.tech_end.to_date - Date.today)/(self.tech_end.to_date - self.tech_start.to_date))*30).to_i if Time.now < self.tech_end
+      result << {stage: 'TECH WEEK', color: 'bar-danger', amount: amount}
+    end
+
+    amount = 45
+    if !self.performances.empty? && Time.now < self.performances.first.start_time
+      amount = 45 - (((self.tech_start.to_date - Date.today)/(self.tech_start.to_date - self.created_at.to_date))*45).to_i
+    elsif Date.today - self.created_at.to_date < 45
+      amount = Date.today - self.created_at.to_date
+    end
+
+    if self.board_preview && Date.today == self.board_preview.start_time.to_date
+      result << {stage: 'Board Preview', color: 'bar-info', amount: amount}
+    elsif self.auditions?
+      result << {stage: 'Board Preview', color: 'bar-info', amount: amount}
+    else
+      result << {stage: 'Pre-Production', color: 'bar-info', amount: amount}
+    end
+
+    result.reverse
+  end
   
   private
   def set_parent

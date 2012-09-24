@@ -13,13 +13,7 @@
 					<div class="caption">
 						<h5><%= s.name %></h5>
 						<p>Call Time: Coming Soon</p>
-						<p>
-							Pre-Production
-							<div class="progress progress-info">
-								<div class="bar" style="width:10%;"></div>
-							</div>
-							Show dates not yet set
-						</p>
+                                                <%= render 'progress', show: s %>
 						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
                                                 <% if s.auditions? %>
                                                 <p><%= link_to 'Auditions', group_auditions_path(s), class: 'btn btn-success' %></p>
