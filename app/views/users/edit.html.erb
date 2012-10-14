@@ -1,4 +1,4 @@
-<article>
+<div class="page" style="padding-top:15px;">
 <%= form_for(@user, :html => { :multipart => true }) do |f| %>
   <% if @user.errors.any? %>
   <div id="errorExplanation">
@@ -51,6 +51,8 @@
       <tr style='height:1em'></tr>
       <tr><td><%= f.label :other_activities %></td><td><%= f.text_field :other_activities %></td></tr>
       <tr><td><%= f.label :about %></td><td><%= f.text_area :about, :cols => 42, :rows => 10 %></td></tr>
+      <tr style='height:1em'></tr>
+      <tr><td><%= f.label :tech_skills %><i style="color:#ADADAD">(eg. Hanging Lights, Drilling)</i></td><td><%= f.text_field :tech_skills %></td></tr>
     </table>
 		<br/>
 		<%= f.submit %>
@@ -59,4 +61,4 @@
 </div>
 
 <% end %>
-</article>
+</div>

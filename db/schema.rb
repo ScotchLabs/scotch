@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921170517) do
+ActiveRecord::Schema.define(:version => 20121014191812) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -408,6 +408,7 @@ ActiveRecord::Schema.define(:version => 20120921170517) do
     t.boolean  "email_notifications",                   :default => true, :null => false
     t.datetime "reset_password_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "tech_skills"
   end
 
   add_index "users", ["andrewid"], :name => "index_users_on_andrewid", :unique => true
