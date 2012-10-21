@@ -1,7 +1,7 @@
 class PlansController < ApplicationController
   layout 'group'
   before_filter :get_plan, except: [:index, :new, :create]
-  before_filter :get_group, except: [:index, :new]
+  before_filter :get_group, except: [:index, :new, :create]
 
   before_filter :only => [:new, :edit, :update, :create, :destroy, :complete] do
     require_permission 'adminCrew'
