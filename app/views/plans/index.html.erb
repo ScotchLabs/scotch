@@ -1,0 +1,15 @@
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Start date</th>
+    <th>Due date</th>
+  </tr>
+
+<% @plans.each do |plan| %>
+  <tr>
+    <td><%= link_to plan.name, plan %></td>
+    <td><%= plan.start_date %></td>
+    <td><%= plan.due_date %></td>
+  </tr>
+<% end %>
+</table>

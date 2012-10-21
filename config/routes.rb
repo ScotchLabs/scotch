@@ -54,6 +54,12 @@ Scotch::Application.routes.draw do
     resources :message_lists, :on => :member do
       resources :messages, :on => :member
     end
+    resources :plans, :on => :member do
+      resources :tasks, :on => :member do
+        get :complete, :on => :member, :as => 'complete'
+      end
+      get 'gantt', :on => :member
+    end
     resources :documents
     resources :folders, :except => [:index]
     resources :votings, :only => [:index, :new]

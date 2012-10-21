@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Plan:</b>
+  <%= @task.plan_id %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%= @task.event_id %>
+</p>
+
+<p>
+  <b>Manager:</b>
+  <%= @task.manager_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @task.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @task.description %>
+</p>
+
+<p>
+  <b>Required personnel:</b>
+  <%= @task.required_personnel %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%= @task.number %>
+</p>
+
+<p>
+  <b>Skills required:</b>
+  <%= @task.skills_required %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @task.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @task.end_time %>
+</p>
+
+<p>
+  <b>Completed time:</b>
+  <%= @task.completed_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

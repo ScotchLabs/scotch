@@ -1,0 +1,17 @@
+<%= simple_form_for([@plan, @task]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :description %>
+    <%= f.input :required_personnel %>
+    <%= f.input :number %>
+    <%= f.input :skills_required %>
+    <%= f.input :start_time %>
+    <%= f.input :end_time %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

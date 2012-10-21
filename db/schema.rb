@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014191812) do
+ActiveRecord::Schema.define(:version => 20121021054153) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(:version => 20121014191812) do
 
   add_index "checkouts", ["item_id"], :name => "index_checkouts_on_item_id"
   add_index "checkouts", ["user_id"], :name => "index_checkouts_on_user_id"
+
+  create_table "dependencies", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "prequisite_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "documents", :force => true do |t|
     t.string   "name"
@@ -209,6 +216,13 @@ ActiveRecord::Schema.define(:version => 20121014191812) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "managers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "plan_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "message_lists", :force => true do |t|
     t.integer  "group_id"
     t.string   "name"
@@ -293,6 +307,16 @@ ActiveRecord::Schema.define(:version => 20121014191812) do
     t.datetime "updated_at"
   end
 
+  create_table "plans", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "event_id"
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "due_date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "positions", :force => true do |t|
     t.integer  "group_id"
     t.integer  "role_id"
@@ -365,6 +389,22 @@ ActiveRecord::Schema.define(:version => 20121014191812) do
 
   create_table "tags", :force => true do |t|
     t.string "name"
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.integer  "plan_id"
+    t.integer  "event_id"
+    t.integer  "manager_id"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "required_personnel"
+    t.integer  "number"
+    t.string   "skills_required"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "completed_time"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -1,0 +1,53 @@
+<center>
+  <h1><%= @plan.name %></h1>
+  <h6>Plan Active: <%= @plan.start_date.strftime('%b %-d @ %l:%M %P') %></h6>
+  <h6>ETC: <%= @plan.due_date.strftime('%b %-d @ %l:%M %P') %></h6>
+</center>
+
+<div id="gantt"></div>
+
+<table class="table">
+  <tr>
+    <th>Task</th>
+    <th>Manager</th>
+    <th>Required Personnel</th>
+    <th>Required Skills</th>
+    <th>ETC</th>
+    <% if has_permission?('adminGroup') %>
+      <th>Complete</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+    <% end %>
+  </tr>
+  <% @tasks.each do |task| %>
+    <tr class='<%= task.status %>'>
+      <td><%= task.name %></td>
+      <td><%= task.manager %></td>
+      <td><%= task.required_personnel %></td>
+      <td><%= task.skills_required %></td>
+      <td><%= task.end_time.strftime('%b %-d @ %l:%M %P') %></td>
+      <% if has_permission?('adminGroup') %>
+        <td>
+        <% if task.complete? %>
+          Complete!
+        <% else %>
+          <%= link_to 'Complete', complete_task_path(task) %>
+        <% end %>
+        </td>
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <td><%= link_to 'Destroy', task_path(task), method: :delete %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<%= content_for(:javascript) do %>
+  <script type="text/javascript">
+    $('#gantt').({
+      source: '<%= gantt_plan_path(@plan) %>',
+      scale: 'hours',
+      minScale:'hours',
+      maxScale:'hours',
+    });
+  </script>
+<% end %>
