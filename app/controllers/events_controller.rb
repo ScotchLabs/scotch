@@ -9,6 +9,7 @@ class EventsController < ApplicationController
   end
   
   def index
+    @events = @owner.events.future
     
     respond_to do |format|
       format.html

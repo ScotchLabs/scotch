@@ -1,12 +1,10 @@
-<article>
-	<p><%= link_to '<- Back', @owner %></p>
-	<br/>
-	<h1><%= @event.title %></h1>
-	
-	<p>Start: <%= @event.start_time.to_s %></p>
-	<p>End: <%= @event.end_time.to_s %></p>
-	<br/>
-	
-	<%= link_to 'Edit', edit_event_path(@event) %> | 
-	<%= link_to 'Delete', @event, method: :delete, confirm: 'Are you sure?' %>
-</article>
+<div class="page">
+<h1><%= @event.title %></h1>
+
+<p><b>Start:</b> <%= @event.start_time.strftime("%a, %b %-d %l:%M %p") %></p>
+<p><b>End:</b> <%= @event.end_time.strftime("%a, %b %-d %l:%M %p") %></p>
+<p><b>Location:</b> <%= @event.location %></p>
+<p><b>Description:</b> <br /> <%= @event.description %></p>
+<br/>
+
+</div>

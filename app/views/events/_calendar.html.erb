@@ -75,7 +75,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<% @events.each do |e| %>
+	<% @events.future.each do |e| %>
 		<tr>
 			<td><%= link_to e.title, e %></td>
 			<td><%= e.start_time.strftime("%a, %b %-d %l:%M %p") %></td>
