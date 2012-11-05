@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @report_template.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @report_template.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_report_template_path(@report_template) %> |
+<%= link_to 'Back', report_templates_path %>
