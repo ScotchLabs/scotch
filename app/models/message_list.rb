@@ -37,6 +37,16 @@ class MessageList < ActiveRecord::Base
     end
   end
 
+  def member?(user)
+    if security == 'anyone'
+      true
+    elsif security == 'recipients'
+      self.recipients.include? user
+    elsif security == 'members'
+      self.members.include? user
+    end
+  end
+
   def recipients
     self.users
   end

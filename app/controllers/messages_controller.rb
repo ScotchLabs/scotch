@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   before_filter :get_message, :except => [:new, :index, :create]
 
   before_filter :only => [:index, :show] do
-    if @list && !@list.recipients.include?(current_user) && !has_permission?("adminGroup")
+    if @list && !@list.member?(current_user) && !has_permission?("adminGroup")
       redirect_to root_path
     end
   end
