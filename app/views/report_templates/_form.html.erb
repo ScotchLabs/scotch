@@ -1,12 +1,33 @@
-<%= simple_form_for(@report_template) do |f| %>
+<%= simple_nested_form_for(@report_template) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :description %>
+
+    <div id="sortable">
+    <%= f.fields_for :report_fields, wrapper: false do |template| %>
+    <div id="22">
+      <%= template.input :id, as: :hidden %>
+      <%= template.input :name %>
+      <%= template.input :type, collection: ReportField::TYPES, include_blank: false %>
+      <%= template.link_to_remove "Delete this Field" %>
+    </div>
+    <% end %>
+    <%= f.link_to_add "Add Field", :report_fields, class: 'no-drag' %>
+    </div>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
+<% end %>
+
+<%= content_for(:javascripts) do %>
+  <script type="text/javascript">
+    $('#sortable').sortable({
+      cancel: '.no-drag'
+    });
+    //$('#sortable').disableSelection();
+  </script>
 <% end %>
