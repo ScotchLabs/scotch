@@ -34,7 +34,7 @@ gem 'acts-as-taggable-on'
 
 gem 'digest-whirlpool'
 
-gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
+gem 'nested_form'
 
 gem 'simple_form'
 

@@ -9,6 +9,7 @@
 //= require twitter/bootstrap
 //= require jquery-ui
 //= require private_pub
+//= require jquery_nested_form
 //= require_tree .
 
 $(function(){
