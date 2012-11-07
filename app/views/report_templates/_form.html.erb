@@ -6,15 +6,15 @@
     <%= f.input :description %>
 
     <div id="sortable">
-    <%= f.fields_for :report_fields, wrapper: false do |template| %>
-    <div id="22">
-      <%= template.input :id, as: :hidden %>
-      <%= template.input :name %>
-      <%= template.input :type, collection: ReportField::TYPES, include_blank: false %>
-      <%= template.link_to_remove "Delete this Field" %>
-    </div>
-    <% end %>
-    <%= f.link_to_add "Add Field", :report_fields, class: 'no-drag' %>
+      <%= f.fields_for :report_fields, wrapper: false do |template| %>
+      <div id="rep_field_0" class="fields report_field">
+        <%= template.input :id, as: :hidden %>
+        <%= template.input :name %>
+        <%= template.input :type, collection: ReportField::TYPES, include_blank: false %>
+        <%= template.link_to_remove "Delete this Field" %>
+      </div>
+      <% end %>
+      <%= f.link_to_add "Add Field", :report_fields, class: 'no-drag report_field_add' %>
     </div>
   </div>
 
@@ -26,8 +26,21 @@
 <%= content_for(:javascripts) do %>
   <script type="text/javascript">
     $('#sortable').sortable({
-      cancel: '.no-drag'
+      cancel: '.no-drag,:input,button,a'
     });
-    //$('#sortable').disableSelection();
+
+    var elem_count = 0;
+
+    $('.report_field').each(function(){
+        $(this).attr("id", "rep_field_" + elem_count);
+        elem_count += 1;
+      });
+
+    $('.report_field_add').click(function(){
+      $('.report_field').each(function(){
+          $(this).attr("id", "rep_field_" + elem_count);
+          elem_count += 1;
+        });
+      });
   </script>
 <% end %>
