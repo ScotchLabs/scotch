@@ -1,4 +1,4 @@
-<%= simple_nested_form_for(@report_template) do |f| %>
+<%= simple_nested_form_for(@report_template, html: {class: 'report_template_form'}) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -9,8 +9,9 @@
       <%= f.fields_for :report_fields, wrapper: false do |template| %>
       <div id="rep_field_0" class="fields report_field">
         <%= template.input :id, as: :hidden %>
+        <%= template.input :field_order, as: :hidden, input_html: {class: 'field_order'} %>
         <%= template.input :name %>
-        <%= template.input :type, collection: ReportField::TYPES, include_blank: false %>
+        <%= template.input :field_type, collection: ReportField::TYPES, include_blank: false %>
         <%= template.link_to_remove "Delete this Field" %>
       </div>
       <% end %>
@@ -41,6 +42,20 @@
           $(this).attr("id", "rep_field_" + elem_count);
           elem_count += 1;
         });
+      });
+
+    $('.report_template_form').submit(function(){
+        var field_ids = $('#sortable').sortable("toArray");
+        var current_count = 0;
+        for (i in field_ids)
+        {
+          if(field_ids[i].length > 0)
+          {
+            $("#"+ field_ids[i] + " .field_order").val(current_count);
+            current_count += 1;
+          }
+        }
+        return true;
       });
   </script>
 <% end %>

@@ -25,6 +25,8 @@ class ReportTemplatesController < ApplicationController
   # GET /report_templates/new.json
   def new
     @report_template = ReportTemplate.new
+    @report_template.report_fields.new
+    @report_template.report_fields.new
 
     respond_to do |format|
       format.html # new.html.erb
