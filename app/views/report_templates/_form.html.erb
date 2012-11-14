@@ -4,6 +4,10 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :description %>
+    <%= f.input :sub_heading %>
+    <%= f.input :sub_heading_default %>
+    <%= f.input :sub_heading2 %>
+    <%= f.input :sub_heading2_default %>
 
     <div id="sortable">
       <%= f.fields_for :report_fields, wrapper: false do |template| %>
