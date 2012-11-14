@@ -24,7 +24,16 @@ class ReportsController < ApplicationController
   # GET /reports/new
   # GET /reports/new.json
   def new
-    @report = Report.new
+    if params[:template]
+      @report_template = ReportTemplate.find(params[:template])
+      @report = Report.new
+
+      @report_template.report_fields.each do |r|
+        @report.report_values.build({report_field_id: r.id})
+      end
+    else
+      return redirect_to reports_url, error: 'No template selected!'
+    end
 
     respond_to do |format|
       format.html # new.html.erb

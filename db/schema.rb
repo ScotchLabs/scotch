@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114201201) do
+ActiveRecord::Schema.define(:version => 20121114212048) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -381,6 +381,8 @@ ActiveRecord::Schema.define(:version => 20121114201201) do
     t.integer  "document_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.string   "sub_heading"
+    t.string   "sub_heading2"
   end
 
   create_table "role_permissions", :force => true do |t|

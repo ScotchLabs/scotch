@@ -3,9 +3,13 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :report_template_id %>
-    <%= f.input :creator_id %>
-    <%= f.input :document_id %>
+    <%= f.input :sub_heading, label: @report_template.sub_heading %>
+    <%= f.input :sub_heading2, label: @report_template.sub_heading2 %>
+
+    <%= f.simple_fields_for :report_values do |rep_value| %>
+      <%= rep_value.input :report_field_id, as: :hidden %>
+      <%= rep_value.input :value, label: rep_value.object.report_field.name %>
+    <% end %>
   </div>
 
   <div class="form-actions">
