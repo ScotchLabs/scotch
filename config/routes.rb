@@ -1,5 +1,7 @@
 Scotch::Application.routes.draw do
 
+  resources :reports
+
   resources :report_templates
 
   # Users. Yay.

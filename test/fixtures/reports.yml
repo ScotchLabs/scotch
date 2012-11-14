@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  report_template_id: 1
+  creator_id: 1
+  document_id: 1
+
+two:
+  name: MyString
+  report_template_id: 1
+  creator_id: 1
+  document_id: 1

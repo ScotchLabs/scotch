@@ -1,0 +1,14 @@
+<%= simple_form_for(@report) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :report_template_id %>
+    <%= f.input :creator_id %>
+    <%= f.input :document_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
