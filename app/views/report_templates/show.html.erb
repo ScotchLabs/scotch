@@ -1,3 +1,4 @@
+<div class="page">
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -10,6 +11,35 @@
   <%= @report_template.description %>
 </p>
 
+<p>
+  <b>SubHeading:</b>
+  <%= @report_template.sub_heading %>
+</p>
+
+<p>
+  <b>SubHeading Default:</b>
+  <%= @report_template.sub_heading_default %>
+</p>
+
+<p>
+  <b>SubHeading 2:</b>
+  <%= @report_template.sub_heading2 %>
+</p>
+
+<p>
+  <b>SubHeading 2 Default:</b>
+  <%= @report_template.sub_heading2_default %>
+</p>
+
+<% @report_template.report_fields.each do |rf| %>
+
+<p>
+<b><%= rf.name %> (<%= rf.field_type %>):</b>
+  1. None
+</p>
+
+<% end %>
 
 <%= link_to 'Edit', edit_report_template_path(@report_template) %> |
 <%= link_to 'Back', report_templates_path %>
+</div>

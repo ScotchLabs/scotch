@@ -32,12 +32,15 @@ class ReportsController < ApplicationController
         @report.report_values.build({report_field_id: r.id})
       end
     else
-      return redirect_to reports_url, error: 'No template selected!'
+      @report_templates = ReportTemplate.all
     end
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @report }
+      if @report
+        format.html # new.html.erb
+      else
+        format.html { render 'select_template' }
+      end
     end
   end
 

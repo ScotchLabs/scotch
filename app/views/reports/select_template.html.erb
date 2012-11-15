@@ -1,0 +1,6 @@
+<h1>Select Template Here</h1>
+
+<% @report_templates.each do |t| %>
+  <%= link_to t.name, new_report_url(template: t.id) %>
+  <br />
+<% end %>
