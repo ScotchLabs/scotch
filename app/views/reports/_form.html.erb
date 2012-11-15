@@ -8,11 +8,17 @@
 
     <%= f.simple_fields_for :report_values do |rep_value| %>
       <%= rep_value.input :report_field_id, as: :hidden %>
-      <%= rep_value.input :value, label: rep_value.object.report_field.name %>
+      <%= rep_value.input :value, label: rep_value.object.report_field.name, input_html: {class: 'auto-expand'} %>
     <% end %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
+<% end %>
+
+<%= content_for(:javascripts) do %>
+  <script type="text/javascript">
+    $(".auto-expand").autoGrow();
+  </script>
 <% end %>

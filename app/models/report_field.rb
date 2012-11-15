@@ -3,6 +3,8 @@ class ReportField < ActiveRecord::Base
 
   default_scope order("field_order ASC")
 
+  scope :editable, where { field_type != 'sectionheading' }
+
   TYPES = [['Section Heading','sectionheading'],['Section Content','sectioncontent'],
     ['Tagged Text','taggedtext']]
 end

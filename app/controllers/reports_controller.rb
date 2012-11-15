@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
       @report_template = ReportTemplate.find(params[:template])
       @report = Report.new
 
-      @report_template.report_fields.each do |r|
+      @report_template.report_fields.editable.each do |r|
         @report.report_values.build({report_field_id: r.id})
       end
     else
