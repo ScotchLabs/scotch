@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114212048) do
+ActiveRecord::Schema.define(:version => 20121115032140) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -353,6 +353,7 @@ ActiveRecord::Schema.define(:version => 20121114212048) do
     t.datetime "updated_at",         :null => false
     t.integer  "field_order"
     t.string   "field_type"
+    t.string   "default_value"
   end
 
   create_table "report_templates", :force => true do |t|
