@@ -16,6 +16,7 @@
         <%= template.input :field_order, as: :hidden, input_html: {class: 'field_order'} %>
         <%= template.input :name %>
         <%= template.input :field_type, collection: ReportField::TYPES, include_blank: false %>
+        <%= template.input :default_value, label: 'Default', input_html: {class: 'auto-expand', rows: 1} %>
         <%= template.link_to_remove "Delete this Field" %>
       </div>
       <% end %>
@@ -30,6 +31,9 @@
 
 <%= content_for(:javascripts) do %>
   <script type="text/javascript">
+
+    $(".auto-expand").autoGrow();
+
     $('#sortable').sortable({
       cancel: '.no-drag,:input,button,a'
     });
