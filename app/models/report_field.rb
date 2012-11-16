@@ -5,6 +5,5 @@ class ReportField < ActiveRecord::Base
 
   scope :editable, where { field_type != 'sectionheading' }
 
-  TYPES = [['Section Heading','sectionheading'],['Section Content','sectioncontent'],
-    ['Tagged Text','taggedtext']]
+  TYPES = [['Section','section'], ['Tagged Text','taggedtext']]
 end

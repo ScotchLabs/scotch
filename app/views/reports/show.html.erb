@@ -1,3 +1,4 @@
+<div class="page">
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -6,13 +7,13 @@
 </p>
 
 <p>
-  <b>Report template:</b>
-  <%= @report.report_template_id %>
+  <b>Report Template:</b>
+  <%= link_to @report.report_template.name, @report.report_template %>
 </p>
 
 <p>
   <b>Creator:</b>
-  <%= @report.creator_id %>
+  <%= link_to @report.creator, @report.creator %>
 </p>
 
 <p>
@@ -20,6 +21,21 @@
   <%= @report.document_id %>
 </p>
 
+<% @report.report_template.report_fields.each do |rf| %>
+  <% if rf.field_type == 'section' %>
+    <p>
+      <b><%= rf.name %></b>
+      <% rv = @report.report_values.where(report_field_id: rf.id).first %>
+      <% if rv && rv.value.length > 0 %>
+        <%= simple_format(rv.value) %>
+      <% else %>
+        <%= simple_format(rf.default_value) %>
+      <% end %>
+    </p>
+  <% end %>
+<% end %>
+
 
 <%= link_to 'Edit', edit_report_path(@report) %> |
 <%= link_to 'Back', reports_path %>
+</div>

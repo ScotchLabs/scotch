@@ -5,10 +5,11 @@
     <%= f.input :name %>
     <%= f.input :sub_heading, label: @report_template.sub_heading %>
     <%= f.input :sub_heading2, label: @report_template.sub_heading2 %>
+    <%= f.input :report_template_id, as: :hidden, input_html: {value: @report_template.id} %>
 
     <%= f.simple_fields_for :report_values do |rep_value| %>
       <%= rep_value.input :report_field_id, as: :hidden %>
-      <%= rep_value.input :value, label: rep_value.object.report_field.name, input_html: {class: 'auto-expand'} %>
+      <%= rep_value.input :value, label: rep_value.object.report_field.name, input_html: {rows: 1, class: 'auto-expand'} %>
     <% end %>
   </div>
 

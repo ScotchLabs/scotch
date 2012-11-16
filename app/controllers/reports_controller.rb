@@ -47,12 +47,14 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     @report = Report.find(params[:id])
+    @report_template = @report.report_template
   end
 
   # POST /reports
   # POST /reports.json
   def create
     @report = Report.new(params[:report])
+    @report.creator = current_user
 
     respond_to do |format|
       if @report.save
