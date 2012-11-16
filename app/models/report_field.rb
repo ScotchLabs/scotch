@@ -6,4 +6,6 @@ class ReportField < ActiveRecord::Base
   scope :editable, where { field_type != 'sectionheading' }
 
   TYPES = [['Section','section'], ['Tagged Text','taggedtext']]
+
+  validates_inclusion_of :name
 end

@@ -5,4 +5,6 @@ class Report < ActiveRecord::Base
   has_many :report_values
 
   accepts_nested_attributes_for :report_values
+
+  validates_inclusion_of :name, :report_template_id
 end
