@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115040538) do
+ActiveRecord::Schema.define(:version => 20121117012735) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -384,6 +384,8 @@ ActiveRecord::Schema.define(:version => 20121115040538) do
     t.datetime "updated_at",         :null => false
     t.string   "sub_heading"
     t.string   "sub_heading2"
+    t.integer  "group_id"
+    t.integer  "folder_id"
   end
 
   create_table "role_permissions", :force => true do |t|

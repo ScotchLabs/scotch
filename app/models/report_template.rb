@@ -3,5 +3,5 @@ class ReportTemplate < ActiveRecord::Base
 
   accepts_nested_attributes_for :report_fields
 
-  validates_inclusion_of :name, :sub_heading, :sub_heading2
+  validates_presence_of :name, :sub_heading, :sub_heading2
 end

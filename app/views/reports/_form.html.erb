@@ -1,4 +1,4 @@
-<%= simple_form_for(@report) do |f| %>
+<%= simple_form_for([@group, @report]) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -6,11 +6,19 @@
     <%= f.input :sub_heading, label: @report_template.sub_heading %>
     <%= f.input :sub_heading2, label: @report_template.sub_heading2 %>
     <%= f.input :report_template_id, as: :hidden, input_html: {value: @report_template.id} %>
+    <%= f.input :folder_id, as: :hidden %>
 
     <%= f.simple_fields_for :report_values do |rep_value| %>
       <%= rep_value.input :report_field_id, as: :hidden %>
       <%= rep_value.input :value, label: rep_value.object.report_field.name, input_html: {rows: 1, class: 'auto-expand'} %>
     <% end %>
+  </div>
+
+  <br />
+  <label>Folder: </label>
+  <div class="folder_select">
+  	<%= link_to 'None', '#', class: 'btn btn-mini btn-danger', id: 'deselect_btn' %>
+  	<div id="tree"></div>
   </div>
 
   <div class="form-actions">
@@ -21,5 +29,22 @@
 <%= content_for(:javascripts) do %>
   <script type="text/javascript">
     $(".auto-expand").autoGrow();
+    $('#tree').jstree({
+            json_data:{
+                    data: <%= @group.folder_tree.to_json.html_safe %>
+            },
+      plugins:["themes", "json_data", "ui"],
+      "themes": {
+        "theme":"default",
+        "dots": false,
+        "icons": true
+      }
+    }).bind("select_node.jstree", function (e, data){
+            $("input[name='report[folder_id]']").val(data.rslt.obj.data("id"));
+    });
+
+    $('#deselect_btn').click(function(){
+            $('#tree').jstree('deselect_all');
+    });
   </script>
 <% end %>

@@ -7,5 +7,5 @@ class ReportField < ActiveRecord::Base
 
   TYPES = [['Section','section'], ['Tagged Text','taggedtext']]
 
-  validates_inclusion_of :name
+  validates_presence_of :name
 end

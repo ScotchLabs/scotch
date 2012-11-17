@@ -1,4 +1,8 @@
 class ReportTemplatesController < ApplicationController
+  before_filter do
+    has_permission?('superUser')
+  end
+
   # GET /report_templates
   # GET /report_templates.json
   def index

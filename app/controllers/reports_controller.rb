@@ -1,8 +1,17 @@
 class ReportsController < ApplicationController
+  layout 'group'
+
+  before_filter :get_report, except: [:index, :new, :create]
+  before_filter :get_group, except:[:index, :new, :create]
+  
+  before_filter do
+    has_permission?('adminDocuments')
+  end
+
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.all
+    @reports = @group.reports
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,11 +22,11 @@ class ReportsController < ApplicationController
   # GET /reports/1
   # GET /reports/1.json
   def show
-    @report = Report.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @report }
+      format.pdf
     end
   end
 
@@ -46,14 +55,13 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
-    @report = Report.find(params[:id])
     @report_template = @report.report_template
   end
 
   # POST /reports
   # POST /reports.json
   def create
-    @report = Report.new(params[:report])
+    @report = @group.reports.new(params[:report])
     @report.creator = current_user
 
     respond_to do |format|
@@ -70,7 +78,6 @@ class ReportsController < ApplicationController
   # PUT /reports/1
   # PUT /reports/1.json
   def update
-    @report = Report.find(params[:id])
 
     respond_to do |format|
       if @report.update_attributes(params[:report])
@@ -86,12 +93,21 @@ class ReportsController < ApplicationController
   # DELETE /reports/1
   # DELETE /reports/1.json
   def destroy
-    @report = Report.find(params[:id])
     @report.destroy
 
     respond_to do |format|
       format.html { redirect_to reports_url }
       format.json { head :no_content }
     end
+  end
+
+  protected
+
+  def get_report
+    @report = Report.find(params[:id])
+  end
+
+  def get_group
+    @group = @report.group
   end
 end

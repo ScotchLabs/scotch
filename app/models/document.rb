@@ -16,7 +16,7 @@
 
 class Document < ActiveRecord::Base
   # Coerce Paperclip into using custom storage
-	include Shared::AttachmentHelper
+  include Shared::AttachmentHelper
   
   belongs_to :group
   belongs_to :folder

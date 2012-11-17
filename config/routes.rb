@@ -1,7 +1,5 @@
 Scotch::Application.routes.draw do
 
-  resources :reports
-
   resources :report_templates
 
   # Users. Yay.
@@ -70,6 +68,7 @@ Scotch::Application.routes.draw do
     resources :auditions, :on => :member do
       get 'signup', on: :member, as: 'signup'
     end
+    resources :reports
     member do
       post :join
       post :leave

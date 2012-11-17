@@ -1,6 +1,15 @@
-<h1>Select Template Here</h1>
+<h1>Select Template</h1>
 
-<% @report_templates.each do |t| %>
-  <%= link_to t.name, new_report_url(template: t.id) %>
-  <br />
-<% end %>
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+  <% @report_templates.each do |t| %>
+    <tr>
+      <td><%= link_to t.name, new_group_report_url(@group, template: t.id) %></td>
+      <td><%= t.description %></td>
+    </tr>
+  <% end %>
+</table>
