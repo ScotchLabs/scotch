@@ -12,8 +12,6 @@
 					<%= image_tag s.image(:medium), size: '260x180'%>
 					<div class="caption">
 						<h5><%= s.name %></h5>
-						<p>Call Time: Coming Soon</p>
-                                                <%= render 'progress', show: s %>
 						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
                                                 <% if s.auditions? %>
                                                 <p><%= link_to 'Auditions', group_auditions_path(s), class: 'btn btn-success' %></p>
