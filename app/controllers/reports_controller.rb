@@ -40,6 +40,8 @@ class ReportsController < ApplicationController
       @report_template.report_fields.editable.each do |r|
         @report.report_values.build({report_field_id: r.id})
       end
+      
+      @form_path = [@group, @report]
     else
       @report_templates = ReportTemplate.all
     end
@@ -56,6 +58,7 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     @report_template = @report.report_template
+    @form_path = @report
   end
 
   # POST /reports
