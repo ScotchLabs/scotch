@@ -20,8 +20,10 @@
 
 <% @documents.each do |container| %>
   <% if container.class.model_name == 'Document' %>
-  	<%= render 'documents/document', document: container %>
+    <%= render 'documents/document', document: container %>
+  <% elsif container.class.model_name == 'Report' %>
+    <%= render 'reports/report', report: container %>
   <% else %>
-	<%= render 'folders/folder', folder: container %>
+    <%= render 'folders/folder', folder: container %>
   <% end %>
 <% end %>

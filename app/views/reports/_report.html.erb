@@ -1,0 +1,8 @@
+<div class="document">
+  <div class="document-image">
+    <%= link_to image_tag("document_icon.png", size: '50x50'), report %>
+  </div>
+
+  <h2 class="document-title"><%= link_to report.name, report_url(report, :pdf) %> <small>(<%= link_to 'Details', report %>)</small></h2>
+  <div class='clearfix'></div>
+</div>

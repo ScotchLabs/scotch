@@ -1,6 +1,6 @@
 class ReportTemplatesController < ApplicationController
   before_filter do
-    has_permission?('superUser')
+    require_permission 'superUser'
   end
 
   # GET /report_templates

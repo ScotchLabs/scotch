@@ -165,7 +165,7 @@ class Group < Shared::Watchable
   end
   
   def main_folder
-    self.folders.where(:folder_id => nil) + self.documents.where(:folder_id => nil)
+    self.folders.where(:folder_id => nil) + self.documents.where(:folder_id => nil) + self.reports.where(:folder_id => nil)
   end
   
   def folder_select

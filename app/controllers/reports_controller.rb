@@ -4,8 +4,8 @@ class ReportsController < ApplicationController
   before_filter :get_report, except: [:index, :new, :create]
   before_filter :get_group, except:[:index, :new, :create]
   
-  before_filter do
-    has_permission?('adminDocuments')
+  before_filter except: [:index, :show] do
+    require_permission 'uploadDocument'
   end
 
   # GET /reports
