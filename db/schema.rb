@@ -11,7 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124075431) do
+ActiveRecord::Schema.define(:version => 20121124082527) do
+
+  create_table "allocations", :force => true do |t|
+    t.integer  "reserver_id"
+    t.integer  "group_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.date     "return_date"
+    t.text     "reason"
+    t.boolean  "approved"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "areas", :force => true do |t|
+    t.string   "name"
+    t.string   "location"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -137,6 +156,15 @@ ActiveRecord::Schema.define(:version => 20121124075431) do
   end
 
   add_index "help_items", ["anchor"], :name => "index_help_items_on_anchor", :unique => true
+
+  create_table "items", :force => true do |t|
+    t.string   "name"
+    t.integer  "area_id"
+    t.string   "item_type"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "kawards", :force => true do |t|
     t.integer  "kudo_id"
@@ -362,6 +390,16 @@ ActiveRecord::Schema.define(:version => 20121124075431) do
     t.string   "sub_heading2"
     t.integer  "group_id"
     t.integer  "folder_id"
+  end
+
+  create_table "reservations", :force => true do |t|
+    t.integer  "item_id"
+    t.integer  "allocation_id"
+    t.integer  "start_quantity"
+    t.integer  "end_quantity"
+    t.date     "return_date"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "role_permissions", :force => true do |t|

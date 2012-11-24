@@ -12,6 +12,10 @@ Scotch::Application.routes.draw do
   end
   resources :watchers, :only => [:new, :create, :destroy]
 
+  resources :items
+  resources :areas
+  resources :allocations
+
   # FIXME: DAMMIT RAILS TEAM
   # https://rails.lighthouseapp.com/projects/8994/tickets/3765-missing-shallow-routes-in-new-router-dsl
   # So rails 3 doesn't have support for shallow routes, which is exactly what

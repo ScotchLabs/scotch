@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Reserver:</b>
+  <%= @allocation.reserver_id %>
+</p>
+
+<p>
+  <b>Group:</b>
+  <%= @allocation.group_id %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @allocation.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @allocation.end_date %>
+</p>
+
+<p>
+  <b>Return date:</b>
+  <%= @allocation.return_date %>
+</p>
+
+<p>
+  <b>Reason:</b>
+  <%= @allocation.reason %>
+</p>
+
+<p>
+  <b>Approved:</b>
+  <%= @allocation.approved %>
+</p>
+
+
+<%= link_to 'Edit', edit_allocation_path(@allocation) %> |
+<%= link_to 'Back', allocations_path %>
