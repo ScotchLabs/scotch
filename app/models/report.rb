@@ -1,4 +1,6 @@
 class Report < ActiveRecord::Base
+  include Shared::AttachmentHelper
+
   belongs_to :report_template
   belongs_to :creator, class_name: 'User'
   belongs_to :group

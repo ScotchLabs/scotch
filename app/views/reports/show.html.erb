@@ -1,43 +1,38 @@
-<p id="notice"><%= notice %></p>
+<%= link_to 'Download', report_path(@report, :pdf), class: 'btn btn-success pull-right', style: 'margin-left:10px;' %>
+<%= link_to 'Edit', edit_report_path(@report), class: 'btn pull-right' %> 
+<h2><%= @report.name %></h2>
 
-<p>
-  <b>Name:</b>
-  <%= @report.name %>
-</p>
+<h4><%= @report.sub_heading %></h4>
+<h4><%= @report.sub_heading2 %></h4>
 
-<p>
-  <b>Report Template:</b>
-  <%= link_to @report.report_template.name, @report.report_template %>
-</p>
-
-<p>
-  <b>Creator:</b>
-  <%= link_to @report.creator, @report.creator %>
-</p>
-
-<p>
-  <b><%= @report.report_template.sub_heading %>:</b>
-  <%= @report.sub_heading %>
-</p>
-
-<p>
-  <b><%= @report.report_template.sub_heading2 %>:</b>
-  <%= @report.sub_heading2 %>
-</p>
+<br />
 
 <% @report.report_template.report_fields.each do |rf| %>
+  <p>
+  <% rv = @report.report_values.where(report_field_id: rf.id).first %>
   <% if rf.field_type == 'section' %>
-    <p>
-      <b><%= rf.name %></b>
-      <% rv = @report.report_values.where(report_field_id: rf.id).first %>
-      <% if rv && rv.value.length > 0 %>
-        <%= simple_format(rv.value) %>
-      <% else %>
-        <%= simple_format(rf.default_value) %>
-      <% end %>
-    </p>
+    <b><%= rf.name %></b>
+    <% if rv && rv.value.length > 0 %>
+      <%= simple_format(rv.value) %>
+    <% else %>
+      <%= simple_format(rf.default_value) %>
+    <% end %>
+  <% elsif rf.field_type == 'taggedtext' %>
+    <b><%= rf.name %></b>
+    <%= simple_format(rf.parsed_value(@group)) %>
   <% end %>
+  </p>
 <% end %>
 
+<br />
 
-<%= link_to 'Edit', edit_report_path(@report) %> 
+<div class="muted">
+<p>
+<h5>Created by</h5>
+<%= @report.creator %>
+</p>
+<p>
+<h5>Template</h5>
+<%= @report.report_template.name %>
+</p>
+</div>

@@ -23,25 +23,27 @@ prawn_document do |pdf|
     pdf.move_down 10
 
     @report.report_template.report_fields.each do |rf|
+      pdf.text rf.name, size: 12, style: :bold
+      rv = @report.report_values.where(report_field_id: rf.id).first
       if rf.field_type == 'section'
-        pdf.text rf.name, size: 12, style: :bold
-        rv = @report.report_values.where(report_field_id: rf.id).first
         if rv && rv.value.length > 0
           pdf.text rv.value, size: 10
         else
           pdf.text rf.default_value, size: 10
         end
-        pdf.move_down 10
+      elsif rf.field_type == 'taggedtext'
+        pdf.text rf.parsed_value(@group), size: 10
       end
+      pdf.move_down 10
     end
 
-    pdf.text "Questions? Comments? Contact Stage Management", size: 12, style: :bold
-    pdf.text "Stage Manager - Carlos Diaz-Padron <cdiazpad@andrew.cmu.edu>", size: 10
-
-    #pdf.page_count.times do |i|
-    #  pdf.go_to_page(i+1)
-    #  pdf.grid([7.8,0],[8,5]).bounding_box do
-    #    pdf.image File.expand_path('../../Downloads/sns_web_logo.png', __FILE__), height: 30, width: 180
-    #  end
-    #end
+    pdf.page_count.times do |i|
+      pdf.go_to_page(i+1)
+      pdf.grid([7.8,0],[8,3.5]).bounding_box do
+        pdf.image Rails.root.join('app/assets/images/sns_web_logo.png'), height: 30, width: 180
+      end
+      pdf.grid([7.98,3.5],[8,5]).bounding_box do
+        pdf.text "Created by #{@report.creator}", size: 10
+      end
+    end
 end
