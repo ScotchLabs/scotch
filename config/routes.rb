@@ -12,15 +12,6 @@ Scotch::Application.routes.draw do
   end
   resources :watchers, :only => [:new, :create, :destroy]
 
-  # Items stand by themselves since we have an inventory that is global.  In
-  # the future more things might be like this, but it would be better to have
-  # such things exist as separate applications and simply consume the models
-  # of Scotch via the REST API.
-  resources :items, :except => [:index] do
-    resources :checkouts, :only => [:index]
-    resources :feedposts, :only => [:index]
-  end
-
   # FIXME: DAMMIT RAILS TEAM
   # https://rails.lighthouseapp.com/projects/8994/tickets/3765-missing-shallow-routes-in-new-router-dsl
   # So rails 3 doesn't have support for shallow routes, which is exactly what
@@ -106,7 +97,6 @@ Scotch::Application.routes.draw do
   # more business logic will move to being set on pages like these in the
   # future.
   resources :roles
-  resources :item_categories, :except => [:destroy]
   resources :help_items, :only => [:show, :edit, :index, :update]
 
   resources :feedbacks, :only => [:create, :new]

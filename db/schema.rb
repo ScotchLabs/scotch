@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121123224508) do
+ActiveRecord::Schema.define(:version => 20121124075431) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
@@ -137,29 +137,6 @@ ActiveRecord::Schema.define(:version => 20121123224508) do
   end
 
   add_index "help_items", ["anchor"], :name => "index_help_items_on_anchor", :unique => true
-
-  create_table "item_categories", :force => true do |t|
-    t.integer  "prefix"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "parent_category_id"
-  end
-
-  add_index "item_categories", ["parent_category_id"], :name => "index_item_categories_on_parent_category_id"
-
-  create_table "items", :force => true do |t|
-    t.string   "name"
-    t.string   "location"
-    t.text     "description"
-    t.integer  "item_category_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "catalog_number"
-  end
-
-  add_index "items", ["catalog_number"], :name => "index_items_on_catalog_number"
-  add_index "items", ["item_category_id"], :name => "index_items_on_item_category_id"
 
   create_table "kawards", :force => true do |t|
     t.integer  "kudo_id"
