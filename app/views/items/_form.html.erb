@@ -3,8 +3,10 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :area_id %>
-    <%= f.input :item_type %>
+    <%= f.association :area, collection: Area.all, label_method: :name, value_method: :id, include_blank: false %>
+    <%= f.input :item_type, collection: Item::TYPES, include_blank: false %>
+    <%= f.input :category, collection: Item::CATEGORIES, include_blank: false %>
+    <%= f.input :quantity, value: 1 %>
     <%= f.input :description %>
     <%= f.input :picture %>
   </div>

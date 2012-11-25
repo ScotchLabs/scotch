@@ -1,6 +1,12 @@
 class Item < ActiveRecord::Base
   include Shared::AttachmentHelper
 
+  CATEGORIES = [['Lighting/Electrics','electrics'],['Sound','sound'],['Costumes','costumes'],['Hair/Make-Up', 'hair'],
+    ['Carpentry','carpentry'],['Tools','tools'],['Paint','paint'],['Props','props'],['Office Material','office'],
+    ['Computing Equipment','computing']]
+
+  TYPES = [['Normal','normal'],['Bucket/Box','bucket'],['Permanent','permanent']]
+
   belongs_to :area
   has_many :reservations
   has_many :allocations, through: :reservations

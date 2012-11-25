@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124162323) do
+ActiveRecord::Schema.define(:version => 20121125002644) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -162,12 +162,14 @@ ActiveRecord::Schema.define(:version => 20121124162323) do
     t.integer  "area_id"
     t.string   "item_type"
     t.text     "description"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.string   "picture_file_name"
     t.string   "picture_content_type"
     t.integer  "picture_file_size"
     t.datetime "picture_updated_at"
+    t.string   "category"
+    t.integer  "quantity",             :default => 1
   end
 
   create_table "kawards", :force => true do |t|
