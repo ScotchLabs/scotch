@@ -1,3 +1,58 @@
 // Place all the styles related to the Items controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.item-search
+{
+  margin-top: 5px;
+  border-bottom: 1px solid #EEE;
+}
+
+.inventory-list
+{
+  width: 100%;
+  
+  .item
+  {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #EEE;
+    padding: 10px 0;
+  }
+
+  .item-image
+  {
+    float:left;
+    clear:left;
+    img
+    {
+      max-width: 160px;
+      max-height: 160px;
+    }
+  }
+
+  .item-title
+  {
+    display:block;
+    margin-left: 185px;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  ul
+  {
+    list-style: none;
+  }
+
+  .item-status
+  {
+    float:left;
+    width: 30%;
+  }
+
+  .item-info
+  {
+    float:left;
+    border-left: 1px solid #EEE;
+    padding: 0 0 0 20px;
+  }
+}

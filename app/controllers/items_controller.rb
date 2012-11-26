@@ -2,7 +2,16 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    if params[:category]
+      params[:q] ||= ''
+      unless params[:category] == 'all'
+        @items = Item.where("category = ? AND name LIKE ?", params[:category], "%#{params[:q]}%")
+      else
+        @items = Item.where("name LIKE ?", "%#{params[:q]}%")
+      end
+    else
+      @items = Item.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

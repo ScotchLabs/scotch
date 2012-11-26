@@ -1,29 +1,38 @@
-<h1>Listing items</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Area</th>
-    <th>Item type</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @items.each do |item| %>
-  <tr>
-    <td><%= item.name %></td>
-    <td><%= item.area_id %></td>
-    <td><%= item.item_type %></td>
-    <td><%= item.description %></td>
-    <td><%= link_to 'Show', item %></td>
-    <td><%= link_to 'Edit', edit_item_path(item) %></td>
-    <td><%= link_to 'Destroy', item, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Item', new_item_path %>
+<div class="page">
+  <center class="item-search">
+    <%= form_tag :items, url: items_path, method: :get, class: 'form-search' do %>
+      <%= select nil, :category, [['All', 'all']] + Item::CATEGORIES, include_blank: false %>
+      <div class="input-append">
+        <%= text_field_tag :q, '', placeholder: 'Search', class: 'input-medium search-query' %>
+        <%= button_tag "<i class='icon-search'></i>".html_safe, type: 'submit', class: 'btn' %>
+      </div>
+    <% end %>
+    <% if params[:category] %>
+      <p class='item-results'>Showing <%= params[:category].capitalize %> items <%= !params[:q].empty? ? "matching \"#{params[:q]}\"" : '' %></p>
+    <% end %>
+  </center>
+  <div class="inventory-list">
+    <% @items.each do |item| %>
+      <div class="item clearfix">
+        <div class="item-image">
+          <%= image_tag item.picture.url(:thumb) %>
+        </div>
+        <span class="item-title">
+          <%= item.name %>
+        </span>
+        <ul class="item-status">
+          <li><b>Status</b> Good</li>
+          <li><b>Amount Available</b> 1/1</li>
+          <li><b>Available Until</b> 12/15/12</li>
+        </ul>
+        <ul class="item-info">
+          <li><b>Area</b> <%= item.area.name %></li>
+          <li><b>Category</b> <%= item.category %></li>
+          <li><b>Quantity</b> <%= item.quantity %></li>
+          <li><b>Description</b> <%= item.description %></li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to 'New Item', new_item_path %>
+</div>
