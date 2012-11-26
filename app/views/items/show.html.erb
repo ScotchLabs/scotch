@@ -1,25 +1,36 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Name:</b>
-  <%= @item.name %>
-</p>
-
-<p>
-  <b>Area:</b>
-  <%= @item.area_id %>
-</p>
-
-<p>
-  <b>Item type:</b>
-  <%= @item.item_type %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @item.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<div class="page">
+  <%= link_to 'Back', items_path %>
+  <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-info pull-right' %>
+  <div class="item-display">
+    <div class="item-dash">
+      <div class="row">
+        <div class="span4 item-image">
+          <%= image_tag @item.picture(:medium) %>
+        </div>
+        <div class="span8 item-status">
+          <span class="item-title"><%= @item.name %></span>
+          <ul>
+            <li class="status">Available</li>
+            <li><b>Available Quantity</b> <%= "#{@item.quantity}/#{@item.quantity}" %></li>
+            <li><b>Available On</b> Now</li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="row item-info">
+      <div class="span6 offset1 item-description">
+        <h4>Description</h4>
+        <p><%= @item.description %></p>
+      </div>
+      <div class="span5 item-specs">
+        <ul>
+          <li><b>Quantity</b> <%= @item.quantity %></li>
+          <li><b>Location</b> <%= @item.area.name %></li>
+          <li><b>Category</b> <%= @item.category.capitalize %></li>
+          <li><b>Type</b> <%= @item.item_type.capitalize %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

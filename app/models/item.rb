@@ -11,8 +11,8 @@ class Item < ActiveRecord::Base
   has_many :reservations
   has_many :allocations, through: :reservations
 
-  has_attachment :picture, :styles => { :medium => ["300x300", :png], :thumb => ["50x50", :png] },
-    :default_url => 'document_icon.png',
+  has_attachment :picture, :styles => { :medium => ["300x300", :png], :thumb => ["160x160", :png] },
+    :default_url => 'item-default.png',
     :file_name => 'items/:id_partition/:basename_:style.:extension'
 
   validates_attachment_size :picture, :less_than => 15.megabytes,

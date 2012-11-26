@@ -6,6 +6,7 @@
 {
   margin-top: 5px;
   border-bottom: 1px solid #EEE;
+  padding: 0 5px 0 5px;
 }
 
 .inventory-list
@@ -41,12 +42,33 @@
   ul
   {
     list-style: none;
+    
+    b
+    {
+      display: block;
+    }
+  }
+
+  li
+  {
+    margin-bottom: 5px;
   }
 
   .item-status
   {
     float:left;
     width: 30%;
+
+    b
+    {
+      font-size: 16px;
+    }
+
+    .status
+    {
+      color: green;
+      font-weight: bold;
+    }
   }
 
   .item-info
@@ -54,5 +76,63 @@
     float:left;
     border-left: 1px solid #EEE;
     padding: 0 0 0 20px;
+  }
+}
+
+.item-display
+{
+  .item-title
+  {
+    display:block;
+    font-size: 24px;
+    margin-bottom: 15px;
+    margin-left: 25px;
+  }
+
+  .item-dash
+  {
+    border-bottom: 2px solid #EEE;
+    margin-bottom: 10px;
+  }
+
+  .item-status
+  {
+    padding-top: 50px;
+
+    b
+    {
+      font-size: 16px;
+    }
+
+    .status
+    {
+      color: green;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+
+  .item-description
+  {
+  }
+
+  .item-specs
+  {
+    border-left: 2px solid #EEE;
+  }
+
+  ul
+  {
+    list-style: none;
+    
+    b
+    {
+      display: block;
+    }
+  }
+
+  li
+  {
+    margin-bottom: 10px;
   }
 }
