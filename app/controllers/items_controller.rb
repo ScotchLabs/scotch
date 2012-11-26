@@ -1,4 +1,7 @@
 class ItemsController < ApplicationController
+  before_filter except: [:index, :show] do
+    require_global_permission 'adminItems'
+  end
   # GET /items
   # GET /items.json
   def index

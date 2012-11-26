@@ -1,13 +1,15 @@
 <div class="page">
   <%= link_to 'Back', items_path %>
-  <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-info pull-right' %>
+  <% if has_permission? 'adminItems' %>
+    <%= link_to 'Edit', edit_item_path(@item), class: 'btn btn-info pull-right' %>
+  <% end %>
   <div class="item-display">
     <div class="item-dash">
       <div class="row">
-        <div class="span4 item-image">
+        <div class="span4 offset1 item-image">
           <%= image_tag @item.picture(:medium) %>
         </div>
-        <div class="span8 item-status">
+        <div class="span7 item-status">
           <span class="item-title"><%= @item.name %></span>
           <ul>
             <li class="status">Available</li>

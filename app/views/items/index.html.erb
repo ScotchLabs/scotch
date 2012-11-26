@@ -1,6 +1,8 @@
 <div class="page">
   <div class="item-search">
-    <%= link_to "<i class='icon-plus'></i> New Item".html_safe, new_item_path, class: 'btn btn-success pull-right' %>
+    <% if has_permission? 'adminItems' %>
+      <%= link_to "<i class='icon-plus'></i> New Item".html_safe, new_item_path, class: 'btn btn-success pull-right' %>
+    <% end %>
     <center>
       <%= form_tag :items, url: items_path, method: :get, class: 'form-search' do %>
         <%= select nil, :category, [['All', 'all']] + Item::CATEGORIES, include_blank: false %>
