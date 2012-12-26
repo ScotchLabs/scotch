@@ -6,6 +6,12 @@ Scotch::Application.routes.draw do
 
   # Users. Yay.
   devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
+
+  # API
+
+  namespace 'api', defaults: {format: :json} do
+    match 'users/verify_credentials', to: 'users#verify_credentials'
+  end
   
   get 'users/search' => 'users#search', :as => 'user_search'
   resources :users, :except => [:new, :destroy] do
