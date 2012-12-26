@@ -60,6 +60,8 @@ gem 'thin', :require => false
 
 gem 'prawn_rails'
 
+gem 'doorkeeper'
+
 group :development do
   gem 'annotate'
   gem 'debugger'

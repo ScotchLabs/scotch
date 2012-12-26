@@ -1,5 +1,7 @@
 Scotch::Application.routes.draw do
 
+  use_doorkeeper
+
   resources :report_templates
 
   # Users. Yay.

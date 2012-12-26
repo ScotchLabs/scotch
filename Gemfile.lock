@@ -80,6 +80,8 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     digest-whirlpool (1.0.1)
+    doorkeeper (0.6.4)
+      railties (~> 3.1)
     em-http-request (1.0.2)
       addressable (>= 2.2.3)
       cookiejar
@@ -254,6 +256,7 @@ DEPENDENCIES
   debugger
   devise
   digest-whirlpool
+  doorkeeper
   exception_notification
   htmlentities
   icalendar
