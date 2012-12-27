@@ -61,4 +61,5 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+  skip_authorization
 end
