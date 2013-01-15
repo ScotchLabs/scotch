@@ -7,9 +7,9 @@
 	<div class="dashboard-container">
 	<ul class="thumbnails" style="padding:5px;">
 		<% Show.active.each do |s| %>
-			<div class="span3">
+			<div class="span2">
 				<div class="thumbnail">
-					<%= image_tag s.image(:medium), size: '260x180'%>
+					<%= image_tag s.image(:medium), size: '180x180'%>
 					<div class="caption">
 						<h5><%= s.name %></h5>
 						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
