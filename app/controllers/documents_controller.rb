@@ -3,10 +3,6 @@ class DocumentsController < ApplicationController
   
   prepend_before_filter :locate_document, :only => [:edit, :update, :show, :destroy, :signup, :create]
 
-  append_before_filter :get_popular_tags, :only => [:edit, :new, :create]
-
-  append_after_filter :create_feedpost, :only => [:create]
-
   before_filter :only => [:new, :edit, :create, :update, :destroy] do 
     require_permission "uploadDocument"
   end

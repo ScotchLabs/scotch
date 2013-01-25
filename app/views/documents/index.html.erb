@@ -10,6 +10,9 @@
 	<% end %>
 </ul>
 <% end %>
+<% if @folder && has_permission?("uploadDocument") %>
+  <%= link_to 'Delete Folder', folder_path(@folder), method: :delete, class: 'btn btn-danger' %>
+<% end %>
 
 <% if has_permission?("uploadDocument") && @group %>
   <div class="document-upload-link"><%= link_to "<i class='icon-file icon-white'></i> Upload a New document".html_safe,
