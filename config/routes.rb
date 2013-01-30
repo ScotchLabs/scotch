@@ -1,5 +1,8 @@
 Scotch::Application.routes.draw do
 
+  get "pages/index"
+  get "pages/about"
+
   use_doorkeeper
 
   resources :report_templates

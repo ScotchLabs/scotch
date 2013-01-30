@@ -1,0 +1,66 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require bootstrap_and_overrides
+*/
+
+.sns-nav
+{
+  height: 30px;
+  list-style: none;
+  padding-top: 2px;
+  padding-bottom: 5px;
+
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0,0,0,0.08);
+  
+  img
+  {
+    height: 100%;
+    float:left;
+  }
+
+  ul
+  {
+    position: relative;
+    display: block;
+    float: left;
+    margin-top: 8px;
+  }
+
+  li
+  {
+    display: block;
+    float: left;
+
+    a
+    {
+      float: none;
+      padding: 9px 10px 11px;
+      color: rgba(0,0,0,0.41);
+      text-decoration: none;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    a:hover
+    {
+      background-color: orange;
+      color: white;
+    }
+  }
+}
+
+.main-banner
+{
+  width: 100%;
+  height: auto;
+}
+
+#main-carousel .carousel-inner
+{
+  height: 300px;
+}

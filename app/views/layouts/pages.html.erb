@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Scotch'n'Soda Theatre</title>
+  <meta charset='utf-8'>
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag "pages", :media => "all" %>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= yield :header %>
+
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9104858-1']);
+    _gaq.push(['_setDomainName', '.snstheatre.org']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+<body>
+  <div class="sns-nav navbar-fixed-top">
+    <div class="container">
+      <%= link_to image_tag('sns_web_logo.png'), root_path %>
+      <ul>
+        <li><%= link_to 'Tickets', '#' %></li>
+        <li><%= link_to 'Shows', '#' %></li>
+        <li><%= link_to 'NPP', '#' %></li>
+        <li><%= link_to 'Tisbert', '#' %></li>
+        <li><%= link_to '75th Anniversary', '#' %></li>
+        <li><%= link_to 'About', '#' %></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+	<div class="content">
+		<% if alert %>
+		<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Oops!</strong> <%= alert %></p></div>
+		<% end %>
+		<% if notice %>
+		<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
+		<% end %>
+        <div class="row">
+            <%= content_for?(:content) ? yield(:content) : yield %>
+          <div class="span1">&nbsp;</div>
+        </div><!--/row-->
+    </div><!--/content-->
+  </div>
+  <%= javascript_include_tag "application" %>
+
+  <%= yield(:javascripts) %>
+</body>
+</html>
