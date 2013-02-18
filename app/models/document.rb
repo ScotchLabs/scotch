@@ -32,6 +32,8 @@ class Document < ActiveRecord::Base
     :default_url => nil,
 		:file_name => 'documents/:id_partition/:basename_:style.:extension'
 
+  validates_attachment_presence :file
+
   validates_attachment_size :file, :less_than => 15.megabytes,
     :message => "must be less than 15 megabytes",
     :unless => lambda { |user| !user.file.nil? }
