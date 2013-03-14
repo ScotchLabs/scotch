@@ -23,6 +23,9 @@
 	<% unless @group.new_record? %>
 	<%= f.input :script_id, collection: @group.documents, label_method: :name, value_method: :id, label: 'Script' %>
 	<% end %>
+  <%= f.input :is_public, label: "Publish to Bourbon?" %>
+  <%= f.input :tickets_available, label: "Release Tickets to ScotchBox?" %>
+  <%= f.input :mainstage, label: "Mainstage Show?" %>
 	<%= f.input :tech_start, label: 'Tech Week Start' %>
 	<%= f.input :tech_end, label: 'Tech Week End' %>
   <% end %>

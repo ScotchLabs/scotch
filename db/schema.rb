@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220211224) do
+ActiveRecord::Schema.define(:version => 20130314011407) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -144,6 +144,9 @@ ActiveRecord::Schema.define(:version => 20121220211224) do
     t.string   "location"
     t.date     "tech_start"
     t.date     "tech_end"
+    t.boolean  "is_public",          :default => false
+    t.boolean  "tickets_available",  :default => false
+    t.boolean  "mainstage",          :default => false
   end
 
   create_table "help_items", :force => true do |t|

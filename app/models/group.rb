@@ -58,6 +58,8 @@ class Group < Shared::Watchable
 
   scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
   scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
+  scope :public, where(is_public: true)
+  scope :tickets_available, where(tickets_available: true)
 
   # sets model_name for all subclasses to be "Group"
   def self.inherited(child)

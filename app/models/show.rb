@@ -23,8 +23,15 @@ class Show < Group
 
   before_create :set_parent
 
+  scope :mainstage, where(mainstage: true)
+
   def self.manager_role
     roles.where(:name => "Production Staff").first
+  end
+
+  def self.current_season
+    year = Date.today.month > 7 ? Date.today.year : Date.today.year - 1
+    where('archive_date BETWEEN ? AND ?', Date.new(year, 8, 1), Date.new(year+1, 5, -1)).order('archive_date ASC')
   end
   
   def calendar_positions
@@ -54,6 +61,14 @@ class Show < Group
 
   def performances
     self.events.where(event_type: 'show')
+  end
+
+  def is_public?
+    self.is_public
+  end
+
+  def tickets_available?
+    self.tickets_available
   end
 
   def progress
