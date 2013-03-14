@@ -71,6 +71,26 @@ class Show < Group
     self.tickets_available
   end
 
+  def directors
+    self.positions.where(display_name: ['Director', 'Creative Director', 'Assistant Director', 'Music Director', 'Assistant Music Director']).sort.map {|p| p.user}
+  end
+
+  def display_directors
+    result = self.directors.map {|u| u.name}
+    
+    if result.size > 1
+      result[-1] = 'and ' + result[-1]
+
+      if result.size < 3
+        return result.join(' ')
+      else
+        return result.join(', ')
+      end
+    end
+
+    result[0]
+  end
+
   def progress
     result = []
 

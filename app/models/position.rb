@@ -17,6 +17,9 @@ class Position < ActiveRecord::Base
   belongs_to :role
   belongs_to :group
 
+  DIRECTORS = ['Director', 'Creative Director', 'Assistant Director',
+    'Music Director', 'Assistant Music Director']
+
   validates_presence_of :user_id, :role_id, :group_id, :display_name
 
   attr_protected :group_id
@@ -32,6 +35,9 @@ class Position < ActiveRecord::Base
   def <=>(other)
     gsort = group<=>other.group
     if gsort == 0
+      if DIRECTORS.include?(display_name) && DIRECTORS.include?(other.display_name)
+        return DIRECTORS.index(display_name) <=> DIRECTORS.index(other.display_name)
+      end
       return role <=> other.role unless (role <=> other.role) == 0
       return display_name.gsub("Assistant ","") <=> other.display_name.gsub("Assistant ","") unless (display_name.gsub("Assistant ","") <=> other.display_name.gsub("Assistant ","")) == 0
       return other.display_name  <=> display_name
