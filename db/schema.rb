@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315015932) do
+ActiveRecord::Schema.define(:version => 20130315191613) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -353,6 +353,23 @@ ActiveRecord::Schema.define(:version => 20130315015932) do
   end
 
   add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
+
+  create_table "page_sections", :force => true do |t|
+    t.integer  "page_id"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "pages", :force => true do |t|
+    t.string   "title"
+    t.string   "address"
+    t.integer  "order_number"
+    t.boolean  "active",       :default => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
 
   create_table "permissions", :force => true do |t|
     t.string   "name"

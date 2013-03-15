@@ -6,6 +6,7 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag "pages", :media => "all" %>
+  <link href='http://fonts.googleapis.com/css?family=Tauri' rel='stylesheet' type='text/css'>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -33,10 +34,9 @@
       <ul>
         <li><%= link_to 'Tickets', '#' %></li>
         <li><%= link_to 'Shows', '#' %></li>
-        <li><%= link_to 'NPP', '#' %></li>
-        <li><%= link_to 'Tisbert', '#' %></li>
-        <li><%= link_to '75th Anniversary', '#' %></li>
-        <li><%= link_to 'About', '#' %></li>
+        <% Page.active.each do |p| %>
+          <li><%= link_to p.title, p, class: "#{ params[:id] && params[:id] == p.title.downcase ? 'active' : ''}" %></li>
+        <% end %>
       </ul>
     </div>
   </div>

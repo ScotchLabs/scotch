@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="span12">
+    <div class="page-content">
+      <% @page.page_sections.each do |s| %>
+        <div class="page-section">
+          <h2 class="page-title"><%= s.title %></h2>
+          <%= raw RedCloth.new(s.content).to_html %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
