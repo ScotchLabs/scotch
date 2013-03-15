@@ -16,7 +16,8 @@
   <% end %>
 
   <% if params[:group_type] == 'Show' %>
-    <%= f.input :slot %>
+  <%= f.input :writers, label: 'Writers' %>
+  <%= f.input :slot %>
 	<%= f.input :location, collection: Show::LOCATIONS, include_blank: false %>
 	<%= f.input :price_with_id %>
 	<%= f.input :price_without_id %>
