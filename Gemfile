@@ -56,6 +56,8 @@ gem 'mail_extract'
 
 gem 'exception_notification'
 
+gem 'thin', :require => false
+
 gem 'prawn_rails'
 
 gem 'doorkeeper'
@@ -64,7 +66,4 @@ group :development do
   gem 'annotate'
   gem 'debugger'
   gem 'letter_opener'
-  gem 'thin'
-  gem 'better_errors'
-  gem 'binding_of_caller'
 end
