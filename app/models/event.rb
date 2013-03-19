@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   has_many :event_attendees, :dependent => :destroy
   has_many :users, :through => :event_attendees, :source => :owner, :source_type => 'User'
   has_many :groups, :through => :event_attendees, :source => :owner, :source_type => 'Group'
+  has_many :ticket_reservations
   
   belongs_to :owner, :polymorphic => true
 
@@ -51,9 +52,12 @@ class Event < ActiveRecord::Base
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
   validates_inclusion_of :event_type, :in => COLORS.keys
+  # validate :performance_has_max_attendance
+
   after_save :save_attendees
   
   default_scope order('start_time ASC')
+  scope :performances, where(event_type: 'show')
   
   attr_accessor :temp_attendees
   
@@ -105,6 +109,26 @@ class Event < ActiveRecord::Base
     end
     
     return false
+  end
+
+  def max_attendance
+    super || 0
+  end
+
+  def available_tickets
+    if self.event_type == 'show'
+      self.max_attendance - self.ticket_reservations.active.tickets
+    else
+      0
+    end
+  end
+
+  def showing
+    self.start_time.strftime('%a %b %e, %l:%M%P') + " (#{self.available_tickets} left)"
+  end
+
+  def show_time
+    self.start_time.strftime('%a %b %e, %l:%M%P')
   end
   
   def get_conflicts
@@ -281,6 +305,15 @@ protected
   def audition_has_one_attendee
     if self.event_type == 'audition'
       self.event_attendees.count <= 1
+    else
+      true
+    end
+  end
+
+  def performance_has_max_attendance
+    if self.event_type == 'show' && !self.max_attendance
+      self.errors.add(:max_attendance, "must have max attendance.")
+      false
     else
       true
     end

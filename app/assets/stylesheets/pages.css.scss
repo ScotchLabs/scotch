@@ -150,6 +150,7 @@ body
   height: 250px;
   background-color: #FFFFFF;
   color: #383838;
+  font-family: 'Tauri', sans-serif;
   border-style: solid;
   border-color: #D6D6D6;
   border-width: 1px;
@@ -159,6 +160,39 @@ body
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
+
+  form
+  {
+    float: left;
+  }
+}
+
+.ticket-info
+{
+  width: 150px;
+  float:right;
+
+  h5
+  {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .total
+  {
+    font-size: 18px;
+  }
+
+  ul
+  {
+    list-style-type: none;
+    margin-left: 0;
+
+    li
+    {
+      color: #969696;
+    }
+  }
 }
 
 .current-season

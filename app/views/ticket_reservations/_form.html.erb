@@ -1,0 +1,25 @@
+<%= simple_form_for(@reservation, class: 'form-horizontal') do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, as: :string %>
+    <%= f.input :email, as: :string %>
+    <%= f.input :event_id, label: 'Performance', collection: show.events.performances, 
+      label_method: :showing, value_method: :id, include_blank: false %>
+    <%= f.input :amount, input_html: {value: 1} %>
+    <%= f.input :with_id, label: 'CMU ID?' %>
+  </div>
+  <center>
+    <%= f.button :submit, 'Reserve Tickets' %>
+  </center>
+<% end %>
+<div class="ticket-info">
+  <h5>Tickets</h5>
+  <ul>
+    <p>Performances:</p>
+    <% show.events.performances.each do |p| %>
+      <li><%= p.show_time %></li>
+    <% end %>
+  </ul>
+  <p class="total">Total: 1</p>
+</div>

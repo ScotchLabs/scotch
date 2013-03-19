@@ -48,6 +48,8 @@ Scotch::Application.routes.draw do
 
   resources :messages
 
+  resources :ticket_reservations
+
   # These don't really make sense outside of a group, so we make them
   # sub-resources for the index and new actions.
   resources :groups, :except => [:destroy], :shallow => true do

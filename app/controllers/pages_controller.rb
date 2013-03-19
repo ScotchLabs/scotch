@@ -5,6 +5,10 @@ class PagesController < ApplicationController
   def index
     @show = Show.active.public.first
     @season = Show.current_season if !@show
+    
+    if @show
+      @reservation = TicketReservation.new
+    end
   end
 
   def show

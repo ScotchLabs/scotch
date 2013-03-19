@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315191613) do
+ActiveRecord::Schema.define(:version => 20130317201522) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20130315191613) do
     t.string   "event_type"
     t.string   "session"
     t.string   "session_name"
+    t.integer  "attendance_count"
+    t.integer  "max_attendance"
   end
 
   create_table "feedpost_attachments", :force => true do |t|
@@ -527,6 +529,19 @@ ActiveRecord::Schema.define(:version => 20130315191613) do
     t.datetime "completed_time"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+  end
+
+  create_table "ticket_reservations", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "amount"
+    t.integer  "amount_claimed",  :default => 0
+    t.integer  "waitlist_amount", :default => 0
+    t.boolean  "with_id",         :default => false
+    t.boolean  "cancelled",       :default => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "users", :force => true do |t|
