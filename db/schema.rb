@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130317201522) do
+ActiveRecord::Schema.define(:version => 20130319033646) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(:version => 20130317201522) do
 
   add_index "checkouts", ["item_id"], :name => "index_checkouts_on_item_id"
   add_index "checkouts", ["user_id"], :name => "index_checkouts_on_user_id"
+
+  create_table "contacts", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "protocol"
+    t.string   "address"
+    t.string   "temporary_name"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "dependencies", :force => true do |t|
     t.integer  "task_id"
