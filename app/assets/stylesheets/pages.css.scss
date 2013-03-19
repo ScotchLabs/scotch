@@ -12,6 +12,11 @@ body
   background: url(asset-path('grey.png', image));
 }
 
+abbr[title]
+{
+  border-bottom-style: none;
+}
+
 .sns-nav
 {
   height: 30px;

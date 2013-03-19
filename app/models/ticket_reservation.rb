@@ -10,22 +10,32 @@ class TicketReservation < ActiveRecord::Base
   scope :active, where(cancelled: false)
   scope :with_id, where(with_id: true)
 
-  attr_accessor :name, :email
-  attr_protected :waitlist_amount
+  attr_writer :name, :email
+  attr_protected :waitlist_amount, :confirmation_code
+
+  before_create :generate_confirmation_code
 
   def self.tickets
     sum(:amount)
   end
 
   def name
-    self.owner.try(:name)
+    self.owner.try(:name) || @name
   end
 
   def email
-    self.owner.try(:email)
+    self.owner.try(:email) || @email
+  end
+
+  def to_param
+    self.confirmation_code
   end
 
   protected
+
+  def generate_confirmation_code
+    self.confirmation_code = (0..8).map{ (65+rand(26)).chr }.join
+  end
 
   def ticketing_open
     unless self.event.tickets_available?

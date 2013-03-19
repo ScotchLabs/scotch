@@ -545,13 +545,16 @@ ActiveRecord::Schema.define(:version => 20130319033646) do
     t.integer  "owner_id"
     t.string   "owner_type"
     t.integer  "amount"
-    t.integer  "amount_claimed",  :default => 0
-    t.integer  "waitlist_amount", :default => 0
-    t.boolean  "with_id",         :default => false
-    t.boolean  "cancelled",       :default => false
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.integer  "amount_claimed",    :default => 0
+    t.integer  "waitlist_amount",   :default => 0
+    t.boolean  "with_id",           :default => false
+    t.boolean  "cancelled",         :default => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.string   "confirmation_code"
   end
+
+  add_index "ticket_reservations", ["confirmation_code"], :name => "index_ticket_reservations_on_confirmation_code"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",   :null => false

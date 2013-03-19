@@ -61,6 +61,7 @@ class Event < ActiveRecord::Base
   
   attr_accessor :temp_attendees
   
+  delegate :tickets_available?, to: :owner
   
   def self.periods
     PERIODS.clone
