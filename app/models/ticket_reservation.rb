@@ -13,10 +13,17 @@ class TicketReservation < ActiveRecord::Base
   attr_writer :name, :email
   attr_protected :waitlist_amount, :confirmation_code
 
+  delegate :show_time, to: :event
+
   before_create :generate_confirmation_code
 
   def self.tickets
     sum(:amount)
+  end
+
+  #REPLACE by normalizing Event
+  def group
+    self.event.owner
   end
 
   def name
