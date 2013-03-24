@@ -32,6 +32,7 @@ class Group < Shared::Watchable
   has_many :message_lists
   has_many :plans
   has_many :reports
+  has_many :ticket_reservations, through: :events
 
   belongs_to :parent, class_name: 'Group'
   belongs_to :script, class_name: 'Document'

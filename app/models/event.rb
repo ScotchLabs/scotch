@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
 
   scope :auditions, where(event_type: 'audition')
+  scope :shows, where(event_type: 'show')
   
   PERIODS = [
     ['Minutes','minutes'],

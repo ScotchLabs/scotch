@@ -1,11 +1,17 @@
 class TicketReservationsController < ApplicationController
-  layout 'pages', if: :pages_layout?
+  layout :get_layout
+  skip_before_filter :authenticate_user!, only: [:new, :show, :create, :cancel]
+  before_filter :get_reservation, :get_group, only: [:edit, :update, :destroy, :details]
 
   def index
+    @shows = @group.events.shows
   end
 
   def show
     @reservation = TicketReservation.find_by_confirmation_code(params[:id])
+  end
+
+  def details
   end
 
   def new
@@ -56,12 +62,27 @@ class TicketReservationsController < ApplicationController
   def update
   end
 
+  def cancel
+  end
+
   def destroy
   end
 
   protected
-  
-  def pages_layout?
-    @group.nil?
+
+  def get_reservation
+    @reservation = TicketReservation.find_by_confirmation_code(params[:id])
+  end
+
+  def get_group
+    @group = @reservation.event.owner
+  end
+
+  def get_layout
+    if ['new', 'show', 'cancel'].include? params[:action]
+      'pages'
+    else
+      'group'
+    end
   end
 end

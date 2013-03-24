@@ -1,0 +1,21 @@
+<h1>Ticket Reservations</h1>
+
+<% @shows.each do |s| %>
+  <h2><%= s.showing %></h2>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Edit</th>
+      <th>Cancel</th>
+    </tr>
+    <% s.ticket_reservations.each do |r| %>
+      <tr>
+        <td><%= link_to r.name, details_ticket_reservation_path(r) %></td>
+        <td><%= r.amount %></td>
+        <td><%= link_to 'Edit', r, class: 'btn btn-info' %></td>
+        <td><%= link_to 'Cancel', r, method: 'delete', confirm: 'Are you sure you want to cancel this reservation?', class: 'btn btn-danger' %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
