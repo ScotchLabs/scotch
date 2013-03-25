@@ -16,6 +16,7 @@ class TicketReservation < ActiveRecord::Base
   delegate :show_time, to: :event
 
   before_create :generate_confirmation_code
+  after_create :send_confirmation
 
   def self.tickets
     sum(:amount)
@@ -60,5 +61,9 @@ class TicketReservation < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def send_confirmation
+    TicketMailer.ticket_confirmation(self).deliver!
   end
 end

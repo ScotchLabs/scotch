@@ -1,7 +1,7 @@
 .section
 {
   margin-top: 10px;
-  height: 250px;
+  height: 100%;
   background-color: #FFFFFF;
   color: #383838;
   font-family: 'Tauri', sans-serif;
@@ -14,6 +14,13 @@
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
+}
+
+.section:after
+{
+  clear: both;
+  content: " ";
+  line-height: 0;
 }
 
 ul.properties

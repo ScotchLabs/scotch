@@ -6,27 +6,24 @@
 <div class="span6">
 <div class="row-fluid">
   <div class="span12">
-    <div class="production-info">
-      <div class="title">
-        <h2><%= group.name %></h2>
-        <p>by</p>
-        <p><%= group.writers %></p>
+    <div class="section">
+      <div class="production-info">
+        <div class="title">
+          <h2><%= group.name %></h2>
+          <p>by</p>
+          <p><%= group.writers %></p>
+        </div>
+        <div class="directors">
+          <span>DIRECTED BY</span> <%= group.display_directors %>
+        </div>
+        <p class="description">
+          <%= group.description %>
+        </p>
+        <p class="coming-soon"><%= group.slot %></p>
       </div>
-      <p class="writers"></p>
-      <div class="directors">
-        <span>DIRECTED BY</span> <%= group.display_directors %>
+      <div class="ticket-form">
+        <%= render 'ticket_reservations/form', show: group %>
       </div>
-      <p class="description">
-        <%= group.description %>
-      </p>
-      <p class="coming-soon"><%= group.slot %></p>
-    </div>
-  </div>
-</div>
-<div class="row-fluid">
-  <div class="span12">
-    <div class="ticket-form">
-      <%= render 'ticket_reservations/form', show: group %>
     </div>
   </div>
 </div>

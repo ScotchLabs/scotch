@@ -1,0 +1,10 @@
+Hello <%= @contact.name %>,
+
+You have reserved <%= @reservation.amount %> tickets for the <%= @reservation.event.show_time %> showing of <%= @reservation.event.owner.name %>.
+
+Make sure you are outside <%= @reservation.event.location %> by 30 minutes before the start time to claim your ticket(s).
+
+If you need to cancel your reservation, click here: http://snstheatre.org<%= cancel_ticket_reservation_path(@reservation) %>.
+
+Sincerely,
+Scotch'n'Soda Box Office
