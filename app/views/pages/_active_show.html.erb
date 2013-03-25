@@ -21,9 +21,11 @@
         </p>
         <p class="coming-soon"><%= group.slot %></p>
       </div>
-      <div class="ticket-form">
-        <%= render 'ticket_reservations/form', show: group %>
-      </div>
+      <% if group.tickets_available? %>
+        <div class="ticket-form">
+          <%= render 'ticket_reservations/form', show: group %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
