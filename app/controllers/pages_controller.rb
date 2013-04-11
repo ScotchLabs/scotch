@@ -15,6 +15,10 @@ class PagesController < ApplicationController
     @page = Page.find_by_address(params[:id])
   end
 
+  def shows
+    @shows = Show.all.sort
+  end
+
   def new
     @page = Page.new
     @page.page_sections.build

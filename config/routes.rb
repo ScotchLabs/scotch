@@ -1,6 +1,8 @@
 Scotch::Application.routes.draw do
 
-  resources :pages
+  resources :pages do
+    get 'shows', on: :collection
+  end
 
   use_doorkeeper
 

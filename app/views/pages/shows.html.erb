@@ -1,0 +1,16 @@
+<% @shows.each do |s| %>
+  <div class="row">
+    <div class="span12">
+      <div class="section">
+        <div class="card-left">
+          <%= link_to image_tag(s.image(:medium)), s %>
+        </div>
+        <p class="pull-right"><%= s.show_slot %></p>
+        <div class="card-right">
+          <%= link_to s, s %> <span>by <%= s.writers %></span>
+          <p>Directed by <%= s.display_directors %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -75,6 +75,10 @@ class Show < Group
     self.positions.where(display_name: ['Director', 'Creative Director', 'Assistant Director', 'Music Director', 'Assistant Music Director']).sort.map {|p| p.user}
   end
 
+  def show_slot
+    (self.slot || "") + " " + (self.archive_date.try(:year) || Date.current.year).to_s
+  end
+
   def display_directors
     result = self.directors.map {|u| u.name}
     
