@@ -1,50 +1,51 @@
-<article>
-<% if has_permission? "adminElection" %>
-  <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_voting_path(@voting) %></div>
-<% end %>
+<div class="page">
+  <% if has_permission? "adminElection" %>
+    <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_voting_path(@voting) %></div>
+  <% end %>
 
-<h1><%= @voting.name %></h1>
-<h2><%= @voting.voting_type.capitalize %></h2>
+  <h1><%= @voting.name %></h1>
+  <h2><%= @voting.voting_type.capitalize %></h2>
 
-<p>
-  <b>Open date:</b>
-  <%= @voting.open_date.strftime("%A, %B %-d") %>
-</p>
+  <p>
+    <b>Open date:</b>
+    <%= @voting.open_date.strftime("%A, %B %-d") %>
+  </p>
 
-<p>
-  <b>Close date:</b>
-  <%= @voting.close_date.strftime("%A, %B %-d") %>
-</p>
+  <p>
+    <b>Close date:</b>
+    <%= @voting.close_date.strftime("%A, %B %-d") %>
+  </p>
 
-<p>
-  <b>Vote date:</b>
-  <%= @voting.vote_date.strftime("%A, %B %-d") %>
-</p>
-
-</article>
+  <p>
+    <b>Vote date:</b>
+    <%= @voting.vote_date.strftime("%A, %B %-d") %>
+  </p>
+</div>
 
 <% @voting.races.each do |race| %>
-  <article>
-  <h1><%= race.name %></h1>
-  <div>
-    <% race.nominations.select{|n|n.votes.count > 0}.sort.each do |nomination| %>
-      <% unless @voting.election? and @voting.closed_for_nominations? and 
-          (nomination.rejected? or (nomination.votes.count < 2)) %>
-          <%= render nomination %>
-      <% end %>
-    <% end %>
-
-    <% unless @voting.closed_for_nominations? %>
-      <h2>Nominate</h2>
-      <%= form_for race.nominations.build do |f| %>
-        <%= f.hidden_field :race_id %>
-        <% race.grouping.times { f.object.nominees.build } %>
-        <%= f.fields_for :nominees do |g| %>
-          <%= g.select :user_id, @group.users.sort_by{|u| u.to_s}.collect{|u| [u.to_s, u.id]}, {:include_blank => true}, {} %>
+  <div class="page">
+    <div class="dashboard">
+      <div class="dashboard-header">
+        <%= race.name %>
+      </div>
+      <% race.nominations.select{|n|n.votes.count > 0}.sort.each do |nomination| %>
+        <% unless @voting.election? and @voting.closed_for_nominations? and 
+            (nomination.rejected? or (nomination.votes.count < 2)) %>
+            <%= render nomination %>
         <% end %>
-        <%= submit_tag "Nominate" %>
       <% end %>
-    <% end %>
+
+      <% unless @voting.closed_for_nominations? %>
+        <h2>Nominate</h2>
+        <%= form_for race.nominations.build do |f| %>
+          <%= f.hidden_field :race_id %>
+          <% race.grouping.times { f.object.nominees.build } %>
+          <%= f.fields_for :nominees do |g| %>
+            <%= g.select :user_id, @group.users.sort_by{|u| u.to_s}.collect{|u| [u.to_s, u.id]}, {:include_blank => true}, {} %>
+          <% end %>
+          <%= submit_tag "Nominate" %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
-  </article>
 <% end %>
