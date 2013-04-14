@@ -32,8 +32,8 @@
     <div class="container">
       <%= link_to image_tag('sns_web_logo.png'), root_path %>
       <ul>
-        <li><%= link_to 'Tickets', '#' %></li>
-        <li><%= link_to 'Shows', '#' %></li>
+        <li><%= link_to 'Tickets', ticket_reservations_path %></li>
+        <li><%= link_to 'Shows', shows_pages_path %></li>
         <% Page.active.each do |p| %>
           <li><%= link_to p.title, p, class: "#{ params[:id] && params[:id] == p.title.downcase ? 'active' : ''}" %></li>
         <% end %>
