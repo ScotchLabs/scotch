@@ -22,3 +22,4 @@
   <p>Back to <%= link_to @nomination.voting, voting_path(@nomination.voting) %>.
   <div class="clearfix"></div>
 </div>
+<%= render "shared/feedposts", :object => @nomination %>
