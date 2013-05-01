@@ -33,7 +33,7 @@ class Feedpost < ActiveRecord::Base
   before_validation :check_headline
   before_validation :check_privacy
   
-  attr_protected :user_id, :parent_id, :parent_type
+  attr_protected :user_id
   
   POST_TYPES = [
     ['wall',"Wallpost"],

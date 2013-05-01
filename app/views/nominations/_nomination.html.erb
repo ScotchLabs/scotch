@@ -1,7 +1,7 @@
-<%= div_for nomination, :class => 'line-item' do %>
+<%= div_for nomination, :class => 'dashboard-item' do %>
   <% nomination.nominees.each do |n| %>
     <% if n.is_valid_user? %>
-      <div class='fleft line-item-image'>
+      <div class='pull-left'>
         <%= link_to image_tag(n.user.headshot(:thumb)), url_for(n.user) %>
       </div>
     <% end %>

@@ -1,4 +1,4 @@
-<article>
+<div class="page">
 <% if has_permission? "adminElection" %>
   <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_kudo_path(@kudo) %></div>
 <% end %>
@@ -35,27 +35,23 @@
 	<h3>You may vote for one nomination per a category.</h3>
 </center>
 <% end %>
-
-</article>
+</div>
 
 <% @kudo.kawards.each do |a| %>
-	<article>
+  <div class="page">
 		<h1><%= a.name %></h1>
 		<h3><%= a.description %></h3>
 		<br /><br />
 		<div id="kaward_<%= a.id %>">
 			<% a.knominations.shuffle.each do |k| %>
 				<div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
-					<span class='delete_link fright hidden'>
+					<span class='delete_link'>
 				      <% if current_user.superuser? %>
 				        <%= link_to image_tag("delete_icon.png", :size => "8x8"), kudo_kaward_knomination_path(@kudo, a, k), :method => :delete, :remote => true, :confirm => "Are your sure?" %>
 				      <% end %>
 					</span>
-			    <% if @kudo.nominations_open? %>
-					<%= link_to image_tag('thumb_up.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "#{k.kvotes.where(:user_id => current_user.id, :positive => false, :stage => nil).count > 0 ? 'voted' : ''}", :remote => true %>
-					<%= link_to image_tag('thumb_down.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 0), :style => 'float:left;', :id => k.id.to_s + '_down', :class => "#{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => nil).count > 0 ? 'voted' : ''}", :remote => true %>
-				<% elsif @kudo.voting_open? %>
-					<%= link_to image_tag('checkmark.png', :style => 'width:50px;'), vote_kudo_kaward_knomination_path(@kudo, a, k), :style => 'float:left;', :id => k.id.to_s + '_vote', :class => "knomination #{k.kvotes.where(:user_id => current_user.id, :stage => 'vote').count > 0 ? '' : 'notvoted'}", :remote => true %>
+			    <% if @kudo.nominations_open? || @kudo.voting_open? %>
+					<%= link_to image_tag('checkmark.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "checkmark #{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => nil).count > 0 ? '' : 'notvoted'}", :remote => true %>
 				<% end %>
 				  <h2><%= knomination_replace(k.content) %></h2>
 				  <div class='clearfix'></div>
@@ -68,25 +64,28 @@
 		        <%= submit_tag "Nominate" %>
 		      <% end %>
 		    <% end %>
-	</article>
+      </div>
+    </div>
 <% end %>
 
-<script type="text/javascript">
-	$('.knominations_input').autocompleteTrigger({
-	  triggerStart : '@',
-	  triggerEnd: '',
-	  minLength: 1,
-	  source: function( request, response ) {
-					$.ajax({
-						url: "<%= user_search_path %>.json",
-						data:
-						{
-							q: request.term
-						},
-						success: function( data ) {
-							response(data);
-						}
-					});
-				}
-	});
-</script>
+<%= content_for(:javascripts) do %>
+  <script type="text/javascript">
+    $('.knominations_input').autocompleteTrigger({
+      triggerStart : '@',
+      triggerEnd: '',
+      minLength: 1,
+      source: function( request, response ) {
+            $.ajax({
+              url: "<%= user_search_path %>.json",
+              data:
+              {
+                q: request.term
+              },
+              success: function( data ) {
+                response(data);
+              }
+            });
+          }
+    });
+  </script>
+<% end %>

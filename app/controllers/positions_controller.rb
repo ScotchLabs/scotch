@@ -36,8 +36,16 @@ class PositionsController < ApplicationController
     @positions = Position.where(:group_id => @group.id).joins(:user).order("users.last_name, users.first_name ASC")
     @positions = @positions.paginate(:per_page => 30, :page => params[:page]) unless @group.type == "Show"
 
+    @roster = {}
+
+    @positions.each do |p|
+      @roster[p.user.name.capitalize[0]] = [] if !@roster[p.user.name.capitalize[0]]
+      @roster[p.user.name.capitalize[0]] << p
+    end
+
     respond_to do |format|
       format.html # index.html.erb
+      format.pdf
       format.xml  { render :xml => @positions }
       format.json {
         p = {}
