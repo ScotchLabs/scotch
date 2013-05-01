@@ -37,3 +37,14 @@ textarea
 {
   resize: none;
 }
+
+.checkmark img
+{
+  height: 50px;
+  width: 50px;
+}
+
+.notvoted img
+{
+  opacity: 0.3;
+}
