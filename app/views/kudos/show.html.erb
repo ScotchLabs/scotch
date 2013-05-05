@@ -51,7 +51,7 @@
 				      <% end %>
 					</span>
 			    <% if @kudo.nominations_open? || @kudo.voting_open? %>
-					<%= link_to image_tag('checkmark.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "checkmark #{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => nil).count > 0 ? '' : 'notvoted'}", :remote => true %>
+					<%= link_to image_tag('checkmark.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "checkmark #{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => (@kudo.voting_open? ? 'vote' : nil)).count > 0 ? '' : 'notvoted'}", :remote => true %>
 				<% end %>
 				  <h2><%= knomination_replace(k.content) %></h2>
 				  <div class='clearfix'></div>
