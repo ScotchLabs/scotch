@@ -7,6 +7,6 @@
     $("#<%= @knomination.id %>_up").addClass("notvoted");
   <% end %>
 <% elsif @knomination.kudo.voting_open? %>
-	$("#kaward_<%= @knomination.kaward.id %> > .line-item > .knomination").addClass("notvoted");
-	$("#<%= @knomination.id %>_vote").removeClass("notvoted");
+  $("#kaward_<%= @knomination.kaward.id %> > .line-item > .checkmark").addClass("notvoted");
+  $("#knomination_<%= @knomination.id %> > .checkmark").removeClass("notvoted");
 <% end %>

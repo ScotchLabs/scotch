@@ -30,12 +30,12 @@ class KnominationsController < ApplicationController
     @oldparity = nil
     
     if @knomination.kudo.voting_open? #I know, the code is disgusting, it's temporary.
-      if !@knomination.nil? && @knomination.kaward.kvotes.exists?(:user_id => current_user.id, :stage => 'vote')
-        @vote = @knomination.kaward.kvotes.where(:user_id => current_user.id, :stage => 'vote').first
+      if !@knomination.nil? && @knomination.kaward.kvotes.exists?(:user_id => current_user.id, :positive => true, :stage => 'vote')
+        @vote = @knomination.kaward.kvotes.where(:user_id => current_user.id, :positive => true, :stage => 'vote').first
         @vote.destroy
         @vote = nil
       end
-      @vote = @knomination.kvotes.create(:user_id => current_user.id, :stage => 'vote')
+      @vote = @knomination.kvotes.create(:user_id => current_user.id, :positive => true, :stage => 'vote')
       
     elsif @knomination.kudo.nominations_open?
       if !@knomination.nil? && @knomination.kvotes.exists?(:user_id => current_user.id, :stage => nil)
