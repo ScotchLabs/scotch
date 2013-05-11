@@ -133,5 +133,5 @@ Scotch::Application.routes.draw do
   get "dashboard/terms"
   get "dashboard/search"
 
-  root :to => "dashboard#root"
+  root :to => "pages#index"
 end

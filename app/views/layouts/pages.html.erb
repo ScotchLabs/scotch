@@ -38,6 +38,7 @@
           <li><%= link_to p.title, p, class: "#{ params[:id] && params[:id] == p.title.downcase ? 'active' : ''}" %></li>
         <% end %>
       </ul>
+      <%= link_to 'Scotch Login', dashboard_index_path, class: 'scotch-button' %>
     </div>
   </div>
   <div class="container">

@@ -22,8 +22,8 @@ abbr[title]
 {
   height: 30px;
   list-style: none;
-  padding-top: 1px;
   padding-bottom: 5px;
+  overflow: hidden;
 
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -72,6 +72,24 @@ abbr[title]
       color: white;
     }
   }
+}
+
+.scotch-button
+{
+  float: right;
+  display: inline;
+  padding: 7px 10px 11px;
+  color: rgba(0,0,0,0.41);
+  text-decoration: none;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.scotch-button:hover
+{
+  text-decoration: none;
+  color: white;
+  background-color: #FF9500;
 }
 
 .main-banner
