@@ -62,6 +62,8 @@ gem 'prawn_rails'
 
 gem 'doorkeeper'
 
+gem 'bourbon'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
