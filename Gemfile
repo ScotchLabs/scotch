@@ -64,6 +64,8 @@ gem 'doorkeeper'
 
 gem 'bourbon'
 
+gem 'neat'
+
 group :development do
   gem 'annotate'
   gem 'debugger'
