@@ -1,3 +1,8 @@
+//= require reset
+
+@import "bourbon";
+@import "neat";
+
 .section
 {
   margin-top: 10px;
@@ -15,6 +20,25 @@
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
+}
+
+section
+{
+  padding-top: 10px;
+  h2
+  {
+    color: white;
+    margin: 0 auto 30px auto;
+    max-width: 480px;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 100;
+  }
+}
+
+.container
+{
+  @include outer-container;
 }
 
 .card-left
@@ -69,5 +93,93 @@ ul.properties
   li
   {
     font-size: 14px;
+  }
+}
+
+.card
+{
+  @include span-columns(3);
+  position: relative;
+
+  img
+  {
+    position: relative;
+    width: 100%;
+  }
+
+  .card-body
+  {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    vertical-align: top;
+    text-align: center;
+    color: white;
+    background-color: black;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 5px 0;
+  }
+
+  h4
+  {
+    font-size: 12px;
+    margin-top: 3px;
+    font-weight: 100;
+  }
+}
+
+.group-card
+{
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: white;
+
+  .card-image
+  {
+    position: relative;
+    width: 150px;
+    margin-right: auto;
+    margin-left: auto;
+
+    img
+    {
+      vertical-align: baseline;
+      height: 100%;
+    }
+  }
+
+  .card-body
+  {
+    vertical-align: top;
+    position: relative;
+    height: 100%;
+    text-align: center;
+    color: white;
+    background-color: black;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 5px 0;
+  }
+
+  h4
+  {
+    font-size: 12px;
+    margin-top: 3px;
+  }
+}
+
+.card-attributes
+{
+  list-style-type: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 0;
+
+  span
+  {
+    margin-right: 5px;
+    color: rgba(0, 0, 0, 0.41);
   }
 }

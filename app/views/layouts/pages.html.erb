@@ -29,7 +29,7 @@
 </head>
 <body>
   <div class="sns-nav navbar-fixed-top">
-    <div class="container">
+    <div class="sns-nav-inner">
       <%= link_to image_tag('sns_web_logo.png'), root_path %>
       <ul>
         <li><%= link_to 'Tickets', ticket_reservations_path %></li>
@@ -41,7 +41,6 @@
       <%= link_to 'Scotch Login', dashboard_index_path, class: 'scotch-button' %>
     </div>
   </div>
-  <div class="container">
 	<div class="content">
 		<% if alert %>
 		<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Oops!</strong> <%= alert %></p></div>
@@ -49,12 +48,11 @@
 		<% if notice %>
 		<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
 		<% end %>
-        <div class="row">
-            <%= content_for?(:content) ? yield(:content) : yield %>
-          <div class="span1">&nbsp;</div>
-        </div><!--/row-->
-    </div><!--/content-->
-  </div>
+    <div class="row">
+        <%= content_for?(:content) ? yield(:content) : yield %>
+      <div class="span1">&nbsp;</div>
+    </div><!--/row-->
+  </div><!--/content-->
   <%= render 'pages/footer' %>
   <%= javascript_include_tag "application" %>
 

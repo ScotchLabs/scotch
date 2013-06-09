@@ -1,12 +1,8 @@
-<div class="span12">
-  <div class="current-season">
-    <ul class="season-container clearfix">
-      <% season.each do |s| %>
-        <li>
-          <%= image_tag s.image(:medium) %>
-        </li>
-      <% end %>
-    </ul>
+<section class="current-season">
+  <h2 class="title">Season in Review</h2>
+  <div class="container">
+    <% season.each do |s| %>
+      <%= render 'groups/public_card', show: s %>
+    <% end %>
   </div>
-  <h2 class="season-label">Current Season</h2>
 </div>

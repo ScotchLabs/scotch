@@ -2,15 +2,17 @@
  * This is a manifest file that'll automatically include all the stylesheets available in this directory
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
- *= require bootstrap_and_overrides
  *= require_self
  *= require shared
 */
 
+@import "bourbon";
+@import "neat";
+
 body
 {
-  padding-top: 37px;
   background: url(asset-path('grey.png', image));
+  font-family: 'Tauri', sans-serif;
 }
 
 abbr[title]
@@ -20,7 +22,7 @@ abbr[title]
 
 .sns-nav
 {
-  height: 30px;
+  height: 35px;
   list-style: none;
   padding-bottom: 5px;
   overflow: hidden;
@@ -33,7 +35,8 @@ abbr[title]
   
   img
   {
-    height: 100%;
+    margin-top: 3px;
+    height: 30px;
     float:left;
   }
 
@@ -42,7 +45,8 @@ abbr[title]
     position: relative;
     display: block;
     float: left;
-    margin-top: 8px;
+    margin-top: 10px;
+    margin-left: 10px;
   }
 
   li
@@ -72,6 +76,11 @@ abbr[title]
       color: white;
     }
   }
+}
+
+.sns-nav-inner
+{
+  @include outer-container;
 }
 
 .scotch-button
@@ -115,7 +124,6 @@ abbr[title]
   width: 100%;
   height: 250px;
   color: #383838;
-  font-family: 'Tauri', sans-serif;
 
   padding: 10px 10px 10px 10px;
 
@@ -201,58 +209,14 @@ abbr[title]
   }
 }
 
-.current-season
+section.current-season
 {
-  width: 100%;
-  height: 250px;
-  background-color: #9C9C9C;
-  padding-bottom: 0;
-
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-top-right-radius: 10px;
-  border-top-right-radius: 10px;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-top-left-radius: 10px;
-  border-top-left-radius: 10px;
-
-  .season-container
+  background-color: #FF9500;
+  
+  h2
   {
-    list-style-type: none;
-    margin-top: 20px;
-    margin-left: 35px;
+    text-shadow: 0px 2px 2px #D67D00;
   }
-
-  img
-  {
-    width: 200px;
-    height: 200px;
-  }
-
-  li
-  {
-    display: block;
-    float: left;
-    padding: 10px 10px 10px 10px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-}
-
-.season-label
-{
-  clear: left;
-  text-align: center;
-  width: 100%;
-  background-color: #212121;
-  color: #737373;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-bottom-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-bottom-left-radius: 10px;
-  border-bottom-left-radius: 10px;
 }
 
 .page-content
