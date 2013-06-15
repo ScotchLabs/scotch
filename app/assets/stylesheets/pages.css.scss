@@ -264,13 +264,24 @@ section.current-season
   background: url(asset-path('subtle_carbon.png', image));
   min-height: 100px;
   width: 100%;
-  color: #FF9500;
+  color: #FFF;
+
+  .content
+  {
+    @include outer-container;
+  }
+
+  .board-list
+  {
+    @include span-columns(4);
+  }
+
+  .contact-list
+  {
+    @include span-columns(4);
+  }
 
   .mail-address
   {
-    p
-    {
-      text-align: center;
-    }
   }
 }
