@@ -16,7 +16,7 @@ class PagesController < ApplicationController
   end
 
   def shows
-    @shows = Show.all.sort
+    @seasons = Show.by_year.to_a.reverse
   end
 
   def new

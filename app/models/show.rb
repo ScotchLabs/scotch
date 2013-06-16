@@ -33,6 +33,12 @@ class Show < Group
     year = Date.today.month > 7 ? Date.today.year : Date.today.year - 1
     where('archive_date BETWEEN ? AND ?', Date.new(year, 8, 1), Date.new(year+1, 5, -1)).order('archive_date ASC')
   end
+
+  def self.by_year
+    all.group_by do |s|
+      s.archive_date.month > 7 ? s.archive_date.year + 1 : s.archive_date.year
+    end
+  end
   
   def calendar_positions
     a=super

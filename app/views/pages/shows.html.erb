@@ -1,16 +1,12 @@
-<% @shows.each do |s| %>
-  <div class="row">
-    <div class="span12">
-      <div class="section">
-        <div class="card-left">
-          <%= link_to image_tag(s.image(:medium)), s %>
-        </div>
-        <p class="pull-right"><%= s.show_slot %></p>
-        <div class="card-right">
-          <%= link_to s, s %> <span>by <%= s.writers %></span>
-          <p>Directed by <%= s.display_directors %></p>
-        </div>
+<div class="show-seasons">
+  <% @seasons.each do |year, shows| %>
+    <section class="show-season">
+      <h2 class="title"><%= "#{year - 1} - #{year}" %></h1>
+      <div class="container">
+        <% shows.each do |s| %>
+          <%= render 'groups/public_card', show: s %>
+        <% end %>
       </div>
-    </div>
-  </div>
-<% end %>
+    </section>
+  <% end %>
+</div>

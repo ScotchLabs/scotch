@@ -99,6 +99,7 @@ ul.properties
 .card
 {
   @include span-columns(3);
+  @include omega(4n);
   position: relative;
 
   img

@@ -285,3 +285,28 @@ section.current-season
   {
   }
 }
+
+// Shows Page
+
+.show-seasons
+{
+  .show-season
+  {
+    padding-bottom: 10px;
+  }
+
+  .show-season:nth-child(odd)
+  {
+    background-color: #FF9500;
+  }
+
+  .show-season:nth-child(even)
+  {
+    h2
+    {
+      color: #FF9500;
+    }
+
+    background-color: #FFF;
+  }
+}
