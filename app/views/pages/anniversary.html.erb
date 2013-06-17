@@ -1,0 +1,15 @@
+<div id="timeline-embed"></div>
+
+<%= content_for(:javascripts) do %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        createStoryJS({
+            type:       'timeline',
+            width:      '1200',
+            height:     '600',
+            source:     'https://docs.google.com/spreadsheet/pub?key=0AoJqSnjj-FFLdElMMVJKU1U4d20zdVA2cS1penNIUEE&output=html',
+            embed_id:   'timeline-embed'
+          });
+        })
+  </script>
+<% end %>

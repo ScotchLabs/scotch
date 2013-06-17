@@ -3,6 +3,7 @@ Scotch::Application.routes.draw do
   resources :pages do
     get 'shows', on: :collection
     get 'recruit', on: :collection
+    get 'anniversary', on: :collection
   end
 
   use_doorkeeper
