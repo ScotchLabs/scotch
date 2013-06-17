@@ -35,7 +35,7 @@ class Show < Group
   end
 
   def self.by_year
-    all.group_by do |s|
+    archived.group_by do |s|
       s.archive_date.month > 7 ? s.archive_date.year + 1 : s.archive_date.year
     end
   end
