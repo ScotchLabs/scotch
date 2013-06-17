@@ -63,7 +63,11 @@
 .recruit-panel-container
 {
   @include outer-container;
-  padding-bottom: 10px;
+}
+
+.recruit-panel-section
+{
+  padding: 40px 0;
 }
 
 .recruit-panel
