@@ -1,16 +1,18 @@
 require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 
+set :stages, %w{staging production}
+set :default_stage, 'staging'
+require 'capistrano/ext/multistage'
+
 set :user, 'deploy'
 set :domain, 'snstheatre.org'
 set :application, "scotch"
  
 set :repository, "git@github.com:Scotch-n-Soda/scotch.git"  # Your clone URL
 set :scm, "git"
-set :branch, "master"
 set :scm_verbose, true
 set :deploy_via, :remote_cache
-set :deploy_to, "/home/#{user}/#{application}"
 set :use_sudo, false
  
 default_run_options[:pty] = true
