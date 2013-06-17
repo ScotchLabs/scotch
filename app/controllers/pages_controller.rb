@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   layout 'pages'
-  skip_before_filter :authenticate_user!, only: [:index, :show]
+  skip_before_filter :authenticate_user!, only: [:index, :show, :recruit]
 
   def index
     @show = Show.active.public.first
