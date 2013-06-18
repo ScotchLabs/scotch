@@ -1,6 +1,13 @@
 @import 'bourbon';
 @import 'neat';
 
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100);
+
+.recruit-page
+{
+  font-family: 'Roboto', sans-serif;
+}
+
 .recruit-banner
 {
   height: 500px;
@@ -35,12 +42,17 @@
   padding-right: 100px;
   padding-bottom: 10px;
 
+  h2
+  {
+    font-weight: 100;
+  }
+
   p
   {
     margin-bottom: 10px;
     color: #FFF;
     text-indent: 50px;
-    text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
+    // text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
     font-size: 24px;
     line-height: 30px;
   }
@@ -83,6 +95,7 @@
     width: 100%;
     text-align: center;
     font-size: 36px;
+    font-weight: 100;
   }
 
   p
