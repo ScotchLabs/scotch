@@ -135,6 +135,12 @@
 </div>
 <section class="recruit-info">
   <h2>Subscribe</h2>
+  <div class="recruit-form">
+    <%= form_tag subscribe_pages_path do %>
+      <%= text_field_tag 'andrew' %><span>@andrew.cmu.edu</span>
+      <%= submit_tag 'subscribe' %>
+    <% end %>
+  </div>
   <p>Subscribe to our public mailing list so you don't miss our recruiting events!</p>
   <h2>Follow Us</h2>
   <div class="social-icons">

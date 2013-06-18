@@ -15,4 +15,11 @@ class MessageMailer < ActionMailer::Base
          to: @user.email,
          subject: @message.subject)
   end
+
+  def subscribe_email(contact)
+    email = contact.email
+
+    mail(to: email,
+         subject: "Scotch'n'Soda Public Mailing List")
+  end
 end

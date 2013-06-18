@@ -4,6 +4,7 @@ Scotch::Application.routes.draw do
     get 'shows', on: :collection
     get 'recruit', on: :collection
     get 'anniversary', on: :collection
+    post 'subscribe', on: :collection, as: 'subscribe'
   end
 
   use_doorkeeper

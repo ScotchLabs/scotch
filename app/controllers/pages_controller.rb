@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   layout 'pages'
-  skip_before_filter :authenticate_user!, only: [:index, :show, :recruit, :anniversary]
+  skip_before_filter :authenticate_user!, only: [:index, :show, :recruit, :anniversary, :shows, :subscribe]
 
   def index
     @show = Show.active.public.first
@@ -17,6 +17,18 @@ class PagesController < ApplicationController
 
   def shows
     @seasons = Show.by_year.to_a.reverse
+  end
+
+  def subscribe
+    c = Contact.create(protocol: 'email', address: params[:andrew] + "@andrew.cmu.edu")
+
+    if c
+      MessageMailer.subscribe_email(c).deliver
+    end
+
+    flash[:notice] = "You are now subscribed to our mailing list!"
+
+    redirect_to root_path
   end
 
   def new
