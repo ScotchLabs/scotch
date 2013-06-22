@@ -18,6 +18,11 @@ body
   font-family: 'Tauri', sans-serif;
 }
 
+a
+{
+  color: #FF9500;
+}
+
 abbr[title]
 {
   border-bottom-style: none;
@@ -264,24 +269,63 @@ section.current-season
 
 .footer
 {
-  background: url(asset-path('subtle_carbon.png', image));
   min-height: 100px;
   width: 100%;
-  color: #FFF;
+  padding: 10px 0;
+  background-color: rgba(0,0,0,0.05);
+
+  -webkit-box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.3);
 
   .content
   {
     @include outer-container;
   }
 
+  h4
+  {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    background-color: #000;
+    color: #FFF;
+    padding: 5px 5px;
+  }
+
   .board-list
   {
-    @include span-columns(4);
+    @include span-columns(5);
+
+    ul
+    {
+      border-bottom-width: 2px;
+      border-bottom-color: rgba(0,0,0,0.2);
+      border-bottom-style: solid;
+
+      padding-left: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
   }
 
   .contact-list
   {
     @include span-columns(4);
+    padding-bottom: 5px;
+
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0,0,0,0.2);
+    border-bottom-style: solid;
+
+    h4
+    {
+      margin-bottom: 5px;
+    }
+
+    p
+    {
+      margin-left: 5px;
+    }
   }
 
   .mail-address
