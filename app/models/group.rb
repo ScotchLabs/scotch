@@ -40,7 +40,7 @@ class Group < Shared::Watchable
 	Paperclip.interpolates :groupname do |attachment,style| attachment.instance.short_name end
 
   has_attachment :image, :styles => 
-    { :medium => "150x150#", :thumb => "50x50#" },
+    { :medium => "150x150#", :card => "260x260#", :thumb => "50x50#" },
     :default_url => '/assets/missing/:class_:style.png',
 		:file_name => ':class/:groupname_:style.:extension'
 
