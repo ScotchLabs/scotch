@@ -66,6 +66,10 @@ gem 'bourbon'
 
 gem 'neat'
 
+group :production do
+  gem 'newrelic_rpm'
+end
+
 group :development do
   gem 'annotate'
   gem 'debugger'
