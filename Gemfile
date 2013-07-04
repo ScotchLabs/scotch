@@ -72,6 +72,5 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'debugger'
   gem 'letter_opener'
 end
