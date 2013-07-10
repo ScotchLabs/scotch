@@ -7,21 +7,19 @@ module Shared
     end
 
     module ClassMethods
-      def has_attachment(name, options = {})
-				now = Time.now
-				# make up a filename if we weren't given one
-				filename = options[:file_name] or "#{now.to_i}#{now.usec}_:style.:extension"
+      Paperclip.interpolates :urlpath do |attachment, style|
+        filename = attachment.options[:file_name]
 
-        if Rails.env.production?
-					options[:path]	||= ":rails_root/../../../upload/scotch/#{filename}"
-					options[:url]		||= "http://upload.snstheatre.org/scotch/#{filename}"
+        if Rails.env.development? && File.exists?("/system/#{filename}")
+          "/system/#{filename}"
         else
-          options[:path]  ||= ":rails_root/public/system/#{filename}"
-          options[:url]   ||= "/system/#{filename}"
+          "http://upload.snstheatre.org/scotch/#{filename}"
         end
+      end
 
-        # pass things off to paperclip.
-        has_attached_file name, options
+      def has_attachment(name, options = {})
+        options[:url] ||= ":urlpath"
+        has_attached_file(name, options)
       end
     end
   end
