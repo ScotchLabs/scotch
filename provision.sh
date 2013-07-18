@@ -43,9 +43,9 @@ rvm use 1.9.3 --default
 # If project has a Gemfile make use of it 
 if [[ -s "./Gemfile" ]] ; then
     printf "Running 'bundle install' against Gemfile"
-   	# Must install to vendor/cache because bundler
+   	# Must install to vendor/bundle because bundler
     # buggers install of carlosdp/mail otherwise
-    bundle install --path vendor/cache > /dev/null
+    bundle install --path vendor/bundle > /dev/null
 else
 	printf "No Gemfile found in $PWD. Continuing happily."
 fi
