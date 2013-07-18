@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS scotch_development;
+CREATE DATABASE IF NOT EXISTS scotch_test;
+
+# Emulate DROP USER IF EXISTS by lazily creating user via GRANT if it
+GRANT USAGE ON *.* TO ''@'localhost';
+DROP USER ''@'localhost';
+#CREATE USER 'scotch_dev'@'localhost' IDENTIFIED BY '59WldjLH';
+
+GRANT ALL ON scotch_development.* TO 'scotch_dev'@'localhost' IDENTIFIED BY '59WldjLH';
+GRANT ALL ON scotch_test.* TO 'scotch_dev'@'localhost';
