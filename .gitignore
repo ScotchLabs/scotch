@@ -1,32 +1,28 @@
 .DS_Store
 .bundle
-db/*.sqlite3
-log/*.log
-log/*.pid
 tmp
-config/database.yml
 
-/vendor/bundle
-/db/sphinx
 
 # /
 /client
-/.bundle
 /index
 
 # /config/
 /config/database.yml
 /config/production.sphinx.conf
 
+# /db/
+/db/sphinx
+/db/data.yml
+/db/*.sqlite3
+
 # /log/
-/log/development.log
-/log/production.log
-/log/staging.log
-/log/testing.log
+/log/*.log
+/log/*.pid
 
 # /public/
-/public/system
 /public/st
+/public/system
 
 # /public/images/
 /public/images/*.psd
@@ -39,3 +35,6 @@ config/database.yml
 
 # /tmp/pids/
 /tmp/pids/server.pid
+
+# /vendor/
+/vendor/bundle
