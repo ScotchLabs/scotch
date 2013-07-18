@@ -16,6 +16,8 @@ gem 'twitter-bootstrap-rails'
 
 gem 'mysql2'
 
+gem 'yaml_db'
+
 gem 'devise'
 
 gem 'RedCloth'
