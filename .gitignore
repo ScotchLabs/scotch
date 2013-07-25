@@ -1,14 +1,10 @@
 .DS_Store
 .bundle
-db/*.sqlite3
-log/*.log
-log/*.pid
 tmp
 
 
 # /
 /client
-/.bundle
 /index
 
 # /config/
@@ -16,18 +12,22 @@ tmp
 /config/production.sphinx.conf
 
 # /db/
+<<<<<<< HEAD
 /db/data.yml
 /db/sphinx
+=======
+/db/sphinx
+/db/data.yml
+/db/*.sqlite3
+>>>>>>> staging
 
 # /log/
-/log/development.log
-/log/production.log
-/log/staging.log
-/log/testing.log
+/log/*.log
+/log/*.pid
 
 # /public/
-/public/system
 /public/st
+/public/system
 
 # /public/images/
 /public/images/*.psd
