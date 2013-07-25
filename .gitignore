@@ -12,14 +12,9 @@ tmp
 /config/production.sphinx.conf
 
 # /db/
-<<<<<<< HEAD
-/db/data.yml
-/db/sphinx
-=======
 /db/sphinx
 /db/data.yml
 /db/*.sqlite3
->>>>>>> staging
 
 # /log/
 /log/*.log
