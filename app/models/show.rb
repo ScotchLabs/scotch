@@ -30,7 +30,7 @@ class Show < Group
   end
 
   def self.current_season
-    year = Date.today.month > 7 ? Date.today.year : Date.today.year - 1
+    year = Date.today.month > 8 ? Date.today.year : Date.today.year - 1
     where('archive_date BETWEEN ? AND ?', Date.new(year, 8, 1), Date.new(year+1, 5, -1)).order('archive_date ASC')
   end
 
