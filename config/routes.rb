@@ -2,7 +2,7 @@ Scotch::Application.routes.draw do
 
   resources :pages do
     get 'shows', on: :collection
-    get 'recruit', on: :collection
+    get 'about', on: :collection
     get 'anniversary', on: :collection
     post 'subscribe', on: :collection, as: 'subscribe'
   end
