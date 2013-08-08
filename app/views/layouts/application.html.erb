@@ -27,61 +27,7 @@
   </script>
 </head>
 <body>
-	<div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-          <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-		  <%= link_to "Scotch <small style='font-size:12px;'>beta</small>".html_safe, dashboard_index_path, :class => 'brand' %>
-          <div class="container nav-collapse">
-			<% if user_signed_in? %>
-            <ul class="nav">
-				<li class="dropdown notification-dropdown visible-desktop">
-					<%= link_to '', '#', :class => 'dropdown-toggle notification-button', 'data-toggle' => 'dropdown' %>
-				    <ul class="dropdown-menu notification-menu">
-				      <%= render 'notifications/notification', notifications: current_user.notifications %>
-				    </ul>
-				</li>
-                <li><%= link_to "Schedule", events_path %></li>
-		        <li><%= link_to "Groups", groups_path %></li>
-		        <li><%= link_to "Inventory", items_path %></li>
-            </ul>
-			<%= form_tag '/dashboard/search', :class => 'navbar-search', :method => 'get' do %>
-	            <%= search_field_tag "q", nil, :placeholder => "Search" %>
-			<% end %>
-			<ul class="nav pull-right">
-			<li class="dropdown">
-				<%= link_to "#{current_user.name} <b class='caret'></b>".html_safe, '#', :class => 'dropdown-toggle', 'data-toggle' => 'dropdown' %>
-			    <ul class="dropdown-menu">
-			      <li><%= link_to 'Profile', current_user %></li>
-			      <li><%= link_to 'Settings', '#' %></li>
-			      <li class="divider"></li>
-			      <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
-			    </ul>
-			</li>
-			</ul>
-	        <% else %>
-			<%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-search'} do |ft| %>
-
-			<%= ft.text_field :andrewid, :placeholder => 'Andrew ID' %>
-			<%= ft.password_field :password, :placeholder => 'Password' %>
-
-			<%= submit_tag 'Login', class: 'btn' %>
-			<% end %>
-			<ul class="nav">
-				<li><%= link_to 'Reset Password', new_password_path(resource_name) %></li>
-			</ul>
-			<ul class="nav pull-right">
-				<li><%= link_to 'Register', new_registration_path(resource_name) %></li>
-			</ul>
-			<% end %>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+  <%= render 'layouts/navbar' %>
   <div class="container">
 	<div class="content">
 		<% if alert %>
