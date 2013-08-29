@@ -166,6 +166,8 @@ GEM
       railties (>= 3.0.0)
     private_pub (1.0.1)
       faye
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rabl (0.6.13)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
@@ -269,6 +271,7 @@ DEPENDENCIES
   paperclip
   prawn_rails
   private_pub
+  quiet_assets
   rabl
   rails (= 3.2.2)
   rake
