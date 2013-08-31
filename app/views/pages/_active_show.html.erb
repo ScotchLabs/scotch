@@ -1,32 +1,29 @@
-<div class="span6">
-<center>
-  <%= image_tag group.image, style: 'height: 100%;width:100%;' %>
-</center>
+<div class="col-7">
+  <%= image_tag group.image.url(:medium), style: "width:100%;" %>
 </div>
-<div class="span6">
-<div class="row-fluid">
-  <div class="span12">
-    <div class="section">
-      <div class="production-info">
-        <div class="title">
-          <h2><%= group.name %></h2>
-          <p>by</p>
-          <p><%= group.writers %></p>
-        </div>
-        <div class="directors">
-          <span>DIRECTED BY</span> <%= group.display_directors %>
-        </div>
-        <p class="description">
-          <%= group.description %>
-        </p>
-        <p class="coming-soon"><%= group.slot %></p>
-      </div>
-      <% if group.tickets_available? %>
-        <div class="ticket-form">
-          <%= render 'ticket_reservations/form', show: group %>
-        </div>
-      <% end %>
+<div class="col-5">
+  <div class="production-info">
+    <div class="title">
+      <h2><%= group.name %></h2>
+      <p>by</p>
+      <p><%= group.writers %></p>
+    </div>
+    <p class="coming-soon">-<%= group.show_slot %>-</p>
+    <p class="description">
+    <%= group.description %>
+    </p>
+    <div class="directors">
+      <span>DIRECTED BY</span> <%= group.display_directors %>
     </div>
   </div>
-</div>
+  <% if group.events.auditions.count == 0 %>
+    <center>
+      <%= link_to 'Auditions Open', group_auditions_path(group), class: 'btn btn-primary' %>
+    </center>
+  <% end %>
+  <% if group.tickets_available? %>
+    <div class="ticket-form">
+      <%= render 'ticket_reservations/form', show: group %>
+    </div>
+  <% end %>
 </div>
