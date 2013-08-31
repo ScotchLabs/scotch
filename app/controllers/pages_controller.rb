@@ -32,10 +32,10 @@ class PagesController < ApplicationController
   end
 
   def twilio
-    client = Twilio::REST::Client.new('ACce4ca7ae0ff2396ebc76a714d163bd42','3ed7d1684a38e3abac32b122d57f26b8')
+    # client = Twilio::REST::Client.new('ACce4ca7ae0ff2396ebc76a714d163bd42','3ed7d1684a38e3abac32b122d57f26b8')
 
-    client.account.sms.messages.create(from: '+1 412-567-1945', to: params['From'],
-                                       body: 'Thank you! You are now on the SnS Mailing List')
+    # client.account.sms.messages.create(from: '+1 412-567-1945', to: params['From'],
+    #                                    body: 'Thank you! You are now on the SnS Mailing List')
     c = Contact.create(protocol: 'email', address: params['Body'] + "@andrew.cmu.edu")
 
     if c
@@ -44,7 +44,11 @@ class PagesController < ApplicationController
 
     flash[:notice] = "You are now subscribed to our mailing list!"
 
-    redirect_to root_path
+    resp = Twilio::TwiML::Response.new do |r|
+      r.Sms "You are now subscribed to our mailing list!", from: '+1 412-567-1945', to: params['To']
+    end
+
+    render text: resp.text
   end
 
   def new
