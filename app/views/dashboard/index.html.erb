@@ -1,16 +1,18 @@
 <div class="col-12">
   <% Show.active.each do |s| %>
-    <div class="col-2">
-      <%= image_tag s.image.url(:medium) %>
-    </div>
-    <div class="col-10">
-      <div class="row">
-        <h2><%= link_to s.name, s %> <small><%= s.show_slot %></small></h2>
+    <div class="row">
+      <div class="col-2">
+        <%= image_tag s.image.url(:medium) %>
       </div>
-      <div class="row">
-        <% if s.events.auditions.count > 0 %>
-          <%= link_to 'Auditions', group_auditions_path(s), class: "btn btn-primary" %>
-        <% end %>
+      <div class="col-10">
+        <div class="row">
+          <h2><%= link_to s.name, s %> <small><%= s.show_slot %></small></h2>
+        </div>
+        <div class="row">
+          <% if s.events.auditions.count > 0 %>
+            <%= link_to 'Auditions', group_auditions_path(s), class: "btn btn-primary" %>
+          <% end %>
+        </div>
       </div>
     </div>
   <% end %>

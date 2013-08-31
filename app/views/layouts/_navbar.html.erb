@@ -12,6 +12,22 @@
         <li><%= link_to 'Groups', groups_path %></li>
         <li><%= link_to 'Inventory', items_path %></li>
       </ul>
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+        </ul>
+      <% else %>
+        <%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-form'} do |ft| %>
+          <div class="form-group">
+            <%= ft.text_field :andrewid, :placeholder => 'Andrew ID', :class => 'form-control' %>
+            <%= ft.password_field :password, :placeholder => 'Password', :class => 'form-control' %>
+          </div>
+          <%= submit_tag 'Login', class: 'btn btn-default' %>
+        <% end %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Register', new_registration_path(:user) %></li>
+        </ul>
+      <% end %>
     </div>
   </div>
 </div>
