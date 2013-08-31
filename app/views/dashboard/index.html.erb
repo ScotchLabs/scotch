@@ -1,38 +1,17 @@
-<% if $redis.get('home-message') %>
-  <div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><center><strong><%= raw RedCloth.new($redis.get('home-message')).to_html %></strong></center></p></div>
-<% end %>
-<div class="row">
-	<div class="span12">
-	<div class="dashboard">
-	<div class="dashboard-header">
-		<%= link_to 'Active Shows', shows_path %>
-	</div>
-	<div class="dashboard-container">
-	<ul class="thumbnails" style="padding:5px;">
-		<% Show.active.each do |s| %>
-			<div class="span2">
-				<div class="thumbnail">
-					<%= image_tag s.image(:medium), size: '180x180'%>
-					<div class="caption">
-						<h5><%= s.name %></h5>
-						<p><%= link_to 'View', s, class: 'btn btn-primary' %></p>
-                                                <% if s.auditions? %>
-                                                <p><%= link_to 'Auditions', group_auditions_path(s), class: 'btn btn-success' %></p>
-                                                <% end %>
-					</div>
-				</div>
-			</div>
-		<% end %>
-	</ul>
-	</div>
-	</div>
-	</div>
-</div>
-<div class="row">
-	<div class="span4">
-		<%= render 'events/dashboard', events: @events, scroll: true %>
-	</div>
-	<div class="span4">
-		<%= render 'notifications/dashboard', notifications: current_user.notifications, scroll: true %>
-	</div>
+<div class="col-12">
+  <% Show.active.each do |s| %>
+    <div class="col-2">
+      <%= image_tag s.image.url(:medium) %>
+    </div>
+    <div class="col-10">
+      <div class="row">
+        <h2><%= link_to s.name, s %> <small><%= s.show_slot %></small></h2>
+      </div>
+      <div class="row">
+        <% if s.events.auditions.count > 0 %>
+          <%= link_to 'Auditions', group_auditions_path(s), class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

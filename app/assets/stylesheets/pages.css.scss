@@ -10,13 +10,19 @@
  *= require_tree ./pages/font
 */
 
-@import "bourbon";
-@import "neat";
+$scotch-color: #ed7220;
+$sns-border: #d37130;
+
+$brand-primary: $scotch-color;
+$navbar-bg: #FFFFFF;
+
+
+@import "twitter/bootstrap";
 
 body
 {
-  background: url(asset-path('grey.png', image));
-  font-family: 'Tauri', sans-serif;
+  background-color: #eaeaea;
+  // font-family: 'Helvetica Nue';
 }
 
 a
@@ -41,9 +47,43 @@ h1
   }
 }
 
+h2
+{
+  color: $scotch-color;
+}
+
 abbr[title]
 {
   border-bottom-style: none;
+}
+
+.sns-logo
+{
+  height: 30px;
+}
+
+.sns-content
+{
+  background-color: #fafafa;
+  height: 100%;
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, .1);
+}
+
+.navbar
+{
+  margin-bottom: -10px;
+  border-bottom-width: 10px;
+  border-bottom-style: solid;
+  border-bottom-color: $sns-border;
+}
+
+.sns-brand
+{
 }
 
 .sns-nav
@@ -59,12 +99,6 @@ abbr[title]
 
   background-color: white;
   
-  img
-  {
-    margin-top: 3px;
-    height: 30px;
-    float:left;
-  }
 
   ul
   {
@@ -106,7 +140,6 @@ abbr[title]
 
 .sns-nav-inner
 {
-  @include outer-container;
 }
 
 .scotch-button
@@ -148,7 +181,6 @@ abbr[title]
 {
   margin-top: 10px;
   width: 100%;
-  height: 250px;
   color: #383838;
 
   padding: 10px 10px 10px 10px;
@@ -186,8 +218,9 @@ abbr[title]
 
   .coming-soon
   {
-    font-size: 20px;
-    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 16px;
     text-align: center;
   }
 }
@@ -287,68 +320,11 @@ section.current-season
 
 .footer
 {
-  min-height: 100px;
-  width: 100%;
-  padding: 10px 0;
-  background-color: rgba(0,0,0,0.05);
-
-  -webkit-box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.3);
-
-  .content
-  {
-    @include outer-container;
-  }
-
-  h4
-  {
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    background-color: #000;
-    color: #FFF;
-    padding: 5px 5px;
-  }
-
-  .board-list
-  {
-    @include span-columns(5);
-
-    ul
-    {
-      border-bottom-width: 2px;
-      border-bottom-color: rgba(0,0,0,0.2);
-      border-bottom-style: solid;
-
-      padding-left: 5px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-  }
-
-  .contact-list
-  {
-    @include span-columns(4);
-    padding-bottom: 5px;
-
-    border-bottom-width: 2px;
-    border-bottom-color: rgba(0,0,0,0.2);
-    border-bottom-style: solid;
-
-    h4
-    {
-      margin-bottom: 5px;
-    }
-
-    p
-    {
-      margin-left: 5px;
-    }
-  }
-
-  .mail-address
-  {
-  }
+  margin-top: 20px;
+  border-top-width: 10px;
+  border-top-style: solid;
+  border-top-color: $sns-border;
+  padding: 10px;
 }
 
 // Shows Page

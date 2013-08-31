@@ -1,0 +1,17 @@
+<div class="navbar">
+  <div class="container">
+    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <%= link_to 'Scotch', dashboard_index_path, class: 'navbar-brand' %>
+    <div class="nav-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><%= link_to 'Schedule', events_path %></li>
+        <li><%= link_to 'Groups', groups_path %></li>
+        <li><%= link_to 'Inventory', items_path %></li>
+      </ul>
+    </div>
+  </div>
+</div>

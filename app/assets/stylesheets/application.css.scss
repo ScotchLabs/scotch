@@ -3,15 +3,18 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require bootstrap_and_overrides
  *= require_tree ./main
 */
 
-body
-{
-	background-image: url(image-path('bg-solid.png'));
-	background-repeat:repeat;
-}
+$link-color: #FF7600;
+$brand-primary: #FF7600;
+$navbar-bg: #ed7220;
+$navbar-link-color: #EFEFEF;
+$navbar-link-hover-color: #FFF;
+$navbar-border-radius: 0;
+$navbar-link-active-color: #FFF;
+
+@import "twitter/bootstrap";
 
 .page
 {

@@ -7,6 +7,7 @@
 
   <%= stylesheet_link_tag "pages", :media => "all" %>
   <link href='http://fonts.googleapis.com/css?family=Tauri' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,700' rel='stylesheet' type='text/css'>
 
   <%= yield :header %>
 
@@ -26,32 +27,42 @@
   </script>
 </head>
 <body>
-  <div class="sns-nav navbar-fixed-top">
-    <div class="sns-nav-inner">
-      <%= link_to image_tag('sns_web_logo.png'), root_path %>
-      <ul>
-        <li><%= link_to 'Shows', shows_pages_path %></li>
-        <li><%= link_to '75th Anniversary', anniversary_pages_path %></li>
-        <% Page.active.each do |p| %>
-          <li><%= link_to p.title, p, class: "#{ params[:id] && params[:id] == p.title.downcase ? 'active' : ''}" %></li>
-        <% end %>
-        <li><%= link_to 'About', about_pages_path %></li>
-      </ul>
-      <%= link_to 'Scotch Login', dashboard_index_path, class: 'scotch-button' %>
+  <div class="navbar">
+    <div class="container">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to image_tag('sns_web_logo.png', style: 'height: 30px;'), root_path, class: 'navbar-brand sns-brand' %>
+      <div class="nav-collapse collapse">
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Scotch Login', dashboard_index_path %></li>
+        </ul>
+      </div>
     </div>
   </div>
-	<div class="content">
-		<% if alert %>
-		<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Oops!</strong> <%= alert %></p></div>
-		<% end %>
-		<% if notice %>
-		<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
-		<% end %>
-    <div class="row">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-    </div><!--/row-->
-  </div><!--/content-->
-  <%= render 'pages/footer' %>
+  <div class="container">
+    <div class="content">
+      <% if alert %>
+      <div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Oops!</strong> <%= alert %></p></div>
+      <% end %>
+      <% if notice %>
+      <div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
+      <% end %>
+      <div class="row">
+        <div class="col-12">
+          <div class="sns-content">
+            <%= content_for?(:content) ? yield(:content) : yield %>
+            <%= render 'pages/footer' %>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div><!--/row-->
+    </div><!--/content-->
+  </div>
   <%= javascript_include_tag "application" %>
 
   <%= yield(:javascripts) %>
