@@ -31,6 +31,18 @@ class PagesController < ApplicationController
     redirect_to root_path
   end
 
+  def twilio
+    c = Contact.create(protocol: 'email', address: params['Body'] + "@andrew.cmu.edu")
+
+    if c
+      MessageMailer.subscribe_email(c).deliver
+    end
+
+    flash[:notice] = "You are now subscribed to our mailing list!"
+
+    redirect_to root_path
+  end
+
   def new
     @page = Page.new
     @page.page_sections.build

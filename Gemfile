@@ -68,6 +68,8 @@ gem 'bourbon'
 
 gem 'neat'
 
+gem 'twilio-ruby'
+
 group :production do
   gem 'newrelic_rpm'
 end
