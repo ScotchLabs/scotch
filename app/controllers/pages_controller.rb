@@ -39,7 +39,10 @@ class PagesController < ApplicationController
     c = Contact.create(protocol: 'email', address: params['Body'] + "@andrew.cmu.edu")
 
     if c
-      MessageMailer.subscribe_email(c).deliver
+      begin
+        MessageMailer.subscribe_email(c).deliver
+      rescue
+      end
     end
 
     flash[:notice] = "You are now subscribed to our mailing list!"
