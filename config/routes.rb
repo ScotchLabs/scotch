@@ -5,7 +5,7 @@ Scotch::Application.routes.draw do
     get 'about', on: :collection
     get 'anniversary', on: :collection
     post 'subscribe', on: :collection, as: 'subscribe'
-    post 'twilio', on: :collection
+    get 'twilio', on: :collection
   end
 
   use_doorkeeper
