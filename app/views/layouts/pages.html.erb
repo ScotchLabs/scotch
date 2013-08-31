@@ -37,11 +37,6 @@
       <%= link_to image_tag('sns_web_logo.png', style: 'height: 30px;'), root_path, class: 'navbar-brand sns-brand' %>
       <div class="nav-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><%= link_to 'Shows', shows_pages_path %></li>
-          <li><%= link_to '75th Anniversary', anniversary_pages_path %></li>
-          <% Page.active.each do |p| %>
-            <li><%= link_to p.title, p, class: "#{ params[:id] && params[:id] == p.title.downcase ? 'active' : ''}" %></li>
-          <% end %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><%= link_to 'Scotch Login', dashboard_index_path %></li>
