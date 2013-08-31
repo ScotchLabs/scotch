@@ -51,7 +51,7 @@ class PagesController < ApplicationController
       r.Sms "You are now subscribed to our mailing list!", from: '+1 412-567-1945', to: params['To']
     end
 
-    render text: resp.text
+    render xml: resp.text
   end
 
   def new
