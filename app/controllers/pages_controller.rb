@@ -48,7 +48,7 @@ class PagesController < ApplicationController
     flash[:notice] = "You are now subscribed to our mailing list!"
 
     resp = Twilio::TwiML::Response.new do |r|
-      r.Sms "You are now subscribed to our mailing list!", from: '+1 412-567-1945', to: params['To']
+      r.Sms "You are now subscribed to our mailing list!", from: '+1 412-567-1945', to: params['From']
     end
 
     render xml: resp.text
