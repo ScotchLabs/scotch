@@ -19,6 +19,7 @@ module Shared
 
       def has_attachment(name, options = {})
         options[:url] ||= ":urlpath"
+        options[:path] ||= ":rails_root/public/system/#{options[:file_name]}"
         has_attached_file(name, options)
       end
     end

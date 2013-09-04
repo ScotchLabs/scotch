@@ -31,6 +31,7 @@ namespace :deploy do
   desc "Make symlink for database yaml" 
   task :symlink_config do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
+    run "ln -fs #{shared_path}/upload #{release_path}/public/upload"
   end
 end
 
