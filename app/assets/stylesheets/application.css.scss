@@ -8,11 +8,11 @@
 
 $link-color: #FF7600;
 $brand-primary: #FF7600;
-$navbar-bg: #ed7220;
-$navbar-link-color: #EFEFEF;
-$navbar-link-hover-color: #FFF;
+$navbar-default-bg: #ed7220;
+$navbar-default-link-color: #FFF;
+$navbar-default-link-hover-color: #EFEFEF;
 $navbar-border-radius: 0;
-$navbar-link-active-color: #FFF;
+$navbar-default-link-active-color: #FFF;
 
 @import "twitter/bootstrap";
 
