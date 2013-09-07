@@ -9,7 +9,7 @@
           <h2><%= link_to s.name, s %> <small><%= s.show_slot %></small></h2>
         </div>
         <div class="row">
-          <% if s.events.auditions.count > 0 %>
+          <% if s.events.auditions.future.count > 0 %>
             <%= link_to 'Auditions', group_auditions_path(s), class: "btn btn-primary" %>
           <% end %>
         </div>

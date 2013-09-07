@@ -16,7 +16,7 @@
       <span>DIRECTED BY</span> <%= group.display_directors %>
     </div>
   </div>
-  <% if group.events.auditions.count > 0 %>
+  <% if group.events.auditions.future.count > 0 %>
     <center>
       <%= link_to 'Auditions Open', group_auditions_path(group), class: 'btn btn-primary' %>
     </center>
