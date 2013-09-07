@@ -1,9 +1,8 @@
 GIT
   remote: git://github.com/anjlab/bootstrap-rails.git
-  revision: 49a2a477dc309df32900aafe1a376ed6f9d48615
-  branch: 3.0.0
+  revision: df1c22ae62eeadecb87266282e78f45fb6d4d2e5
   specs:
-    anjlab-bootstrap-rails (3.0.0.rc1)
+    anjlab-bootstrap-rails (3.0.0.2)
       railties (>= 3.0)
       sass (>= 3.2)
 
@@ -202,7 +201,7 @@ GEM
     redis-namespace (1.2.0)
       redis (~> 3.0.0)
     ruby-rc4 (0.1.5)
-    sass (3.2.9)
+    sass (3.2.10)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
