@@ -1,6 +1,6 @@
 class TicketReservationsController < ApplicationController
   layout :get_layout
-  skip_before_filter :authenticate_user!, only: [:new, :show, :create, :cancel]
+  skip_before_filter :authenticate_user!, only: [:new, :show, :create, :destroy]
   before_filter :get_reservation, :get_group, only: [:show, :edit, :update, :destroy, :details]
 
   def index
