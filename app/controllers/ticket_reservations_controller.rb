@@ -19,6 +19,8 @@ class TicketReservationsController < ApplicationController
   end
   
   def create
+    @shows = Show.active.public.tickets_available
+
     @reservation = TicketReservation.new(params[:ticket_reservation])
     # Find or Create Contact
     @contact = Contact.where(protocol: 'email', address: @reservation.email).first
