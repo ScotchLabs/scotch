@@ -11,5 +11,6 @@
       <li><div class="property">Amount:</div> <%= @reservation.amount %></li>
       <li><div class="property">Performance:</div> <%= @reservation.show_time %></li>
     </ul>
+    <%= link_to 'Cancel Reservation', @reservation, method: :delete, class: 'btn btn-danger' %>
   </div>
 </div>

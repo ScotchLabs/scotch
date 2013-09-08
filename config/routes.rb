@@ -57,7 +57,6 @@ Scotch::Application.routes.draw do
   resources :ticket_reservations, path: '/tickets', as: 'ticket_reservations', except: [:index, :new] do
     get '/' => 'ticket_reservations#new', on: :collection, as: 'new'
     get 'details', on: :member, as: 'details'
-    get 'cancel', on: :member, as: 'cancel'
   end
 
   # These don't really make sense outside of a group, so we make them

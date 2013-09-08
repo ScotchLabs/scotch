@@ -11,5 +11,11 @@ class TicketMailer < ActionMailer::Base
   end
 
   def cancel_notification(ticket_reservation)
+    @reservation = ticket_reservation
+    @contact = @reservation.owner
+
+    mail(
+      to: @contact.email,
+      subject: "[ScotchBox] Ticket Cancellation - #{@reservation.event.show_time}")
   end
 end

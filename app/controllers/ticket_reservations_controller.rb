@@ -1,14 +1,13 @@
 class TicketReservationsController < ApplicationController
   layout :get_layout
   skip_before_filter :authenticate_user!, only: [:new, :show, :create, :cancel]
-  before_filter :get_reservation, :get_group, only: [:edit, :update, :destroy, :details]
+  before_filter :get_reservation, :get_group, only: [:show, :edit, :update, :destroy, :details]
 
   def index
     @shows = @group.events.shows
   end
 
   def show
-    @reservation = TicketReservation.find_by_confirmation_code(params[:id])
   end
 
   def details
@@ -63,10 +62,14 @@ class TicketReservationsController < ApplicationController
   def update
   end
 
-  def cancel
-  end
-
   def destroy
+    @reservation.update_attribute(:cancelled, true)
+
+    TicketMailer.cancel_notification(@reservation).deliver!
+
+    flash[:notice] = "You have successfully canceled #{@reservation.confirmation_code}!"
+
+    redirect_to ticket_reservations_path
   end
 
   protected
