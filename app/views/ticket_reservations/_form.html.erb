@@ -13,7 +13,7 @@
       <%= f.input :email, as: :string %>
       <%= f.input :event_id, label: 'Performance', collection: show.events.performances, 
         label_method: :showing, value_method: :id, include_blank: false %>
-      <%= f.input :amount, input_html: {value: 1} %>
+      <%= f.input :amount, input_html: {value: 0} %>
       <%= f.input :with_id, label: 'CMU ID?' %>
     </div>
 </div>
