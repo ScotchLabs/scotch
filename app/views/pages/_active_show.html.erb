@@ -5,22 +5,26 @@
   <div class="production-info">
     <div class="title">
       <h2><%= group.name %></h2>
-      <p>by</p>
-      <p><%= group.writers %></p>
+      <% unless group.writers.empty? %>
+        <p>by</p>
+        <p><%= group.writers %></p>
+      <% end %>
     </div>
-    <p class="coming-soon">-<%= group.show_slot %>-</p>
+    <% unless group.slot.empty? %>
+      <p class="coming-soon">-<%= group.show_slot %>-</p>
+    <% end %>
     <p class="description">
     <%= group.description %>
     </p>
-    <div class="directors">
-      <span>DIRECTED BY</span> <%= group.display_directors %>
-    </div>
+    <% if group.directors.count > 0 %>
+      <div class="directors">
+        <span>DIRECTED BY</span> <%= group.display_directors %>
+      </div>
+    <% end %>
   </div>
   <% if group.events.auditions.count > 0 %>
     <center>
       <%= link_to 'Auditions Open', group_auditions_path(group), class: 'btn btn-primary' %>
     </center>
-  <% end %>
-  <% if group.tickets_available? %>
   <% end %>
 </div>

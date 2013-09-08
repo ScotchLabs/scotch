@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:twilio, :index, :show, :recruit, :anniversary, :shows, :subscribe]
 
   def index
-    @show = Show.active.public.first
+    @show = Show.active.public.last
     @season = Show.mainstage.current_season if !@show
     
     if @show
