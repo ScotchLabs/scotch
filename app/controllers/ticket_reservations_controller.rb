@@ -1,14 +1,13 @@
 class TicketReservationsController < ApplicationController
   layout :get_layout
   skip_before_filter :authenticate_user!, only: [:new, :show, :create, :cancel]
-  before_filter :get_reservation, :get_group, only: [:edit, :update, :destroy, :details]
+  before_filter :get_reservation, :get_group, only: [:show, :edit, :update, :destroy, :details]
 
   def index
     @shows = @group.events.shows
   end
 
   def show
-    @reservation = TicketReservation.find_by_confirmation_code(params[:id])
   end
 
   def details
@@ -16,7 +15,7 @@ class TicketReservationsController < ApplicationController
 
   def new
     @reservation = TicketReservation.new
-    @show = Show.active.public.first
+    @shows = Show.active.public.tickets_available
   end
   
   def create
@@ -32,17 +31,18 @@ class TicketReservationsController < ApplicationController
       return render action: 'new', error: 'No Performance Specified!'
     end
 
-    # if @event.available_tickets < @reservation.amount
-    #   if !params[:waitlist]
-    #     return render action: 'waitlist'
-    #   elsif params[:waitlist] == 'all'
-    #     @reservation.waitlist_amount = @reservation.amount
-    #     @reservation.amount = 0
-    #   else
-    #     @reservation.waitlist_amount = @reservation.amount - @event.available_tickets
-    #     @reservation.amount = @event.available_tickets
-    #   end
-    # end
+    if @event.available_tickets < @reservation.amount
+      return render action: 'new', error: 'Not Enough Seats Available!'
+      # if !params[:waitlist]
+      #   return render action: 'waitlist'
+      # elsif params[:waitlist] == 'all'
+      #   @reservation.waitlist_amount = @reservation.amount
+      #   @reservation.amount = 0
+      # else
+      #   @reservation.waitlist_amount = @reservation.amount - @event.available_tickets
+      #   @reservation.amount = @event.available_tickets
+      # end
+    end
 
     @reservation.owner = @contact
 
@@ -62,10 +62,14 @@ class TicketReservationsController < ApplicationController
   def update
   end
 
-  def cancel
-  end
-
   def destroy
+    @reservation.update_attribute(:cancelled, true)
+
+    TicketMailer.cancel_notification(@reservation).deliver!
+
+    flash[:notice] = "You have successfully canceled #{@reservation.confirmation_code}!"
+
+    redirect_to ticket_reservations_path
   end
 
   protected

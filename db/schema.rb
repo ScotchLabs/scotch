@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319033646) do
+ActiveRecord::Schema.define(:version => 20130319181010) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
