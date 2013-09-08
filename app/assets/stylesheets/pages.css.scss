@@ -14,6 +14,7 @@ $scotch-color: #ed7220;
 $sns-border: #d37130;
 
 $brand-primary: $scotch-color;
+$brand-info: #f1f1f1;
 $navbar-bg: #FFFFFF;
 
 
@@ -28,6 +29,13 @@ body
 a
 {
   color: #FF9500;
+}
+
+.btn-info
+{
+  color: black;
+  font-family: 'Helvetica';
+  font-weight: 600;
 }
 
 h1

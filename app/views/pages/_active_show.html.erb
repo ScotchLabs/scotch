@@ -27,4 +27,10 @@
       <%= link_to 'Auditions Open', group_auditions_path(group), class: 'btn btn-primary' %>
     </center>
   <% end %>
+
+  <% if group.tickets_available? %>
+    <center>
+      <%= link_to 'RESERVE TICKETS', ticket_reservations_path, class: 'btn btn-info' %>
+    </center>
+  <% end %>
 </div>
