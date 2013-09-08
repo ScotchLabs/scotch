@@ -35,8 +35,7 @@ h1
   padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
-  color: #FFF;
-  background-color: #000;
+  color: #ed7220;
   text-align: center;
   font-size: 72px;
 
@@ -50,6 +49,12 @@ h1
 h2
 {
   color: $scotch-color;
+}
+
+h3
+{
+  width: 100%;
+  text-align: center;
 }
 
 abbr[title]
@@ -227,29 +232,25 @@ abbr[title]
 
 .ticket-form
 {
+  h5
+  {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
   width: 100%;
-  height: 250px;
   color: #383838;
   font-family: 'Tauri', sans-serif;
   padding: 10px 10px 0px 10px;
 
   form
   {
-    display: inline-block;
     width: 350px;
   }
 }
 
 .ticket-info
 {
-  width: 150px;
-  float:right;
 
-  h5
-  {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
 
   .total
   {

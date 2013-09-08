@@ -16,7 +16,7 @@ class TicketReservationsController < ApplicationController
 
   def new
     @reservation = TicketReservation.new
-    @show = Show.active.public.first
+    @shows = Show.active.public.tickets_available
   end
   
   def create
@@ -32,17 +32,18 @@ class TicketReservationsController < ApplicationController
       return render action: 'new', error: 'No Performance Specified!'
     end
 
-    # if @event.available_tickets < @reservation.amount
-    #   if !params[:waitlist]
-    #     return render action: 'waitlist'
-    #   elsif params[:waitlist] == 'all'
-    #     @reservation.waitlist_amount = @reservation.amount
-    #     @reservation.amount = 0
-    #   else
-    #     @reservation.waitlist_amount = @reservation.amount - @event.available_tickets
-    #     @reservation.amount = @event.available_tickets
-    #   end
-    # end
+    if @event.available_tickets < @reservation.amount
+      return render action: 'new', error: 'Not Enough Seats Available!'
+      # if !params[:waitlist]
+      #   return render action: 'waitlist'
+      # elsif params[:waitlist] == 'all'
+      #   @reservation.waitlist_amount = @reservation.amount
+      #   @reservation.amount = 0
+      # else
+      #   @reservation.waitlist_amount = @reservation.amount - @event.available_tickets
+      #   @reservation.amount = @event.available_tickets
+      # end
+    end
 
     @reservation.owner = @contact
 
