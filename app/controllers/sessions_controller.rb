@@ -1,4 +1,5 @@
 class SessionsController < Devise::SessionsController
+  layout 'login'
   prepend_before_filter :lookup_email
   
   def lookup_email

@@ -57,5 +57,12 @@ module Scotch
     config.assets.version = '1.0'
     
     config.assets.initialize_on_precompile = false
+
+    # Devise layout config
+    config.to_prepare do
+      Devise::RegistrationsController.layout "login"
+      Devise::ConfirmationsController.layout "login"
+      Devise::PasswordsController.layout "login"        
+    end
   end
 end

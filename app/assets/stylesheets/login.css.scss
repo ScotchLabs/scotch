@@ -1,0 +1,26 @@
+// Login Page
+
+$link-color: #FF7600;
+$brand-primary: #FF7600;
+
+@import "twitter/bootstrap";
+
+body, html {
+  height: 100%;
+  background-color: #eaeaea;
+}
+.container {
+  margin-top: 10px;
+  display: table;
+  height: 100%;
+}
+.row {
+  display: table-cell;
+  height: 100%;
+  vertical-align:middle;
+}
+
+input, label
+{
+  margin-bottom: 10px;
+}

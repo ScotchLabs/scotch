@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Scotch Login</title>
+  <meta charset='utf-8'>
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag "login", :media => "all" %>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= yield :header %>
+
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9104858-1']);
+    _gaq.push(['_setDomainName', '.snstheatre.org']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+
+  <%= javascript_include_tag "application" %>
+
+  <%= yield(:javascripts) %>
+</body>
+</html>

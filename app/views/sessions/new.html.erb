@@ -1,63 +1,26 @@
-<div class="row">
-	<div class="span10 offset1">
-		<div class="hero-unit">
-			<h1>Scotch 'n' Soda Theatre</h1>
-			<p>Carnegie Mellon's only student-run Theatre Group</p>
-			<p><a class="btn btn-info btn-large">Learn More</a></p>
-		</div>
-	</div>
+<div class="col-md-8 col-md-offset-2">
+  <%= image_tag 'sns_web_logo.png', class: 'img-responsive' %>
 </div>
-<div class="dashboard">
-	<div class="dashboard-header">
-		
-	</div>
-	<div class="dashboard-container">
-		<div class="row">
-		<div class='span4'>
-				<h1>FAQ</h1>
-				<p>
-				<b>What is Scotch?</b><br>
-				Scotch is Scotch'n'Soda Theatre's theatrical management solution.
-				It provides Conflict-Aware Scheduling, Messaging, Inventory Tracking, and more!
-				</p>
-				<p>
-				<b>Why should I create an account?</b><br>
-				For current members and interested students alike, Scotch on the Web
-				is the only place to sign up for auditions, and is the easiest way to
-				keep in touch with the organization year-round.
-				</p>
-				<p>
-				<b>Can I help develop Scotch on the Web?</b><br>
-				Yes! This is a huge undertaking and a great opportunity to contribute to
-				a complex and frequently-used project. Send an email to
-				<%= mail_to current_webmaster.email, current_webmaster.name %> if you're interested
-				in helping out. We'd love to have you on the team!
-				</p>
-				<p>
-		</div>
-		<div class='span7'>
-				<h1>What's New in 3.0? <small>Theatrical Management Solution</small></h1>
-				<dl>
-					<dt>Conflict-Aware Scheduling</dt>
-					<dd>The new scheduling system allows for the scheduling of rehearsals and meetings while automatically 
-						taking into account member's conflicts.</dd>
-					<dt>Messaging</dt>
-					<dd>A comprehensive thread-based messaging system has been added to the site to allow for integrated 
-						communications for S'n'S's productions.</dd>
-					<dt>Notifications</dt>
-					<dd>The notification system allows members to keep up to date with all of their interests across the site.</dd>
-					<dt>New Styles</dt>
-					<dd>The site has been re-styled for compatibility with the new features.</dd>
-					<dt>Minor Enhancements</dt>
-					<dd>A bunch of minor enhancements and features have been added to the site.</dd>
-					<dt>Coming Soon: Public Site Revamp</dt>
-					<dd>The public site will be more closely integrated with Scotch and will contain a lot more information about 
-						S'n'S and it's productions.</dd>
-				</dl>
-				<%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), 
-				:class => "btn btn-primary", :style => "float:right;margin-right:5px;" %>
-		</div>
-		</div>
-		<div class="clearfix"></div>
-	</div>
-</div>
+
+<br>
+
+<center>
+  <%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-form navbar-left'} do |ft| %>
+    <div class="form-group">
+      <%= ft.text_field :andrewid, :placeholder => 'Andrew ID', :class => 'form-control' %>
+      <%= ft.password_field :password, :placeholder => 'Password', :class => 'form-control' %>
+      <% if devise_mapping.rememberable? -%>
+        <br>
+        <%= ft.check_box :remember_me, { :checked => true } %> <%= ft.label :remember_me %>
+      <% end -%>
+    </div>
+    <%= submit_tag 'Login', class: 'btn btn-primary' %>
+    <%= link_to 'Register', new_registration_path(:user), class: 'btn btn-default' %>
+  <% end %>
+
+  <br>
+
+  <%= link_to "Forgot Password", new_password_path(:user), :class => "button smallbutton" %>
+  <br>
+  <%= link_to "Resend Confirmation", new_confirmation_path(resource_name) %>
+</center>

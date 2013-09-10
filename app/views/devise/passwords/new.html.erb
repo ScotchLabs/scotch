@@ -1,15 +1,9 @@
-<div class="dashboard">
-	<div class="dashboard-header">
-		<h2>Forgot your password?</h2>
-	</div>
-	<div class="dashboard-container">
-		<%= form_for(resource, :as => resource_name, :url => password_path(resource_name)) do |f| %>
-		  <%= devise_error_messages! %>
+<h2>Forgot your password?</h2>
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
 
-		  <p><%= f.label :email %></p>
-		  <p><%= f.text_field :email %></p>
+  <p><%= f.label :email %></p>
+  <p><%= f.text_field :email %></p>
 
-		  <p><%= f.submit "Send me reset password instructions", class: 'btn' %></p>
-		<% end %>
-	</div>
-</div>
+  <p><%= f.submit "Send me reset password instructions", class: 'btn' %></p>
+<% end %>
