@@ -43,6 +43,10 @@ class TicketReservation < ActiveRecord::Base
     self.confirmation_code
   end
 
+  def <=>(other)
+    self.owner.name <=> other.owner.name
+  end
+
   protected
 
   def generate_confirmation_code
