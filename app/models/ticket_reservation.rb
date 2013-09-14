@@ -35,6 +35,10 @@ class TicketReservation < ActiveRecord::Base
     self.owner.try(:email) || @email
   end
 
+  def amount_unclaimed
+    self.amount - self.amount_claimed
+  end
+
   def to_param
     self.confirmation_code
   end
