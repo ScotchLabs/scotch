@@ -5,6 +5,7 @@
   <table class="table table-striped">
     <tr>
       <th>Name</th>
+      <th>Email</th>
       <th>Amount</th>
       <th>Edit</th>
       <th>Cancel</th>
@@ -12,6 +13,7 @@
     <% s.ticket_reservations.sort.each do |r| %>
       <tr>
         <td><%= link_to r.name, details_ticket_reservation_path(r) %></td>
+        <td><%= r.email %></td>
         <td><%= r.amount %></td>
         <td><%= link_to 'Details', details_ticket_reservation_path(r), class: 'btn btn-info' %></td>
         <td><%= link_to 'Cancel', r, method: 'delete', confirm: 'Are you sure you want to cancel this reservation?', class: 'btn btn-danger' %></td>

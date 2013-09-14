@@ -62,6 +62,9 @@ class TicketReservationsController < ApplicationController
   end
 
   def update
+    @reservation.update_attributes(params[:ticket_reservation])
+
+    redirect_to group_ticket_reservations_path(@group)
   end
 
   def destroy
