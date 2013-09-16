@@ -1,10 +1,9 @@
-<article>
 <% if params[:group_type] == "Show" then %>
   <%= render 'show_index' %>
 <% else %>
   <% if has_permission? "adminPositions" %>
   <div class="edit_link">
-    <%= link_to image_tag("add_icon.png", :size => "12x12") + 'Add a member', new_group_position_path(@group) %>
+    <%= link_to "<span class='glyphicon glyphicon-plus'></span> Add a member".html_safe, new_group_position_path(@group) %>
   </div>
   <% end %>
 
@@ -19,4 +18,3 @@
     <% end %>
   <% end %>
 <% end %>
-</article>

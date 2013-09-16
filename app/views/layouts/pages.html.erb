@@ -57,7 +57,7 @@
       <div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
       <% end %>
       <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
           <div class="sns-content">
             <%= content_for?(:content) ? yield(:content) : yield %>
             <%= render 'pages/footer' %>

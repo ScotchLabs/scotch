@@ -16,6 +16,14 @@ $navbar-default-link-active-color: #FFF;
 
 @import "twitter/bootstrap";
 
+h1
+{
+  width: 100%;
+  text-align: center;
+  color: $brand-primary;
+  margin-bottom: 20px;
+}
+
 .page
 {
 	display:block;

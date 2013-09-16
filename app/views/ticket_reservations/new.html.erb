@@ -1,10 +1,8 @@
 <h1>ScotchBox Office</h1>
 <% @shows.each do |show| %>
   <div class="row">
-    <div class="col-md-12">
-      <div class="ticket-form">
-        <%= render 'ticket_reservations/form', show: show %>
-      </div>
+    <div class="ticket-form">
+      <%= render 'ticket_reservations/form', show: show %>
     </div>
   </div>
 <% end %>

@@ -37,7 +37,9 @@
 		<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a><p><strong>Success!</strong> <%= notice %></p></div>
 		<% end %>
         <div class="row">
+          <div class="col-md-12">
             <%= content_for?(:content) ? yield(:content) : yield %>
+          </div>
           <div class="span1">&nbsp;</div>
         </div><!--/row-->
     </div><!--/content-->
