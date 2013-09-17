@@ -1,6 +1,3 @@
-@import "bourbon";
-@import "neat";
-
 .section
 {
   margin-top: 10px;
@@ -33,11 +30,6 @@ section
     font-weight: 100;
     margin-bottom: 10px;
   }
-}
-
-.container
-{
-  @include outer-container;
 }
 
 .card-left
@@ -97,8 +89,6 @@ ul.properties
 
 .card
 {
-  @include span-columns(3);
-  @include omega(4n);
   position: relative;
 
   img
@@ -112,14 +102,19 @@ ul.properties
     width: 100%;
     position: absolute;
     left: 0;
-    bottom: 2px;
+    bottom: 0;
     vertical-align: top;
     text-align: center;
     color: white;
     background-color: black;
     font-size: 18px;
     font-weight: 500;
-    padding: 5px 0;
+    padding: 0;
+  }
+  
+  h3
+  {
+    font-size: 18px;
   }
 
   h4

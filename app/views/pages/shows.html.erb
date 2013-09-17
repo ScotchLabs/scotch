@@ -1,10 +1,12 @@
 <div class="show-seasons">
   <% @seasons.each do |year, shows| %>
     <section class="show-season">
-      <h2 class="title"><%= "#{year - 1} - #{year}" %></h1>
-      <div class="container">
+      <div class="row">
+        <h2 class="title"><%= "#{year - 1} - #{year}" %></h1>
         <% shows.each do |s| %>
-          <%= render 'groups/public_card', show: s %>
+          <div class="col-md-3 show-show">
+            <%= render 'groups/public_card', show: s %>
+          </div>
         <% end %>
       </div>
     </section>
