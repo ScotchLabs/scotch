@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   layout 'pages'
-  skip_before_filter :authenticate_user!, only: [:twilio, :index, :show, :recruit, :anniversary, :shows, :subscribe]
+  skip_before_filter :authenticate_user!, only: [:twilio, :index, :show, :recruit, :anniversary, :shows, :about, :subscribe]
 
   def index
     @show = Show.active.public.last
