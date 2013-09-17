@@ -1,43 +1,10 @@
-.group-edit-link
+.group-block
 {
-	margin-left:10px;
+  img
+  {
+    margin-right: 10px;
+  }
 }
-
-.groups-container
-{
-	padding:5px;
-	
-	.group-item
-	{
-		margin-bottom:10px;
-	}
-	
-	.group-title
-	{
-		
-	}
-	
-	.group-image
-	{
-		float:left;
-		clear:left;
-	}
-	
-	.group-status
-	{
-		
-	}
-	
-	.group-description
-	{
-		
-	}
-}
-
-.nomination
-{
-}
-
 .nomination
 {
   margin-left: 5px;
@@ -50,5 +17,6 @@
 
 .group-nav
 {
+  margin-top: 10px;
   margin-bottom: 10px;
 }

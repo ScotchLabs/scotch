@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <% if has_permission? "adminGroup" %>
-        <%= link_to "<span class='glyphicon glyphicon-pencil'></span> Edit".html_safe, edit_group_path(@group), class: 'pull-right' %>
+        <%= link_to "<span class='glyphicon glyphicon-pencil'></span> Edit".html_safe, edit_group_path(@group) %>
       <% end %>
       <div class="row">
         <div class="col-md-6">

@@ -1,47 +1,38 @@
-<div class="dashboard">
-	<div class="dashboard-header">
-		<% if params[:group_type] == "Show" %>
-		  <h1>Shows</h1>
-		<% elsif params[:group_type] == "Board" %>
-		  <h1>Boards</h1>
-		<% elsif params[:group_type] == "Group" %>
-		  <h1>Interest Groups</h1>
-		<% elsif params[:group_type] == "all" %>
-		  <h1>All Groups</h1>
-		<% else %>
-		  <h1>Active Groups</h1>
-		<% end %>
-	</div>
-	<div class="dashboard-container">
-		<div class="row">
-		<div class="span4 offset4">
-			<ul class="nav nav-pills">
-				<li class="<%= 'active' unless params[:group_type] %>"><%= link_to "Active", groups_path %>
-				<li class="<%= 'active' if params[:group_type] == "Show" %>"><%= link_to "Shows", shows_url %></li>
-				<li class="<%= 'active' if params[:group_type] == "Board" %>"><%= link_to "Boards", boards_url %></li>
-				<li class="<%= 'active' if params[:group_type] == "Group" %>"><%= link_to "Interest Groups", groups_url(:group_type => "Group") %></li>
-				<li class="<%= 'active' if params[:group_type] == "all" %>"><%= link_to "All", groups_url(:group_type => "all") %></li>
-			</ul>
-		</div>
-		<div class="span 12">
-		<div class="groups-container">
-		<% @groups.sort.each do |group| %>
-			<div class="group-item">
-				<div class="group-image">
-					<%= link_to image_tag(group.image(:thumb)), group %>
-				</div>
-				<div class="group-title">
-					<h2>
-						<%= link_to group, group %>
-						<small><%= [group.archived? ? "Archived" : nil, group.type.to_s].compact.join(" ")%></small>
-					</h2>
-				</div>
-				<div class="group-description">
-					<%= group.description %>
-				</div>
-			</div>
-		<% end %>
-		</div>
-		</div>
-	</div>
+<% if params[:group_type] == "Show" %>
+  <h1>Shows</h1>
+<% elsif params[:group_type] == "Board" %>
+  <h1>Boards</h1>
+<% elsif params[:group_type] == "Group" %>
+  <h1>Interest Groups</h1>
+<% elsif params[:group_type] == "all" %>
+  <h1>All Groups</h1>
+<% else %>
+  <h1>Active Groups</h1>
+<% end %>
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <ul class="nav nav-pills">
+      <li class="<%= 'active' unless params[:group_type] %>"><%= link_to "Active", groups_path %>
+      <li class="<%= 'active' if params[:group_type] == "Show" %>"><%= link_to "Shows", shows_url %></li>
+      <li class="<%= 'active' if params[:group_type] == "Board" %>"><%= link_to "Boards", boards_url %></li>
+      <li class="<%= 'active' if params[:group_type] == "all" %>"><%= link_to "All", groups_url(:group_type => "all") %></li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+      <% @groups.sort.each do |group| %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="group-block">
+              <%= link_to image_tag(group.image(:thumb)), group, class: 'img-responsive pull-left' %>
+              <h2>
+                <%= link_to group, group %>
+                <small><%= [group.archived? ? "Archived" : nil, group.type.to_s].compact.join(" ")%></small>
+              </h2>
+            </div>
+          </div>
+        </div>
+      <% end %>
+  </div>
 </div>
