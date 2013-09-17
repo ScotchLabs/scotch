@@ -1,8 +1,10 @@
-<article>
-<h1>Results for <%= params[:q] %></h1>
-  <% @results.each do |result| %>
-    <ul class="unstyled">
-      <li><%= render 'users/user', user: result %></li>
-    </ul>
-  <% end %>
-</article>
+<h1>Results for '<%= params[:q] %>'</h1>
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <% @results.each do |result| %>
+      <ul style="list-style-type: none;">
+        <li><%= render 'users/user', user: result %></li>
+      </ul>
+    <% end %>
+  </div>
+</div>
