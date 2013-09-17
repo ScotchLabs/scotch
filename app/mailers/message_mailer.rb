@@ -1,7 +1,7 @@
 class MessageMailer < ActionMailer::Base
   default from: "no-reply@snstheatre.org"
   
-  def message_email(user, message, list)
+  def message_email(user, message, list, opts={})
     @user = user
     @message = message
     @list = list
@@ -16,7 +16,7 @@ class MessageMailer < ActionMailer::Base
          subject: @message.subject)
   end
 
-  def subscribe_email(contact)
+  def subscribe_email(contact, opts={})
     email = contact.email
 
     mail(to: email,

@@ -17,7 +17,7 @@ gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
 
 gem 'mysql2'
 
-gem 'devise'
+gem 'devise', '~> 3.1'
 
 gem 'RedCloth'
 

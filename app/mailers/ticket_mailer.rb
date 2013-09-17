@@ -1,7 +1,7 @@
 class TicketMailer < ActionMailer::Base
   default from: "tickets@snstheatre.org"
 
-  def ticket_confirmation(ticket_reservation)
+  def ticket_confirmation(ticket_reservation, opts={})
     @reservation = ticket_reservation
     @contact = @reservation.owner
 
@@ -10,7 +10,7 @@ class TicketMailer < ActionMailer::Base
       subject: "[ScotchBox] Ticket Confirmation - #{@reservation.event.show_time}")
   end
 
-  def cancel_notification(ticket_reservation)
+  def cancel_notification(ticket_reservation, opts={})
     @reservation = ticket_reservation
     @contact = @reservation.owner
 

@@ -1,9 +1,7 @@
 .DS_Store
 .bundle
 db/*.sqlite3
-log/*.log
-log/*.pid
-log/*.lck
+log/*
 tmp
 config/database.yml
 
