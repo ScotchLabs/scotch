@@ -43,7 +43,7 @@ h1
   padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
-  color: #ed7220;
+  color: $brand-primary;
   text-align: center;
   font-size: 72px;
 
@@ -52,6 +52,12 @@ h1
     width: 60px;
     height: 65px;
   }
+}
+
+h1.invert
+{
+  color: white;
+  background-color: $brand-primary;
 }
 
 h2
@@ -374,7 +380,7 @@ section.current-season
 // 75th Anniversary
 .anniversary-story
 {
-  background-color: #FF9500;
+  background-color: $brand-primary;
   padding-bottom: 10px;
 
   -webkit-box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.1);
