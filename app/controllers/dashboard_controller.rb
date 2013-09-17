@@ -34,7 +34,9 @@ class DashboardController < ApplicationController
   end
 
   def search
-    @results = User.search params[:q]
+    @results = User.search do
+      fulltext params[:q]
+    end.results
   end
 
   private

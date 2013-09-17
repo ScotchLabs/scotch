@@ -93,6 +93,10 @@ class User < Shared::Watchable
   #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
   #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
 
+  searchable do
+    text :name, :andrewid, :email
+  end
+
 	Paperclip.interpolates :aid_initial do |attachment,style| 
 		attachment.instance.andrewid.first
 	end
@@ -323,15 +327,6 @@ class User < Shared::Watchable
     end
   end
   
-  def self.search(q)
-    query = "#{q}%"
-    where do
-      (first_name =~ query) |
-      (last_name =~ query) |
-      (andrewid =~ query)
-    end
-  end
-
   protected
 
   def create_watcher
