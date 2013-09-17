@@ -363,7 +363,7 @@ section.current-season
 
   .show-season:nth-child(odd)
   {
-    background-color: #FF9500;
+    background-color: $scotch-color;
   }
 
   .show-season:nth-child(even)
@@ -380,7 +380,7 @@ section.current-season
 // 75th Anniversary
 .anniversary-story
 {
-  background-color: $brand-primary;
+  background-color: $scotch-color;
   padding-bottom: 10px;
 
   -webkit-box-shadow: inset 0px 3px 3px 1px rgba(0, 0, 0, 0.1);
