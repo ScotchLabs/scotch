@@ -130,7 +130,7 @@ Scotch::Application.routes.draw do
   match 'feedposts/more' => 'feedposts#more', :as => :more_feedposts
   resources :feedposts, :except => [:index, :edit, :update, :new]
 
-  get "dashboard/index"
+  get 'scotch' => 'dashboard#index', as: 'dashboard_index'
   get "dashboard/calendar"
   get "dashboard/sysadmin"
   get "dashboard/terms"
