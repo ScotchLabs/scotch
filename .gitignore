@@ -9,6 +9,8 @@ config/database.yml
 
 /vendor/bundle
 /db/sphinx
+solr/data/*
+solr/pids/*
 
 # /
 /client
