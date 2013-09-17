@@ -40,7 +40,6 @@ namespace :deploy do
 
   desc 'create shared data and pid dirs for Solr'
   task :setup_solr_shared_dirs do
-    conf dir is not shared as different versions need different configs
     %w(data pids).each do |path|
       run "mkdir -p #{shared_path}/solr/#{path}"    
     end
