@@ -69,6 +69,8 @@ gem 'neat'
 
 gem 'twilio-ruby'
 
+gem 'sunspot_rails'
+
 group :production do
   gem 'newrelic_rpm'
 end
@@ -77,4 +79,5 @@ group :development do
   gem 'annotate'
   gem 'letter_opener'
   gem 'quiet_assets'
+  gem 'sunspot_solr'
 end
