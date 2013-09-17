@@ -6,3 +6,7 @@
     </div>
   </div>
 <% end %>
+
+<% if @shows.count < 1 %>
+  <h2>No tickets are available at the moment, please check back later.</h2>
+<% end %>
