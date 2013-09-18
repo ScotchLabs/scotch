@@ -23,4 +23,6 @@
   <%= link_to "Forgot Password", new_password_path(:user), :class => "button smallbutton" %>
   <br>
   <%= link_to "Resend Confirmation", new_confirmation_path(resource_name) %>
+
+  <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
 </center>

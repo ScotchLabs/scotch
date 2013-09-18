@@ -13,7 +13,8 @@ Scotch::Application.routes.draw do
   resources :report_templates
 
   # Users. Yay.
-  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"}, :controllers => {:sessions => "sessions"}
+  devise_for :users, :path_names => {:sign_in => "login", :sign_out => "logout", :sign_up => "register"},
+    :controllers => {:sessions => "sessions", :omniauth_callbacks => "users/omniauth_callbacks"}
 
   # API
 

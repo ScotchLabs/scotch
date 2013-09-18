@@ -53,6 +53,8 @@ class User < Shared::Watchable
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable
 
+  devise :omniauthable, omniauth_providers: [:google_oauth2]
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
@@ -325,6 +327,19 @@ class User < Shared::Watchable
       self.notifications.create(source_id: source.id, source_type: source.class.to_s, subject_id: subject.id,
       subject_type: subject.class.to_s, action: action, text: text)
     end
+  end
+
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+    data = access_token.info
+    user = User.where(:email => data["email"]).first
+
+    # unless user
+    #   user = User.create(name: data["name"],
+    #                      email: data["email"],
+    #                      password: Devise.friendly_token[0,20]
+    #                     )
+    # end
+    user
   end
   
   protected

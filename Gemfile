@@ -73,6 +73,8 @@ gem 'sunspot_rails'
 
 gem 'sunspot_solr'
 
+gem 'omniauth-google-oauth2'
+
 group :production do
   gem 'newrelic_rpm'
 end
