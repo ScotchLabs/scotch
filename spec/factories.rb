@@ -17,4 +17,30 @@ FactoryGirl.define do
     about "I am awesome"
     tech_skills "Being awesome"
   end
+
+  factory :group do
+    name "New Group"
+    description "A new group"
+    type "Group"
+    short_name "newgroup"
+
+    factory :board do
+      name "Board of Directors"
+      type "Board"
+      short_name "board"
+    end
+
+    factory :show do
+      name "New Show"
+      type "Show"
+      short_name "show"
+      slot "Test Slot"
+      price_with_id 5
+      price_without_id 10
+      location "McConomy Auditorium"
+      tech_start Date.today + 5.days
+      tech_end Date.today + 10.days
+      writers "Stephen Schwartz"
+    end
+  end
 end
