@@ -25,6 +25,9 @@
   <div class='half fright'>
     <% if @user == current_user %>
       <div class="edit_link"><small><%= link_to "Change account settings.", edit_registration_path(User) %></small></div>
+      <% unless @user.google_active? %>
+        <%= link_to "Link Google Account", user_omniauth_authorize_path(:google_oauth2), class: 'btn btn-primary' %>
+      <% end %>
     <% end %>
     <h1>Personal Information</h1>
     <table>
@@ -58,6 +61,3 @@
 </div>
 <% end %>
 
-<br>
-
-<%= link_to "Link Google Account", user_omniauth_authorize_path(:google_oauth2), class: 'btn btn-primary' %>
