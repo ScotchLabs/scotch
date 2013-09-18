@@ -12,7 +12,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_to new_user_registration_url
       end
     else
-      redirect_to root_path
+      res = request.env["omniauth.auth"].credentials
+      current_user.update_attributes(google_access_token: res.token, google_refresh_token: res.refresh_token)
+
+      flash[:notice] = "Successfully linked Google account!"
+
+      redirect_to current_user
     end
   end
 end

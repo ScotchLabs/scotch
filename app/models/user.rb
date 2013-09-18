@@ -59,7 +59,8 @@ class User < Shared::Watchable
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :phone, :home_college, :graduation_year, :smc,
     :gender, :residence, :birthday, :headshot, :majors, :minors,
-    :other_activities, :about, :andrewid, :public_profile, :email_notifications, :tech_skills
+    :other_activities, :about, :andrewid, :public_profile, :email_notifications, :tech_skills,
+    :google_access_token, :google_refresh_token
 
   has_many :positions, :dependent => :destroy
   has_many :groups, :through => :positions

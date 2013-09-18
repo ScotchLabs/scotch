@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319181010) do
+ActiveRecord::Schema.define(:version => 20130918002431) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -598,6 +598,8 @@ ActiveRecord::Schema.define(:version => 20130319181010) do
     t.datetime "reset_password_sent_at"
     t.string   "unconfirmed_email"
     t.string   "tech_skills"
+    t.string   "google_access_token"
+    t.string   "google_refresh_token"
   end
 
   add_index "users", ["andrewid"], :name => "index_users_on_andrewid", :unique => true
