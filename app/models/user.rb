@@ -189,6 +189,14 @@ class User < Shared::Watchable
     positions.where(["created_at > ?", 8.months.ago]).count > 0
   end
 
+  def google_active?
+    self.google_access_token && self.google_refresh_token
+  end
+
+  def google_auth
+    {access_token: self.google_access_token, refresh_token: self.google_refresh_token}
+  end
+
   # Get school years (actually Date ranges) in which the user
   # was active -- optionally takes a parameter only to count
   # positions in a specific type of group 

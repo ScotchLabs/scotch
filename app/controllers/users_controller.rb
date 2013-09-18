@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  require 'google/api_client'
+
   prepend_before_filter :find_user
 
   before_filter :only => [:create, :destroy] do
@@ -33,7 +35,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @years = @user.active_years("Show")
-    
+
     respond_to do |format|
       format.html # show.html.erb
 

@@ -208,7 +208,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :google_oauth2, '566000991424.apps.googleusercontent.com', 'za0Aq89K1EfnjpIgEIPC7SXJ',
-    {prompt: 'select_account', scope: 'userinfo.email, userinfo.profile', access_type: 'offline'}
+    {approval_prompt: 'force', scope: 'userinfo.email, userinfo.profile, https://www.googleapis.com/auth/calendar', access_type: 'offline'}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
