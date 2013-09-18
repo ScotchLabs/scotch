@@ -43,4 +43,15 @@ FactoryGirl.define do
       writers "Stephen Schwartz"
     end
   end
+
+  factory :event do
+    title "Production Meeting"
+    association :owner, factory: :show
+    start_time Time.now + 2.days
+    end_time Time.now + 2.days + 1.hour
+    location "UC303"
+    description "Meeting of Production Staff"
+    event_type "meeting"
+    session "none"
+  end
 end
