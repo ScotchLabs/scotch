@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     first_name "Stephen"
     last_name "Schwartz"
-    andrewid "stephen"
+    sequence(:andrewid) {|n| "stephen#{n}"}
     password "schwartz"
     password_confirmation "schwartz"
     home_college "CFA"
@@ -83,5 +83,26 @@ FactoryGirl.define do
     association :owner, factory: :contact
     amount 1
     with_id true
+  end
+
+  factory :role do
+    name "Member"
+    group_type "Group"
+
+    factory :show_role do
+      group_type "Show"
+    end
+  end
+
+  factory :position do
+    association :group
+    association :role
+    association :user
+    display_name "New Position"
+
+    factory :show_position do
+      association :group, factory: :show
+      association :role, factory: :show_role
+    end
   end
 end

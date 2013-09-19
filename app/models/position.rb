@@ -26,8 +26,6 @@ class Position < ActiveRecord::Base
 
   validate :role_matches_group
 
-  after_create :create_watcher
-
   def to_s
     display_name
   end
@@ -59,18 +57,8 @@ class Position < ActiveRecord::Base
   protected
 
   def role_matches_group
-    unless role.group_type == group.class.name
-      errors[:role] << "isn't aproproate for this group"
+    unless role.group_type == group.type
+      self.errors.add(:group_id, "isn't aproproate for this role")
     end
   end
-
-  def create_watcher
-    if Watcher.where(:user_id => user.id).where(:item_id => group.id).where(:item_type => "Group").count == 0
-      w = Watcher.new
-      w.user = user
-      w.item = group
-      w.save or logger.warn "Unable to save implicitly created watcher"
-    end
-  end
-
 end

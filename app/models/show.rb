@@ -21,8 +21,6 @@ class Show < Group
   
   LOCATIONS = ['McConomy Auditorium', 'Rangos Auditorium', 'Peter/Wright/McKenna', 'UC Connan']
 
-  before_create :set_parent
-
   scope :mainstage, where(mainstage: true)
 
   def self.manager_role
@@ -140,10 +138,5 @@ class Show < Group
     end
 
     result.reverse
-  end
-  
-  private
-  def set_parent
-    self.parent = Board.directors
   end
 end
