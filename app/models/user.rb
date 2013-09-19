@@ -65,37 +65,14 @@ class User < Shared::Watchable
   has_many :positions, :dependent => :destroy
   has_many :groups, :through => :positions
 
-  #has_many :event_attendees, :dependent => :destroy
-  #has_many :events, :through => :event_attendees
+  has_many :event_attendees, :dependent => :destroy
+  has_many :events, :through => :event_attendees
 
-  has_many :checkouts
-  
-  #Kudos
-  has_and_belongs_to_many :knominations
-  
   #Messaging
   has_settings
   has_and_belongs_to_many :message_threads
   has_many :messages
   
-  #Notifications
-  has_many :notifications, as: :target
-  
-  has_many :watchees, :class_name => "Watcher", :dependent => :destroy
-
-  #FIXME use :source_type instead of :conditions
-  has_many :watched_items, :through => :watchees, :source => :watched_item, 
-    :conditions => "watchers.item_type = 'Item'"
-  has_many :watched_users, :through => :watchees, :source => :watched_user, 
-    :conditions => "watchers.item_type = 'User'"
-  has_many :watched_groups, :through => :watchees, :source => :watched_group, 
-    :conditions => "watchers.item_type = 'Group' OR watchers.item_type = 'Board' OR watchers.item_type = 'Show'"
-
-  #FIXME these don't work STUPID RAILS
-  #has_many :watched_item_feedposts, :through => :watched_items, :source => :feedposts
-  #has_many :watched_user_feedposts, :through => :watched_users, :source => :feedposts
-  #has_many :watched_group_feedposts, :through => :watched_groups, :source => :feedposts
-
   searchable do
     text :name, :andrewid, :email
   end
@@ -210,9 +187,10 @@ class User < Shared::Watchable
   end
 
   def incomplete_record?
-    return true unless self.phone and self.home_college and self.graduation_year \
-      and self.smc and self.gender and self.residence and self.birthday and self.headshot \
-      and self.majors and self.about
+    return true unless self.phone && self.home_college && self.graduation_year &&
+      self.smc && self.gender && self.residence && self.birthday && self.headshot &&
+      self.majors && self.about
+
     false
   end
   
@@ -221,7 +199,7 @@ class User < Shared::Watchable
   end
 
   def name
-    (first_name or "") + " " + (last_name or "")
+    first_name + " " + last_name
   end
 
 #################################
@@ -229,11 +207,11 @@ class User < Shared::Watchable
 #################################
 
   def active_groups
-    self.groups.all.select{|g| g.active?}
+    self.groups.active
   end
   
   def active_positions
-    positions.select{ |p| p.group.active? }
+    self.positions
   end
  
   def positions_during(timespan, type = nil)
@@ -277,43 +255,11 @@ class User < Shared::Watchable
 
   # All events which should appear on the user's calendar
   def user_events
-    es = events.all
-    es += Event.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
-    return es
+    self.events
   end
 
   def future_events
-    es = events.future.all 
-    #es += Event.future.where(:group_id => groups.collect{|g| g.id}).select{|e| e.event_attendees.count == 0}
-    return es
-  end
-
-###################
-# WATCHER METHODS #
-###################
-
-  def following? (object)
-    return false if object.nil?
-    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).count >= 1
-  end
-
-  def watcher_for (object)
-    return nil if object.nil?
-    # FIXME this is ugly, and there are a bunch of places where we have to do
-    # it...
-    return watchees.where(:item_type => object.class.to_s.classify.constantize.base_class.to_s).where(:item_id => object.id).first
-  end
-
-  def recent_feed_entries
-    groups = self.watched_groups
-    items = self.watched_items
-    users = self.watched_users
-
-    group_posts = Feedpost.recent.where(:parent_type => "Group").where(:parent_id => groups.collect{|g|g.id}).includes(:user).all
-    item_posts = Feedpost.recent.where(:parent_type => "Item").where(:parent_id => items.collect{|i|i.id}).includes(:user).all
-    user_posts = Feedpost.recent.where(:parent_type => "User").where(:parent_id => users.collect{|u|u.id}).includes(:user).all
-
-    (group_posts + item_posts + user_posts).sort.reverse
+    self.events.future
   end
 
   # This is for use with the user's autocomplete view
@@ -321,8 +267,8 @@ class User < Shared::Watchable
   # currently the identifier we use is
   # FIRST LAST EMAIL
   def self.autocomplete_retreive_user(identifier)
-    return nil if identifier.nil? or identifier.blank?
-    return nil if identifier.split(" ").length < 3
+    return nil if identifier.nil? || identifier.blank? ||
+      identifier.split(" ").length < 3
     email = identifier.split(" ").last
     User.find_by_email(email)
   end
@@ -342,23 +288,10 @@ class User < Shared::Watchable
     data = access_token.info
     user = User.where(:email => data["email"]).first
 
-    # unless user
-    #   user = User.create(name: data["name"],
-    #                      email: data["email"],
-    #                      password: Devise.friendly_token[0,20]
-    #                     )
-    # end
     user
   end
   
   protected
-
-  def create_watcher
-    w = Watcher.new
-    w.user = self
-    w.item = self
-    w.save or logger.warn "Unable to save implicitly created watcher"
-  end
 
   def create_sns_membership
     member_role = Role.member
