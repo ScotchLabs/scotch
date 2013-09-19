@@ -163,7 +163,7 @@ class User < Shared::Watchable
 ########################
   
   def active_member?
-    positions.where(["created_at > ?", 8.months.ago]).count > 0
+    self.positions.where(["created_at > ?", 8.months.ago]).count > 0
   end
 
   def google_active?
