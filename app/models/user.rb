@@ -73,10 +73,6 @@ class User < Shared::Watchable
   has_and_belongs_to_many :message_threads
   has_many :messages
   
-  searchable do
-    text :name, :andrewid, :email
-  end
-
 	Paperclip.interpolates :aid_initial do |attachment,style| 
 		attachment.instance.andrewid.first
 	end
@@ -106,8 +102,6 @@ class User < Shared::Watchable
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
   before_validation :downcase_email
-  after_create :create_watcher
-  after_create :create_sns_membership
 
   DEFAULT_PERMISSIONS = %w(createGroup)
   HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA DC Heinz)
@@ -115,6 +109,11 @@ class User < Shared::Watchable
   scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
   scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
   scope :newest, unscoped.order("created_at DESC").limit(10)
+
+  def self.search(query)
+    where("concat_ws(' ',first_name,last_name) LIKE '%?%' OR andrewid LIKE '%s%' OR \
+          email LIKE '%s%' OR phone LIKE '%s%'")
+  end
 
 ####################
 # OBJECT OVERRIDES #
@@ -292,13 +291,6 @@ class User < Shared::Watchable
   end
   
   protected
-
-  def create_sns_membership
-    member_role = Role.member
-    p = Position.new(:role_id => member_role.id, :display_name => "Member", :user_id => self.id)
-    p.group_id = Group.sns_group.id
-    p.save or logger.warn "Unable to save implicitly created position"
-  end
 
   def downcase_email
     self.email = self.email.downcase
