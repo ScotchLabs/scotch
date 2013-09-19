@@ -91,6 +91,9 @@ class User < Shared::Watchable
     :message => "must be an image (JPEG, GIF or PNG)",
     :unless => lambda { |user| !user.headshot.nil? }  
 
+  DEFAULT_PERMISSIONS = %w(createGroup)
+  HOME_COLLEGES = %w(SCS CIT CFA MCS TSB SHS BXA DC Heinz)
+
   validates_presence_of :first_name, :last_name, :encrypted_password, :andrewid
 
   validates_length_of :phone, :minimum => 10, :allow_nil => true, :allow_blank => true
@@ -100,11 +103,10 @@ class User < Shared::Watchable
 
   validates_length_of :graduation_year, :is => 4, :allow_nil => true, :allow_blank => true
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
+
+  validates_inclusion_of :home_college, in: HOME_COLLEGES, allow_nil: true, allow_blank: true
   
   before_validation :downcase_email
-
-  DEFAULT_PERMISSIONS = %w(createGroup)
-  HOME_COLLEGES = %w(SCS H&SS CIT CFA MCS TSB SHS BXA DC Heinz)
 
   scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
   scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
@@ -162,7 +164,7 @@ class User < Shared::Watchable
 ########################
   
   def active_member?
-    self.positions.where(["created_at > ?", 8.months.ago]).count > 0
+    self.positions.where{ created_at > 8.months.ago }.count > 0
   end
 
   def google_active?
@@ -194,7 +196,12 @@ class User < Shared::Watchable
   end
   
   def age
-    ((Date.today - birthday)/365.2422).to_i unless birthday.nil?
+    today = Date.today
+    result = today.year - birthday.year
+    result = result - 1 if birthday.month < today.month ||
+      (birthday.month == today.month && birthday.day < today.day)
+
+    result
   end
 
   def name

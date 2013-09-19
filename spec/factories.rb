@@ -6,7 +6,7 @@ FactoryGirl.define do
     password "schwartz"
     password_confirmation "schwartz"
     home_college "CFA"
-    graduation_year Date.today.year + 4
+    graduation_year "1968"
     smc "1337"
     gender "Male"
     residence "Morewood E"
@@ -16,6 +16,7 @@ FactoryGirl.define do
     other_activities "Broadway"
     about "I am awesome"
     tech_skills "Being awesome"
+    phone "4125555555"
   end
 
   factory :group do
