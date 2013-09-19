@@ -120,12 +120,12 @@ class User < Shared::Watchable
 
   validates_presence_of :first_name, :last_name, :encrypted_password, :andrewid
 
-  validates_length_of :phone, :minimum => 3, :allow_nil => true, :allow_blank => true
-  validates_length_of :residence, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_length_of :phone, :minimum => 10, :allow_nil => true, :allow_blank => true
 
-  validates_length_of :smc, :minimum => 3, :allow_nil => true, :allow_blank => true
+  validates_length_of :smc, :is => 4, :allow_nil => true, :allow_blank => true
   validates_numericality_of :smc, :only_integer => true, :allow_nil => true, :allow_blank => true
-  validates_length_of :graduation_year, :minimum => 3, :allow_nil => true, :allow_blank => true
+
+  validates_length_of :graduation_year, :is => 4, :allow_nil => true, :allow_blank => true
   validates_numericality_of :graduation_year, :only_integer => true, :allow_nil => true, :allow_blank => true
   
   before_validation :downcase_email
