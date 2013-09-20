@@ -196,6 +196,8 @@ class User < Shared::Watchable
   end
   
   def age
+    return nil unless birthday
+
     today = Date.today
     result = today.year - birthday.year
     result = result - 1 if birthday.month < today.month ||

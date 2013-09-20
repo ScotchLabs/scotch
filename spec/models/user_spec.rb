@@ -77,6 +77,12 @@ describe User do
 
       user.age.should == 18
     end
+
+    it "returns nil if birthday is not set" do
+      user = create(:user, birthday: nil)
+
+      user.age.should be_nil
+    end
   end
 
   context "name" do
