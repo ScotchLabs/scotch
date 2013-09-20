@@ -22,15 +22,12 @@ class Group < Shared::Watchable
 	include Shared::AttachmentHelper
 	include Shared::Scheduling
 
-  has_many :checkouts, :dependent => :destroy
   has_many :documents, :dependent => :destroy
   has_many :folders, :dependent => :destroy
   has_many :positions, :include => :user, :dependent => :destroy
   has_many :users, :through => :positions
   has_many :members, :source => :user, :through => :positions, :uniq => true
-  has_many :votings
   has_many :message_lists
-  has_many :plans
   has_many :reports
   has_many :ticket_reservations, through: :events
 
@@ -251,7 +248,7 @@ class Group < Shared::Watchable
   end
 
   def short_name=(value)
-    super(value.downcase)
+    super(value.try(:downcase))
   end
 
   def archived?

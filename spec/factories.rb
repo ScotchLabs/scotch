@@ -23,7 +23,7 @@ FactoryGirl.define do
     name "New Group"
     description "A new group"
     type "Group"
-    short_name "newgroup"
+    sequence(:short_name) { |n| "newgroup#{n}" }
 
     factory :board do
       name "Board of Directors"
