@@ -9,6 +9,7 @@ class TicketReservation < ActiveRecord::Base
 
   scope :active, where(cancelled: false)
   scope :with_id, where(with_id: true)
+  scope :unclaimed, where('amount_claimed < amount')
 
   attr_writer :name, :email
   attr_protected :waitlist_amount, :confirmation_code
