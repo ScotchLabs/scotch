@@ -24,31 +24,33 @@ FactoryGirl.define do
     description "A new group"
     type "Group"
     sequence(:short_name) { |n| "newgroup#{n}" }
+  end
 
-    factory :board do
-      name "Board of Directors"
-      type "Board"
-      short_name "board"
+  factory :board do
+    name "Board of Directors"
+    description "A new board"
+    type "Board"
+    sequence(:short_name) { |n| "newboard#{n}" }
+  end
+
+  factory :show do
+    name "New Show"
+    description "A new show"
+    type "Show"
+    sequence(:short_name) {|n| "show#{n}"}
+    slot "Test Slot"
+    price_with_id 5
+    price_without_id 10
+    location "McConomy Auditorium"
+    tech_start Date.today + 5.days
+    tech_end Date.today + 10.days
+    writers "Stephen Schwartz"
+
+    trait :tickets_available do
+      tickets_available true
     end
 
-    factory :show do
-      name "New Show"
-      type "Show"
-      sequence(:short_name) {|n| "show#{n}"}
-      slot "Test Slot"
-      price_with_id 5
-      price_without_id 10
-      location "McConomy Auditorium"
-      tech_start Date.today + 5.days
-      tech_end Date.today + 10.days
-      writers "Stephen Schwartz"
-
-      trait :tickets_available do
-        tickets_available true
-      end
-
-      factory :available_show, traits: [:tickets_available]
-    end
+    factory :available_show, traits: [:tickets_available]
   end
 
   factory :event do
@@ -70,6 +72,10 @@ FactoryGirl.define do
       end
 
       factory :open_performance, traits: [:tickets_available]
+    end
+
+    factory :audition do
+      event_type 'audition'
     end
   end
 
