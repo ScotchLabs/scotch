@@ -64,5 +64,9 @@ module Scotch
       Devise::ConfirmationsController.layout "login"
       Devise::PasswordsController.layout "login"        
     end
+
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end
