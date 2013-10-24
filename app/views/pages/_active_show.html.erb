@@ -12,9 +12,10 @@
     </div>
     <% unless group.slot.empty? %>
       <p class="coming-soon">-<%= group.show_slot %>-</p>
+      <p class="coming-soon"><%= group.location %></p>
     <% end %>
     <p class="description">
-    <%= group.description %>
+      <%= group.description %>
     </p>
     <% if group.directors.count > 0 %>
       <div class="directors">
@@ -31,6 +32,10 @@
   <% if group.tickets_available? %>
     <center>
       <%= link_to 'RESERVE TICKETS', ticket_reservations_path, class: 'btn btn-info' %>
+      <br><br>
+      <% group.events.performances.each do |s| %>
+        <p><%= s.showing %></p>
+      <% end %>
     </center>
   <% end %>
 </div>
