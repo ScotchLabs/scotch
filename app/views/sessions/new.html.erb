@@ -3,17 +3,23 @@
 </div>
 
 <br>
+<br>
 
-<center>
-  <%= form_for :user, :url => user_session_path, :html=>{:class => 'navbar-form navbar-left'} do |ft| %>
-    <div class="form-group">
+<%= form_for :user, :url => user_session_path, :html=>{:class => 'form', :role => 'form'} do |ft| %>
+    <div class="input-group">
       <%= ft.text_field :andrewid, :placeholder => 'Andrew ID', :class => 'form-control' %>
+      <span class="input-group-addon">@andrew.cmu.edu</span>
+    </div>
+    <div class="input-group">
       <%= ft.password_field :password, :placeholder => 'Password', :class => 'form-control' %>
+    </div>
+<center>
       <% if devise_mapping.rememberable? -%>
+        <div class="input-group">
         <br>
         <%= ft.check_box :remember_me, { :checked => true } %> <%= ft.label :remember_me %>
+        </div>
       <% end -%>
-    </div>
     <%= submit_tag 'Login', class: 'btn btn-primary' %>
     <%= link_to 'Register', new_registration_path(:user), class: 'btn btn-default' %>
   <% end %>
