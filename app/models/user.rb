@@ -113,8 +113,8 @@ class User < Shared::Watchable
   scope :newest, unscoped.order("created_at DESC").limit(10)
 
   def self.search(query)
-    where("concat_ws(' ',first_name,last_name) LIKE '%?%' OR andrewid LIKE '%s%' OR \
-          email LIKE '%s%' OR phone LIKE '%s%'")
+    where("concat_ws(' ',first_name,last_name) LIKE '%?%' OR andrewid LIKE '%?%' OR \
+          email LIKE '%?%' OR phone LIKE '%?%'", query, query, query, query)
   end
 
 ####################
