@@ -9,7 +9,10 @@ $('#ticket_reservation_with_id').click ->
   update_amount()
 
 update_amount = () ->
-  amount = $('#ticket_reservation_amount').val();
+  amount_field = $('#ticket_reservation_amount')
+  amount = amount_field.val();
+  price_with = amount_field.attr("data-with")
+  price_without = amount_field.attr("data-without")
   if amount == "" || isNaN(amount)
     amount = 0
   else
@@ -17,8 +20,8 @@ update_amount = () ->
     cmu_id = $('#ticket_reservation_with_id:checked').length > 0;
     
     if cmu_id
-      amount = amount * 5
+      amount = amount * price_with
     else
-      amount = amount * 10
+      amount = amount * price_without
 
   $('.total').html("Total: $" + amount)
