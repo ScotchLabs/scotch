@@ -34,7 +34,9 @@ class DashboardController < ApplicationController
   end
 
   def search
-    @results = User.search(params[:q])
+    @users = User.search(params[:q]).sort
+    @shows = Show.search(params[:q]).sort
+    @groups = Group.search(params[:q]).where("type != 'Show'").sort
   end
 
   private

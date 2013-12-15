@@ -1,8 +1,12 @@
-<section class="current-season">
-  <h2 class="title">Season in Review</h2>
-  <div class="container">
-    <% season.each do |s| %>
-      <%= render 'groups/public_card', show: s %>
-    <% end %>
-  </div>
+<div class="show-seasons col-md-12">
+  <section class="show-season">
+    <div class="row">
+      <h2 class="title">Season in Review</h1>
+      <% season.each do |s| %>
+        <div class="col-md-3 show-show">
+          <%= render 'groups/public_card', show: s %>
+        </div>
+      <% end %>
+    </div>
+  </section>
 </div>
