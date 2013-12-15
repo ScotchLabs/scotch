@@ -1,0 +1,7 @@
+<div class="group-block">
+  <%= link_to image_tag(group.image(:thumb)), group, class: 'img-responsive pull-left' %>
+  <h2>
+    <%= link_to group, group %>
+    <small><%= [group.archived? ? "Archived" : nil, group.type.to_s].compact.join(" ")%></small>
+  </h2>
+</div>

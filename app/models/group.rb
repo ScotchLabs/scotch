@@ -102,6 +102,10 @@ class Group < Shared::Watchable
     return Role.where :group_type => self.name
   end
 
+  def self.search(query)
+    where("name LIKE ?", "%#{query}%")
+  end
+
   # Return all permissions that a user has for this group.
   # FIXME: we use custom finder sql because i can't get rails to string the
   # joins together the way I want... Also, this won't climb all the way up the
