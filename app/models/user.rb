@@ -202,7 +202,7 @@ class User < Shared::Watchable
 
     today = Date.today
     result = today.year - birthday.year
-    result = result - 1 if birthday.month < today.month ||
+    result = result - 1 if today.month < birthday.month ||
       (birthday.month == today.month && birthday.day < today.day)
 
     result
