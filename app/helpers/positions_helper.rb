@@ -28,6 +28,30 @@ module PositionsHelper
     return crews.collect{|c| c + " Crew"}
   end
 
+  def render_position(pos)
+    content_tag "p" do
+      pos_label_color = "label-default"
+
+      if pos.role.to_s == "Cast"
+        pos_label_color = "label-success"
+      elsif pos.role.to_s == "Tech Head"
+        pos_label_color = "label-danger"
+      elsif pos.role.to_s == "Production Staff"
+        pos_label_color = "label-warning"
+      end
+
+      result = content_tag "span", class: "position-#{pos.role.short_name}" do
+        "#{pos} "
+      end
+
+      result += content_tag "span", class: "label #{pos_label_color}" do
+        pos.role.to_s
+      end
+
+      result.html_safe
+    end
+  end
+
   protected
 
   def filter_unused(positions)
