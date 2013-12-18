@@ -284,7 +284,7 @@ class User < Shared::Watchable
   end
 
   def identifier
-    "#{name} #{email}"
+    "#{name} <#{andrewid}>"
   end
   
   def notify(source, subject, action, text)
@@ -299,6 +299,12 @@ class User < Shared::Watchable
     user = User.where(:email => data["email"]).first
 
     user
+  end
+
+  def as_json(root)
+    json = super
+    json[:name] = name
+    json
   end
   
   protected

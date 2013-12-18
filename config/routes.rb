@@ -64,7 +64,7 @@ Scotch::Application.routes.draw do
   # sub-resources for the index and new actions.
   resources :groups, :except => [:destroy], :shallow => true do
     resources :feedposts, :only => [:index]
-    resources :positions, :only => [:index, :new] do
+    resources :positions, shallow: true do
       post :bulk_create, :on => :collection
     end
     resources :events, :on => :member do
@@ -96,7 +96,6 @@ Scotch::Application.routes.draw do
   end
 
   resources :events
-  resources :positions, :only => [:destroy, :create]
   #resources :documents, :only => [:show, :edit, :update, :destroy, :create]
   resources :checkouts, :except => [:edit, :destroy, :new, :show]
   resources :votings, :only => [:show, :edit, :create, :update, :destroy]

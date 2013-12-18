@@ -15,6 +15,30 @@
 $(function(){
   // apply the placeholder shim for the rich and prosperous elements.
   $('.placeholder-shim').placeholder();
-  $('#user_identifier').autocomplete({source: "/users.json"});
-  $('.user_identifier').autocomplete({source: "/users.json"});
+  // $('#user_identifier').autocomplete({source: "/users.json"});
+  $('select.user_identifier').selectize({
+    valueField: 'andrewid',
+    labelField: 'name',
+    searchField: ['name', 'andrewid'],
+    create: false,
+    render: {
+      option: function(item, escape) {
+        return '<div>' + escape(item.name) + ' &#60;' + escape(item.andrewid) + '&#62; </div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/users.json?term=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+  // $('.user_identifier').autocomplete({source: "/users.json"});
 });

@@ -16,8 +16,8 @@ class UsersController < ApplicationController
   # GET /users.xml
   def index
     if params[:term]
-      query = params[:term] + "%"
-      @users = User.where(["first_name LIKE ? OR last_name LIKE ? OR email LIKE ?",query,query,query])
+      query = params[:term]
+      @users = User.search(query)
     else
       # @users = User.paginate(:per_page => 20, :page => params[:page])
       @users = []
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => json_for_autocomplete(@users, :identifier) }
+      format.json { render :json => @users }
     end
   end
 

@@ -24,6 +24,9 @@ class Position < ActiveRecord::Base
 
   attr_protected :group_id
 
+  #FIXME: This is a stupid workaround for SimpleForm
+  attr_accessor :andrewid
+
   validate :role_matches_group
 
   def to_s

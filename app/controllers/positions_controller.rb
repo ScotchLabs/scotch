@@ -81,13 +81,9 @@ class PositionsController < ApplicationController
   # POST /positions
   # POST /positions.xml
   def create
-    @position = Position.new(params[:position])
+    @position = @group.positions.new(params[:position])
     
-    # FIXME this is redundent
-    @group = Group.find(params[:position][:group_id])
-
-    @position.user = User.autocomplete_retreive_user(params[:user_identifier]) unless @position.user
-    @position.group = @group
+    @position.user = User.find_by_andrewid(params[:position][:andrewid]) unless @position.user
 
     respond_to do |format|
       if @position.save
