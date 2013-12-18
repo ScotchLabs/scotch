@@ -65,5 +65,34 @@ $(function(){
       });
     }
   });
-  // $('.user_identifier').autocomplete({source: "/users.json"});
+
+  $('.nav-search').selectize({
+    valueField: 'link',
+    labelField: 'name',
+    searchField: ['name'],
+    autogrow: false,
+    maxItems: 1,
+    render: {
+      option: function(item, escape) {
+        return '<div><img src="'+escape(item.thumbnail)+'"><span class="name">' + escape(item.name) + '</span>'+
+        '<span class="description">'+escape(item.type)+'</span></div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/dashboard/search.json?q=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res.results);
+        }
+      });
+    },
+    onItemAdd: function(value, item) {
+      window.location.replace(value);
+    }
+  });
 });

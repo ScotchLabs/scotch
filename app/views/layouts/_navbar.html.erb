@@ -17,7 +17,7 @@
       </ul>
 			<%= form_tag '/dashboard/search', :class => 'navbar-form navbar-left', :method => 'get' do %>
         <div class="form-group">
-          <%= search_field_tag "q", nil, :placeholder => "Search", :class => 'form-control' %>
+          <%= search_field_tag "q", nil, :placeholder => "Search", :class => 'form-control nav-search' %>
         </div>
 			<% end %>
       <% if user_signed_in? %>

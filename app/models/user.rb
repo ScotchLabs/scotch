@@ -301,12 +301,6 @@ class User < Shared::Watchable
     user
   end
 
-  def as_json(root)
-    json = super
-    json[:name] = name
-    json
-  end
-  
   protected
 
   def downcase_email
