@@ -24,6 +24,15 @@
 .position
 {
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom-style: dashed;
+  border-bottom-color: #EFEFEF;
+  border-bottom-width: 1px;
+}
+
+.positions .position:last-child
+{
+  border-bottom: 0;
 }
 
 .position-group

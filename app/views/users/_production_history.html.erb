@@ -12,6 +12,7 @@
           acc
         } %>
         <% odd = "#eee" %>
+        <div class="positions">
         <% (grid.sort_by { |k,v| k.archive_date }).reverse.each { |show,pos|
           positions = pos.map { |p| 
             if p.role.to_s == "Cast" 
@@ -25,5 +26,6 @@
           positions = positions.join "<br/>" %>
         <%= render 'positions/position', group: show, positions: pos %>
       <% } %>
+      </div>
 <% end %>
 <% end %>
