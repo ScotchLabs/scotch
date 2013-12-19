@@ -197,9 +197,9 @@
 .selectize-control.multi .selectize-input > div {
   padding: 1px 3px;
   margin: 0 3px 3px 0;
-  color: #333333;
+  color: #FFF;
   cursor: pointer;
-  background: #efefef;
+  background: #FF7600;
   border: 0 solid rgba(0, 0, 0, 0);
 }
 
