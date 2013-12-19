@@ -26,7 +26,6 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    solr.reindex if 'y' == Capistrano::CLI.ui.ask("\n\n Should I reindex all models? (anything but y will cancel)")
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 

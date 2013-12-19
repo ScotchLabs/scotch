@@ -13,18 +13,13 @@
         <h1><%= @user %></h1>
         <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
 
-        <p>
+       <p>
         <% @user.recent_groups(6).each do |g| %>
-          <%= image_tag g.image.url(:thumb), :style => "margin: 13px 7px 0px 0px", :alt => g.name %>
+          <%= link_to image_tag(g.image.url(:thumb), :style => "margin: 13px 7px 0px 0px", :alt => g.name), g %>
         <% end %>
         </p>
-        <p>
-        <%= render 'history_table'%>
-        </p>
       </center>
-    </div>
-    <div class="col-md-8">
-      <h1 style='margin-bottom: 10px'>Personal Information</h1>
+      <h1 style='margin-bottom: 10px'>About</h1>
       <table>
         <tr><td style='width:150px; text-transform:uppercase; font-weight:bold'>Phone</td><td><%= @user.phone %></td></tr>
         <tr><td style='text-transform:uppercase; font-weight:bold'>Email</td><td><%= @user.email %></td></tr>
@@ -44,8 +39,11 @@
         <tr style='height:1em'></tr>
         <tr><td style='text-transform:uppercase; font-weight:bold'>Other Activities</td><td><%= @user.other_activities %></td></tr>
       </table>
-      <h1 style='margin-top: 25px; margin-bottom: 10px'>About</h1>
-      <%= simple_format(@user.about) %>
+    </div>
+    <div class="col-md-8">
+      <p>
+      <%= render 'production_history'%>
+      </p>
     </div>
   </div>
 </div>

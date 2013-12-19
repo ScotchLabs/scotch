@@ -1,36 +1,16 @@
 <% if has_permission? "adminPositions" %>
-<article>
-<h1>Add a new role</h1>
-<%= form_for(@position) do |f| %>
-  <% if @position.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
-    <ul>
-    <% @position.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
-  <% end %>
+  <%= simple_form_for([@group, @position].compact) do |f| %>
+    <%= f.error_notification %>
 
-  <%= f.hidden_field :group_id %>
-  <div class="field">
-    <%= f.label :user_id %>: 
-    <%= text_field_tag "user_identifier", (@position.user ? "#{@position.user.name} #{@position.user.email}" : ""), :class => "user_identifier" %>
-  </div>
-  <div class="field">
-    <%= f.label :role_id, "Role Type" %>: 
-    <%= f.collection_select :role_id, @group.roles.sort, :id, :name %>
-  </div>
-  <div class="field">
-    <%= f.label :display_name, "Role Name" %>: 
-    <%= f.text_field :display_name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-</article>
+    <%= f.input :andrewid, collection: [], input_html: {class: 'user_identifier'} %>
+    <%= f.input :role_id, collection: @group.roles.sort, value_field: :id, label_field: :name %>
+
+    <%= f.input :display_name, label: "Role Name" %>
+
+    <br />
+
+    <%= f.button :submit %>
+  <% end %>
 <% end %>
 
 <% if has_permission?("adminCrew") && ! @position.display_name %>

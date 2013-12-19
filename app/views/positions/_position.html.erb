@@ -1,0 +1,13 @@
+<div class="row position">
+  <div class="col-md-3">
+    <%= link_to image_tag(group.image(:medium)), group %>
+  </div>
+  <div class="col-md-3 position-group">
+    <%= link_to group, group %>
+  </div>
+  <div class="col-md-6">
+    <% positions.each do |p| %>
+      <%= render_position(p) %>
+    <% end %>
+  </div>
+</div>

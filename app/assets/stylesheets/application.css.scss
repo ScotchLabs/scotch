@@ -60,3 +60,27 @@ textarea
 {
   opacity: 0.3;
 }
+
+.nav-search
+{
+  width: 350px;
+}
+
+.selectize-control.nav-search .selectize-dropdown [data-selectable]:last-child
+{
+  border-bottom: 0 none;
+}
+
+.selectize-control.nav-search .selectize-dropdown .name
+{
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.selectize-control.nav-search .selectize-dropdown .description
+{
+  font-size: 12px;
+  color: #a0a0a0;
+}
+

@@ -15,6 +15,84 @@
 $(function(){
   // apply the placeholder shim for the rich and prosperous elements.
   $('.placeholder-shim').placeholder();
-  $('#user_identifier').autocomplete({source: "/users.json"});
-  $('.user_identifier').autocomplete({source: "/users.json"});
+  // $('#user_identifier').autocomplete({source: "/users.json"});
+  $('select.user_identifier').selectize({
+    valueField: 'andrewid',
+    labelField: 'name',
+    searchField: ['name', 'andrewid'],
+    create: false,
+    render: {
+      option: function(item, escape) {
+        return '<div>' + escape(item.name) + ' &#60;' + escape(item.andrewid) + '&#62; </div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/users.json?term=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
+  $('select.user_identifiers').selectize({
+    valueField: 'andrewid',
+    labelField: 'name',
+    searchField: ['name', 'andrewid'],
+    create: false,
+    render: {
+      option: function(item, escape) {
+        return '<div>' + escape(item.name) + ' &#60;' + escape(item.andrewid) + '&#62; </div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/users.json?term=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
+  $('.nav-search').selectize({
+    valueField: 'link',
+    labelField: 'name',
+    searchField: ['name'],
+    autogrow: false,
+    maxItems: 1,
+    render: {
+      option: function(item, escape) {
+        return '<div><img src="'+escape(item.thumbnail)+'"><span class="name">' + escape(item.name) + '</span>'+
+        '<span class="description">'+escape(item.type)+'</span></div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/dashboard/search.json?q=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res.results);
+        }
+      });
+    },
+    onItemAdd: function(value, item) {
+      window.location.replace(value);
+    }
+  });
 });

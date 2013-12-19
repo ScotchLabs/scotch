@@ -96,13 +96,13 @@ class GroupsController < ApplicationController
       @group = Group.new(params[:group])
     end
 
-    user = User.find(params[:manager_id])
+    user = User.find_by_andrewid(params[:manager])
     role = @group.class.manager_role
 
     respond_to do |format|
       if @group.save 
         #FIXME: ensure this saves correctly
-        @group.positions.create(:user => user, :role => role, :display_name => "Manager")
+        @group.positions.create(:user => user, :role => role, :display_name => "Production Manager")
 
         format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
         format.xml  { render :xml => @group, :status => :created, :location => @group }

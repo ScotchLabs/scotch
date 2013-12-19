@@ -1,0 +1,29 @@
+<h1>Production History</h1>
+<% @years.reverse.each_with_index do |year, i| %>
+  <% show_positions = @user.positions_during(year, "Show") %>
+  <% if show_positions.length > 0 %>
+    <h1><%= "#{year.first.year} - #{year.last.year}" %></h1>
+        <% grid = show_positions.inject({}) { |acc,pos|
+          if acc[pos.group].nil?
+            acc[pos.group] = [pos]
+          else
+            acc[pos.group] += [pos]
+          end
+          acc
+        } %>
+        <% odd = "#eee" %>
+        <% (grid.sort_by { |k,v| k.archive_date }).reverse.each { |show,pos|
+          positions = pos.map { |p| 
+            if p.role.to_s == "Cast" 
+              "<em>as " << p.to_s << "</em>"
+            elsif p.role.to_s == "Tech Head" or p.role.to_s == "Production Staff"
+              "<strong>" << p.to_s << "</strong>" 
+            else 
+              p.to_s 
+            end 
+          }
+          positions = positions.join "<br/>" %>
+        <%= render 'positions/position', group: show, positions: pos %>
+      <% } %>
+<% end %>
+<% end %>

@@ -24,6 +24,10 @@ class Role < ActiveRecord::Base
   def to_s
     name
   end
+  
+  def short_name
+    name.downcase.gsub(' ', '')
+  end
 
   # Is this a crew role, for use with the adminCrew position
   def crew?

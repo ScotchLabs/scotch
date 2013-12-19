@@ -37,6 +37,11 @@ class DashboardController < ApplicationController
     @users = User.search(params[:q]).sort
     @shows = Show.search(params[:q]).sort
     @groups = Group.search(params[:q]).where("type != 'Show'").sort
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   private

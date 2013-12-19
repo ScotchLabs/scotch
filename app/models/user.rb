@@ -284,7 +284,7 @@ class User < Shared::Watchable
   end
 
   def identifier
-    "#{name} #{email}"
+    "#{name} <#{andrewid}>"
   end
   
   def notify(source, subject, action, text)
@@ -300,7 +300,7 @@ class User < Shared::Watchable
 
     user
   end
-  
+
   protected
 
   def downcase_email
