@@ -10,7 +10,7 @@
   </div>
   <% end %>
 
-  <%= f.hidden_field :folder_id, value: nil %>
+  <%= f.hidden_field :folder_id, value: @document.folder_id %>
 
   <div class="field">
     <%= f.label :name %><br>
@@ -43,15 +43,18 @@
 	<script type="text/javascript">
 	
 		$('#tree').jstree({
+      "ui": {
+        "initally_select":["folder_<%= @document.folder_id %>"]
+      },
 			json_data:{
 				data: <%= @group.folder_tree.to_json.html_safe %>
 			},
-                  plugins:["themes", "json_data", "ui"],
-                  "themes": {
-                    "theme":"default",
-                    "dots": false,
-                    "icons": true
-                  }
+      plugins:["themes", "json_data", "ui"],
+      "themes": {
+        "theme":"default",
+        "dots": false,
+        "icons": true
+      }
 		}).bind("select_node.jstree", function (e, data){
 			$("input[name='document[folder_id]']").val(data.rslt.obj.data("id"));
 		});
