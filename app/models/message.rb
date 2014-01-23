@@ -1,7 +1,7 @@
 class Message < ActiveRecord::Base
   belongs_to :sender, class_name: 'User'
   belongs_to :original, class_name: 'Message'
-  has_many :recipients
+  has_many :recipients, foreign_key: :owner_id
   has_many :users, through: :recipients
 
   validates_presence_of :text, :subject
@@ -9,7 +9,7 @@ class Message < ActiveRecord::Base
   attr_accessor :recipients_field
 
   def to
-    recipients.collect(&:to)
+    recipients.collect(&:to).compact.join(', ')
   end
 
   def multipart?
