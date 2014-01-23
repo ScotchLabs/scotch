@@ -33,7 +33,6 @@
               <li><%= link_to 'Reports', group_reports_path(@group) %></li>
             </ul>
             </li>
-            <li class="<%= 'active' if controller.controller_name == 'message_lists' %>"><%= link_to 'Messaging', group_message_lists_path(@group) %>
             <li class="dropdown <%= 'active' if controller.controller_name == 'events' %>">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule<b class="caret"></b></a>
             <ul class="dropdown-menu">
