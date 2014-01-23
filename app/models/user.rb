@@ -147,7 +147,7 @@ class User < Shared::Watchable
       end
       return
     end
-    a.strip!
+    a.strip! if a
     super
     self.email="#{andrewid}@andrew.cmu.edu"
     self.andrewid
