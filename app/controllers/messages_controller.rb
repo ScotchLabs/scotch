@@ -49,12 +49,18 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = @list.messages.new(params[:message])
+    @message = Message.new(params[:message])
     @message.sender = current_user
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        params[:message][:recipients_field].each do |recipient|
+          @message.recipients.create(decode_selection(recipient)) unless recipient.empty?
+        end
+
+        @message.deliver
+
+        format.html { redirect_to @message, notice: 'Message was successfully sent.' }
         format.json { render json: @message, status: :created, location: @message }
         format.js
       else
@@ -100,12 +106,32 @@ class MessagesController < ApplicationController
     args.join(':')
   end
 
-  def get_list
-    @list = MessageList.find(params[:message_list_id]) if params[:message_list_id]
-    @list = @message.message_list if @message && @message.message_list
-  end
-  
-  def get_message
-    @message = Message.find(params[:id])
+  def decode_selection(args)
+    fields = args.split(':')
+    id = fields[0]
+    type = fields[-1]
+
+    recipient = Recipient.new
+
+    if fields.length == 2
+      if type == 'User'
+        recipient.target = User.find(id)
+      elsif type == 'Role'
+        recipient.target = Role.find(id)
+      else
+        recipient.target = Group.find(id)
+      end
+    elsif fields.length == 3
+      recipient.group = Group.find(fields[1])
+
+      if type == 'Position'
+        recipient.target_identifier = id
+        recipient.target_type = 'Position'
+      else
+        recipient.target = Role.find(id)
+      end
+    end
+
+    recipient
   end
 end
