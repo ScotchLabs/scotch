@@ -55,7 +55,11 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         params[:message][:recipients_field].each do |recipient|
-          @message.recipients.create(decode_selection(recipient)) unless recipient.empty?
+          unless recipient.empty?
+            recipient = decode_selection(recipient)
+            recipient.owner = @message
+            recipient.save
+          end
         end
 
         @message.deliver
