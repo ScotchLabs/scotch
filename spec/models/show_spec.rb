@@ -15,10 +15,11 @@ describe Show do
   context "current_season" do
     it "shows the current season if there is one" do
       year = Date.today.year
-      show1 = create(:show, archive_date: Date.new(year, 9, 1))
-      show2 = create(:show, archive_date: Date.new(year, 6, 1))
-
-      Show.current_season.should == [show1]
+      Timecop.freeze Date.new(year, 9, 1) do
+        show1 = create(:show, archive_date: Date.new(year, 8, 1))
+        show2 = create(:show, archive_date: Date.new(year, 6, 1))
+        Show.current_season.should == [show1]
+      end
     end
 
     it "shows the past season if there is no active season" do
@@ -33,11 +34,13 @@ describe Show do
   context "by year" do
     it "groups shows by year" do
       year = Date.today.year
-      show1 = create(:show, archive_date: Date.new(year, 8, 2))
-      show2 = create(:show, archive_date: Date.new(year, 3, 5))
+      Timecop.freeze Date.new(year+1, 9, 1) do
+        show1 = create(:show, archive_date: Date.new(year, 8, 2))
+        show2 = create(:show, archive_date: Date.new(year, 5, 5))
 
-      Show.by_year[year].should == [show2]
-      Show.by_year[year+1].should == [show1]
+        Show.by_year[year].should == [show2]
+        Show.by_year[year+1].should == [show1]
+      end
     end
   end
 
