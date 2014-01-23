@@ -1,0 +1,11 @@
+<%= simple_form_for @message do |f| %>
+  <div class="modal-body">
+    <%= f.input :recipients_field, collection: [], label: 'Recipients', input_html: {class: 'recipients_field', multiple: 'multiple'} %>
+    <%= f.input :subject %>
+    <%= f.input :text, input_html: {class: 'autogrow-text', rows: 5} %>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <%= f.button :submit, 'Send', class: 'btn btn-primary' %>
+  </div>
+<% end %>

@@ -16,6 +16,26 @@ $navbar-default-link-active-color: #FFF;
 
 @import "twitter/bootstrap";
 
+/* BEGIN MODAL FIX */
+
+body
+{
+  overflow-y: scroll;
+}
+
+body.modal-open
+{
+  overflow-y: scroll;
+  margin: 0;
+}
+
+.modal
+{
+  overflow: auto;
+}
+
+/* END MODAL FIX */
+
 h1
 {
   width: 100%;

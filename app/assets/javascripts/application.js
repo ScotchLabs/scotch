@@ -12,6 +12,8 @@
 //= require jquery_nested_form
 //= require_tree .
 
+var recipientFieldInit;
+
 $(function(){
   // apply the placeholder shim for the rich and prosperous elements.
   $('.placeholder-shim').placeholder();
@@ -96,29 +98,33 @@ $(function(){
     }
   });
 
-  $('select.recipients_field').selectize({
-    valueField: 'value',
-    labelField: 'name',
-    searchField: ['name'],
-    create: false,
-    maxItems: null,
-    render: {
-      option: function(item, escape) {
-        return '<div>' + escape(item.name) + '</div>';
-      }
-    },
-    load: function(query, callback) {
-      if(!query.length) return callback();
-      $.ajax({
-        url: '/messages/recipient_search.json?query=' + encodeURIComponent(query),
-        type: 'GET',
-        error: function() {
-          callback();
-        },
-        success: function(res) {
-          callback(res);
+  recipientFieldInit = function() {
+    $('select.recipients_field').selectize({
+      valueField: 'value',
+      labelField: 'name',
+      searchField: ['name'],
+      create: false,
+      maxItems: null,
+      render: {
+        option: function(item, escape) {
+          return '<div>' + escape(item.name) + '</div>';
         }
-      });
-    }
-  });
+      },
+      load: function(query, callback) {
+        if(!query.length) return callback();
+        $.ajax({
+          url: '/messages/recipient_search.json?query=' + encodeURIComponent(query),
+          type: 'GET',
+          error: function() {
+            callback();
+          },
+          success: function(res) {
+            callback(res);
+          }
+        });
+      }
+    });
+  };
+
+  recipientFieldInit();
 });

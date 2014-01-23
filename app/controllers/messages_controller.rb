@@ -42,7 +42,14 @@ class MessagesController < ApplicationController
     @message = Message.new
 
     respond_to do |format|
-      format.html
+      format.html do
+        if params[:nolayout]
+          @modal = true
+          render 'modal', layout: false
+        else
+          render 'new'
+        end
+      end
     end
   end
 
