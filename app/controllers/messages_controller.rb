@@ -1,29 +1,41 @@
 class MessagesController < ApplicationController
-  layout :get_layout
-  before_filter :get_list
-  before_filter :get_group
-  before_filter :get_message, :except => [:new, :index, :create]
-
-  before_filter :only => [:index, :show] do
-    if @list && !@list.member?(current_user) && !has_permission?("adminGroup")
-      redirect_to root_path
-    end
-  end
-
-  before_filter :only => [:new, :create] do
-    if @list && !@list.can_post?(current_user)
-      redirect_to root_path
-    end
-  end
-
-  before_filter :only => [:edit, :update, :destroy] do
-    if @message.sender != current_user
-      redirect_to root_path
-    end
-  end
+  before_filter :get_message, :except => [:new, :index, :create, :recipient_search]
 
   def index
-    @messages = @list ? @list.messages : []
+    @messages = current_user.messages
+  end
+
+  def recipient_search
+    @users = User.search(params[:query])
+    @groups = Group.active
+
+    @results = @users.map do |user|
+      {name: user.name, value: encode_selection(user.id, 'User')}
+    end
+
+    @results += Role.all.map do |role|
+      {name: role.name, value: encode_selection(role.id, 'Role')}
+    end
+
+    @groups.each do |group|
+      @results << {name: "#{group.name} All", value: encode_selection(group.id, 'Group')}
+
+      group.positions.uniq(&:role_id).each do |position|
+        @results << {name: "#{group.name}: #{position.role.name}",
+          value: encode_selection(position.role.id, group.id, 'Role')}
+      end
+
+      group.positions.uniq(&:display_name).each do |pos|
+        @results << {name: "#{group.name}: #{pos.display_name}",
+          value: encode_selection(pos.display_name, group.id, 'Position')}
+      end
+    end
+
+    @results.select! {|x| x[:name].downcase.include?(params[:query].downcase)}
+
+    respond_to do |format|
+      format.json { render json: @results }
+    end
   end
 
   def new
@@ -80,16 +92,12 @@ class MessagesController < ApplicationController
   
   protected
 
-  def get_layout
-    if @group
-      'group'
-    else
-      'application'
-    end
+  def get_message
+    @message = Message.find(params[:id])
   end
 
-  def get_group
-    @group = @list.group if @list
+  def encode_selection(*args)
+    args.join(':')
   end
 
   def get_list

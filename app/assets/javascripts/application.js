@@ -95,4 +95,30 @@ $(function(){
       window.location.replace(value);
     }
   });
+
+  $('select.recipients_field').selectize({
+    valueField: 'value',
+    labelField: 'name',
+    searchField: ['name'],
+    create: false,
+    maxItems: null,
+    render: {
+      option: function(item, escape) {
+        return '<div>' + escape(item.name) + '</div>';
+      }
+    },
+    load: function(query, callback) {
+      if(!query.length) return callback();
+      $.ajax({
+        url: '/messages/recipient_search.json?query=' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
 });

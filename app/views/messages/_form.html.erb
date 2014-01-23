@@ -1,7 +1,5 @@
-<%= simple_form_for [@list, @message].compact do |f| %>
-  <% if @list %>
-    <%= hidden_field_tag :message_list_id, value: @list.id %>
-  <% end %>
+<%= simple_form_for @message do |f| %>
+  <%= f.input :recipients_field, collection: [], label: 'Recipients', input_html: {class: 'recipients_field'} %>
   <%= f.input :subject %>
   <%= f.input :text %>
   <%= f.button :submit %>
