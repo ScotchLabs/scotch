@@ -12,9 +12,6 @@ class Message < ActiveRecord::Base
     recipients.collect(&:to)
   end
 
-  def subject
-  end
-
   def multipart?
     !self.html_part.nil?
   end
