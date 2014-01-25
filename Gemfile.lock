@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/carlosdp/mail.git
-  revision: a3b0bfdc02ea43299c10efe29179ad5393402a61
+  revision: f9e3f1184abdebbef8c482746d2dd5ac4d3830ec
   specs:
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -141,7 +141,7 @@ GEM
     htmlentities (4.3.1)
     http_parser.rb (0.5.3)
     httpauth (0.2.0)
-    i18n (0.6.5)
+    i18n (0.6.9)
     icalendar (1.1.6)
     journey (1.0.4)
     jquery-rails (2.0.2)
@@ -157,7 +157,7 @@ GEM
     letter_opener (1.1.2)
       launchy (~> 2.2)
     mail_extract (0.1.4)
-    mime-types (1.25)
+    mime-types (1.25.1)
     multi_json (1.8.0)
     multipart-post (1.2.0)
     mysql2 (0.3.11)
