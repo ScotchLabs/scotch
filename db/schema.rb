@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918002431) do
+ActiveRecord::Schema.define(:version => 20140123005058) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -279,11 +279,9 @@ ActiveRecord::Schema.define(:version => 20130918002431) do
 
   create_table "messages", :force => true do |t|
     t.text     "text"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.string   "subject"
-    t.string   "distribution",    :default => "scotch"
-    t.integer  "message_list_id"
     t.integer  "sender_id"
     t.text     "html_part"
   end
@@ -420,12 +418,15 @@ ActiveRecord::Schema.define(:version => 20130918002431) do
   end
 
   create_table "recipients", :force => true do |t|
-    t.integer  "message_list_id"
-    t.integer  "message_id"
-    t.integer  "user_id"
     t.boolean  "message_sent"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "group_id"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.string   "target_identifier"
   end
 
   create_table "report_fields", :force => true do |t|

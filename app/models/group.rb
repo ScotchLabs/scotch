@@ -55,7 +55,7 @@ class Group < Shared::Watchable
   validates_format_of :short_name, :with => /\A[0-9A-Za-z_&-_]{1,20}\Z/, :message => "may consist only of letters, numbers and the following: & _ -"
 
   scope :active, where("(archive_date IS NULL) OR (archive_date > NOW())")
-  scope :archived, where("(archive_date IS NOT NULL) AND (archive_date < NOW())")
+  scope :archived, -> { where("archive_date IS NOT NULL AND archive_date < ?", Date.today) }
   scope :public, where(is_public: true)
   scope :tickets_available, where(tickets_available: true)
 

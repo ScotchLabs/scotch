@@ -1,0 +1,19 @@
+<%= simple_form_for @message, remote: true do |f| %>
+  <div class="modal-body">
+    <%= f.input :recipients_field, collection: [], label: 'Recipients', input_html: {class: 'recipients_field', multiple: 'multiple'} %>
+    <%= f.input :subject %>
+    <%= f.input :text, input_html: {class: 'autogrow-text', rows: 5} %>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <%= f.button :submit, 'Send', id: 'message-send', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#new-message form').bind('ajax:complete', function(e) {
+    $('#new-message').modal('hide');
+    this.reset();
+    $('#new-message .recipients_field')[0].selectize.clear();
+  });
+</script>

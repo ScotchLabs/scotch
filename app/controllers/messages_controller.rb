@@ -1,48 +1,77 @@
 class MessagesController < ApplicationController
-  layout :get_layout
-  before_filter :get_list
-  before_filter :get_group
-  before_filter :get_message, :except => [:new, :index, :create]
-
-  before_filter :only => [:index, :show] do
-    if @list && !@list.member?(current_user) && !has_permission?("adminGroup")
-      redirect_to root_path
-    end
-  end
-
-  before_filter :only => [:new, :create] do
-    if @list && !@list.can_post?(current_user)
-      redirect_to root_path
-    end
-  end
-
-  before_filter :only => [:edit, :update, :destroy] do
-    if @message.sender != current_user
-      redirect_to root_path
-    end
-  end
+  before_filter :get_message, :except => [:new, :index, :create, :recipient_search]
 
   def index
-    @messages = @list ? @list.messages : []
+    @messages = current_user.messages
+  end
+
+  def recipient_search
+    @users = User.search(params[:query])
+    @groups = Group.active
+
+    @results = @users.map do |user|
+      {name: user.name, value: encode_selection(user.id, 'User')}
+    end
+
+    @results += Role.all.map do |role|
+      {name: role.name, value: encode_selection(role.id, 'Role')}
+    end
+
+    @groups.each do |group|
+      @results << {name: "#{group.name} All", value: encode_selection(group.id, 'Group')}
+
+      group.positions.uniq(&:role_id).each do |position|
+        @results << {name: "#{group.name}: #{position.role.name}",
+          value: encode_selection(position.role.id, group.id, 'Role')}
+      end
+
+      group.positions.uniq(&:display_name).each do |pos|
+        @results << {name: "#{group.name}: #{pos.display_name}",
+          value: encode_selection(pos.display_name, group.id, 'Position')}
+      end
+    end
+
+    @results.select! {|x| x[:name].downcase.include?(params[:query].downcase)}
+
+    respond_to do |format|
+      format.json { render json: @results }
+    end
   end
 
   def new
     @message = Message.new
 
     respond_to do |format|
-      format.html
+      format.html do
+        if params[:nolayout]
+          @modal = true
+          render 'modal', layout: false
+        else
+          render 'new'
+        end
+      end
     end
   end
 
   # POST /messages
   # POST /messages.json
   def create
-    @message = @list.messages.new(params[:message])
+    @message = Message.new(params[:message])
     @message.sender = current_user
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        params[:message][:recipients_field].each do |recipient|
+          unless recipient.empty?
+            recipient = decode_selection(recipient)
+            recipient.owner = @message
+            recipient.save
+          end
+        end
+
+        @message.deliver
+
+        format.html { redirect_to @message, notice: 'Message was successfully sent.' }
         format.json { render json: @message, status: :created, location: @message }
         format.js
       else
@@ -80,24 +109,40 @@ class MessagesController < ApplicationController
   
   protected
 
-  def get_layout
-    if @group
-      'group'
-    else
-      'application'
-    end
-  end
-
-  def get_group
-    @group = @list.group if @list
-  end
-
-  def get_list
-    @list = MessageList.find(params[:message_list_id]) if params[:message_list_id]
-    @list = @message.message_list if @message && @message.message_list
-  end
-  
   def get_message
     @message = Message.find(params[:id])
+  end
+
+  def encode_selection(*args)
+    args.join(':')
+  end
+
+  def decode_selection(args)
+    fields = args.split(':')
+    id = fields[0]
+    type = fields[-1]
+
+    recipient = Recipient.new
+
+    if fields.length == 2
+      if type == 'User'
+        recipient.target = User.find(id)
+      elsif type == 'Role'
+        recipient.target = Role.find(id)
+      else
+        recipient.target = Group.find(id)
+      end
+    elsif fields.length == 3
+      recipient.group = Group.find(fields[1])
+
+      if type == 'Position'
+        recipient.target_identifier = id
+        recipient.target_type = 'Position'
+      else
+        recipient.target = Role.find(id)
+      end
+    end
+
+    recipient
   end
 end

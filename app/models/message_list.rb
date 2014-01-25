@@ -8,7 +8,6 @@ class MessageList < ActiveRecord::Base
 
   validates_presence_of :name, :address, :security
   validates_uniqueness_of :address, scope: [:group_id]
-  validates_inclusion_of :distribution, in: Message::DISTRIBUTION_TYPES
 
   after_commit :add_new_recipients
   after_commit :add_new_members
