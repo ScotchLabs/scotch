@@ -53,7 +53,9 @@ Scotch::Application.routes.draw do
     end
   end
 
-  resources :messages
+  resources :messages do
+    get :recipient_search, on: :collection
+  end
 
   resources :ticket_reservations, path: '/tickets', as: 'ticket_reservations', except: [:index, :new] do
     get '/' => 'ticket_reservations#new', on: :collection, as: 'new'
@@ -69,9 +71,6 @@ Scotch::Application.routes.draw do
     end
     resources :events, :on => :member do
       get 'schedule', :on => :collection, :as => 'schedule'
-    end
-    resources :message_lists, :on => :member do
-      resources :messages, :on => :member
     end
     resources :plans, :on => :member do
       resources :tasks, :on => :member do

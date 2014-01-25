@@ -71,7 +71,7 @@ class User < Shared::Watchable
   #Messaging
   has_settings
   has_and_belongs_to_many :message_threads
-  has_many :messages
+  has_many :sent_messages, class_name: 'Message', foreign_key: :sender_id
   
 	Paperclip.interpolates :aid_initial do |attachment,style| 
 		attachment.instance.andrewid.first
@@ -147,7 +147,7 @@ class User < Shared::Watchable
       end
       return
     end
-    a.strip!
+    a.strip! if a
     super
     self.email="#{andrewid}@andrew.cmu.edu"
     self.andrewid
@@ -210,6 +210,10 @@ class User < Shared::Watchable
 
   def name
     first_name + " " + last_name
+  end
+
+  def messages
+    Message.joins(:recipients).where(Message::RECIPIENT_SQL, id, id, id, id)
   end
 
 #################################

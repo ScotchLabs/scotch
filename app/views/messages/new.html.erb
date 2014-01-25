@@ -1,13 +1,2 @@
-<% unless @group %>
-	<div class="dashboard">
-		<div class="dashboard-header">
-			<h1>Messages</h2>
-		</div>
-		<div class="dashboard-container">
-<% end %>
+<h1>Compose</h1>
 <%= render 'form' %>
-<%= link_to 'Back', polymorphic_path([@list, :messages].compact) %>
-<% unless @group %>
-		</div>
-	</div>
-<% end %>
