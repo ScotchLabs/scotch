@@ -29,7 +29,7 @@ class MessageSendWorker
     @message.recipients.each do |recipient|
       mail.subject = recipient.subject
 
-      recipient.envelope_recipients.each do |email|
+      recipient.envelope_recipients.flatten.each do |email|
         if !sent_to.include?(email)
           mail.envelope_recipient = email
           mail.deliver
