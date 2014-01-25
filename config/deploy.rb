@@ -1,5 +1,6 @@
 require 'bundler/capistrano'
 require 'sidekiq/capistrano'
+require 'capistrano/local_precompile'
 
 set :stages, %w{staging production}
 set :default_stage, 'staging'

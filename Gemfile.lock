@@ -67,6 +67,8 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-local-precompile (0.0.2)
+      capistrano
     celluloid (0.11.1)
       timers (>= 1.0.0)
     climate_control (0.0.3)
@@ -323,6 +325,7 @@ DEPENDENCIES
   annotate
   bourbon
   capistrano
+  capistrano-local-precompile
   coffee-rails (~> 3.2.1)
   devise (~> 3.1)
   digest-whirlpool

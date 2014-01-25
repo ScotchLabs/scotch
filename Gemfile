@@ -81,6 +81,7 @@ group :development do
   gem 'annotate'
   gem 'letter_opener'
   gem 'quiet_assets'
+  gem 'capistrano-local-precompile', require: false
 end
 
 group :test do
