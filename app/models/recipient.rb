@@ -5,15 +5,15 @@ class Recipient < ActiveRecord::Base
 
   def to
     if target.is_a? User
-      target.email
+      "\"#{target.name}\"<#{target.email}>"
     else
       if group
-        "#{group.short_name}@snstheatre.org"
-        return "#{group.short_name}+#{target.short_name}@snstheatre.org" if target
-        return "#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org" if target_identifier
+        "\"#{group.name}\"<#{group.short_name}@snstheatre.org>"
+        return "\"#{group.name} #{target.name}\"<#{group.short_name}+#{target.short_name}@snstheatre.org>" if target
+        return "\"#{group.name} #{target_identifier}\"<#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>" if target_identifier
       else
-        return "#{target.short_name}@snstheatre.org" if target
-        return "#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org" if target_identifier
+        return "\"#{target.name}\"<#{target.short_name}@snstheatre.org>" if target
+        return "\"#{target_identifier}\"<#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>" if target_identifier
       end
     end
   end
