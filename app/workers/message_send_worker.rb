@@ -24,13 +24,17 @@ class MessageSendWorker
     mail.delivery_method :smtp, {enable_starttls_auto: false}
     mail.delivery_method LetterOpener::DeliveryMethod, :location => File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development?
 
+    sent_to = [] # Tracks emails we already sent messages to
+
     @message.recipients.each do |recipient|
       mail.subject = recipient.subject
 
       recipient.envelope_recipients.each do |email|
-        logger.info email
-        mail.envelope_recipient = email
-        mail.deliver
+        if !sent_to.include?(email)
+          mail.envelope_recipient = email
+          mail.deliver
+          sent_to << email
+        end
       end
     end
   end
