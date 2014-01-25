@@ -67,4 +67,17 @@ class Recipient < ActiveRecord::Base
       end
     end
   end
+
+  def name
+    result = ''
+    result += group.short_name.capitalize + ' ' if group
+
+    if target_identifier
+      result += target_identifier
+    elsif target
+      result += target.name
+    end
+
+    result
+  end
 end
