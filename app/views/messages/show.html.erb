@@ -1,6 +1,6 @@
 <div class='col-md-8'>
   <h2><%= @message.subject %></h2>
-  <h5><%= @message.recipients.collect(&:name).join(', ') %></h5>
+  <h5><strong>To:</strong> <%= @message.recipients.collect(&:name).join(', ') %></h5>
 
   <p><%= simple_format(@message.text) %></p>
 </div>
