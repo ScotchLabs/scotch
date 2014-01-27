@@ -34,6 +34,7 @@ class MessageSendWorker
           mail.envelope_recipient = email
           mail.deliver
           sent_to << email
+          mail.envelope_recipient = nil
         end
       end
     end
