@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140123005058) do
+ActiveRecord::Schema.define(:version => 20140127194915) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "reserver_id"
@@ -234,14 +234,6 @@ ActiveRecord::Schema.define(:version => 20140123005058) do
     t.integer  "user_id"
   end
 
-  create_table "list_members", :force => true do |t|
-    t.integer  "message_list_id"
-    t.integer  "member_id"
-    t.string   "member_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
   create_table "managers", :force => true do |t|
     t.integer  "user_id"
     t.integer  "plan_id"
@@ -252,29 +244,8 @@ ActiveRecord::Schema.define(:version => 20140123005058) do
   create_table "message_lists", :force => true do |t|
     t.integer  "group_id"
     t.string   "name"
-    t.string   "address"
-    t.string   "distribution", :default => "email"
-    t.boolean  "entire_group", :default => false
-    t.string   "security"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-  end
-
-  create_table "message_threads", :force => true do |t|
-    t.string   "subject"
-    t.integer  "group_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.string   "privacy",    :default => "none"
-    t.boolean  "deleted",    :default => false
-    t.string   "reply_type", :default => "self"
-  end
-
-  create_table "message_threads_users", :id => false, :force => true do |t|
-    t.integer  "message_thread_id"
-    t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "messages", :force => true do |t|

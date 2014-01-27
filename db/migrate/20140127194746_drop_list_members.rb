@@ -1,5 +1,9 @@
-class CreateListMembers < ActiveRecord::Migration
-  def change
+class DropListMembers < ActiveRecord::Migration
+  def up
+    drop_table :list_members
+  end
+
+  def down
     create_table :list_members do |t|
       t.integer :message_list_id
       t.integer :member_id
