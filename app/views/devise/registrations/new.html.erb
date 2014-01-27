@@ -16,7 +16,7 @@
   <%= f.input :residence %><span class="help-block">In case you over-sleep and we need you.</span>
   <%= f.input :phone %> <span class='help-block'>We often need to call members if they are late for an audition or rehearsal. If we don't have your number, you could be left behind.</span>
   <%= f.input :gender, collection: ['Male', 'Female'], include_blank: false %>
-  <%= f.input :birthday %>
+  <%= f.input :birthday, start_year: 30.years.ago.year %>
   <br>
   <center>
     <%= f.button :submit, "Create My Account", class: 'btn btn-primary' %>
