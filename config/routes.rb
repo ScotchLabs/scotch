@@ -92,7 +92,9 @@ Scotch::Application.routes.draw do
       get :tokens
     end
     resources :ticket_reservations, path: '/tickets', as: 'ticket_reservations',  on: :member
-    resources :message_lists
+    resources :message_lists do
+      post :mass_add, on: :member
+    end
   end
 
   resources :events

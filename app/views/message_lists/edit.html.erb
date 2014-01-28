@@ -1,5 +1,18 @@
-<h1>Editing message_list</h1>
+<h1>Editing Message List</h1>
 
 <%= render 'form' %>
+
+<br /><br />
+
+<%= form_tag mass_add_message_list_path(@message_list), method: :post do %>
+  <strong>Mass Add Emails (comma separated): </strong>
+  <%= text_area_tag :emails, '', rows: 10, cols: 100 %>
+
+  <br /><br />
+
+  <%= submit_tag "Add Emails to List".html_safe, class: 'btn btn-success' %>
+<% end %>
+
+<br /><br />
 
 <%= link_to 'Show', @message_list %>

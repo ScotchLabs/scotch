@@ -4,7 +4,7 @@ class Recipient < ActiveRecord::Base
   belongs_to :target, polymorphic: true
 
   def to
-    if target.is_a? User
+    if target.is_a?(User) || target.is_a?(Contact)
       "\"#{target.name}\"<#{target.email}>"
     else
       if group
@@ -21,7 +21,7 @@ class Recipient < ActiveRecord::Base
   def subject
     prefix = '['
 
-    if target.is_a? User
+    if target.is_a?(User) || target.is_a?(Contact)
       prefix += 'Scotch'
     else
       if group
@@ -53,8 +53,8 @@ class Recipient < ActiveRecord::Base
         Position.where(group_id: Group.active, display_name: target_identifier)
         .includes(:user).map { |p| p.user.email }
       end
-    elsif target.is_a? User
-      [target.email]
+    elsif target.is_a?(User) || target.is_a?(Contact)
+      [target.email].compact
     elsif target.is_a? Group
       target.members.pluck(:email)
     elsif target.is_a? Role
@@ -77,7 +77,11 @@ class Recipient < ActiveRecord::Base
     if target_identifier
       result += target_identifier
     elsif target
-      result += target.name
+      if target.name
+        result += target.name
+      else
+        result += target.email
+      end
     end
 
     result

@@ -3,7 +3,7 @@ class MessageListsController < ApplicationController
 
   before_filter :get_lists, only: [:index]
   before_filter :get_list, except: [:index, :new, :create]
-  before_filter :get_group, except: [:index, :new, :create]
+  before_filter :get_group, except: [:index, :new, :create, :mass_add]
 
   before_filter :except => [:index, :show] do
     require_permission "adminCrew"
@@ -89,6 +89,18 @@ class MessageListsController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @message_list.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def mass_add
+    params[:emails].split(',').each do |email|
+      contact = Contact.where(protocol: 'email', address: email.strip).first_or_create
+
+      @message_list.recipients.create(target: contact)
+    end
+
+    respond_to do |format|
+      format.html { redirect_to @message_list, notice: 'Emails Added.' }
     end
   end
 
