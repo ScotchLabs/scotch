@@ -29,9 +29,22 @@ class MessagesController < ApplicationController
         @results << {name: "#{group.name}: #{pos.display_name}",
           value: encode_recipient(pos.display_name, group.id, 'Position')}
       end
+
+      group.message_lists.each do |list|
+        @results << {name: "#{group.name}: #{list.name}",
+          value: encode_recipient(list.id, group.id, 'MessageList')}
+      end
     end
 
-    @results.select! {|x| x[:name].downcase.include?(params[:query].downcase)}
+    @results.select! do |x|
+      match = false
+
+      params[:query].split(' ').each do |term|
+        match = true if x[:name].downcase.include?(term.downcase)
+      end
+
+      match
+    end
 
     respond_to do |format|
       format.json { render json: @results }

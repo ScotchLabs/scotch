@@ -1,6 +1,7 @@
 <% if has_permission?('adminCrew') %>
 	<%= link_to "<i class='icon-plus'></i> Create New Message List".html_safe, new_group_message_list_path(@group), 
           class: 'btn btn-success' %>
+  <br /><br />
 <% end %>
 
 <table class='table table-striped'>
@@ -15,7 +16,7 @@
 
 <% @message_lists.each do |message_list| %>
   <tr>
-    <td><%= link_to message_list.name, group_message_lists_path(@group, message_list) %></td>
+    <td><%= link_to message_list.name, message_list %></td>
     <% if has_permission?('adminCrew') %>
     <td><%= link_to 'Show', message_list %></td>
     <td><%= link_to 'Edit', edit_message_list_path(message_list) %></td>

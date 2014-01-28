@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
       if type == 'Position'
         recipient.target_identifier = id
         recipient.target_type = 'Position'
+      elsif type == 'MessageList'
+        recipient.target = MessageList.find(id)
       else
         recipient.target = Role.find(id)
       end

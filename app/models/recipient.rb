@@ -66,7 +66,7 @@ class Recipient < ActiveRecord::Base
         .includes(:user).map { |p| p.user.email }
       end
     elsif target.is_a? MessageList
-      target.recipients.collect(&:envelope_recipient).flatten.uniq
+      target.recipients.collect(&:envelope_recipients).flatten.uniq
     end
   end
 

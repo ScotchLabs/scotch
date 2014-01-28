@@ -5,4 +5,8 @@ class MessageList < ActiveRecord::Base
   attr_accessor :recipients_field
 
   validates_presence_of :name
+
+  def short_name
+    name.gsub(' ', '').downcase
+  end
 end
