@@ -26,6 +26,7 @@
           <div class="nav nav-pills group-nav">
             <li class="<%= 'active' if controller.controller_name == 'groups' %>"><%= link_to 'Home', @group %></li>
             <li class="<%= 'active' if controller.controller_name == 'positions' %>"><%= link_to 'Members', group_positions_path(@group) %></li>
+            <li class="<%= 'active' if controller.controller_name == 'message_lists' %>"><%= link_to 'Message Lists', group_message_lists_path(@group) %></li>
             <li class="dropdown <%= 'active' if controller.controller_name.in? ['documents', 'reports'] %>">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Documents<b class="caret"></b></a>
             <ul class="dropdown-menu">
