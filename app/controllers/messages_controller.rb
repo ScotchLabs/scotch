@@ -10,24 +10,24 @@ class MessagesController < ApplicationController
     @groups = Group.active
 
     @results = @users.map do |user|
-      {name: user.name, value: encode_selection(user.id, 'User')}
+      {name: user.name, value: encode_recipient(user.id, 'User')}
     end
 
     @results += Role.all.map do |role|
-      {name: role.name, value: encode_selection(role.id, 'Role')}
+      {name: role.name, value: encode_recipient(role.id, 'Role')}
     end
 
     @groups.each do |group|
-      @results << {name: "#{group.name} All", value: encode_selection(group.id, 'Group')}
+      @results << {name: "#{group.name} All", value: encode_recipient(group.id, 'Group')}
 
       group.positions.uniq(&:role_id).each do |position|
         @results << {name: "#{group.name}: #{position.role.name}",
-          value: encode_selection(position.role.id, group.id, 'Role')}
+          value: encode_recipient(position.role.id, group.id, 'Role')}
       end
 
       group.positions.uniq(&:display_name).each do |pos|
         @results << {name: "#{group.name}: #{pos.display_name}",
-          value: encode_selection(pos.display_name, group.id, 'Position')}
+          value: encode_recipient(pos.display_name, group.id, 'Position')}
       end
     end
 
@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
       if @message.save
         params[:message][:recipients_field].each do |recipient|
           unless recipient.empty?
-            recipient = decode_selection(recipient)
+            recipient = decode_recipient(recipient)
             recipient.owner = @message
             recipient.save
           end
@@ -111,38 +111,5 @@ class MessagesController < ApplicationController
 
   def get_message
     @message = Message.find(params[:id])
-  end
-
-  def encode_selection(*args)
-    args.join(':')
-  end
-
-  def decode_selection(args)
-    fields = args.split(':')
-    id = fields[0]
-    type = fields[-1]
-
-    recipient = Recipient.new
-
-    if fields.length == 2
-      if type == 'User'
-        recipient.target = User.find(id)
-      elsif type == 'Role'
-        recipient.target = Role.find(id)
-      else
-        recipient.target = Group.find(id)
-      end
-    elsif fields.length == 3
-      recipient.group = Group.find(fields[1])
-
-      if type == 'Position'
-        recipient.target_identifier = id
-        recipient.target_type = 'Position'
-      else
-        recipient.target = Role.find(id)
-      end
-    end
-
-    recipient
   end
 end

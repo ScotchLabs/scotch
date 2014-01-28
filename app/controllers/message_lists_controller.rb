@@ -32,12 +32,11 @@ class MessageListsController < ApplicationController
   # GET /message_lists/new
   # GET /message_lists/new.json
   def new
-    @message_list = MessageList.new
     @list = [@group, MessageList.new]
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @message_list }
+      format.json { render json: @list }
     end
   end
 
@@ -53,6 +52,14 @@ class MessageListsController < ApplicationController
 
     respond_to do |format|
       if @message_list.save
+        params[:message_list][:recipients_field].each do |recipient|
+          unless recipient.empty?
+            recipient = decode_recipient(recipient)
+            recipient.owner = @message_list
+            recipient.save
+          end
+        end
+
         format.html { redirect_to @message_list, notice: 'Message list was successfully created.' }
         format.json { render json: @message_list, status: :created, location: @message_list }
       else
@@ -68,6 +75,14 @@ class MessageListsController < ApplicationController
 
     respond_to do |format|
       if @message_list.update_attributes(params[:message_list])
+        params[:message_list][:recipients_field].each do |recipient|
+          unless recipient.empty?
+            recipient = decode_recipient(recipient)
+            recipient.owner = @message_list
+            recipient.save
+          end
+        end
+
         format.html { redirect_to @message_list, notice: 'Message list was successfully updated.' }
         format.json { head :no_content }
       else

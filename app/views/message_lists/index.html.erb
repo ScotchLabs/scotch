@@ -1,15 +1,11 @@
-<h4>How to Use:</h4>
-<ul class="unstyled">
-  <li>Send an email to <i>short_name</i>+<i>address</i>@snstheatre.org -OR- Click on the list below and send a message through Scotch.</li>
-  <li>The group/show's Short Name can be found in the group/show's Home page.</li>
-  <li><i class='muted'>Example: reefer+production@snstheatre.org goes to the Reefer Madness Production Staff mailing list.</i></li>
-</ul>
+<% if has_permission?('adminCrew') %>
+	<%= link_to "<i class='icon-plus'></i> Create New Message List".html_safe, new_group_message_list_path(@group), 
+          class: 'btn btn-success' %>
+<% end %>
+
 <table class='table table-striped'>
   <tr>
     <th>Name</th>
-    <th>Address</th>
-    <th>Distribution</th>
-    <th>Security</th>
     <% if has_permission?('adminCrew') %>
     <th></th>
     <th></th>
@@ -19,10 +15,7 @@
 
 <% @message_lists.each do |message_list| %>
   <tr>
-    <td><%= link_to message_list.name, message_list_messages_path(message_list) %></td>
-    <td><%= message_list.address %></td>
-    <td><%= message_list.distribution %></td>
-    <td><%= message_list.security %></td>
+    <td><%= link_to message_list.name, group_message_lists_path(@group, message_list) %></td>
     <% if has_permission?('adminCrew') %>
     <td><%= link_to 'Show', message_list %></td>
     <td><%= link_to 'Edit', edit_message_list_path(message_list) %></td>
@@ -34,7 +27,3 @@
 
 <br />
 
-<% if has_permission?('adminCrew') %>
-	<%= link_to "<i class='icon-plus'></i> Create New Message List".html_safe, new_group_message_list_path(@group), 
-          class: 'btn btn-success' %> <br /> <br />
-<% end %>

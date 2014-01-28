@@ -65,6 +65,8 @@ class Recipient < ActiveRecord::Base
         Position.where(group_id: Group.active, role_id: target)
         .includes(:user).map { |p| p.user.email }
       end
+    elsif target.is_a? MessageList
+      target.recipients.collect(&:envelope_recipient).flatten.uniq
     end
   end
 

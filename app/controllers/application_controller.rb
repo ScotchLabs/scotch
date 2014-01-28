@@ -9,6 +9,39 @@ class ApplicationController < ActionController::Base
 
   prepend_before_filter :authenticate_user!
 
+  def encode_recipient(*args)
+    args.join(':')
+  end
+
+  def decode_recipient(args)
+    fields = args.split(':')
+    id = fields[0]
+    type = fields[-1]
+
+    recipient = Recipient.new
+
+    if fields.length == 2
+      if type == 'User'
+        recipient.target = User.find(id)
+      elsif type == 'Role'
+        recipient.target = Role.find(id)
+      else
+        recipient.target = Group.find(id)
+      end
+    elsif fields.length == 3
+      recipient.group = Group.find(fields[1])
+
+      if type == 'Position'
+        recipient.target_identifier = id
+        recipient.target_type = 'Position'
+      else
+        recipient.target = Role.find(id)
+      end
+    end
+
+    recipient
+  end
+
   protected
 
   def locate_group

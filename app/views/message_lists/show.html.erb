@@ -1,8 +1,6 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Group:</b>
-  <%= @message_list.group_id %>
+  <%= @message_list.group.name %>
 </p>
 
 <p>
@@ -11,34 +9,10 @@
 </p>
 
 <p>
-  <b>Address:</b>
-  <%= @message_list.address %>
-</p>
-
-<p>
-  <b>Distribution:</b>
-  <%= @message_list.distribution %>
-</p>
-
-<p>
-  <b>Security:</b>
-  <%= @message_list.security %>
-</p>
-
-<p>
   <b>Recipients:</b>
   <ul class="unstyled">
-    <% @message_list.users.each do |u| %>
-      <li><%= link_to u, u %></li>
-    <% end %>
-  </ul>
-</p>
-
-<p>
-  <b>Members:</b>
-  <ul class="unstyled">
-    <% @message_list.members.each do |u| %>
-      <li><%= link_to u, u %></li>
+    <% @message_list.recipients.each do |r| %>
+      <li><%= r.name %></li>
     <% end %>
   </ul>
 </p>
