@@ -9,7 +9,6 @@ class DashboardController < ApplicationController
       redirect_to edit_user_path(current_user)
     end
     
-    @threads = MessageThread.visible(current_user)
     @events = current_user.attended_events.future
   end
 
