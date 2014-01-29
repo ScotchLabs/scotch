@@ -217,6 +217,11 @@ class User < Shared::Watchable
     Message.joins(:recipients).where(Message::RECIPIENT_SQL, id, id, id, id)
   end
 
+  def all_messages
+    Message.joins(:recipients).where(Message::RECIPIENT_SQL + " OR sender_id = ?",
+                                     id, id, id, id, id)
+  end
+
 #################################
 # GROUPS AND POSITIONS METHODS #
 #################################

@@ -312,7 +312,7 @@ GEM
     uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
-    will_paginate (3.0.3)
+    will_paginate (3.0.5)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -362,4 +362,4 @@ DEPENDENCIES
   timecop
   twilio-ruby
   uglifier (>= 1.0.3)
-  will_paginate (~> 3.0.pre2)
+  will_paginate (~> 3.0)

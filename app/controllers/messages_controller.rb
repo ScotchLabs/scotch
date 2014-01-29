@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   before_filter :get_message, :except => [:new, :index, :create, :recipient_search]
 
   def index
-    @messages = current_user.messages
+    @messages = current_user.all_messages.paginate(page: params[:page], per_page: 25)
   end
 
   def recipient_search
