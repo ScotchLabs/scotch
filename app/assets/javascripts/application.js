@@ -127,4 +127,10 @@ $(function(){
   };
 
   recipientFieldInit();
+
+  $('.message-button').click(function() {
+    if ($('.navbar-collapse').height() != 0) {
+      $('.navbar-collapse').height("0");
+    }
+  });
 });
