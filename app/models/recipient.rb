@@ -3,6 +3,9 @@ class Recipient < ActiveRecord::Base
   belongs_to :group
   belongs_to :target, polymorphic: true
 
+  validates_uniqueness_of :target_id, scope: [:target_type, :group_id], allow_nil: true
+  validates_uniqueness_of :target_identifier, scope: [:target_type, :group_id], allow_nil: true
+
   def to
     if target.is_a?(User) || target.is_a?(Contact)
       "\"#{target.name}\"<#{target.email}>"
