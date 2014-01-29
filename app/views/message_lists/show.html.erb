@@ -4,12 +4,19 @@
 </p>
 
 <p>
-  <b>Recipients:</b>
-  <ul class="unstyled">
+<b>Recipients (<%= @message_list.recipients.count %>):</b>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
     <% @message_list.recipients.each do |r| %>
-      <li><%= r.name %></li>
+      <tr>
+        <td><%= r.name %></td>
+        <td><%= r.target_type %></td>
+      </tr>
     <% end %>
-  </ul>
+  </table>
 </p>
 
 <%= link_to 'Edit', edit_message_list_path(@message_list) %> |
