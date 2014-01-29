@@ -36,6 +36,8 @@ class MessagesController < ApplicationController
       end
     end
 
+    @results << {name: 'Active Members', value: encode_recipient('Active', 'User')}
+
     @results.select! do |x|
       match = false
 

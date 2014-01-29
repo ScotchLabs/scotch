@@ -22,7 +22,12 @@ class ApplicationController < ActionController::Base
 
     if fields.length == 2
       if type == 'User'
-        recipient.target = User.find(id)
+        if id == 'Active'
+          recipient.target_identifier = id
+          recipient.target_type = 'User'
+        else
+          recipient.target = User.find(id)
+        end
       elsif type == 'Role'
         recipient.target = Role.find(id)
       else

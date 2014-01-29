@@ -49,12 +49,16 @@ class Recipient < ActiveRecord::Base
 
   def envelope_recipients
     if target_identifier
-      if group
-        Position.where(group_id: group.id, display_name: target_identifier)
-        .includes(:user).map { |p| p.user.email }
-      else
-        Position.where(group_id: Group.active, display_name: target_identifier)
-        .includes(:user).map { |p| p.user.email }
+      if target_type == 'Position'
+        if group
+          Position.where(group_id: group.id, display_name: target_identifier)
+          .includes(:user).map { |p| p.user.email }
+        else
+          Position.where(group_id: Group.active, display_name: target_identifier)
+          .includes(:user).map { |p| p.user.email }
+        end
+      elsif target_type == 'User' && target_identifier == 'Active'
+        User.active.pluck(:email)
       end
     elsif target.is_a?(User) || target.is_a?(Contact)
       [target.email].compact
