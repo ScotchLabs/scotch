@@ -1,9 +1,0 @@
-<% publish_to '/messages/' + @thread.id.to_s do %>
-$('.message-container').append("<%= escape_javascript(render 'message', message: @message) %>");
-
-if($('.message-container').scrollTop() >= $('.message-container').height() - 5)
-{
-	$(".message-container").animate({ scrollTop: $('.message-container').prop('scrollHeight') - $('.message-container').height()}, 1000);
-}
-$('#message_<%= @message.id %> > .message-time > abbr').timeago();
-<% end %>
