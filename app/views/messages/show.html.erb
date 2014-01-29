@@ -1,7 +1,50 @@
-<div class='col-md-8'>
-  <h2><%= @message.subject %></h2>
-  <h5><strong>To:</strong> <%= @message.recipients.collect(&:name).join(', ') %></h5>
-
-  <p><%= simple_format(@message.text) %></p>
+<div class="row">
+  <div class="col-md-10 col-md-offset-3">
+    <div class="col-md-3">
+      <%= image_tag @message.sender.headshot(:medium), class: 'img-circle img-responsive sender' %>
+      <h4 class="sender"><%= @message.sender.name %></h4>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Recipients
+        </div>
+        <div class="panel-body">
+        <% @message.recipients.each do |recipient| %>
+          <p>
+            <strong><%= recipient.name %></strong>
+            <% case recipient.target_type %>
+            <% when 'Group' %>
+              <span class="label label-success">
+            <% when 'Role' %>
+              <span class="label label-info">
+            <% when 'Position' %>
+              <span class="label label-info">
+            <% when 'MessageList' %>
+              <span class="label label-danger">
+            <% when 'User' %>
+              <span class="label label-primary">
+            <% when 'Contact' %>
+              <span class="label label-primary">
+            <% end %>
+              <%= recipient.target_type %>
+            </span>
+          </p>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <strong><%= @message.subject %></strong>
+    </div>
+    <div class="panel-body">
+      <p><%= simple_format(@message.text) %></p>
+    </div>
+  </div>
+
+</div>
