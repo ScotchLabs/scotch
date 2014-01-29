@@ -11,9 +11,17 @@
       <center>
         <%= image_tag @user.headshot.url(:medium), :style => 'border: 1px solid white' %>
         <h1><%= @user %></h1>
-        <a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a>
 
-       <p>
+        <div class="panel panel-<%= @user.active_member? ? 'success' : 'danger' %>">
+          <div class="panel-heading">
+            <%= @user.active_member? ? 'Active' : 'Inactive' %>
+          </div>
+          <div class="panel-body">
+            <p><strong>Email: </strong><a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a></p>
+          </div>
+        </div>
+        
+        <p>
         <% @user.recent_groups(6).each do |g| %>
           <%= link_to image_tag(g.image.url(:thumb), :style => "margin: 13px 7px 0px 0px", :alt => g.name), g %>
         <% end %>
