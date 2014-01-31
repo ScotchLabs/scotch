@@ -12,5 +12,9 @@ $(document).ready(function(){
     modal.modal({
       remote: '/messages/new?nolayout=1'
     });
+
+    if ($('.navbar-collapse').height() != 0) {
+      $('.navbar-collapse').height("0");
+    }
   });
 });
