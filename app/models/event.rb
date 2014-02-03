@@ -51,8 +51,8 @@ class Event < ActiveRecord::Base
   validate :audition_has_one_attendee
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
-  validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
-  validates_inclusion_of :event_type, :in => COLORS.keys
+  # validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
+  # validates_inclusion_of :event_type, :in => COLORS.keys
   # validate :performance_has_max_attendance
 
   after_save :save_attendees
@@ -281,7 +281,7 @@ class Event < ActiveRecord::Base
   
   def as_json(options = {})
     {id: self.id, title: self.title, start: self.start_time, end: self.end_time, location: self.location, body: self.description, 
-      event_type: self.event_type, period: self.period, session_name: self.session_name, attendees: self.attendees}.merge COLORS[self.event_type]
+      event_type: self.event_type, period: self.period, session_name: self.session_name, attendees: self.attendees}
   end
 protected
 

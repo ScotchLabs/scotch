@@ -1,6 +1,6 @@
-<div class="events-calendar"></div>
+<div class="col-md-9">
+  <div class="events-calendar" data-url="<%= group_events_path(@group, :json) %>"></div>
+</div>
 
-<%= content_for(:javascripts) do %>
-<script type='text/javascript'>
-</script>
-<% end %>
+<div class="col-md-3"></div>
+

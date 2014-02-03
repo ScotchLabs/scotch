@@ -6,10 +6,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui.custom.min
 //= require twitter/bootstrap
-//= require jquery-ui
 //= require private_pub
 //= require jquery_nested_form
+//= require moment.min
 //= require_tree .
 
 var recipientFieldInit;

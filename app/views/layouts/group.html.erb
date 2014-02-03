@@ -34,13 +34,7 @@
               <li><%= link_to 'Reports', group_reports_path(@group) %></li>
             </ul>
             </li>
-            <li class="dropdown <%= 'active' if controller.controller_name == 'events' %>">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to 'Standard', group_events_path(@group) %></li>
-              <li><%= link_to 'Conflict-Aware', schedule_group_events_path(@group) %></li>
-            </ul>
-            </li>
+            <li class="<%= 'active' if controller.controller_name == 'events' %>"><%= link_to 'Schedule', group_events_path(@group) %></li>
             <% if @group.tickets_available && has_permission?('adminPositions') %>
               <li class="<%= 'active' if controller.controller_name == 'ticket_reservations' %>"><%= link_to 'Box Office', group_ticket_reservations_path(@group) %></li>
             <% end %>

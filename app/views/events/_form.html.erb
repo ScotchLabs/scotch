@@ -1,12 +1,8 @@
-<%= form_for([parent,event].compact) do |f| %>
-	<%= f.label :title %>
-	<%= f.text_field :title %>
-	<br />
-	<%= f.label :start_time %>
-	<%= f.datetime_select :start_time %>
-	<br />
-	<%= f.label :end_time %>
-	<%= f.datetime_select :end_time %>
+<%= simple_form_for([parent,event].compact) do |f| %>
+	<%= f.input :title %>
+	<%= f.input :start_time %>
+	<%= f.input :end_time %>
+  <%= f.input :description %>
 	
 	<%= f.submit %>
 <% end %>

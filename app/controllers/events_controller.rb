@@ -1,17 +1,19 @@
 class EventsController < ApplicationController
   layout :get_layout
-  before_filter :get_owner, :only => [:index, :new, :create, :schedule]
-  before_filter :get_events, :only => [:index, :schedule]
-  before_filter :get_event, :except => [:index, :new, :create, :schedule]
-  
-  before_filter :only => [:new, :edit, :update, :create, :destroy, :schedule] do
-    require_permission 'adminCrew'
-  end
+  before_filter :get_owner, :only => [:index, :new, :create]
+  before_filter :get_event, :except => [:index, :new, :create]
   
   def index
+
+    if params[:start]
+      @events = @owner.events.where("start_time BETWEEN ? AND ?", Time.zone.parse(params[:start]), Time.zone.parse(params[:end]))
+    else
+      @events = @owner.events.future
+    end
     
     respond_to do |format|
       format.html
+      format.json { render json: @events }
     end
   end
 
@@ -30,14 +32,6 @@ class EventsController < ApplicationController
     end
   end
   
-  def schedule
-    @events = @group.events.where("event_type != 'audition'")
-    
-    respond_to do |format|
-      format.html
-    end
-  end
-
   def create
     @event = @owner.events.new(params[:event])
     
@@ -94,10 +88,6 @@ class EventsController < ApplicationController
       @owner = current_user
       @parent = nil
     end
-  end
-  
-  def get_events
-    @events = @owner.all_events
   end
   
   def get_event

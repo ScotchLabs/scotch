@@ -69,9 +69,7 @@ Scotch::Application.routes.draw do
     resources :positions, shallow: true do
       post :bulk_create, :on => :collection
     end
-    resources :events, :on => :member do
-      get 'schedule', :on => :collection, :as => 'schedule'
-    end
+    resources :events, :on => :member
     resources :plans, :on => :member do
       resources :tasks, :on => :member do
         get :complete, :on => :member, :as => 'complete'
