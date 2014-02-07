@@ -6,9 +6,7 @@ $(document).ready(function() {
       return this.value;
     }).get();
 
-    launchMessageModal();
-
-    $('#new-message').on('shown.bs.modal', function() {
+    launchMessageModal(function() {
       var recipientsField = $('#new-message .recipients_field')[0];
       recipientsField.selectize.clear();
 
