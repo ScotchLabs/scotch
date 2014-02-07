@@ -2,10 +2,16 @@
 <% if has_permission?("adminCrew") %>
   <%= link_to "Auditions Sheet", group_auditions_path(@group, :pdf), style: "float:right;", class: 'btn btn-success' %>
 <% end %>
+
+<%= form_tag '', class: 'audition-recipient-form' do %>
+  <%= submit_tag 'Message Selected', class: 'btn btn-primary' %>
 <% @auditions.each_key do |day| %>
   <h2><%= @auditions[day].first.start_time.strftime("%A, %B %-d") %></h2>
   <table class="table table-striped">
     <tr>
+      <% if has_permission?('adminCrew') %>
+        <th>Select</th>
+      <% end %>
       <th>Start Time</th>
       <th>End Time</th>
       <th>Location</th>
@@ -14,6 +20,12 @@
     </tr>
     <% @auditions[day].each do |a| %>
       <tr>
+        <td>
+        <% if has_permission?('adminCrew')  && a.users.count > 0 %>
+          <%= check_box_tag 'recipients[]', encode_recipient(a.users.first.id, a.users.first.name), true,
+            class: 'audition-recipient' %>
+        <% end %>
+        </td>
         <td><%= a.start_time.strftime("%l:%M %p") %></td>
         <td><%= a.end_time.strftime("%l:%M %p") %></td>
         <td><b><%= a.location %></b></td>
@@ -32,4 +44,5 @@
       </tr>
     <% end %>
   </table>
+<% end %>
 <% end %>

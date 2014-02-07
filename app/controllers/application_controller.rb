@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   prepend_before_filter :authenticate_user!
 
+  helper_method :encode_recipient
+
   def encode_recipient(*args)
     args.join(':')
   end
