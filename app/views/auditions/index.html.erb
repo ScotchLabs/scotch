@@ -10,9 +10,7 @@
       <th>End Time</th>
       <th>Location</th>
       <th>SignUp</th>
-      <% if has_permission?("adminCrew") %>
-        <th>Name</th>
-      <% end %>
+      <th>Name</th>
     </tr>
     <% @auditions[day].each do |a| %>
       <tr>
