@@ -1,30 +1,12 @@
-<%= form_for(@position) do |f| %>
-  <% if @position.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
-    <ul>
-    <% @position.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
-  <% end %>
+<%= simple_form_for([@group, @position].compact) do |f| %>
+  <%= f.error_notification %>
 
+  <%= f.input :andrewid, collection: [], input_html: {class: 'user_identifier'} %>
+  <%= f.input :role_id, collection: @group.roles.sort, value_field: :id, label_field: :name %>
 
-  <%= f.hidden_field :group_id %>
-  <div class="field">
-    <%= f.label :user_name, "User" %><br>
-    <%= text_field_tag "user_identifier", (@position.user ? "#{@position.user.name} #{@position.user.email}" : "#{current_user.name} #{current_user.email}") %>
-  </div>
-  <div class="field">
-    <%= f.label :role_id %><br />
-    <%= f.collection_select :role_id, @group.roles.sort, :id, :name %>
-  </div>
-  <div class="field">
-    <%= f.label :display_name %><br />
-    <%= f.text_field :display_name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.input :display_name, label: "Role Name" %>
+
+  <br />
+
+  <%= f.button :submit %>
 <% end %>
