@@ -1,6 +1,12 @@
-<div class="col-md-9">
-  <div class="events-calendar" data-url="<%= group_events_path(@group, :json) %>"></div>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to 'Create Event', new_group_event_path(@group), class: 'btn btn-primary' %>
+  </div>
 </div>
-
-<div class="col-md-3"></div>
+<br /><br />
+<div class="row">
+  <div class="col-md-12">
+    <div class="events-calendar" data-url="<%= group_events_path(@group, :json) %>"></div>
+  </div>
+</div>
 

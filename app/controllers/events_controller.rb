@@ -7,10 +7,8 @@ class EventsController < ApplicationController
 
     if params[:start]
       @events = @owner.events.where("start_time BETWEEN ? AND ?", Time.zone.parse(params[:start]), Time.zone.parse(params[:end]))
-    else
-      @events = @owner.events.future
     end
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @events }
@@ -37,7 +35,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
-        format.html {redirect_to @event}
+        format.html {redirect_to [@parent, :events]}
         format.json {render json: @event}
       else
         logger.info @event.errors.to_s

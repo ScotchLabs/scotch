@@ -25,8 +25,11 @@ class Event < ActiveRecord::Base
   
   belongs_to :owner, :polymorphic => true
 
+  default_scope order('start_time ASC')
   scope :auditions, where(event_type: 'audition')
   scope :shows, where(event_type: 'show')
+  scope :future, where("end_time > NOW()")
+  scope :performances, where(event_type: 'show')
   
   PERIODS = [
     ['Minutes','minutes'],
@@ -52,13 +55,10 @@ class Event < ActiveRecord::Base
   validates_presence_of :title, :start_time, :end_time
   validates_numericality_of :attendee_limit, :allow_nil => true, :allow_blank => true
   # validates_inclusion_of :session, :in => ['none', 'mini', 'semester'], :default => 'none'
-  # validates_inclusion_of :event_type, :in => COLORS.keys
+  validates_inclusion_of :event_type, :in => COLORS.keys
   # validate :performance_has_max_attendance
 
   after_save :save_attendees
-  
-  default_scope order('start_time ASC')
-  scope :performances, where(event_type: 'show')
   
   attr_accessor :temp_attendees
   
@@ -83,8 +83,6 @@ class Event < ActiveRecord::Base
     result
   end
 
-  scope :future, where("end_time > NOW()")
-  
   def parent
     self.owner.type == 'User' ? nil : self.owner
   end

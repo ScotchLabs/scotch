@@ -5,7 +5,6 @@ $(document).ready(function() {
       center: 'title',
       right: 'agendaWeek,agendaDay'
     },
-    editable: true,
     events: 'events.json',
     defaultView: 'agendaWeek'
   });

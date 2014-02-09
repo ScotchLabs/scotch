@@ -1,7 +1,8 @@
 <%= simple_form_for([parent,event].compact) do |f| %>
 	<%= f.input :title %>
-	<%= f.input :start_time %>
-	<%= f.input :end_time %>
+  <%= f.input :event_type, collection: Event::COLORS.keys - ['user'], include_blank: false %>
+	<%= f.input :start_time, ampm: true, order: [:month, :day, :year, :hour, :minute] %>
+	<%= f.input :end_time, ampm: true, order: [:month, :day, :year, :hour, :minute] %>
   <%= f.input :description %>
 	
 	<%= f.submit %>
