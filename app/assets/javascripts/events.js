@@ -6,6 +6,9 @@ $(document).ready(function() {
       right: 'agendaWeek,agendaDay'
     },
     events: 'events.json',
-    defaultView: 'agendaWeek'
+    defaultView: 'agendaWeek',
+    eventClick: function(calEvent, jsEvent, view) {
+      window.location.href = '/events/'+calEvent.id;
+    }
   });
 });
