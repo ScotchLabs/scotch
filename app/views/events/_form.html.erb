@@ -3,7 +3,9 @@
   <%= f.input :event_type, collection: Event::COLORS.keys - ['user'], include_blank: false %>
 	<%= f.input :start_time, ampm: true, order: [:month, :day, :year, :hour, :minute] %>
 	<%= f.input :end_time, ampm: true, order: [:month, :day, :year, :hour, :minute] %>
+  <%= f.input :location %>
+  <%= f.input :max_attendance %>
   <%= f.input :description %>
 	
-	<%= f.submit %>
+	<%= f.submit class: 'btn btn-primary' %>
 <% end %>

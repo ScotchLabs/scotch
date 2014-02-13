@@ -91,7 +91,6 @@ class EventsController < ApplicationController
   def get_event
     @event = Event.find(params[:id])
     @owner = @event.owner
-    @parent = @event.owner.class == 'User' ? nil : @owner
   end
   
   def get_layout
