@@ -35,7 +35,7 @@
             </ul>
             </li>
             <li class="<%= 'active' if controller.controller_name == 'events' %>"><%= link_to 'Schedule', group_events_path(@group) %></li>
-            <% if @group.tickets_available && has_permission?('adminPositions') %>
+            <% if @group.tickets_available && has_permission?('adminCrew') %>
               <li class="<%= 'active' if controller.controller_name == 'ticket_reservations' %>"><%= link_to 'Box Office', group_ticket_reservations_path(@group) %></li>
             <% end %>
             <% if @group.type.to_s == 'Show' && @group.auditions? %>
