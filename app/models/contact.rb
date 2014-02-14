@@ -5,7 +5,7 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of :address, scope: :protocol
 
   def name
-    self.user.try(:name) || self.temporary_name
+    self.user.try(:name) || self.temporary_name || self.email
   end
 
   def email
