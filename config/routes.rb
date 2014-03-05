@@ -1,4 +1,7 @@
+require 'sidekiq/web'
+
 Scotch::Application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
 
   resources :pages do
     get 'shows', on: :collection
