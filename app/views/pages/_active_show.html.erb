@@ -15,7 +15,7 @@
       <p class="coming-soon"><%= group.location %></p>
     <% end %>
     <p class="description">
-      <%= group.description %>
+      <%= group.description.html_safe %>
     </p>
     <% if group.directors.count > 0 %>
       <div class="directors">
