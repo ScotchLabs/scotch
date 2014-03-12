@@ -29,7 +29,7 @@
       </center>
       <h1 style='margin-bottom: 10px'>About</h1>
       <table>
-        <tr><td style='width:150px; text-transform:uppercase; font-weight:bold'>Phone</td><td><%= @user.phone %></td></tr>
+        <tr><td style='width:150px; text-transform:uppercase; font-weight:bold'>Phone</td><td><%= link_to @user.phone, "tel:+1#{@user.phone.gsub(/[ \(\)\-\.]/, '')}" %></td></tr>
         <tr><td style='text-transform:uppercase; font-weight:bold'>Email</td><td><%= @user.email %></td></tr>
         <tr><td style='text-transform:uppercase; font-weight:bold'>Andrew ID</td><td><%= @user.andrewid %></td></tr>
         <tr><td style='text-transform:uppercase; font-weight:bold'>SMC</td><td><%= @user.smc %></td></tr>
