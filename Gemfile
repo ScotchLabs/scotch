@@ -15,7 +15,7 @@ gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
                               :github => 'anjlab/bootstrap-rails'
 
-gem 'mysql2'
+gem 'pg'
 
 gem 'devise', '~> 3.1'
 
@@ -77,6 +77,7 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :production do
   gem 'newrelic_rpm'
+  gem 'rails_12factor'
 end
 
 group :development do
