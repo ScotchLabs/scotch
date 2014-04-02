@@ -111,15 +111,15 @@ class Group < Shared::Watchable
   # joins together the way I want... Also, this won't climb all the way up the
   # tree of group, just to the first parent.
   def permissions_for(user)
-    sql = "SELECT `permissions`.* FROM `permissions` 
-      INNER JOIN `role_permissions` ON `permissions`.`id` = `role_permissions`.`permission_id` 
-      INNER JOIN `roles` ON `role_permissions`.`role_id` = `roles`.`id` 
-      INNER JOIN `positions` ON `roles`.`id` = `positions`.`role_id` 
-      WHERE (`positions`.`user_id` = #{user.id})"
+    sql = "SELECT permissions.* FROM permissions
+      INNER JOIN role_permissions ON permissions.id = role_permissions.permission_id
+      INNER JOIN roles ON role_permissions.role_id = roles.id
+      INNER JOIN positions ON roles.id = positions.role_id
+      WHERE (positions.user_id = #{user.id})"
     if self.parent.nil?
-      sql += " AND (`positions`.`group_id` = #{self.id});"
+      sql += " AND (positions.group_id = #{self.id});"
     else
-      sql += " AND (`positions`.`group_id` IN (#{self.id},#{self.parent.id}));"
+      sql += " AND (positions.group_id IN (#{self.id},#{self.parent.id}));"
     end
 
     return Permission.find_by_sql(sql)
