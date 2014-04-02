@@ -51,8 +51,10 @@ Scotch::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   
-  config.action_mailer.default_url_options = { :host => 'scotch.snstheatre.org' }
-  ActionMailer::Base::smtp_settings[:enable_starttls_auto] = false
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    domain: 'sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org'
+  }
   
   config.middleware.use ExceptionNotifier, 
         :email_prefix => "[Scotch Exception] ",
