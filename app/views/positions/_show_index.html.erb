@@ -32,9 +32,3 @@
   </ul>
 <% end %>
 
-<% if has_permission? "adminPositions" %>
-<h3>Unfilled Positions</h3>
-<!-- FIXME: These need to be styled better -->
-<p>Unfilled Tech Heads: <%= raw unfilled_tech_heads.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Tech Head").id, :display_name => name)}.join(", ") %></p>
-<p>Unfilled Production Staff: <%= raw unfilled_production_staff.collect{|name| link_to name, new_group_position_path(@group, :role_id => Role.find_by_name("Production Staff").id, :display_name => name)}.join(", ") %></p>
-<% end %>
