@@ -75,6 +75,8 @@ gem 'google-api-client'
 
 gem 'sinatra', '>= 1.3.0', :require => nil
 
+gem 'aws-sdk'
+
 group :production do
   gem 'newrelic_rpm'
   gem 'rails_12factor'

@@ -7,19 +7,10 @@ module Shared
     end
 
     module ClassMethods
-      Paperclip.interpolates :urlpath do |attachment, style|
-        filename = attachment.options[:file_name]
-
-        if Rails.env.development? && File.exists?("/system/#{filename}")
-          "/system/#{filename}"
-        else
-          "http://upload.snstheatre.org/scotch/#{filename}"
-        end
-      end
-
       def has_attachment(name, options = {})
-        options[:url] ||= ":urlpath"
-        options[:path] ||= ":rails_root/public/upload/#{options[:file_name]}"
+        options[:storage] = :s3
+        options[:s3_credentials] = Rails.root.join('config', 'aws-config.yml')
+        options[:bucket] = "sns-scotch"
         has_attached_file(name, options)
       end
     end
