@@ -6,8 +6,8 @@ gem 'rails', '~> 3.2'
 gem 'rake'
  
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '~> 3.2'
+  gem 'coffee-rails', '~> 3.2'
   gem 'uglifier',     '>= 1.0.3'
 end
 
@@ -18,7 +18,7 @@ gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
 
 gem 'pg'
 
-gem 'devise', '~> 3.1'
+gem 'devise', '3.1.0'
 
 gem 'RedCloth'
 
@@ -38,7 +38,7 @@ gem 'digest-whirlpool'
 
 gem 'nested_form'
 
-gem 'simple_form'
+gem 'simple_form', '~> 2.1'
 
 gem 'rabl'
 
@@ -52,7 +52,7 @@ gem 'ledermann-rails-settings', :require => 'rails-settings'
 
 gem 'sidekiq'
 
-gem 'mail', :git => 'https://github.com/carlosdp/mail.git'
+gem 'mail'
 
 gem 'mail_extract'
 
@@ -68,8 +68,6 @@ gem 'bourbon'
 
 gem 'neat'
 
-gem 'twilio-ruby'
-
 gem 'omniauth-google-oauth2'
 
 gem 'google-api-client'
@@ -77,6 +75,8 @@ gem 'google-api-client'
 gem 'sinatra', '>= 1.3.0', :require => nil
 
 gem 'aws-sdk'
+
+gem 'mailgunner'
 
 group :production do
   gem 'newrelic_rpm'
