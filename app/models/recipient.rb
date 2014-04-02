@@ -7,16 +7,13 @@ class Recipient < ActiveRecord::Base
   validates_uniqueness_of :target_identifier, scope: [:target_type, :group_id, :owner_id, :owner_type], allow_nil: true
 
   def to
-    if target.is_a?(User) || target.is_a?(Contact)
-      "\"#{target.name}\"<#{target.email}>"
-    else
+    if target
+      target.to
+    elsif target_identifier
       if group
-        "\"#{group.name}\"<#{group.short_name}@snstheatre.org>"
-        return "\"#{group.name} #{target.name}\"<#{group.short_name}+#{target.short_name}@snstheatre.org>" if target
-        return "\"#{group.name} #{target_identifier}\"<#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>" if target_identifier
+        return "\"#{group.name} #{target_identifier}\"<#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>"
       else
-        return "\"#{target.name}\"<#{target.short_name}@snstheatre.org>" if target
-        return "\"#{target_identifier}\"<#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>" if target_identifier
+        return "\"#{target_identifier}\"<#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>"
       end
     end
   end

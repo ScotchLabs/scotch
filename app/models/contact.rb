@@ -12,6 +12,10 @@ class Contact < ActiveRecord::Base
     self.protocol == 'email' ? self.address : nil
   end
 
+  def to
+    "\"#{name}\"<#{email}>"
+  end
+
   def phone_number
     self.protocol == 'phone' ? self.address : nil
   end

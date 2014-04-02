@@ -59,6 +59,10 @@ class Group < Shared::Watchable
   scope :public, where(is_public: true)
   scope :tickets_available, where(tickets_available: true)
 
+  after_save :update_mailing_list, if: :short_name_changed?
+  after_save :update_recipients
+  after_save :delete_mailing_list, if: :archive_date_changed?
+
   # sets model_name for all subclasses to be "Group"
   def self.inherited(child)
     child.instance_eval do
@@ -265,5 +269,47 @@ class Group < Shared::Watchable
 
   def className
     "event_color_#{short_name.hash % 42}"
+  end
+
+  def to
+    "\"#{name}\"<#{address}>"
+  end
+
+  def address
+    "#{short_name}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+  end
+
+  def update_mailing_list
+    mg = Mailgunner::Client.new
+
+    if short_name_was
+      mg.delete_list("#{short_name_was}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org")
+    end
+
+    mg.add_list({
+      address: address,
+      name: name
+    })
+
+    update_recipients
+  end
+
+  def update_recipients
+    mg = Mailgunner::Client.new
+
+    self.members.each do |u|
+      mg.add_list_member(address, {
+        name: u.name,
+        address: u.email
+      })
+    end
+  end
+
+  def delete_mailing_list
+    if archived?
+      mg = Mailgunner::Client.new
+
+      mg.delete_list(address)
+    end
   end
 end

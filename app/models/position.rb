@@ -29,6 +29,9 @@ class Position < ActiveRecord::Base
 
   validate :role_matches_group
 
+  after_create :add_group_recipient
+  before_destroy :remove_group_recipient
+
   def to_s
     display_name
   end
@@ -63,5 +66,20 @@ class Position < ActiveRecord::Base
     unless role.group_type == group.type
       self.errors.add(:group_id, "isn't aproproate for this role")
     end
+  end
+
+  def add_group_recipient
+    mg = Mailgunner::Client.new
+
+    mg.add_list_member(group.address, {
+      name: user.name,
+      address: user.email
+    })
+  end
+
+  def remove_group_recipient
+    mg = Mailgunner::Client.new
+
+    mg.delete_list_member(group.address, user.email)
   end
 end
