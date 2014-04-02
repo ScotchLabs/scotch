@@ -30,7 +30,7 @@ class Document < ActiveRecord::Base
   # FIXME use :hash in the url when it works again
   has_attachment :file, :styles => { :thumb => ["50x50", :png] },
     :default_url => nil,
-		:file_name => 'documents/:id_partition/:basename_:style.:extension'
+		:path => ':class/:id_partition/:basename_:style.:extension'
 
   validates_attachment_presence :file
 
