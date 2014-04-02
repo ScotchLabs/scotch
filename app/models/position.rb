@@ -29,8 +29,8 @@ class Position < ActiveRecord::Base
 
   validate :role_matches_group
 
-  after_create :add_group_recipient
-  before_destroy :remove_group_recipient
+  after_create :add_recipients
+  before_destroy :remove_recipients
 
   def to_s
     display_name
@@ -60,6 +60,22 @@ class Position < ActiveRecord::Base
     user.try(:name)
   end
 
+  def to
+    if group
+      "\"#{group.name} #{display_name}\"<#{address}>"
+    else
+      "\"#{display_name}\"<#{address}>"
+    end
+  end
+
+  def address
+    if group
+      "#{group.short_name}+#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    else
+      "#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    end
+  end
+
   protected
 
   def role_matches_group
@@ -68,18 +84,29 @@ class Position < ActiveRecord::Base
     end
   end
 
-  def add_group_recipient
+  def add_recipients
     mg = Mailgunner::Client.new
 
     mg.add_list_member(group.address, {
       name: user.name,
       address: user.email
     })
+
+    mg.add_list({
+      name: "#{group.name} #{display_name}",
+      address: address
+    })
+
+    mg.add_list_member(address, {
+      name: user_name,
+      address: user.email
+    })
   end
 
-  def remove_group_recipient
+  def remove_recipients
     mg = Mailgunner::Client.new
 
     mg.delete_list_member(group.address, user.email)
+    mg.delete_list_member(address, user.email)
   end
 end
