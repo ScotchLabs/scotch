@@ -1,3 +1,4 @@
+require 'mailgunner'
 class Message < ActiveRecord::Base
   belongs_to :sender, class_name: 'User'
   belongs_to :original, class_name: 'Message'
@@ -49,6 +50,37 @@ class Message < ActiveRecord::Base
 
   def send_message
     logger.info "Message ID: #{self.id} Sending"
-    MessageSendWorker.perform_async(self.id)
+
+    mail = Mail.new
+    mail.from = "#{self.sender.name} <#{self.sender.email}>"
+
+    text_part = Mail::Part.new
+    text_part.body  = self.text
+    mail.text_part = text_part
+
+    if self.multipart?
+      html_part = Mail::Part.new
+      html_part.content_type = 'text/html; charset=UTF-8'
+      html_part.body = self.html_part
+      mail.html_part = html_part
+    end
+
+    mail.delivery_method Mailgunner::DeliveryMethod, {domain: 'sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org'}
+    mail.delivery_method LetterOpener::DeliveryMethod, :location => File.join(File.dirname(__FILE__), '/../', 'tmp', 'letter_opener') if Rails.env.development?
+
+    sent_to = [] # Tracks emails we already sent messages to
+
+    self.recipients.each do |recipient|
+      mail.subject = recipient.subject
+
+      recipient.envelope_recipients.flatten.each do |email|
+        if !sent_to.include?(email)
+          mail.to = email
+          mail.deliver
+          sent_to << email
+          mail.to = nil
+        end
+      end
+    end
   end
 end
