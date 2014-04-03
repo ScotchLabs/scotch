@@ -85,6 +85,7 @@ class Position < ActiveRecord::Base
   end
 
   def add_recipients
+    # TODO: Create Role mailing lists and global position
     mg = Mailgunner::Client.new
 
     mg.add_list_member(group.address, {

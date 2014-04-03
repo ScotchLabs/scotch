@@ -170,6 +170,10 @@ class User < Shared::Watchable
     "\"#{name}\"<#{email}>"
   end
 
+  def address
+    email
+  end
+
   def active_member?
     self.positions.where{ created_at > 8.months.ago }.count > 0
   end

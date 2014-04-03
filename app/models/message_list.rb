@@ -6,28 +6,45 @@ class MessageList < ActiveRecord::Base
 
   validates_presence_of :name
 
-  after_save :update_mailing_list
+  after_save :update_mailing_list, if: :name_changed?
+  after_save :update_recipients
 
   def to
-    "\"#{group.name} #{name}\"<#{group.short_name}+#{short_name}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org>"
+    "\"#{group.name} #{name}\"<#{address}>"
+  end
+
+  def address
+    "#{group.short_name}+#{name.gsub(' ', '').downcase}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
   end
 
   def short_name
     name.gsub(' ', '').downcase
   end
 
-  protected
-
   def update_mailing_list
     mg = Mailgunner::Client.new
 
-    if name_changed?
-      mg.delete_list("#{group.short_name}+#{name_was.gsub(' ', '').downcase}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org")
+    mg.delete_list("#{group.short_name}+#{name_was.gsub(' ', '').downcase}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org")
 
-      mg.add_list({
-        address: to,
-        name: "#{group.name} #{name}"
+    mg.add_list({
+      address: address,
+      name: "#{group.name} #{name}"
+    })
+  end
+
+  def update_recipients
+    mg = Mailgunner::Client.new
+
+    recipients.each do |r|
+      mg.add_list_member(address, {
+        address: r.address
       })
     end
+  end
+
+  def delete_mailing_list
+    mg = Mailgunner::Client.new
+
+    mg.delete_list(address)
   end
 end

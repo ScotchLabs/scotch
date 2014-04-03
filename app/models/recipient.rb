@@ -74,6 +74,18 @@ class Recipient < ActiveRecord::Base
     end
   end
 
+  def address
+    if target
+      target.address
+    elsif target_identifier
+      if group
+        "#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+      else
+        "#{target_identifier.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+      end
+    end
+  end
+
   def name
     result = ''
     result += group.short_name.capitalize + ' ' if group
