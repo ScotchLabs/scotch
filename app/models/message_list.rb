@@ -30,6 +30,8 @@ class MessageList < ActiveRecord::Base
       address: address,
       name: "#{group.name} #{name}"
     })
+
+    update_recipients
   end
 
   def update_recipients
