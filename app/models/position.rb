@@ -64,13 +64,13 @@ class Position < ActiveRecord::Base
 
   def to
     if group
-      "\"#{group.name} #{display_name}\"<#{address}>"
+      "\"#{group.name} #{display_name}\"<#{mail_address}>"
     else
-      "\"#{display_name}\"<#{address}>"
+      "\"#{display_name}\"<#{mail_address}>"
     end
   end
 
-  def address
+  def mail_address
     if group
       "#{group.short_name}+#{display_name.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
     else
@@ -86,7 +86,7 @@ class Position < ActiveRecord::Base
     # TODO: Create Role mailing lists and global position
     mg = Mailgunner::Client.new
 
-    mg.add_list_member(group.address, {
+    mg.add_list_member(group.mail_address, {
       name: user.name,
       address: user.email
     })
@@ -103,7 +103,7 @@ class Position < ActiveRecord::Base
 
     mg.add_list({
       name: "#{group.name} #{display_name}",
-      address: address
+      address: mail_address
     })
 
     mg.add_list_member(address, {
@@ -136,11 +136,11 @@ class Position < ActiveRecord::Base
     mg = Mailgunner::Client.new
 
     if user.positions.active.where(group_id: group.id).count <= 1
-      mg.delete_list_member(group.address, user.email)
+      mg.delete_list_member(group.mail_address, user.email)
     end
 
     if user.positions.active.where(group_id: group.id, display_name: display_name).count <= 1
-      mg.delete_list_member(address, user.email)
+      mg.delete_list_member(mail_address, user.email)
     end
 
     if user.positions.active.where(display_name: display_name).count <= 1

@@ -170,7 +170,7 @@ class User < Shared::Watchable
     "\"#{name}\"<#{email}>"
   end
 
-  def address
+  def mail_address
     email
   end
 

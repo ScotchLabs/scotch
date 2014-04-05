@@ -16,8 +16,8 @@ class Contact < ActiveRecord::Base
     "\"#{name}\"<#{email}>"
   end
 
-  def address
-    email
+  def mail_address
+    self.email
   end
 
   def phone_number

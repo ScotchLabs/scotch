@@ -10,10 +10,10 @@ class MessageList < ActiveRecord::Base
   after_save :update_recipients
 
   def to
-    "\"#{group.name} #{name}\"<#{address}>"
+    "\"#{group.name} #{name}\"<#{mail_address}>"
   end
 
-  def address
+  def mail_address
     "#{group.short_name}+#{name.gsub(' ', '').downcase}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
@@ -27,7 +27,7 @@ class MessageList < ActiveRecord::Base
     mg.delete_list("#{group.short_name}+#{name_was.gsub(' ', '').downcase}@#{ENV['MAILGUN_DOMAIN']}")
 
     mg.add_list({
-      address: address,
+      address: mail_address,
       name: "#{group.name} #{name}"
     })
 
@@ -39,7 +39,7 @@ class MessageList < ActiveRecord::Base
 
     recipients.each do |r|
       mg.add_list_member(address, {
-        address: r.address
+        address: r.mail_address
       })
     end
   end
@@ -47,6 +47,6 @@ class MessageList < ActiveRecord::Base
   def delete_mailing_list
     mg = Mailgunner::Client.new
 
-    mg.delete_list(address)
+    mg.delete_list(mail_address)
   end
 end

@@ -74,9 +74,9 @@ class Recipient < ActiveRecord::Base
     end
   end
 
-  def address
+  def mail_address
     if target
-      target.address
+      target.mail_address
     elsif target_identifier
       if group
         "#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"

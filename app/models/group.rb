@@ -272,10 +272,10 @@ class Group < Shared::Watchable
   end
 
   def to
-    "\"#{name}\"<#{address}>"
+    "\"#{name}\"<#{mail_address}>"
   end
 
-  def address
+  def mail_address
     "#{short_name}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
@@ -287,7 +287,7 @@ class Group < Shared::Watchable
     end
 
     mg.add_list({
-      address: address,
+      address: mail_address,
       name: name
     })
 
@@ -298,7 +298,7 @@ class Group < Shared::Watchable
     mg = Mailgunner::Client.new
 
     self.members.active.each do |u|
-      mg.add_list_member(address, {
+      mg.add_list_member(mail_address, {
         name: u.name,
         address: u.email
       })
@@ -309,7 +309,7 @@ class Group < Shared::Watchable
     if archived?
       mg = Mailgunner::Client.new
 
-      mg.delete_list(address)
+      mg.delete_list(mail_address)
     end
   end
 end
