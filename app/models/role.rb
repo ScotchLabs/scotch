@@ -29,6 +29,10 @@ class Role < ActiveRecord::Base
     name.downcase.gsub(' ', '')
   end
 
+  def global_address
+    "#{short_name}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+  end
+
   # Is this a crew role, for use with the adminCrew position
   def crew?
     name == "Crew"

@@ -32,6 +32,8 @@ class Position < ActiveRecord::Base
   after_create :add_recipients
   before_destroy :remove_recipients
 
+  scope :active, includes(:group).where('groups.archive_date IS NULL')
+
   def to_s
     display_name
   end
@@ -72,8 +74,12 @@ class Position < ActiveRecord::Base
     if group
       "#{group.short_name}+#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
     else
-      "#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+      global_address
     end
+  end
+
+  def global_address
+    "#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
   end
 
   protected
@@ -94,6 +100,16 @@ class Position < ActiveRecord::Base
     })
 
     mg.add_list({
+      name: display_name,
+      address: global_address
+    })
+
+    mg.add_list_member(global_address, {
+      name: user_name,
+      address: user.email
+    })
+
+    mg.add_list({
       name: "#{group.name} #{display_name}",
       address: address
     })
@@ -102,12 +118,49 @@ class Position < ActiveRecord::Base
       name: user_name,
       address: user.email
     })
+
+    mg.add_list({
+      name: role.name,
+      address: role.global_address
+    })
+
+    mg.add_list_member(role.global_address, {
+      name: user_name,
+      address: user.email
+    })
+
+    mg.add_list({
+      name: "#{group.name} #{role.name}",
+      address: "#{group.short_name}+#{role.global_address}"
+    })
+
+    mg.add_list_member("#{group.short_name}+#{role.global_address}", {
+      name: user_name,
+      address: user.email
+    })
   end
 
   def remove_recipients
     mg = Mailgunner::Client.new
 
-    mg.delete_list_member(group.address, user.email)
-    mg.delete_list_member(address, user.email)
+    if user.positions.active.where(group_id: group.id).count <= 1
+      mg.delete_list_member(group.address, user.email)
+    end
+
+    if user.positions.active.where(group_id: group.id, display_name: display_name).count <= 1
+      mg.delete_list_member(address, user.email)
+    end
+
+    if user.positions.active.where(display_name: display_name).count <= 1
+      mg.delete_list_member(global_address, user.email)
+    end
+
+    if user.positions.active.where(group_id: group.id, role_id: role.id).count <= 1
+      mg.delete_list_member("#{group.short_name}+#{role.global_address}", user.email)
+    end
+
+    if user.positions.active.where(role_id: role.id).count <= 1
+      mg.delete_list_member(role.global_address, user.email)
+    end
   end
 end
