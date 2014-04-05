@@ -297,7 +297,7 @@ class Group < Shared::Watchable
   def update_recipients
     mg = Mailgunner::Client.new
 
-    self.members.each do |u|
+    self.members.active.each do |u|
       mg.add_list_member(address, {
         name: u.name,
         address: u.email
