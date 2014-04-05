@@ -111,7 +111,7 @@ class User < Shared::Watchable
   scope :recent, unscoped.where(["current_sign_in_at > ?", 2.weeks.ago]).order("current_sign_in_at DESC").limit(10)
   scope :most_watched, unscoped.select("users.*, count(*) as watcher_count").joins(:watchers).group("users.id").order("watcher_count DESC").limit(10)
   scope :newest, unscoped.order("created_at DESC").limit(10)
-  scope :active, lambda { joins(:positions).where("positions.created_at > ? AND positions.group_id != 3", 8.months.ago) }
+  scope :active, lambda { joins(:positions).where { (positions.created_at > 8.months.ago) & (positions.group_id != 3) } }
 
   def self.search(query)
     query = "%#{query}%"
