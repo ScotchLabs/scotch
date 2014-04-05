@@ -82,14 +82,6 @@ class Position < ActiveRecord::Base
     "#{display_name.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
-  protected
-
-  def role_matches_group
-    unless role.group_type == group.type
-      self.errors.add(:group_id, "isn't aproproate for this role")
-    end
-  end
-
   def add_recipients
     # TODO: Create Role mailing lists and global position
     mg = Mailgunner::Client.new
@@ -161,6 +153,14 @@ class Position < ActiveRecord::Base
 
     if user.positions.active.where(role_id: role.id).count <= 1
       mg.delete_list_member(role.global_address, user.email)
+    end
+  end
+
+  protected
+
+  def role_matches_group
+    unless role.group_type == group.type
+      self.errors.add(:group_id, "isn't aproproate for this role")
     end
   end
 end
