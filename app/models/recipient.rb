@@ -11,9 +11,9 @@ class Recipient < ActiveRecord::Base
       target.to
     elsif target_identifier
       if group
-        return "\"#{group.name} #{target_identifier}\"<#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>"
+        return "\"#{group.name} #{target_identifier}\"<#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}>"
       else
-        return "\"#{target_identifier}\"<#{target_identifier.downcase.gsub(' ', '')}@snstheatre.org>"
+        return "\"#{target_identifier}\"<#{target_identifier.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}>"
       end
     end
   end
@@ -79,9 +79,9 @@ class Recipient < ActiveRecord::Base
       target.address
     elsif target_identifier
       if group
-        "#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+        "#{group.short_name}+#{target_identifier.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
       else
-        "#{target_identifier.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+        "#{target_identifier.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
       end
     end
   end

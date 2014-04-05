@@ -53,7 +53,7 @@ Scotch::Application.configure do
   
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
-    domain: 'sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org'
+    domain: ENV['MAILGUN_DOMAIN']
   }
   
   config.middleware.use ExceptionNotifier, 

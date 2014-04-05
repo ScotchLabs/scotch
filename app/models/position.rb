@@ -72,14 +72,14 @@ class Position < ActiveRecord::Base
 
   def address
     if group
-      "#{group.short_name}+#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+      "#{group.short_name}+#{display_name.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
     else
       global_address
     end
   end
 
   def global_address
-    "#{display_name.downcase.gsub(' ', '')}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    "#{display_name.downcase.gsub(' ', '')}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
   protected

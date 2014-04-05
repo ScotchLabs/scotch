@@ -30,7 +30,7 @@ class Role < ActiveRecord::Base
   end
 
   def global_address
-    "#{short_name}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    "#{short_name}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
   # Is this a crew role, for use with the adminCrew position

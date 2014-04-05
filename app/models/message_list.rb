@@ -14,7 +14,7 @@ class MessageList < ActiveRecord::Base
   end
 
   def address
-    "#{group.short_name}+#{name.gsub(' ', '').downcase}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    "#{group.short_name}+#{name.gsub(' ', '').downcase}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
   def short_name
@@ -24,7 +24,7 @@ class MessageList < ActiveRecord::Base
   def update_mailing_list
     mg = Mailgunner::Client.new
 
-    mg.delete_list("#{group.short_name}+#{name_was.gsub(' ', '').downcase}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org")
+    mg.delete_list("#{group.short_name}+#{name_was.gsub(' ', '').downcase}@#{ENV['MAILGUN_DOMAIN']}")
 
     mg.add_list({
       address: address,

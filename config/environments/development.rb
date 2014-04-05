@@ -19,7 +19,8 @@ Scotch::Application.configure do
   #User letter_opener for emails
   config.action_mailer.delivery_method = :letter_opener
   
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  # config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  ENV['MAILGUN_DOMAIN'] = 'sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org'
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

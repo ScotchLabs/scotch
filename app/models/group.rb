@@ -276,14 +276,14 @@ class Group < Shared::Watchable
   end
 
   def address
-    "#{short_name}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org"
+    "#{short_name}@#{ENV['MAILGUN_DOMAIN']}"
   end
 
   def update_mailing_list
     mg = Mailgunner::Client.new
 
     if short_name_was
-      mg.delete_list("#{short_name_was}@sandbox14476fcd299e4b2499dabf21ce22f006.mailgun.org")
+      mg.delete_list("#{short_name_was}@#{ENV['MAILGUN_DOMAIN']}")
     end
 
     mg.add_list({
