@@ -41,7 +41,7 @@
           <%= f.input :race_id, as: 'hidden', value: race.id %>
           <% race.grouping.times { f.object.nominees.build } %>
           <%= f.fields_for :nominees do |g| %>
-            <%= g.input :user_id, collection: [], input_html: {class: 'user_identifier'} %>
+            <%= g.input :user_id, collection: [], label: nil, input_html: {class: 'user_identifier'} %>
           <% end %>
           <%= f.button :submit, label: 'Nominate' %>
         <% end %>
