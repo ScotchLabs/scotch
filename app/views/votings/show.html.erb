@@ -43,7 +43,7 @@
           <%= f.fields_for :nominees do |g| %>
             <%= g.input :user_id, collection: [], input_html: {class: 'user_identifier'} %>
           <% end %>
-          <%= submit_tag "Nominate" %>
+          <%= f.button :submit, label: 'Nominate' %>
         <% end %>
       <% end %>
     </div>

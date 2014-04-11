@@ -17,6 +17,10 @@ class NominationsController < ApplicationController
   # Nominate someone
   # Must pass a race_id
   def create
+    params[:nomination][:nominees_attributes].each do |k, v|
+      v[:user_id] = User.find_by_andrewid(v[:user_id]).id
+    end
+
     @nomination = Nomination.create(params[:nomination])
     @nomination.votes.build(:user_id => current_user.id)
     if @nomination.save 
