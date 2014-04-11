@@ -37,11 +37,11 @@
 
       <% unless @voting.closed_for_nominations? %>
         <h2>Nominate</h2>
-        <%= form_for race.nominations.build do |f| %>
-          <%= f.hidden_field :race_id %>
+        <%= simple_form_for race.nominations.build do |f| %>
+          <%= f.input :race_id, as: 'hidden', value: race.id %>
           <% race.grouping.times { f.object.nominees.build } %>
           <%= f.fields_for :nominees do |g| %>
-            <%= g.select :user_id, @group.users.sort_by{|u| u.to_s}.collect{|u| [u.to_s, u.id]}, {:include_blank => true}, {} %>
+            <%= g.input :user_id, collection: [], input_html: {class: 'user_identifier'} %>
           <% end %>
           <%= submit_tag "Nominate" %>
         <% end %>
