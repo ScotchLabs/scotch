@@ -18,6 +18,8 @@ class MessagesController < ApplicationController
     end
 
     @groups.each do |group|
+      next if group.id == 3
+
       @results << {name: "#{group.name} All", value: encode_recipient(group.id, 'Group')}
 
       group.positions.uniq(&:role_id).each do |position|
