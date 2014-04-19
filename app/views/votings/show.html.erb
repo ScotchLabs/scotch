@@ -27,14 +27,16 @@
   <% end %>
 
   <% unless @voting.closed_for_nominations? %>
-    <h2>Nominate</h2>
+    <br />
+    <h4>Nominate</h4>
     <%= simple_form_for race.nominations.build do |f| %>
       <%= f.input :race_id, as: 'hidden', value: race.id %>
       <% race.grouping.times { f.object.nominees.build } %>
       <%= f.fields_for :nominees do |g| %>
         <%= g.input :user_id, collection: [], label: nil, input_html: {class: 'user_identifier'} %>
       <% end %>
-      <%= f.button :submit, label: 'Nominate' %>
+      <br />
+      <%= f.button :submit, 'Nominate', class: 'btn btn-primary' %>
     <% end %>
   <% end %>
 <% end %>
