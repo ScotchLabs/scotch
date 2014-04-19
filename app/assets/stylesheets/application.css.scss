@@ -8,11 +8,12 @@
 
 $link-color: #FF7600;
 $brand-primary: #FF7600;
-$navbar-default-bg: #ed7220;
-$navbar-default-link-color: #FFF;
+$navbar-default-bg: #FFF;
+$navbar-default-link-color: #ed7220;
 $navbar-default-link-hover-color: #EFEFEF;
 $navbar-border-radius: 0;
-$navbar-default-link-active-color: #FFF;
+$navbar-default-border: #FFF;
+$navbar-default-link-active-color: #ed7220;
 
 @import "twitter/bootstrap";
 
@@ -42,6 +43,13 @@ h1
   text-align: center;
   color: $brand-primary;
   margin-bottom: 20px;
+}
+
+.navbar-brand
+{
+  font-family: 'Helvetica', 'Arial';
+  font-weight: 100;
+  font-size: 24px;
 }
 
 .page
