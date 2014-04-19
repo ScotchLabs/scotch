@@ -1,19 +1,20 @@
 <a name='wall'></a>
-  <div class='page'>
-    <script>
-      function newPost(button) {
-        $(button).hide();
-        $('#postform').show({speed:"slow"});
-      }
-      
-      $('#morebutton').live('ajax:before', function(){
-        $(this).addClass("disabled");
-      });
-    </script>
-    <p><a class='btn btn-success' onclick='return newPost(this);'>New Post</a></p>
+<script>
+  function newPost(button) {
+    $(button).hide();
+    $('#postform').show({speed:"slow"});
+  }
 
-    <%# NOTE: If you change this form you will likely need to update submit_feedpost() in walls.js %>
-    <div id='postform' style='display:none'>
+  $('#morebutton').live('ajax:before', function(){
+    $(this).addClass("disabled");
+  });
+</script>
+
+<div class="feedposts">
+  <p><a class='btn btn-success' onclick='return newPost(this);'>New Post</a></p>
+
+  <%# NOTE: If you change this form you will likely need to update submit_feedpost() in walls.js %>
+  <div id='postform' style='display:none'>
     <h2>New Post</h2>
     <%= form_for(Feedpost.new({:parent_type => object.class, :parent_id => object.id})) do |f| %>
       <%= f.hidden_field :parent_type, :value => object.class.to_s %>
@@ -24,7 +25,7 @@
       <small>You can use <%= raw(HelpItem.get("textile").full) %> to format your message!</small><br>
 
       <% if (object.class.name == "Group" && has_permission?("email")) ||
-            (object.class.name == "Board" && object.users.include?(current_user)) then %>
+        (object.class.name == "Board" && object.users.include?(current_user)) then %>
         <%= check_box_tag "email", "email" %>
         <%= label_tag "email", "Send an email notification." %><br>
       <% elsif object.class.name == "Show" && has_permission?("email") then %>
@@ -66,32 +67,32 @@
       <% if object.kind_of? Group %>
         <%= f.label :privacy, "Post Privacy" %>: 
         <% privacy_options = [["All users", "All"], ["Members of this group", "Group"]]
-           privacy_options << ["Recipients of the email", "Recipients"] if object.class.name == "Show"
-           privacy_options << ["Only site administrators", "Hidden"] 
-        %>
-        <%= f.select :privacy, options_for_select(privacy_options) %>
-        <br>
-        <%# FIXME: this should be an autocomplete %>
-        <%= label_tag :document_id, "Attach Document" %>: 
-        <%= select_tag :document_id, raw("<option>-</option>") + options_from_collection_for_select(Document.where(:group_id => object.id), :id, :name) %>
-        <br>
-      <% end %>
+        privacy_options << ["Recipients of the email", "Recipients"] if object.class.name == "Show"
+        privacy_options << ["Only site administrators", "Hidden"] 
+      %>
+      <%= f.select :privacy, options_for_select(privacy_options) %>
+      <br>
+      <%# FIXME: this should be an autocomplete %>
+      <%= label_tag :document_id, "Attach Document" %>: 
+      <%= select_tag :document_id, raw("<option>-</option>") + options_from_collection_for_select(Document.where(:group_id => object.id), :id, :name) %>
+      <br>
+    <% end %>
 
-      <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
-      <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
-      <span class='hidden' id='error_submitting'>Error. Try again?</span>
-      <span class='hidden' id='post_invalid'>You need to write something!</span>
-    <% end %>
-    </div>
+    <%= f.submit "Post!", :onclick => "return submit_feedpost()" %>
+    <%= image_tag "indicator.gif", :class => "hidden", :id => "submitting" %>
+    <span class='hidden' id='error_submitting'>Error. Try again?</span>
+    <span class='hidden' id='post_invalid'>You need to write something!</span>
+  <% end %>
+</div>
 
-    <div id='feedposts'>
-    <% feedposts = object.feedposts.recent %>
-    <% for post in feedposts %>
-      <%= render "feedposts/" + post.post_type, :post => post %>
-    <% end %>
-    </div>
-    <% if (feedposts.length > 0) and (object.feedposts.after(feedposts.last).count > 0) %>
-      <center><p><%= link_to 'See 10 More', more_feedposts_path(:id => feedposts.last.id), :remote => true, :id => 'morebutton', :class => 'button' %></p></center>
-    <% end %>
-  <div class='clearfix'></div>
+<div id='feedposts'>
+  <% feedposts = object.feedposts.recent %>
+  <% for post in feedposts %>
+    <%= render "feedposts/" + post.post_type, :post => post %>
+  <% end %>
+</div>
+<% if (feedposts.length > 0) and (object.feedposts.after(feedposts.last).count > 0) %>
+  <center><p><%= link_to 'See 10 More', more_feedposts_path(:id => feedposts.last.id), :remote => true, :id => 'morebutton', :class => 'button' %></p></center>
+<% end %>
+<div class='clearfix'></div>
 </div>
