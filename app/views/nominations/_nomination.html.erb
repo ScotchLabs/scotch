@@ -20,7 +20,7 @@
         Accepted!
       <% elsif nomination.rejected? %>
         <% if nomination.users.include?(current_user) %>
-          <%= link_to "Accept this nomination", vote_nomination_path(nomination) %>
+          <%= link_to "Accept", vote_nomination_path(nomination), class: 'btn btn-success' %>
         <% else %>
           Not accepted.
         <% end %>
