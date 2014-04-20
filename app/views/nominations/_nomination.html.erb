@@ -1,4 +1,4 @@
-<%= div_for nomination, :class => 'dashboard-item' do %>
+<%= div_for nomination do %>
   <% nomination.nominees.each do |n| %>
     <% if n.is_valid_user? %>
       <div class='pull-left'>
@@ -25,6 +25,11 @@
           Not accepted.
         <% end %>
       <% end %>
+
+      <% if nomination.users.include?(current_user) %>
+        <%= link_to 'Reject', nomination, method: :delete, class: 'btn btn-danger', confirm: 'Are you sure you want to reject this nomination? THIS CANNOT BE UNDONE!' %>
+      <% end %>
+      <br /><br />
     <% elsif nomination.race.voting.award? %>
       Bug the web team to finish awards...
     <% end %>

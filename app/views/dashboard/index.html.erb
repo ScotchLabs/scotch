@@ -1,5 +1,5 @@
 <div class="col-md-12">
-  <div class="alert alert-info">Nominations for next year's Board of Directors are available <%= link_to 'HERE', Voting.find(7) %></div>
+  <div class="alert alert-info">Nominations for next year's Board of Directors are available <%= link_to 'HERE', Voting.where(group_id: 3).last %></div>
   <% Show.active.each do |s| %>
     <div class="row">
       <div class="col-md-2">

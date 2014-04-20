@@ -2,7 +2,7 @@ class NominationsController < ApplicationController
   prepend_before_filter :locate_nomination, :except => [:create]
   prepend_before_filter :locate_group_race_voting, :only => [:create]
 
-  before_filter :only => [:edit, :update] do
+  before_filter :only => [:edit, :update, :destroy] do
     unless @nomination.users.include? current_user
       require_permission "adminElection"
     end
@@ -65,6 +65,12 @@ class NominationsController < ApplicationController
     else
       render :action => "edit"
     end
+  end
+
+  def destroy
+    @nomination.destroy
+
+    redirect_to @voting
   end
 
   protected

@@ -106,7 +106,7 @@ Scotch::Application.routes.draw do
     get 'read', :on => :collection, :as => 'read'
   end
 
-  resources :nominations, :only => [:create, :show, :edit, :update] do
+  resources :nominations, :only => [:create, :show, :edit, :update, :destroy] do
     resources :feedposts, :only => [:index]
     member do
       match :vote
