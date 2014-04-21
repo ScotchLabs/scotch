@@ -34,5 +34,8 @@
       Bug the web team to finish awards...
     <% end %>
   </span>
+  <% if nomination.feedposts.count > 0 %>
+    <h5 class="pull-right muted"><i class="glyphicon glyphicon-comment"></i> <%= pluralize(nomination.feedposts.count, "question") %></h5>
+  <% end %>
   <div class='clearfix'></div>
 <% end %>
