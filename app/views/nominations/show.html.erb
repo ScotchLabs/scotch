@@ -14,7 +14,11 @@
   <%= link_to "<i class='glyphicon glyphicon-pencil'></i> Edit".html_safe, edit_nomination_path(@nomination), class: 'btn btn-primary pull-right' %>
 <% end %>
 <div>
-  <%= raw textilize(@nomination.platform) %>
+  <% if @nomination.platform && !@nomination.platform.empty?%>
+    <%= raw textilize(@nomination.platform) %>
+  <% else %>
+    <center><h3 style="color: #CCCCCC; font-variant: small-caps;">Platform Unavailable</h3></center>
+  <% end %>
 </div>
 
 <p>Back to <%= link_to @nomination.voting, voting_path(@nomination.voting) %>.
