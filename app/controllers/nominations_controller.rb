@@ -8,12 +8,6 @@ class NominationsController < ApplicationController
     end
   end
 
-  before_filter :only => [:create, :vote] do
-    unless @group.users.include? current_user
-      require_global_permission "adminElection"
-    end
-  end
-
   # Nominate someone
   # Must pass a race_id
   def create
