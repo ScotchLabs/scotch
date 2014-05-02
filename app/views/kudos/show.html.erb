@@ -1,4 +1,3 @@
-<div class="page">
 <% if has_permission? "adminElection" %>
   <div class="edit_link"><%= link_to image_tag("edit_icon.png", :size => "10x10")+'Edit', edit_kudo_path(@kudo) %></div>
 <% end %>
@@ -7,65 +6,62 @@
 <h2><%= @kudo.status %></h2>
 
 <p>
-  <b>Nominations Open Date:</b>
-  <%= @kudo.nominations_open.strftime("%A, %B %-d") %>
+<b>Nominations Open Date:</b>
+<%= @kudo.nominations_open.strftime("%A, %B %-d") %>
 </p>
 
 <p>
-  <b>Start Date:</b>
-  <%= @kudo.start.strftime("%A, %B %-d") %>
+<b>Start Date:</b>
+<%= @kudo.start.strftime("%A, %B %-d") %>
 </p>
 
 <p>
-  <b>End Date:</b>
-  <%= @kudo.end.strftime("%A, %B %-d") %>
+<b>End Date:</b>
+<%= @kudo.end.strftime("%A, %B %-d") %>
 </p>
 
 <p>
-  <b>Woodscotch Date:</b>
-  <%= @kudo.woodscotch.strftime("%A, %B %-d") %>
+<b>Woodscotch Date:</b>
+<%= @kudo.woodscotch.strftime("%A, %B %-d") %>
 </p>
 
 <br />
 <% if @kudo.nominations_open? %>
-<h2>Example:</h2> <strong>@wweiner for his role as Mr. Feldzieg in Drowsy</strong>
+  <h2>Example:</h2> <strong>@wweiner for his role as Mr. Feldzieg in Drowsy</strong>
 <% elsif @kudo.voting_open? %>
-<center>
-	<h1>VOTING STAGE</h1>
-	<h3>You may vote for one nomination per a category.</h3>
-</center>
+  <center>
+    <h1>VOTING STAGE</h1>
+    <h3>You may vote for one nomination per a category.</h3>
+  </center>
 <% end %>
-</div>
 
 <% @kudo.kawards.each do |a| %>
-  <div class="page">
-		<h1><%= a.name %></h1>
-		<h3><%= a.description %></h3>
-		<br /><br />
-		<div id="kaward_<%= a.id %>">
-			<% a.knominations.shuffle.each do |k| %>
-				<div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
-					<span class='delete_link'>
-				      <% if current_user.superuser? %>
-				        <%= link_to image_tag("delete_icon.png", :size => "8x8"), kudo_kaward_knomination_path(@kudo, a, k), :method => :delete, :remote => true, :confirm => "Are your sure?" %>
-				      <% end %>
-					</span>
-			    <% if @kudo.nominations_open? || @kudo.voting_open? %>
-					<%= link_to image_tag('checkmark.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "checkmark #{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => (@kudo.voting_open? ? 'vote' : nil)).count > 0 ? '' : 'notvoted'}", :remote => true %>
-				<% end %>
-				  <h2><%= knomination_replace(k.content) %></h2>
-				  <div class='clearfix'></div>
-				</div>
-			<% end %>
-			<% if @kudo.nominations_open? %>
-		      <h2>Nominate</h2>
-		      <%= form_for [@kudo, a, a.knominations.build] do |f| %>
-		        <%= f.text_field :content, :class => 'knominations_input' %>
-		        <%= submit_tag "Nominate" %>
-		      <% end %>
-		    <% end %>
+  <h1><%= a.name %></h1>
+  <h3><%= a.description %></h3>
+  <br /><br />
+  <div id="kaward_<%= a.id %>">
+    <% a.knominations.shuffle.each do |k| %>
+      <div class="line-item" id="knomination_<%= k.id %>" style="height:100px;">
+        <span class='delete_link'>
+          <% if current_user.superuser? %>
+            <%= link_to image_tag("delete_icon.png", :size => "8x8"), kudo_kaward_knomination_path(@kudo, a, k), :method => :delete, :remote => true, :confirm => "Are your sure?" %>
+          <% end %>
+        </span>
+        <% if @kudo.nominations_open? || @kudo.voting_open? %>
+          <%= link_to image_tag('checkmark.png'), vote_kudo_kaward_knomination_path(@kudo, a, k, :parity => 1), :style => 'float:left;', :id => k.id.to_s + '_up', :class => "checkmark #{k.kvotes.where(:user_id => current_user.id, :positive => true, :stage => (@kudo.voting_open? ? 'vote' : nil)).count > 0 ? '' : 'notvoted'}", :remote => true %>
+        <% end %>
+        <h2><%= knomination_replace(k.content) %></h2>
+        <div class='clearfix'></div>
       </div>
-    </div>
+    <% end %>
+    <% if @kudo.nominations_open? %>
+      <h2>Nominate</h2>
+      <%= form_for [@kudo, a, a.knominations.build] do |f| %>
+        <%= f.text_field :content, :class => 'knominations_input' %>
+        <%= submit_tag "Nominate" %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>
 
 <%= content_for(:javascripts) do %>
@@ -75,17 +71,17 @@
       triggerEnd: '',
       minLength: 1,
       source: function( request, response ) {
-            $.ajax({
-              url: "<%= user_search_path %>.json",
-              data:
-              {
-                q: request.term
-              },
-              success: function( data ) {
-                response(data);
-              }
-            });
+        $.ajax({
+          url: "<%= user_search_path %>.json",
+          data:
+          {
+            q: request.term
+          },
+          success: function( data ) {
+            response(data);
           }
+        });
+      }
     });
-  </script>
+</script>
 <% end %>
